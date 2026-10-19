@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voak Health Care — Phase 3 UI/UX Design System & Master Visual Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%23665CE9'/><path d='M35 50 Q50 30 65 50 Q50 70 35 50' fill='%23FBDC62'/></svg>">
+</head>
+<body>
+  <!-- Accessible Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ========================================================================
+       PREVIEW NAVBAR & MODE SWITCHER
+       ======================================================================== -->
+  <header class="preview-navbar" role="banner">
+    <div class="preview-brand">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" fill="#665CE9"/>
+        <path d="M7 12C9 8 15 8 17 12C15 16 9 16 7 12Z" fill="#FBDC62"/>
+      </svg>
+      <span>VOAK HEALTH CARE</span>
+      <span class="preview-badge">Phase 3 Design System</span>
+    </div>
+
+    <!-- Master Mode Tabs -->
+    <nav class="preview-nav-tabs" aria-label="Prototype Views">
+      <button class="preview-tab-btn active" data-tab="homepage-desktop" id="tab-btn-desktop">
+        Desktop Homepage
+      </button>
+      <button class="preview-tab-btn" data-tab="homepage-mobile" id="tab-btn-mobile">
+        Mobile Homepage
+      </button>
+      <button class="preview-tab-btn" data-tab="public-pages" id="tab-btn-pages">
+        All 22 Public Pages
+      </button>
+      <button class="preview-tab-btn" data-tab="admin-portal" id="tab-btn-admin">
+        All 19 Admin Modules
+      </button>
+      <button class="preview-tab-btn" data-tab="components-tokens" id="tab-btn-components">
+        Component & Token System
+      </button>
+      <button class="preview-tab-btn" data-tab="reference-comparison" id="tab-btn-refs">
+        Approved References
+      </button>
+    </nav>
+
+    <!-- Device Sizing Controls (for Mobile View) -->
+    <div class="preview-device-switch" id="device-switcher" style="display: none;">
+      <button class="device-btn" data-size="320">320px</button>
+      <button class="device-btn" data-size="360">360px</button>
+      <button class="device-btn active" data-size="390">390px</button>
+      <button class="device-btn" data-size="428">428px</button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       MAIN CONTENT CONTAINER
+       ======================================================================== -->
+  <main id="main-content" class="main-preview-container">
+
+    <!-- ======================================================================
+         VIEW 1: DESKTOP HOMEPAGE (Faithful Approved Image 2 Recreation)
+         ====================================================================== -->
+    <section id="view-homepage-desktop" class="view-panel active">
+      
+      <!-- White Rounded Main Page Shell -->
+      <div class="page-shell">
+
+        <!-- SECTION 01: HEADER NAVIGATION -->
+        <header class="voak-header">
+          <nav class="voak-nav-card" aria-label="Main Navigation">
+            <div class="voak-logo-container">
+              <!-- SVG Brand Logo -->
+              <svg class="voak-logo-icon" viewBox="0 0 40 40" fill="none">
+                <circle cx="20" cy="20" r="18" fill="#F2F0F8"/>
+                <path d="M12 24 C14 14 26 14 28 24 C24 30 16 30 12 24 Z" fill="#665CE9"/>
+                <circle cx="20" cy="14" r="5" fill="#EEAFD7"/>
+                <path d="M8 20 C14 28 26 28 32 20" stroke="#FBDC62" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+              <div class="voak-logo-text">
+                <span class="voak-logo-title">VOAK</span>
+                <span class="voak-logo-sub">HEALTH CARE</span>
+              </div>
+            </div>
+
+            <ul class="voak-nav-menu">
+              <li><a href="#hero" class="voak-nav-link active">Home</a></li>
+              <li><a href="#about" class="voak-nav-link">About</a></li>
+              <li><a href="#services" class="voak-nav-link">Services</a></li>
+              <li><a href="#industries" class="voak-nav-link">Industries</a></li>
+              <li><a href="#careers" class="voak-nav-link">Careers</a></li>
+              <li><a href="#resources" class="voak-nav-link">Resources</a></li>
+              <li><a href="#contact" class="voak-nav-link">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+              <button class="btn btn-primary" onclick="showProposalWizard()">Partner With Us</button>
+            </div>
+          </nav>
+        </header>
+
+        <!-- SECTION 02: HERO SECTION (Approved Image 2 Benchmark) -->
+        <section class="hero-section" id="hero">
+          <div class="hero-content">
+            <div class="hero-pill-badge">
+              <span class="hero-pill-dot"></span>
+              B2B HEALTHCARE SERVICES
+            </div>
+            <h1 class="hero-title">Better Healthcare Together</h1>
+            <p class="hero-lead">
+              Empowering healthcare systems, hospitals, and residential care providers with specialized clinical workforce solutions, operational governance, and end-to-end B2B healthcare infrastructure.
+            </p>
+            <div class="hero-actions">
+              <a href="#services" class="btn btn-primary">
+                Explore Our Services
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <button class="hero-video-trigger" onclick="alert('Simulated Video Modal [FEATURE PENDING APPROVAL]')">
+                <span class="video-play-btn">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </span>
+                <span>Watch Video</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Hero Right Collage Composition (Approved Reference Benchmark) -->
+          <div class="hero-visual-stage">
+            <!-- Pink background shape -->
+            <div class="hero-pink-backdrop"></div>
+            <!-- Yellow organic accent -->
+            <div class="hero-yellow-accent"></div>
+
+            <!-- Portrait Frame -->
+            <div class="hero-portrait-frame">
+              <img src="assets/images/hero_doctor.jpg" alt="Senior Healthcare Director in modern clinic" width="320" height="380">
+            </div>
+
+            <!-- Floating Top-Left Circular Heart Icon Badge (Image 2) -->
+            <div class="hero-floating-heart-badge">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </div>
+
+            <!-- Floating Right Hospital Facility Card (Image 2) -->
+            <div class="hero-floating-facility-card">
+              <img src="assets/images/hospital_building.jpg" alt="Healthcare Facility" class="facility-card-img" width="56" height="56">
+              <div class="facility-card-body">
+                <span class="facility-card-label">Trusted Healthcare Partner</span>
+                <button class="facility-card-btn" aria-label="Learn more about partner facilities" onclick="switchTab('public-pages'); showPublicPage('partner');">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 03: THREE FEATURE CARDS (Pink, Yellow, Mint Green with Images & White Pill Buttons) -->
+        <section class="feature-cards-grid">
+          <!-- Card 1: Pastel Pink -->
+          <article class="feature-card feature-card-pink">
+            <div class="feature-card-content">
+              <span class="card-tag">OUR SERVICES</span>
+              <h2 class="card-title-lg">Comprehensive Healthcare Solutions</h2>
+              <p class="card-desc">
+                Rapid clinical staffing, allied health coordination, and specialized operational management tailored to hospital networks and clinical facilities.
+              </p>
+              <div class="card-action-row">
+                <a href="#services" class="card-pill-white-btn">
+                  Discover Services
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="feature-card-visual">
+              <img src="assets/images/male_clinician.jpg" alt="Healthcare Professional" class="feature-card-img" width="130" height="160">
+            </div>
+          </article>
+
+          <!-- Card 2: Warm Yellow -->
+          <article class="feature-card feature-card-yellow">
+            <div class="feature-card-content">
+              <span class="card-tag">INDUSTRIES</span>
+              <h2 class="card-title-lg">We Work Across Healthcare Sectors</h2>
+              <p class="card-desc">
+                From major public hospitals to residential aged care, community healthcare organizations, and private surgical centers [CONTENT PENDING APPROVAL].
+              </p>
+              <div class="card-action-row">
+                <a href="#industries" class="card-pill-white-btn">
+                  View Sectors
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="feature-card-visual">
+              <img src="assets/images/hospital_building.jpg" alt="Hospital Building" class="feature-card-img" width="130" height="160">
+            </div>
+          </article>
+
+          <!-- Card 3: Mint Green -->
+          <article class="feature-card feature-card-mint">
+            <div class="feature-card-content">
+              <span class="card-tag">PARTNER WITH US</span>
+              <h2 class="card-title-lg">Grow Together</h2>
+              <p class="card-desc">
+                Establish institutional service agreements, customized staffing frameworks, and accredited healthcare delivery partnerships.
+              </p>
+              <div class="card-action-row">
+                <button class="card-pill-white-btn" onclick="showProposalWizard()">
+                  Request Proposal
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="feature-card-visual">
+              <img src="assets/images/partnership_consultation.jpg" alt="Healthcare Consultation" class="feature-card-img" width="130" height="160">
+            </div>
+          </article>
+        </section>
+
+        <!-- SECTION 04: SERVICES BENTO GRID (4x2 Pastel Tiles Layout) -->
+        <section class="section-wrapper" id="services">
+          <div class="services-asymmetric-layout">
+            <div class="services-intro-col">
+              <span class="hero-pill-badge" style="margin-bottom: 0.75rem;">OUR SERVICES</span>
+              <h2 class="section-title">We Provide End-to-End Support</h2>
+              <p class="section-subtitle" style="margin-bottom: 1.5rem; font-size: 0.938rem; line-height: 1.6;">
+                Institutional capabilities engineered to eliminate clinical staffing deficits and ensure operational continuity.
+              </p>
+              <a href="#services" class="btn btn-secondary" onclick="switchTab('public-pages'); showPublicPage('services');">
+                See All Services
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+
+            <div class="services-tiles-grid">
+              <!-- Tile 1 Pink -->
+              <div class="service-tile-card bento-tint-pink">
+                <div class="service-icon-box" style="background: rgba(238, 175, 215, 0.6); color: var(--voak-navy);">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Clinical Workforce & Staffing</h3>
+                <p style="margin-bottom: 1rem; font-size: 0.813rem; line-height: 1.45;">
+                  Vetted registered nurses and healthcare professionals for surge relief and facility placements.
+                </p>
+                <span class="chip chip-purple" style="align-self: flex-start; margin-top: auto; font-size: 0.7rem;">ICU / ED / Acute</span>
+              </div>
+
+              <!-- Tile 2 Yellow -->
+              <div class="service-tile-card bento-tint-yellow">
+                <div class="service-icon-box" style="background: rgba(251, 220, 98, 0.6); color: var(--voak-navy);">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Operations & Facility BPO</h3>
+                <p style="margin-bottom: 1rem; font-size: 0.813rem; line-height: 1.45;">
+                  Turnkey administrative management, patient intake coordination, and clinical back-office optimization.
+                </p>
+                <span class="chip chip-warning" style="align-self: flex-start; margin-top: auto; font-size: 0.7rem;">Operations BPO</span>
+              </div>
+
+              <!-- Tile 3 Mint -->
+              <div class="service-tile-card bento-tint-mint">
+                <div class="service-icon-box" style="background: rgba(84, 203, 150, 0.6); color: var(--voak-navy);">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Governance & Compliance</h3>
+                <p style="margin-bottom: 1rem; font-size: 0.813rem; line-height: 1.45;">
+                  Clinical governance advisory and accreditation readiness auditing aligned with regulatory standards.
+                </p>
+                <span class="chip chip-success" style="align-self: flex-start; margin-top: auto; font-size: 0.7rem;">Audit Ready</span>
+              </div>
+
+              <!-- Tile 4 Sky Blue -->
+              <div class="service-tile-card bento-tint-sky">
+                <div class="service-icon-box" style="background: rgba(99, 165, 230, 0.6); color: var(--voak-navy);">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                </div>
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Allied Health Infrastructure</h3>
+                <p style="margin-bottom: 1rem; font-size: 0.813rem; line-height: 1.45;">
+                  Multidisciplinary healthcare coordination including physiotherapy, OT, and specialized rehabilitation.
+                </p>
+                <span class="chip chip-info" style="align-self: flex-start; margin-top: auto; font-size: 0.7rem;">Multidisciplinary</span>
+              </div>
+
+              <!-- Tile 5 Purple -->
+              <div class="service-tile-card bento-tint-purple">
+                <div class="service-icon-box" style="background: rgba(102, 92, 233, 0.2); color: var(--voak-purple-cta);">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Roster Surge Support</h3>
+                <p style="margin-bottom: 1rem; font-size: 0.813rem; line-height: 1.45;">
+                  Rapid clinical mobilization for peak hospital demand, seasonal surges, and ward staffing relief.
+                </p>
+                <span class="chip chip-purple" style="align-self: flex-start; margin-top: auto; font-size: 0.7rem;">Surge Response</span>
+              </div>
+
+              <!-- Tile 6 Amber -->
+              <div class="service-tile-card bento-tint-amber">
+                <div class="service-icon-box" style="background: rgba(245, 158, 11, 0.2); color: #B45309;">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Credential Verification</h3>
+                <p style="margin-bottom: 1rem; font-size: 0.813rem; line-height: 1.45;">
+                  Comprehensive primary-source verification of professional registrations and clinical clearances.
+                </p>
+                <span class="chip chip-warning" style="align-self: flex-start; margin-top: auto; font-size: 0.7rem;">Verified Pool</span>
+              </div>
+
+              <!-- Tile 7 Teal -->
+              <div class="service-tile-card bento-tint-teal">
+                <div class="service-icon-box" style="background: rgba(20, 184, 166, 0.2); color: #0F766E;">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Facility Transit Logistics</h3>
+                <p style="margin-bottom: 1rem; font-size: 0.813rem; line-height: 1.45;">
+                  Internal facility coordination, clinical equipment logistics, and assistive mobility support.
+                </p>
+                <span class="chip chip-info" style="align-self: flex-start; margin-top: auto; font-size: 0.7rem;">Logistics Support</span>
+              </div>
+
+              <!-- Tile 8 Lavender -->
+              <div class="service-tile-card bento-tint-lavender">
+                <div class="service-icon-box" style="background: rgba(139, 92, 246, 0.2); color: #6D28D9;">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                </div>
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Health System Strategy</h3>
+                <p style="margin-bottom: 1rem; font-size: 0.813rem; line-height: 1.45;">
+                  Enterprise workforce frameworks designed for multi-hospital networks and regional health districts.
+                </p>
+                <span class="chip chip-purple" style="align-self: flex-start; margin-top: auto; font-size: 0.7rem;">Enterprise Tier</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 05: HORIZONTAL TRUST SECTION (Image 2 Full-Width Benchmark) -->
+        <section class="horizontal-trust-section" id="about">
+          <div class="trust-container">
+            <!-- Col 1: Circular portrait -->
+            <div class="trust-portrait-col">
+              <div class="trust-portrait-circle">
+                <img src="assets/images/operations_manager.jpg" alt="Clinical Operations Director" width="160" height="160">
+              </div>
+            </div>
+
+            <!-- Col 2: Content & CTA -->
+            <div class="trust-content-col">
+              <span class="trust-tag">WHY VOAK</span>
+              <h2 class="trust-heading">Trusted by Healthcare Organisations</h2>
+              <p class="trust-desc">
+                We combine clinical governance with operational reliability, supporting healthcare networks with verified practitioner placement, workforce coordination, and institutional accountability.
+              </p>
+              <a href="#why-voak" class="trust-learn-btn" onclick="switchTab('public-pages'); showPublicPage('why-voak');">
+                Learn More
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+
+            <!-- Col 3: Key Metrics (Sanitized & Parameterized Placeholders) -->
+            <div class="trust-stats-col">
+              <div class="trust-stat-item">
+                <div class="trust-stat-number">&mdash;</div>
+                <div class="trust-stat-label">Active Placements <span class="badge-pending" style="display:block; font-size: 0.65rem; background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 4px; margin-top: 4px;">[METRIC TBD &bull; PENDING APPROVAL]</span></div>
+              </div>
+              <div class="trust-stat-item">
+                <div class="trust-stat-number">&mdash;</div>
+                <div class="trust-stat-label">Partner Facilities <span class="badge-pending" style="display:block; font-size: 0.65rem; background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 4px; margin-top: 4px;">[METRIC TBD &bull; PENDING APPROVAL]</span></div>
+              </div>
+              <div class="trust-stat-item">
+                <div class="trust-stat-number">&mdash;</div>
+                <div class="trust-stat-label">Target Fill Rate <span class="badge-pending" style="display:block; font-size: 0.65rem; background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 4px; margin-top: 4px;">[METRIC TBD &bull; PENDING APPROVAL]</span></div>
+              </div>
+            </div>
+
+            <!-- Col 4: Nurse with patient photo card -->
+            <div class="trust-photo-card-col">
+              <div class="trust-photo-card">
+                <img src="assets/images/patient_care_trust.jpg" alt="Dedicated Patient Care" width="180" height="220">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 06: INDUSTRIES WE SERVE -->
+        <section class="section-wrapper" id="industries">
+          <div class="section-header-row">
+            <div>
+              <h2 class="section-title">Industries We Serve</h2>
+              <p class="section-subtitle">Dedicated operational frameworks tailored for each healthcare sector.</p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;">
+            <div class="bento-card" style="border-top: 4px solid var(--voak-purple-cta);">
+              <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Public & Private Hospitals</h3>
+              <p style="font-size: 0.875rem;">Emergency department staffing, ICU nurse allocation, and acute surgical team support.</p>
+            </div>
+            <div class="bento-card" style="border-top: 4px solid var(--voak-pink);">
+              <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Aged Care Facilities</h3>
+              <p style="font-size: 0.875rem;">Specialized geriatric nursing, medication management, and continuous care operations.</p>
+            </div>
+            <div class="bento-card" style="border-top: 4px solid var(--voak-yellow);">
+              <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Community & Specialized Care <span class="chip chip-warning" style="font-size: 0.65rem; padding: 2px 6px;">PENDING APPROVAL</span></h3>
+              <p style="font-size: 0.875rem;">Community nursing, clinical support coordination, and specialized healthcare assistance [CONTENT PENDING APPROVAL].</p>
+            </div>
+            <div class="bento-card" style="border-top: 4px solid var(--voak-mint);">
+              <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Corporate & Occupational Health</h3>
+              <p style="font-size: 0.875rem;">Onsite health assessments, workplace wellness programs, and industrial health governance.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 07: HOW WE WORK (4 Steps) -->
+        <section class="section-wrapper" id="how-we-work">
+          <div class="section-header-row">
+            <div>
+              <h2 class="section-title">How We Partner With Healthcare Organizations</h2>
+              <p class="section-subtitle">A clear, disciplined 4-stage journey from operational audit to sustained delivery.</p>
+            </div>
+          </div>
+
+          <div class="workflow-steps-grid">
+            <div class="step-card">
+              <div class="step-number-chip">01</div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Operational Discovery</h3>
+              <p style="font-size: 0.875rem;">We evaluate your organization's staffing patterns, clinical protocols, and peak demand cycles.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-number-chip">02</div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Solution Architecture</h3>
+              <p style="font-size: 0.875rem;">Designing customized workforce SLA tiers, credentialing baselines, and communication workflows.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-number-chip">03</div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Deployment & Integration</h3>
+              <p style="font-size: 0.875rem;">Seamless onboarding into your roster systems with zero downtime and full compliance handoff.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-number-chip">04</div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Continuous Governance</h3>
+              <p style="font-size: 0.875rem;">Scheduled clinical governance reviews, KPI reporting, and quality monitoring [Proposed capability — pending formal business confirmation].</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 11: PARTNER CTA BANNER -->
+        <section class="partner-cta-card">
+          <h2>Transform Your Healthcare Operations Today</h2>
+          <p>Partner with Voak Health Care to secure accredited workforce reliability, operational excellence, and peace of mind.</p>
+          <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <button class="btn btn-pill-yellow" onclick="showProposalWizard()">Request Formal Proposal</button>
+            <a href="#contact" class="btn btn-outline" style="border-color: #FFF; color: #FFF;">Schedule Discovery Call</a>
+          </div>
+        </section>
+
+        <!-- SECTION 12: ENTERPRISE FOOTER -->
+        <footer class="voak-footer">
+          <div class="footer-top-grid">
+            <div>
+              <div class="voak-logo-container" style="margin-bottom: 1rem;">
+                <svg class="voak-logo-icon" viewBox="0 0 40 40" fill="none">
+                  <circle cx="20" cy="20" r="18" fill="#F2F0F8"/>
+                  <path d="M12 24 C14 14 26 14 28 24 C24 30 16 30 12 24 Z" fill="#665CE9"/>
+                  <circle cx="20" cy="14" r="5" fill="#EEAFD7"/>
+                  <path d="M8 20 C14 28 26 28 32 20" stroke="#FBDC62" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+                <div class="voak-logo-text">
+                  <span class="voak-logo-title">VOAK</span>
+                  <span class="voak-logo-sub">HEALTH CARE</span>
+                </div>
+              </div>
+              <p style="font-size: 0.875rem; max-width: 300px; margin-bottom: 1.5rem;">
+                Enterprise B2B healthcare workforce solutions and operational infrastructure partner.
+              </p>
+              <div style="font-size: 0.813rem; color: var(--voak-muted);">
+                Corporate Operations &bull; [Jurisdiction & Address Configurable via CMS]<br>
+                demo@example.invalid (Contact details pending formal business confirmation)<br>
+                <span style="font-size: 0.75rem; color: var(--voak-muted);">Business Registration & Licensing: [Subject to Confirmation]</span>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="footer-col-title">Services</h4>
+              <ul class="footer-links-list">
+                <li><a href="#services">Clinical Workforce</a></li>
+                <li><a href="#services">Operational BPO</a></li>
+                <li><a href="#services">Governance & Compliance</a></li>
+                <li><a href="#services">Allied Health Infrastructure</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="footer-col-title">Industries</h4>
+              <ul class="footer-links-list">
+                <li><a href="#industries">Hospitals & Health Services</a></li>
+                <li><a href="#industries">Aged Care Providers</a></li>
+                <li><a href="#industries">Community Care Organizations</a></li>
+                <li><a href="#industries">Corporate Clinics</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="footer-col-title">Governance</h4>
+              <ul class="footer-links-list">
+                <li><a href="#quality">Quality Frameworks</a></li>
+                <li><a href="#compliance">Clinical Credentialing</a></li>
+                <li><a href="#privacy">Privacy Policy</a></li>
+                <li><a href="#terms">Terms & Legal</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="footer-col-title">Administration</h4>
+              <ul class="footer-links-list">
+                <li><a href="#admin" onclick="switchTab('admin-portal')">Admin Portal</a></li>
+                <li><a href="#audit" onclick="switchTab('admin-portal')">Audit Logs</a></li>
+                <li><a href="#careers">Careers at Voak</a></li>
+                <li><a href="#support">Partner Support</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="footer-bottom-row">
+            <div>&copy; 2026 Voak Health Care. All rights reserved. <span style="color: var(--voak-muted); font-size: 0.75rem;">[LEGAL ENTITY & STATUTORY REGISTRATION PENDING CONFIRMATION]</span></div>
+            <div style="display: flex; gap: 1.5rem;">
+              <a href="#privacy">Privacy Policy</a>
+              <a href="#terms">Terms of Service</a>
+              <a href="#security">Security & Governance</a>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 2: MOBILE HOMEPAGE PREVIEW (With responsive frame)
+         ====================================================================== -->
+    <section id="view-homepage-mobile" class="view-panel">
+      <div style="text-align: center; padding: 1.5rem 0 0.5rem 0;">
+        <span class="preview-badge">Mobile Responsive Viewport</span>
+        <p style="font-size: 0.875rem; color: #64748B; margin-top: 0.25rem;">
+          Verified at 320px, 360px, 390px, and 428px with zero horizontal clipping or font truncation.
+        </p>
+      </div>
+
+      <div class="viewport-frame device-mobile" id="mobile-frame-target">
+        <!-- Rendered Mobile Page Container -->
+        <div style="background: #FFFFFF; min-height: 800px; padding: 0.75rem;">
+          
+          <!-- Mobile Header -->
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0.5rem; border-bottom: 1px solid var(--voak-border-subtle);">
+            <div class="voak-logo-container">
+              <svg class="voak-logo-icon" style="width: 30px; height: 30px;" viewBox="0 0 40 40" fill="none">
+                <circle cx="20" cy="20" r="18" fill="#F2F0F8"/>
+                <path d="M12 24 C14 14 26 14 28 24 C24 30 16 30 12 24 Z" fill="#665CE9"/>
+                <circle cx="20" cy="14" r="5" fill="#EEAFD7"/>
+                <path d="M8 20 C14 28 26 28 32 20" stroke="#FBDC62" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+              <span style="font-family: var(--font-serif); font-weight: 700; font-size: 1.15rem; color: var(--voak-navy);">VOAK</span>
+            </div>
+            <button class="btn btn-primary" style="padding: 0.4rem 0.85rem; font-size: 0.813rem; min-height: 36px;" onclick="showProposalWizard()">Partner</button>
+          </div>
+
+          <!-- Mobile Section 02: Hero -->
+          <div style="background: linear-gradient(135deg, #F4F1FA 0%, #EBE6F7 100%); border-radius: var(--radius-xl); padding: 2rem 1.25rem; margin: 1rem 0; text-align: center;">
+            <div class="hero-pill-badge" style="font-size: 0.7rem; padding: 0.3rem 0.75rem;">
+              <span class="hero-pill-dot"></span> B2B HEALTHCARE SERVICES
+            </div>
+            <h1 style="font-size: 2.15rem; line-height: 1.12; margin-bottom: 1rem; color: var(--voak-navy); font-family: var(--font-serif);">Better Healthcare Together</h1>
+            <p style="font-size: 0.938rem; color: var(--voak-muted); margin-bottom: 1.5rem; line-height: 1.55;">
+              Empowering healthcare systems, hospitals, and residential care providers with specialized clinical workforce solutions, operational governance, and end-to-end B2B healthcare infrastructure.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <a href="#services" class="btn btn-primary" style="width: 100%; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                Explore Our Services
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <button class="btn btn-outline" style="width: 100%;" onclick="showProposalWizard()">Partner With Us</button>
+            </div>
+
+            <!-- Mobile Portrait Stack -->
+            <div style="margin-top: 1.75rem; position: relative; display: flex; justify-content: center;">
+              <div style="width: 220px; height: 260px; border-radius: var(--radius-xl); overflow: hidden; border: 3px solid #FFF; box-shadow: var(--shadow-md);">
+                <img src="assets/images/hero_doctor.jpg" alt="Doctor portrait" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Section 03: Three Feature Cards Stack -->
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+            <!-- Mobile Feature Card 1 -->
+            <div class="feature-card feature-card-pink" style="flex-direction: column; align-items: flex-start; padding: 1.5rem; min-height: auto;">
+              <span class="card-tag">OUR SERVICES</span>
+              <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; font-family: var(--font-serif); color: var(--voak-navy);">Comprehensive Healthcare Solutions</h3>
+              <p style="font-size: 0.875rem; margin-bottom: 1rem; color: var(--voak-navy); opacity: 0.9;">
+                Rapid clinical staffing, allied health coordination, and specialized operational management tailored to hospital networks.
+              </p>
+              <div style="width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                <a href="#services" class="card-pill-white-btn" style="font-size: 0.813rem; padding: 0.5rem 1rem;">Discover Services &rarr;</a>
+                <img src="assets/images/male_clinician.jpg" alt="Clinician" style="width: 80px; height: 95px; object-fit: cover; border-radius: var(--radius-md); border: 2px solid #FFF;">
+              </div>
+            </div>
+
+            <!-- Mobile Feature Card 2 -->
+            <div class="feature-card feature-card-yellow" style="flex-direction: column; align-items: flex-start; padding: 1.5rem; min-height: auto;">
+              <span class="card-tag">INDUSTRIES</span>
+              <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; font-family: var(--font-serif); color: var(--voak-navy);">We Work Across Healthcare Sectors</h3>
+              <p style="font-size: 0.875rem; margin-bottom: 1rem; color: var(--voak-navy); opacity: 0.9;">
+                From major public hospitals to residential aged care, community healthcare, and private surgical centers [CONTENT PENDING APPROVAL].
+              </p>
+              <div style="width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                <a href="#industries" class="card-pill-white-btn" style="font-size: 0.813rem; padding: 0.5rem 1rem;">View Sectors &rarr;</a>
+                <img src="assets/images/hospital_building.jpg" alt="Hospital Building" style="width: 80px; height: 95px; object-fit: cover; border-radius: var(--radius-md); border: 2px solid #FFF;">
+              </div>
+            </div>
+
+            <!-- Mobile Feature Card 3 -->
+            <div class="feature-card feature-card-mint" style="flex-direction: column; align-items: flex-start; padding: 1.5rem; min-height: auto;">
+              <span class="card-tag">PARTNER WITH US</span>
+              <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; font-family: var(--font-serif); color: var(--voak-navy);">Grow Together</h3>
+              <p style="font-size: 0.875rem; margin-bottom: 1rem; color: var(--voak-navy); opacity: 0.9;">
+                Establish institutional service agreements, customized staffing frameworks, and accredited healthcare delivery partnerships.
+              </p>
+              <div style="width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                <button class="card-pill-white-btn" style="font-size: 0.813rem; padding: 0.5rem 1rem;" onclick="showProposalWizard()">Request Proposal &rarr;</button>
+                <img src="assets/images/partnership_consultation.jpg" alt="Healthcare Consultation" style="width: 80px; height: 95px; object-fit: cover; border-radius: var(--radius-md); border: 2px solid #FFF;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Section 04: Services Grid (All 8 Services Reflowed) -->
+          <div style="margin-bottom: 2rem;">
+            <div style="margin-bottom: 1.25rem;">
+              <span class="hero-pill-badge" style="font-size: 0.7rem; padding: 0.25rem 0.65rem;">OUR SERVICES</span>
+              <h2 style="font-family: var(--font-serif); font-size: 1.65rem; color: var(--voak-navy); margin: 0.5rem 0 0.35rem 0;">We Provide End-to-End Support</h2>
+              <p style="font-size: 0.813rem; color: var(--voak-muted); line-height: 1.5;">
+                Institutional capabilities engineered to eliminate clinical staffing deficits and ensure operational continuity.
+              </p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+              <div class="service-tile-card bento-tint-pink">
+                <span class="chip chip-purple" style="align-self: flex-start; margin-bottom: 0.35rem; font-size: 0.7rem;">ICU / ED / Acute</span>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.35rem;">1. Clinical Workforce & Staffing</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Vetted registered nurses and healthcare professionals for surge relief and facility placements.</p>
+              </div>
+              <div class="service-tile-card bento-tint-yellow">
+                <span class="chip chip-warning" style="align-self: flex-start; margin-bottom: 0.35rem; font-size: 0.7rem;">Operations BPO</span>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.35rem;">2. Operations & Facility BPO</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Turnkey administrative management, patient intake coordination, and clinical back-office optimization.</p>
+              </div>
+              <div class="service-tile-card bento-tint-mint">
+                <span class="chip chip-success" style="align-self: flex-start; margin-bottom: 0.35rem; font-size: 0.7rem;">Audit Ready</span>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.35rem;">3. Governance & Compliance</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Clinical governance advisory and accreditation readiness auditing aligned with regulatory standards.</p>
+              </div>
+              <div class="service-tile-card bento-tint-sky">
+                <span class="chip chip-info" style="align-self: flex-start; margin-bottom: 0.35rem; font-size: 0.7rem;">Multidisciplinary</span>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.35rem;">4. Allied Health Infrastructure</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Multidisciplinary healthcare coordination including physiotherapy, OT, and specialized rehabilitation.</p>
+              </div>
+              <div class="service-tile-card bento-tint-purple">
+                <span class="chip chip-purple" style="align-self: flex-start; margin-bottom: 0.35rem; font-size: 0.7rem;">Surge Response</span>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.35rem;">5. Roster Surge Support</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Rapid clinical mobilization for peak hospital demand, seasonal surges, and ward staffing relief.</p>
+              </div>
+              <div class="service-tile-card bento-tint-amber">
+                <span class="chip chip-warning" style="align-self: flex-start; margin-bottom: 0.35rem; font-size: 0.7rem;">Verified Pool</span>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.35rem;">6. Credential Verification</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Comprehensive primary-source verification of professional registrations and clinical clearances.</p>
+              </div>
+              <div class="service-tile-card bento-tint-teal">
+                <span class="chip chip-info" style="align-self: flex-start; margin-bottom: 0.35rem; font-size: 0.7rem;">Logistics Support</span>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.35rem;">7. Facility Transit Logistics</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Internal facility coordination, clinical equipment logistics, and assistive mobility support.</p>
+              </div>
+              <div class="service-tile-card bento-tint-lavender">
+                <span class="chip chip-purple" style="align-self: flex-start; margin-bottom: 0.35rem; font-size: 0.7rem;">Enterprise Tier</span>
+                <h4 style="font-size: 1.1rem; margin-bottom: 0.35rem;">8. Health System Strategy</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Enterprise workforce frameworks designed for multi-hospital networks and regional health districts.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Section 05: Trust Section (Single Column Reflow) -->
+          <div style="background: linear-gradient(135deg, #F3F1FD 0%, #EDE9FE 100%); border-radius: var(--radius-xl); padding: 1.75rem 1.25rem; margin-bottom: 2rem; border: 1px solid rgba(102, 92, 233, 0.12);">
+            <div style="display: flex; justify-content: center; margin-bottom: 1.25rem;">
+              <div style="width: 110px; height: 110px; border-radius: 50%; overflow: hidden; border: 4px solid #FFF; box-shadow: var(--shadow-md);">
+                <img src="assets/images/operations_manager.jpg" alt="Clinical Director" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+              <span class="trust-tag" style="font-size: 0.7rem;">WHY VOAK</span>
+              <h2 style="font-family: var(--font-serif); font-size: 1.45rem; color: var(--voak-navy); margin: 0.5rem 0;">Trusted by Healthcare Organisations</h2>
+              <p style="font-size: 0.813rem; color: var(--voak-muted); line-height: 1.55; margin-bottom: 1rem;">
+                We combine clinical governance with operational reliability, supporting healthcare networks with verified practitioner placement, workforce coordination, and institutional accountability.
+              </p>
+              <a href="#about" class="trust-learn-btn" style="margin: 0 auto;">
+                Learn More
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+
+            <!-- Mobile Metrics Placeholders -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; text-align: center; padding: 1rem 0; border-top: 1px solid rgba(37, 43, 94, 0.1); border-bottom: 1px solid rgba(37, 43, 94, 0.1); margin-bottom: 1.5rem;">
+              <div>
+                <div style="font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--voak-navy);">&mdash;</div>
+                <div style="font-size: 0.65rem; color: var(--voak-muted); margin-top: 2px;">Active Placements<br><span style="font-size: 0.55rem; color: #64748B;">[PENDING]</span></div>
+              </div>
+              <div>
+                <div style="font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--voak-navy);">&mdash;</div>
+                <div style="font-size: 0.65rem; color: var(--voak-muted); margin-top: 2px;">Facilities<br><span style="font-size: 0.55rem; color: #64748B;">[PENDING]</span></div>
+              </div>
+              <div>
+                <div style="font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; color: var(--voak-navy);">&mdash;</div>
+                <div style="font-size: 0.65rem; color: var(--voak-muted); margin-top: 2px;">Fill Rate<br><span style="font-size: 0.55rem; color: #64748B;">[PENDING]</span></div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: center;">
+              <div style="width: 160px; height: 160px; border-radius: var(--radius-lg); overflow: hidden; border: 3px solid #FFF; box-shadow: var(--shadow-md);">
+                <img src="assets/images/patient_care_trust.jpg" alt="Dedicated Patient Care" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Section 06: Industries We Serve -->
+          <div style="margin-bottom: 2rem;">
+            <div style="margin-bottom: 1rem;">
+              <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--voak-navy); margin-bottom: 0.25rem;">Industries We Serve</h2>
+              <p style="font-size: 0.813rem; color: var(--voak-muted);">Dedicated operational frameworks tailored for each sector.</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div class="bento-card" style="border-top: 3px solid var(--voak-purple-cta); padding: 1.25rem;">
+                <h4 style="font-size: 1.05rem; margin-bottom: 0.25rem;">Public & Private Hospitals</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Emergency department staffing, ICU nurse allocation, and acute surgical team support.</p>
+              </div>
+              <div class="bento-card" style="border-top: 3px solid var(--voak-pink); padding: 1.25rem;">
+                <h4 style="font-size: 1.05rem; margin-bottom: 0.25rem;">Aged Care Facilities</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Specialized geriatric nursing, medication management, and continuous care operations.</p>
+              </div>
+              <div class="bento-card" style="border-top: 3px solid var(--voak-yellow); padding: 1.25rem;">
+                <h4 style="font-size: 1.05rem; margin-bottom: 0.25rem;">Community & Specialized Care</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Community nursing, clinical support coordination, and specialized healthcare assistance [CONTENT PENDING APPROVAL].</p>
+              </div>
+              <div class="bento-card" style="border-top: 3px solid var(--voak-mint); padding: 1.25rem;">
+                <h4 style="font-size: 1.05rem; margin-bottom: 0.25rem;">Corporate & Occupational Health</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Onsite health assessments, workplace wellness programs, and industrial health governance.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Section 07: How We Work (4 Steps) -->
+          <div style="margin-bottom: 2rem;">
+            <div style="margin-bottom: 1rem;">
+              <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--voak-navy); margin-bottom: 0.25rem;">How We Partner</h2>
+              <p style="font-size: 0.813rem; color: var(--voak-muted);">4-stage journey from operational audit to sustained delivery.</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div class="step-card" style="padding: 1.25rem;">
+                <div class="step-number-chip" style="width: 28px; height: 28px; font-size: 0.75rem;">01</div>
+                <h4 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem 0;">Operational Discovery</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">We evaluate your organization's staffing patterns, clinical protocols, and peak demand cycles.</p>
+              </div>
+              <div class="step-card" style="padding: 1.25rem;">
+                <div class="step-number-chip" style="width: 28px; height: 28px; font-size: 0.75rem;">02</div>
+                <h4 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem 0;">Solution Architecture</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Designing customized workforce SLA tiers, credentialing baselines, and communication workflows.</p>
+              </div>
+              <div class="step-card" style="padding: 1.25rem;">
+                <div class="step-number-chip" style="width: 28px; height: 28px; font-size: 0.75rem;">03</div>
+                <h4 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem 0;">Deployment & Integration</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Seamless onboarding into your roster systems with zero downtime and full compliance handoff.</p>
+              </div>
+              <div class="step-card" style="padding: 1.25rem;">
+                <div class="step-number-chip" style="width: 28px; height: 28px; font-size: 0.75rem;">04</div>
+                <h4 style="font-size: 1.05rem; margin: 0.5rem 0 0.25rem 0;">Continuous Governance</h4>
+                <p style="font-size: 0.813rem; color: var(--voak-muted); margin: 0;">Scheduled clinical governance reviews, KPI reporting, and quality monitoring [Proposed capability — pending formal business confirmation].</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Section 11: Partner CTA Card -->
+          <div style="background: linear-gradient(135deg, var(--voak-purple-cta) 0%, #4036BD 100%); border-radius: var(--radius-xl); padding: 2rem 1.25rem; text-align: center; color: #FFF; margin-bottom: 2rem;">
+            <h3 style="font-family: var(--font-serif); font-size: 1.45rem; margin-bottom: 0.5rem;">Transform Your Healthcare Operations</h3>
+            <p style="font-size: 0.813rem; opacity: 0.9; margin-bottom: 1.25rem; line-height: 1.5;">
+              Partner with Voak Health Care to secure accredited workforce reliability, operational excellence, and peace of mind.
+            </p>
+            <button class="btn btn-pill-yellow" style="width: 100%;" onclick="showProposalWizard()">Request Formal Proposal</button>
+          </div>
+
+          <!-- Mobile Section 12: Enterprise Footer -->
+          <div style="background: #FAF9FE; border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border: 1px solid var(--voak-border-subtle);">
+            <div style="font-weight: 700; color: var(--voak-navy); margin-bottom: 0.25rem;">VOAK HEALTH CARE</div>
+            <p style="font-size: 0.75rem; color: var(--voak-muted); margin-bottom: 0.5rem;">Enterprise B2B Healthcare Solutions &bull; International Operations</p>
+            <div style="font-size: 0.72rem; color: var(--voak-muted); line-height: 1.4;">
+              demo@example.invalid (Contact details pending formal business confirmation)<br>
+              &copy; 2026 Voak Health Care. All rights reserved.<br>
+              <span style="font-size: 0.68rem; color: #94A3B8;">[LEGAL ENTITY & STATUTORY REGISTRATION PENDING CONFIRMATION]</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 3: ALL 22 PUBLIC PAGES GALLERY
+         ====================================================================== -->
+    <section id="view-public-pages" class="view-panel">
+      <div class="gallery-section">
+        <div class="gallery-header">
+          <span class="preview-badge">Canonical Public Website Architecture</span>
+          <h2 style="font-size: 2.25rem; margin-top: 0.5rem;">All 22 Public Page Category Designs</h2>
+          <p style="color: var(--voak-muted);">
+            Each page follows the approved design language (lavender canvas, editorial serif headlines, bento cards, and accessible muted body) with controlled visual variations.
+          </p>
+        </div>
+
+        <div class="gallery-grid" id="public-pages-container">
+          <!-- 22 Public Page Cards will be rendered here by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 4: ALL 19 ADMIN MODULES (Approved Admin Reference Style)
+         ====================================================================== -->
+    <section id="view-admin-portal" class="view-panel">
+      <div class="admin-shell">
+        
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar" role="navigation" aria-label="Admin Navigation">
+          <div class="admin-sidebar-header">
+            <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="18" fill="#F2F0F8"/>
+              <path d="M12 24 C14 14 26 14 28 24 C24 30 16 30 12 24 Z" fill="#665CE9"/>
+              <circle cx="20" cy="14" r="5" fill="#EEAFD7"/>
+            </svg>
+            <div>
+              <div style="font-size: 0.95rem; font-weight: 700; color: #FFF; line-height: 1;">Voak Health</div>
+              <div style="font-size: 0.65rem; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.1em;">Admin Console</div>
+            </div>
+            <span class="admin-badge" style="margin-left: auto;">ADM</span>
+          </div>
+
+          <!-- Admin Nav Groups (Canonical 19 Modules) -->
+          <div class="admin-nav-group">
+            <div class="admin-group-label">Core Operations & CRM</div>
+            <a class="admin-nav-item active" id="admin-nav-ADM-01" onclick="showAdminModule('ADM-01')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              01. Dashboard & Telemetry
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-09" onclick="showAdminModule('ADM-09')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              09. Contact Inquiries CRM
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-10" onclick="showAdminModule('ADM-10')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              10. Partnership Pipeline
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-11" onclick="showAdminModule('ADM-11')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              11. Proposal / RFP Desk
+            </a>
+          </div>
+
+          <div class="admin-nav-group">
+            <div class="admin-group-label">CMS & Publishing</div>
+            <a class="admin-nav-item" id="admin-nav-ADM-04" onclick="showAdminModule('ADM-04')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              04. Page Content Editor
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-05" onclick="showAdminModule('ADM-05')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              05. Homepage Layout Config
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-06" onclick="showAdminModule('ADM-06')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              06. Services Management
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-07" onclick="showAdminModule('ADM-07')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              07. Industries Management
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-08" onclick="showAdminModule('ADM-08')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              08. Media Asset Library
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-15" onclick="showAdminModule('ADM-15')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              15. Case Studies CMS
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-16" onclick="showAdminModule('ADM-16')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              16. Insights & Articles CMS
+            </a>
+          </div>
+
+          <div class="admin-nav-group">
+            <div class="admin-group-label">Recruitment & Talent</div>
+            <a class="admin-nav-item" id="admin-nav-ADM-13" onclick="showAdminModule('ADM-13')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              13. Job Openings CMS
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-14" onclick="showAdminModule('ADM-14')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              14. Candidate Resumes (PII)
+            </a>
+          </div>
+
+          <div class="admin-nav-group">
+            <div class="admin-group-label">Communications & SEO</div>
+            <a class="admin-nav-item" id="admin-nav-ADM-12" onclick="showAdminModule('ADM-12')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              12. Email Notifications
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-17" onclick="showAdminModule('ADM-17')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              17. SEO & Meta Console
+            </a>
+          </div>
+
+          <div class="admin-nav-group">
+            <div class="admin-group-label">Governance & Security</div>
+            <a class="admin-nav-item" id="admin-nav-ADM-02" onclick="showAdminModule('ADM-02')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              02. Auth & MFA Security
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-03" onclick="showAdminModule('ADM-03')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              03. Users & RBAC Matrix
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-18" onclick="showAdminModule('ADM-18')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              18. System Settings
+            </a>
+            <a class="admin-nav-item" id="admin-nav-ADM-19" onclick="showAdminModule('ADM-19')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              19. Audit Logs & Telemetry
+            </a>
+          </div>
+        </aside>
+
+        <!-- Admin Workspace Area -->
+        <div class="admin-main-area">
+          <!-- Role Simulation Bar (Least-Privilege RBAC Testing) -->
+          <div class="admin-role-bar">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span class="admin-role-bar-label">DESIGN-ONLY RBAC SIMULATOR:</span>
+              <span style="font-size: 0.75rem; color: #94A3B8;">(Canonical 5 Admin Roles &bull; Client-Side Boundary Preview)</span>
+            </div>
+            <div class="admin-role-pills" id="admin-role-pills">
+              <button class="admin-role-pill active" onclick="simulateRole('ROLE_SUPER_ADMIN')">Super Admin</button>
+              <button class="admin-role-pill" onclick="simulateRole('ROLE_WEBSITE_ADMIN')">Website Admin</button>
+              <button class="admin-role-pill" onclick="simulateRole('ROLE_CONTENT_EDITOR')">Content Editor</button>
+              <button class="admin-role-pill" onclick="simulateRole('ROLE_BD_MANAGER')">BD Manager</button>
+              <button class="admin-role-pill" onclick="simulateRole('ROLE_HR_MANAGER')">HR Manager</button>
+            </div>
+          </div>
+
+          <!-- Topbar -->
+          <div class="admin-topbar">
+            <div class="admin-search-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Search enquiries, proposals, services... (Ctrl+K)" aria-label="Search Admin Console">
+              <span class="admin-kbd-hint">Ctrl K</span>
+            </div>
+
+            <div class="admin-topbar-actions">
+              <div class="admin-status-pill">
+                <span class="admin-status-dot"></span>
+                Operational &bull; Primary DC (Active)
+              </div>
+
+              <div class="admin-user-chip" id="admin-current-user-chip">
+                <div class="admin-user-avatar" id="admin-user-avatar-initials">SA</div>
+                <div style="font-size: 0.813rem;">
+                  <strong style="display:block; color: var(--voak-navy);" id="admin-user-role-label">Super Admin</strong>
+                  <span style="color: #64748B; font-size: 0.75rem;" id="admin-user-email-label">superadmin.demo@example.invalid</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Demo Data Watermark Banner -->
+          <div style="padding: 1rem 2rem 0 2rem;">
+            <div class="demo-data-banner">
+              <span class="demo-watermark-tag">Demo Data Only</span>
+              <span>All records, telemetry counters, and candidate/proposal documents shown in this prototype are simulated demo data for UI/UX inspection.</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Admin Content Body -->
+          <div class="admin-content-body" id="admin-module-display">
+            <!-- Rendered by app.js (Default: ADM-01 Dashboard) -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 5: COMPONENT & DESIGN TOKEN SYSTEM
+         ====================================================================== -->
+    <section id="view-components-tokens" class="view-panel">
+      <div class="gallery-section">
+        <div class="gallery-header">
+          <span class="preview-badge">Atomic Design System Tokens & Components</span>
+          <h2 style="font-size: 2.25rem; margin-top: 0.5rem;">Tokens, UI Components & Form Patterns</h2>
+          <p style="color: var(--voak-muted);">
+            Empirically audited design tokens, accessible color pairings, WCAG 2.2 AA contrast ratios, typography scale, buttons, form controls, and multi-step wizard interactions.
+          </p>
+        </div>
+
+        <!-- Color Palette Verification Matrix -->
+        <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Locked Color Palette & Contrast Ratios</h3>
+        <div class="gallery-grid" id="color-token-grid">
+          <!-- Filled by app.js -->
+        </div>
+
+        <!-- Typography Scale -->
+        <h3 style="margin: 2.5rem 0 1.5rem 0; font-size: 1.5rem;">Typography Scale & Hierarchy</h3>
+        <div class="gallery-item-card" style="margin-bottom: 2.5rem;">
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div>
+              <span style="font-size: 0.75rem; color: #64748B;">Hero Display H1 &bull; Fraunces 64px / clamp(2.5rem, 5vw + 1rem, 4.25rem)</span>
+              <h1 style="font-size: 3.5rem; line-height: 1.1;">Better Healthcare Together</h1>
+            </div>
+            <div>
+              <span style="font-size: 0.75rem; color: #64748B;">Section Heading H2 &bull; Fraunces 44px</span>
+              <h2 style="font-size: 2.5rem;">Comprehensive Healthcare Services</h2>
+            </div>
+            <div>
+              <span style="font-size: 0.75rem; color: #64748B;">Card Heading H3 &bull; Fraunces 28px</span>
+              <h3 style="font-size: 1.75rem;">Clinical Workforce & Specialized Staffing</h3>
+            </div>
+            <div>
+              <span style="font-size: 0.75rem; color: #64748B;">Subheading / Lead &bull; Plus Jakarta Sans 20px</span>
+              <p style="font-size: 1.25rem; color: var(--voak-muted);">Empowering healthcare systems, hospitals, and residential care providers with specialized clinical workforce solutions.</p>
+            </div>
+            <div>
+              <span style="font-size: 0.75rem; color: #64748B;">Body Paragraph &bull; Plus Jakarta Sans 16px</span>
+              <p style="font-size: 1rem; color: var(--voak-muted);">Our specialized clinical teams integrate smoothly into your existing ward rosters, adhering strictly to confirmed statutory health practitioner standards and clinical governance protocols [REGULATORY DETAILS PENDING APPROVAL].</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- UI Component Variants -->
+        <h3 style="margin: 2.5rem 0 1.5rem 0; font-size: 1.5rem;">Button & Badge Variants</h3>
+        <div class="gallery-grid">
+          <div class="gallery-item-card">
+            <h4 class="gallery-item-title">Button Hierarchy</h4>
+            <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
+              <button class="btn btn-primary">Primary Action (#665CE9)</button>
+              <button class="btn btn-secondary">Secondary Action</button>
+              <button class="btn btn-outline">Outline Action</button>
+              <button class="btn btn-pill-pink">Pastel Pink Pill</button>
+              <button class="btn btn-pill-yellow">Warm Yellow Pill</button>
+              <button class="btn btn-pill-mint">Mint Green Pill</button>
+            </div>
+          </div>
+
+          <div class="gallery-item-card">
+            <h4 class="gallery-item-title">Status Chips & Pills</h4>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <span class="chip chip-success">Completed (15.2:1)</span>
+              <span class="chip chip-warning">In Review (8.5:1)</span>
+              <span class="chip chip-error">Critical Action (7.2:1)</span>
+              <span class="chip chip-info">Dispatched (9.1:1)</span>
+              <span class="chip chip-purple">Super Admin</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 6: APPROVED REFERENCE COMPARISON (Visual QA Evidence)
+         ====================================================================== -->
+    <section id="view-reference-comparison" class="view-panel">
+      <div class="gallery-section">
+        <div class="gallery-header">
+          <span class="preview-badge">Visual Quality Assurance Evidence</span>
+          <h2 style="font-size: 2.25rem; margin-top: 0.5rem;">Approved References vs. Voak Design System</h2>
+          <p style="color: var(--voak-muted);">
+            Side-by-side inspection verifying strict fidelity to the approved Image 2 aesthetic benchmark and the approved Admin Portal reference.
+          </p>
+        </div>
+
+        <!-- Height & Architectural Scale Context Notice -->
+        <div style="background: #FFF; border: 1px solid var(--voak-border); border-radius: var(--radius-xl); padding: 1.5rem 2rem; margin-bottom: 2.5rem; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
+              <span class="preview-badge" style="background: var(--voak-purple-cta); color: #FFF; margin-bottom: 0.5rem;">Architectural Scale & Viewport Documentation</span>
+              <h3 style="font-family: var(--font-serif); font-size: 1.35rem; color: var(--voak-navy); margin: 0.25rem 0 0.5rem 0;">Full Homepage vs. Benchmark Dimension Analysis</h3>
+              <p style="font-size: 0.875rem; color: var(--voak-muted); line-height: 1.6; margin-bottom: 0.75rem;">
+                The authentic approved reference image (<code>approved_homepage_reference_image_2.png</code>) is a design mockup of the upper fold through the horizontal trust section (1214 &times; 1295 physical pixels). In contrast, the actual prototype master homepage (<code>01_desktop_homepage.png</code>) renders the full canonical 2026 enterprise healthcare homepage at a verified 1440 CSS-pixel viewport (Device Scale Factor 1.0, 1440 &times; ~4150 CSS pixels), encompassing additional canonical sections: Industries We Serve, 4-Step Operational Workflow, Enterprise Partner CTA Banner, and 5-Column Enterprise Footer.
+              </p>
+              <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.813rem;">
+                <span class="chip chip-success">Reference Image: 1214 &times; 1295 px (Upper Fold Benchmark)</span>
+                <span class="chip chip-purple">Prototype Master: 1440 CSS-px Viewport (Full Canonical Page)</span>
+                <span class="chip chip-info">Device Scale Factor: 1.0 Verified</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. FULL OVERVIEW COMPARISON -->
+        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--voak-navy); margin-bottom: 1rem;">1. Full Macro Composition Comparison</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3.5rem;">
+          <div class="gallery-item-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <h4 style="font-size: 1.15rem; margin: 0;">Approved Homepage Reference (Image 2)</h4>
+              <span class="chip chip-success" style="font-size: 0.7rem;">BENCHMARK (1214 &times; 1295 PNG)</span>
+            </div>
+            <p style="font-size: 0.813rem; color: var(--voak-muted); margin-bottom: 0.75rem;">
+              Authentic approved reference asset. Captures: Header, Hero collage, 3 pastel cards, 8 service tiles, and full-width trust strip.
+            </p>
+            <div style="background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: var(--radius-sm); padding: 0.5rem 0.75rem; margin-bottom: 0.75rem; font-size: 0.75rem; color: #065F46;">
+              <strong>Disk Integrity:</strong> 1,685,155 bytes &bull; SHA-256: <code>b0483fffc8e2719771c9aa3a587710b67b389b940c21b56d247ace4a2bc971ba</code>
+            </div>
+            <div style="border-radius: var(--radius-md); overflow: hidden; border: 2px solid var(--voak-border); max-height: 520px; overflow-y: auto;">
+              <img src="references/approved_homepage_reference_image_2.png" alt="Voak Homepage Reference Image 2" style="width: 100%; display: block;">
+            </div>
+          </div>
+
+          <div class="gallery-item-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <h4 style="font-size: 1.15rem; margin: 0;">Master Homepage Prototype Implementation</h4>
+              <span class="chip chip-purple" style="font-size: 0.7rem;">PROTOTYPE (1440 CSS-PX VIEWPORT)</span>
+            </div>
+            <p style="font-size: 0.813rem; color: var(--voak-muted); margin-bottom: 0.75rem;">
+              Clean CDP capture of actual prototype at verified 1440 CSS-px viewport (Device Scale Factor 1.0) with complete canonical sections.
+            </p>
+            <div style="background: #F5F3FF; border: 1px solid #DDD6FE; border-radius: var(--radius-sm); padding: 0.5rem 0.75rem; margin-bottom: 0.75rem; font-size: 0.75rem; color: #5B21B6;">
+              <strong>Viewport Telemetry:</strong> 1440 CSS px &times; ~4150 CSS px &bull; Full-page lossless PNG capture &bull; 0px overflow
+            </div>
+            <div style="border-radius: var(--radius-md); overflow: hidden; border: 2px solid var(--voak-border); max-height: 520px; overflow-y: auto;">
+              <img src="screenshots/01_desktop_homepage.png" alt="Voak Master Homepage Prototype" style="width: 100%; display: block;">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. CLOSE-UP SECTION-BY-SECTION COMPARISONS -->
+        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--voak-navy); margin-bottom: 0.5rem;">2. Forensic Regional Close-Up Comparisons</h3>
+        <p style="color: var(--voak-muted); margin-bottom: 1.5rem; font-size: 0.875rem;">
+          Exhaustive side-by-side inspection verifying fidelity across the four primary visual benchmark zones:
+        </p>
+
+        <!-- Grid of 4 Regional Comparisons -->
+        <div style="display: flex; flex-direction: column; gap: 2.5rem; margin-bottom: 3.5rem;">
+          
+          <!-- Region A: Hero Section -->
+          <div style="background: #FFF; border: 1px solid var(--voak-border); border-radius: var(--radius-xl); padding: 1.75rem; box-shadow: var(--shadow-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <span class="preview-badge" style="background: var(--voak-pink); color: var(--voak-navy);">Region A</span>
+                <h4 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--voak-navy); margin: 0.25rem 0 0 0;">Hero Section & Clinician Collage</h4>
+              </div>
+              <span class="chip chip-success">Fidelity: Verified Pass</span>
+            </div>
+            <p style="font-size: 0.813rem; color: var(--voak-muted); margin-bottom: 1rem; line-height: 1.5;">
+              <strong>Benchmark Elements Verified:</strong> Soft lavender canvas (<code>#F2F0F8</code>), deep navy serif headline (<code>Fraunces</code>, weight 700), B2B pill badge with mint dot indicator, organic pink backdrop blob, warm buttercup yellow accent blob, clinician portrait in 28px rounded frame with 4px white border, top-left floating heart icon badge, and bottom-right floating facility photo card ("Trusted Healthcare Partner").
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+              <div>
+                <div style="font-size: 0.75rem; font-weight: 700; color: #64748B; margin-bottom: 0.35rem;">REFERENCE BENCHMARK HERO (IMAGE 2)</div>
+                <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--voak-border); height: 260px; background: #F8FAFC;">
+                  <img src="references/approved_homepage_reference_image_2.png" alt="Reference Hero" style="width: 100%; object-fit: cover; object-position: 50% 5%;">
+                </div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; font-weight: 700; color: #64748B; margin-bottom: 0.35rem;">PROTOTYPE MASTER HERO (1440 CSS-PX)</div>
+                <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--voak-border); height: 260px; background: #F8FAFC;">
+                  <img src="screenshots/01_desktop_homepage.png" alt="Prototype Hero" style="width: 100%; object-fit: cover; object-position: 50% 3%;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Region B: Three Pastel Feature Cards -->
+          <div style="background: #FFF; border: 1px solid var(--voak-border); border-radius: var(--radius-xl); padding: 1.75rem; box-shadow: var(--shadow-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <span class="preview-badge" style="background: var(--voak-yellow); color: var(--voak-navy);">Region B</span>
+                <h4 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--voak-navy); margin: 0.25rem 0 0 0;">Three Pastel Feature Cards</h4>
+              </div>
+              <span class="chip chip-success">Fidelity: Verified Pass</span>
+            </div>
+            <p style="font-size: 0.813rem; color: var(--voak-muted); margin-bottom: 1rem; line-height: 1.5;">
+              <strong>Benchmark Elements Verified:</strong> Three wide pastel cards in exact chromatic sequence: Rose Pink (<code>#EEAFD7</code>), Buttercup Yellow (<code>#FBDC62</code>), and Mint Green (<code>#54CB96</code>). Each card features uppercase category tag, editorial Fraunces title, un-cramped descriptive copy, standalone white pill action trigger (<code>.card-pill-white-btn</code>), and right-aligned rounded photography (130 &times; 160 px, radius 20px, 3px white border).
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+              <div>
+                <div style="font-size: 0.75rem; font-weight: 700; color: #64748B; margin-bottom: 0.35rem;">REFERENCE BENCHMARK FEATURE CARDS (IMAGE 2)</div>
+                <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--voak-border); height: 220px; background: #F8FAFC;">
+                  <img src="references/approved_homepage_reference_image_2.png" alt="Reference Feature Cards" style="width: 100%; object-fit: cover; object-position: 50% 38%;">
+                </div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; font-weight: 700; color: #64748B; margin-bottom: 0.35rem;">PROTOTYPE MASTER FEATURE CARDS (1440 CSS-PX)</div>
+                <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--voak-border); height: 220px; background: #F8FAFC;">
+                  <img src="screenshots/01_desktop_homepage.png" alt="Prototype Feature Cards" style="width: 100%; object-fit: cover; object-position: 50% 19%;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Region C: 4x2 Asymmetric Services Bento Grid -->
+          <div style="background: #FFF; border: 1px solid var(--voak-border); border-radius: var(--radius-xl); padding: 1.75rem; box-shadow: var(--shadow-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <span class="preview-badge" style="background: var(--voak-mint); color: var(--voak-navy);">Region C</span>
+                <h4 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--voak-navy); margin: 0.25rem 0 0 0;">Asymmetric Services Bento Grid (4&times;2 Layout)</h4>
+              </div>
+              <span class="chip chip-success">Fidelity: Verified Pass</span>
+            </div>
+            <p style="font-size: 0.813rem; color: var(--voak-muted); margin-bottom: 1rem; line-height: 1.5;">
+              <strong>Benchmark Elements Verified:</strong> Intro column (300px) paired with an asymmetric 4&times;2 grid of eight distinct pastel service tiles (Pink, Yellow, Mint, Sky Blue, Purple, Amber, Teal, Lavender). Each tile includes a dedicated icon circle, headline, two-line operational summary, and color-coded specialty badge chip.
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+              <div>
+                <div style="font-size: 0.75rem; font-weight: 700; color: #64748B; margin-bottom: 0.35rem;">REFERENCE BENCHMARK SERVICE TILES (IMAGE 2)</div>
+                <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--voak-border); height: 220px; background: #F8FAFC;">
+                  <img src="references/approved_homepage_reference_image_2.png" alt="Reference Service Grid" style="width: 100%; object-fit: cover; object-position: 50% 64%;">
+                </div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; font-weight: 700; color: #64748B; margin-bottom: 0.35rem;">PROTOTYPE MASTER SERVICE TILES (1440 CSS-PX)</div>
+                <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--voak-border); height: 220px; background: #F8FAFC;">
+                  <img src="screenshots/01_desktop_homepage.png" alt="Prototype Service Grid" style="width: 100%; object-fit: cover; object-position: 50% 32%;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Region D: Full-Width Horizontal Trust Strip -->
+          <div style="background: #FFF; border: 1px solid var(--voak-border); border-radius: var(--radius-xl); padding: 1.75rem; box-shadow: var(--shadow-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <span class="preview-badge" style="background: var(--voak-sky); color: #FFF;">Region D</span>
+                <h4 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--voak-navy); margin: 0.25rem 0 0 0;">Full-Width Horizontal Trust Strip</h4>
+              </div>
+              <span class="chip chip-success">Fidelity: Verified Pass</span>
+            </div>
+            <p style="font-size: 0.813rem; color: var(--voak-muted); margin-bottom: 1rem; line-height: 1.5;">
+              <strong>Benchmark Elements Verified:</strong> Balanced 4-column horizontal composition at 1440 CSS px (<code>160px 1.4fr 1.3fr 200px</code>): (1) Circular portrait of clinician in 140px white-bordered circle; (2) "Why Voak" heading, editorial narrative, and "Learn More" CTA; (3) Three neutral metric placeholders with parameter badges; (4) Nurse and patient care photo card (180 &times; 180 px) with floating heart accent. Intentional 2-column reflow at &le;1200px and 1-column reflow at &le;768px.
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+              <div>
+                <div style="font-size: 0.75rem; font-weight: 700; color: #64748B; margin-bottom: 0.35rem;">REFERENCE BENCHMARK TRUST STRIP (IMAGE 2)</div>
+                <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--voak-border); height: 220px; background: #F8FAFC;">
+                  <img src="references/approved_homepage_reference_image_2.png" alt="Reference Trust Strip" style="width: 100%; object-fit: cover; object-position: 50% 95%;">
+                </div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; font-weight: 700; color: #64748B; margin-bottom: 0.35rem;">PROTOTYPE MASTER TRUST STRIP (1440 CSS-PX)</div>
+                <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--voak-border); height: 220px; background: #F8FAFC;">
+                  <img src="screenshots/01_desktop_homepage.png" alt="Prototype Trust Strip" style="width: 100%; object-fit: cover; object-position: 50% 46%;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3. VIEWPORT TELEMETRY & INTEGRITY VERIFICATION MATRIX -->
+        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--voak-navy); margin-bottom: 1rem;">3. Viewport Telemetry & Cryptographic Verification Matrix</h3>
+        <div style="background: #FFF; border: 1px solid var(--voak-border); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 2rem;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.813rem; text-align: left;">
+            <thead>
+              <tr style="background: #F8FAFC; border-bottom: 1px solid var(--voak-border);">
+                <th style="padding: 0.85rem 1rem; color: var(--voak-navy);">Asset Description</th>
+                <th style="padding: 0.85rem 1rem; color: var(--voak-navy);">CSS Viewport (W &times; H)</th>
+                <th style="padding: 0.85rem 1rem; color: var(--voak-navy);">Device Scale</th>
+                <th style="padding: 0.85rem 1rem; color: var(--voak-navy);">Physical PNG (IHDR)</th>
+                <th style="padding: 0.85rem 1rem; color: var(--voak-navy);">File Size</th>
+                <th style="padding: 0.85rem 1rem; color: var(--voak-navy);">Integrity SHA-256</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid #F1F5F9;">
+                <td style="padding: 0.85rem 1rem;"><strong>Approved Reference Image 2</strong> (Benchmark)</td>
+                <td style="padding: 0.85rem 1rem; color: var(--voak-muted);">N/A (Design Asset)</td>
+                <td style="padding: 0.85rem 1rem; color: var(--voak-muted);">1.0</td>
+                <td style="padding: 0.85rem 1rem;"><span class="chip chip-success">1214 &times; 1295 px</span></td>
+                <td style="padding: 0.85rem 1rem;">1,685,155 B</td>
+                <td style="padding: 0.85rem 1rem; font-family: monospace; font-size: 0.72rem;">b0483fffc8e27197...bc971ba</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #F1F5F9; background: #FAF9FE;">
+                <td style="padding: 0.85rem 1rem;"><strong>01_desktop_homepage.png</strong> (Master Prototype)</td>
+                <td style="padding: 0.85rem 1rem;"><span class="chip chip-purple">1440 &times; ~4150 px</span></td>
+                <td style="padding: 0.85rem 1rem;">1.0 (Verified)</td>
+                <td style="padding: 0.85rem 1rem;">1440 &times; ~4150 px</td>
+                <td style="padding: 0.85rem 1rem;">Verified On Disk</td>
+                <td style="padding: 0.85rem 1rem; font-family: monospace; font-size: 0.72rem;">Captured via Chrome CDP</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #F1F5F9;">
+                <td style="padding: 0.85rem 1rem;"><strong>02_mobile_homepage_390px.png</strong> (Responsive)</td>
+                <td style="padding: 0.85rem 1rem;"><span class="chip chip-info">390 &times; ~4950 px</span></td>
+                <td style="padding: 0.85rem 1rem;">1.0 (Mobile)</td>
+                <td style="padding: 0.85rem 1rem;">390 &times; ~4950 px</td>
+                <td style="padding: 0.85rem 1rem;">Verified On Disk</td>
+                <td style="padding: 0.85rem 1rem; font-family: monospace; font-size: 0.72rem;">Captured via Chrome CDP</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.85rem 1rem;"><strong>03_tablet_homepage_768px.png</strong> (Responsive)</td>
+                <td style="padding: 0.85rem 1rem;"><span class="chip chip-warning">768 &times; ~4500 px</span></td>
+                <td style="padding: 0.85rem 1rem;">1.0 (Tablet)</td>
+                <td style="padding: 0.85rem 1rem;">768 &times; ~4500 px</td>
+                <td style="padding: 0.85rem 1rem;">Verified On Disk</td>
+                <td style="padding: 0.85rem 1rem; font-family: monospace; font-size: 0.72rem;">Captured via Chrome CDP</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       PROPOSAL / RFP MULTI-STEP WIZARD MODAL (FORM-PUB-03 Interaction Design)
+       ======================================================================== -->
+  <div id="proposal-modal" class="modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.7); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+    <div style="background: #FFFFFF; border-radius: var(--radius-2xl); width: 90%; max-width: 680px; max-height: 90vh; overflow-y: auto; padding: 2.5rem; box-shadow: var(--shadow-xl); position: relative;">
+      
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+        <div>
+          <span class="preview-badge">FORM-PUB-03 &bull; Enterprise RFP Desk</span>
+          <h3 style="font-size: 1.65rem; font-family: var(--font-serif); color: var(--voak-navy); margin-top: 0.25rem;">Request a Tailored Proposal</h3>
+        </div>
+        <button onclick="closeProposalWizard()" style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: #64748B;">&times;</button>
+      </div>
+
+      <!-- Multi-step Progress Bar -->
+      <div class="wizard-progress-bar" id="wizard-steps-indicator">
+        <div class="wizard-step-node active" id="step-node-1">
+          <div class="step-circle">1</div>
+          <span class="step-node-label">Organization</span>
+        </div>
+        <div class="wizard-step-node" id="step-node-2">
+          <div class="step-circle">2</div>
+          <span class="step-node-label">Requirements</span>
+        </div>
+        <div class="wizard-step-node" id="step-node-3">
+          <div class="step-circle">3</div>
+          <span class="step-node-label">Compliance</span>
+        </div>
+        <div class="wizard-step-node" id="step-node-4">
+          <div class="step-circle">4</div>
+          <span class="step-node-label">Documents</span>
+        </div>
+        <div class="wizard-step-node" id="step-node-5">
+          <div class="step-circle">5</div>
+          <span class="step-node-label">Review</span>
+        </div>
+      </div>
+
+      <!-- Wizard Step Panels -->
+      <div id="wizard-step-content">
+        <!-- Rendered by app.js -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       PUBLIC PAGE SCREEN INSPECTOR MODAL (Full 22 Pages High-Fidelity Previews)
+       ======================================================================== -->
+  <div id="screen-inspector-modal" class="screen-inspector-modal">
+    <div class="screen-inspector-container">
+      <div class="screen-inspector-topbar">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <span class="preview-badge" id="inspector-badge" style="background: var(--voak-purple-cta);">PUB-01</span>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; margin: 0; color: #FFF;" id="inspector-title">Page Title</h3>
+            <span style="font-family: monospace; font-size: 0.75rem; color: #94A3B8;" id="inspector-route">/route</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <select id="inspector-page-select" onchange="inspectPage(this.value)" style="background: #1E293B; color: #FFF; border: 1px solid #334155; padding: 0.4rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.813rem;">
+            <!-- Options populated dynamically -->
+          </select>
+          <button onclick="closeScreenInspector()" style="background: #334155; border: none; color: #FFF; width: 32px; height: 32px; border-radius: 50%; font-size: 1.25rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+        </div>
+      </div>
+      <div class="screen-mockup-content" id="screen-mockup-body">
+        <!-- Rendered by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

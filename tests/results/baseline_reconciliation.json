@@ -1,0 +1,915 @@
+{
+  "status": "PASS",
+  "timestamp": "2026-10-19T09:00:00Z",
+  "total_checks": 11,
+  "mismatches_count": 0,
+  "mismatches": [],
+  "checks": {
+    "roadmap_phases": {
+      "description": "32 Roadmap phase IDs are exactly Phase 0 through Phase 31",
+      "expected_value": [
+        "Phase 0",
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Phase 5",
+        "Phase 6",
+        "Phase 7",
+        "Phase 8",
+        "Phase 9",
+        "Phase 10",
+        "Phase 11",
+        "Phase 12",
+        "Phase 13",
+        "Phase 14",
+        "Phase 15",
+        "Phase 16",
+        "Phase 17",
+        "Phase 18",
+        "Phase 19",
+        "Phase 20",
+        "Phase 21",
+        "Phase 22",
+        "Phase 23",
+        "Phase 24",
+        "Phase 25",
+        "Phase 26",
+        "Phase 27",
+        "Phase 28",
+        "Phase 29",
+        "Phase 30",
+        "Phase 31"
+      ],
+      "actual_value": [
+        "Phase 0",
+        "Phase 1",
+        "Phase 2",
+        "Phase 3",
+        "Phase 4",
+        "Phase 5",
+        "Phase 6",
+        "Phase 7",
+        "Phase 8",
+        "Phase 9",
+        "Phase 10",
+        "Phase 11",
+        "Phase 12",
+        "Phase 13",
+        "Phase 14",
+        "Phase 15",
+        "Phase 16",
+        "Phase 17",
+        "Phase 18",
+        "Phase 19",
+        "Phase 20",
+        "Phase 21",
+        "Phase 22",
+        "Phase 23",
+        "Phase 24",
+        "Phase 25",
+        "Phase 26",
+        "Phase 27",
+        "Phase 28",
+        "Phase 29",
+        "Phase 30",
+        "Phase 31"
+      ],
+      "comparison_result": "PASS"
+    },
+    "functional_requirements": {
+      "description": "Exact 62 functional-requirement IDs are present",
+      "expected_count": 62,
+      "actual_count": 62,
+      "actual_ids": [
+        "FR-A11Y-001",
+        "FR-A11Y-002",
+        "FR-A11Y-003",
+        "FR-ADM-001",
+        "FR-ADM-002",
+        "FR-ADM-003",
+        "FR-ADM-004",
+        "FR-ADM-005",
+        "FR-ADM-006",
+        "FR-ADM-007",
+        "FR-ADM-008",
+        "FR-ADM-009",
+        "FR-ADM-010",
+        "FR-ADM-011",
+        "FR-ADM-012",
+        "FR-ADM-013",
+        "FR-ADM-014",
+        "FR-ADM-015",
+        "FR-ADM-016",
+        "FR-ADM-017",
+        "FR-ADM-018",
+        "FR-ADM-019",
+        "FR-PUB-001",
+        "FR-PUB-002",
+        "FR-PUB-003",
+        "FR-PUB-004",
+        "FR-PUB-005",
+        "FR-PUB-006",
+        "FR-PUB-007",
+        "FR-PUB-008",
+        "FR-PUB-009",
+        "FR-PUB-010",
+        "FR-PUB-011",
+        "FR-PUB-012",
+        "FR-PUB-013",
+        "FR-PUB-014",
+        "FR-PUB-015",
+        "FR-PUB-016",
+        "FR-PUB-017",
+        "FR-PUB-018",
+        "FR-PUB-019",
+        "FR-PUB-020",
+        "FR-PUB-021",
+        "FR-PUB-022",
+        "FR-PUB-023",
+        "FR-SEC-001",
+        "FR-SEC-002",
+        "FR-SEC-003",
+        "FR-SEC-004",
+        "FR-SEC-005",
+        "FR-SEC-006",
+        "FR-SEC-007",
+        "FR-SEO-001",
+        "FR-SEO-002",
+        "FR-SEO-003",
+        "FR-SEO-004",
+        "FR-WF-001",
+        "FR-WF-002",
+        "FR-WF-003",
+        "FR-WF-004",
+        "FR-WF-005",
+        "FR-WF-006"
+      ],
+      "comparison_result": "PASS"
+    },
+    "acceptance_scenarios": {
+      "description": "Exact 62 acceptance-test IDs are present",
+      "expected_count": 62,
+      "actual_count": 62,
+      "actual_ids": [
+        "TEST-A11Y-001",
+        "TEST-A11Y-002",
+        "TEST-A11Y-003",
+        "TEST-ADM-001",
+        "TEST-ADM-002",
+        "TEST-ADM-003",
+        "TEST-ADM-004",
+        "TEST-ADM-005",
+        "TEST-ADM-006",
+        "TEST-ADM-007",
+        "TEST-ADM-008",
+        "TEST-ADM-009",
+        "TEST-ADM-010",
+        "TEST-ADM-011",
+        "TEST-ADM-012",
+        "TEST-ADM-013",
+        "TEST-ADM-014",
+        "TEST-ADM-015",
+        "TEST-ADM-016",
+        "TEST-ADM-017",
+        "TEST-ADM-018",
+        "TEST-ADM-019",
+        "TEST-PUB-001",
+        "TEST-PUB-002",
+        "TEST-PUB-003",
+        "TEST-PUB-004",
+        "TEST-PUB-005",
+        "TEST-PUB-006",
+        "TEST-PUB-007",
+        "TEST-PUB-008",
+        "TEST-PUB-009",
+        "TEST-PUB-010",
+        "TEST-PUB-011",
+        "TEST-PUB-012",
+        "TEST-PUB-013",
+        "TEST-PUB-014",
+        "TEST-PUB-015",
+        "TEST-PUB-016",
+        "TEST-PUB-017",
+        "TEST-PUB-018",
+        "TEST-PUB-019",
+        "TEST-PUB-020",
+        "TEST-PUB-021",
+        "TEST-PUB-022",
+        "TEST-PUB-023",
+        "TEST-SEC-001",
+        "TEST-SEC-002",
+        "TEST-SEC-003",
+        "TEST-SEC-004",
+        "TEST-SEC-005",
+        "TEST-SEC-006",
+        "TEST-SEC-007",
+        "TEST-SEO-001",
+        "TEST-SEO-002",
+        "TEST-SEO-003",
+        "TEST-SEO-004",
+        "TEST-WF-001",
+        "TEST-WF-002",
+        "TEST-WF-003",
+        "TEST-WF-004",
+        "TEST-WF-005",
+        "TEST-WF-006"
+      ],
+      "comparison_result": "PASS"
+    },
+    "requirement_to_test_traceability": {
+      "description": "Requirement-to-test 1-to-1 traceability explicitly established in accepted source documents",
+      "total_mappings_found": 62,
+      "unique_requirements_covered": 62,
+      "is_one_to_one_proven": true,
+      "mappings_sample": {
+        "TEST-A11Y-001": "FR-A11Y-001",
+        "TEST-A11Y-002": "FR-A11Y-002",
+        "TEST-A11Y-003": "FR-A11Y-003",
+        "TEST-ADM-001": "FR-ADM-001",
+        "TEST-ADM-002": "FR-ADM-002"
+      },
+      "comparison_result": "PASS"
+    },
+    "public_pages": {
+      "description": "All 22 public page IDs and canonical routes match Phase 1 specification",
+      "expected_count": 22,
+      "actual_count": 22,
+      "page_details": [
+        {
+          "num": "01",
+          "canonicalId": "PAGE-PUB-01",
+          "appId": "PUB-01",
+          "specTitle": "Homepage",
+          "appTitle": "Home",
+          "specRoute": "/",
+          "appRoute": "/",
+          "appReqId": "FR-PUB-002 (with FR-PUB-001, FR-PUB-003, FR-PUB-004)",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "02",
+          "canonicalId": "PAGE-PUB-02",
+          "appId": "PUB-02",
+          "specTitle": "About Us",
+          "appTitle": "About Us",
+          "specRoute": "/about",
+          "appRoute": "/about",
+          "appReqId": "FR-PUB-009",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "03",
+          "canonicalId": "PAGE-PUB-03",
+          "appId": "PUB-03",
+          "specTitle": "Services Overview",
+          "appTitle": "Services Catalog",
+          "specRoute": "/services",
+          "appRoute": "/services",
+          "appReqId": "FR-PUB-005",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "04",
+          "canonicalId": "PAGE-PUB-04",
+          "appId": "PUB-04",
+          "specTitle": "Individual Service Detail Page",
+          "appTitle": "Service Detail",
+          "specRoute": "/services/:slug",
+          "appRoute": "/services/clinical-workforce",
+          "appReqId": "FR-PUB-006",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "05",
+          "canonicalId": "PAGE-PUB-05",
+          "appId": "PUB-05",
+          "specTitle": "Industries Overview",
+          "appTitle": "Industries",
+          "specRoute": "/industries",
+          "appRoute": "/industries",
+          "appReqId": "FR-PUB-007",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "06",
+          "canonicalId": "PAGE-PUB-06",
+          "appId": "PUB-06",
+          "specTitle": "Individual Industry Detail Page",
+          "appTitle": "Industry Detail",
+          "specRoute": "/industries/:slug",
+          "appRoute": "/industries/hospitals-health-services",
+          "appReqId": "FR-PUB-008",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "07",
+          "canonicalId": "PAGE-PUB-07",
+          "appId": "PUB-07",
+          "specTitle": "Why Choose Voak",
+          "appTitle": "Why Choose Voak",
+          "specRoute": "/why-choose-voak",
+          "appRoute": "/why-choose-voak",
+          "appReqId": "FR-PUB-010",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "08",
+          "canonicalId": "PAGE-PUB-08",
+          "appId": "PUB-08",
+          "specTitle": "How We Work (Operational Framework)",
+          "appTitle": "How We Work",
+          "specRoute": "/how-we-work",
+          "appRoute": "/how-we-work",
+          "appReqId": "FR-PUB-011",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "09",
+          "canonicalId": "PAGE-PUB-09",
+          "appId": "PUB-09",
+          "specTitle": "Quality & Compliance",
+          "appTitle": "Quality & Compliance",
+          "specRoute": "/quality-compliance",
+          "appRoute": "/quality-compliance",
+          "appReqId": "FR-PUB-012",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "10",
+          "canonicalId": "PAGE-PUB-10",
+          "appId": "PUB-10",
+          "specTitle": "Partners & Clients",
+          "appTitle": "Partners & Clients",
+          "specRoute": "/partners-clients",
+          "appRoute": "/partners-clients",
+          "appReqId": "FR-PUB-004 (Verified Partner & Social Proof Directory, Phase 24)",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "11",
+          "canonicalId": "PAGE-PUB-11",
+          "appId": "PUB-11",
+          "specTitle": "Case Studies Index",
+          "appTitle": "Case Studies",
+          "specRoute": "/case-studies",
+          "appRoute": "/case-studies",
+          "appReqId": "FR-PUB-013",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "12",
+          "canonicalId": "PAGE-PUB-12",
+          "appId": "PUB-12",
+          "specTitle": "Careers Portal",
+          "appTitle": "Careers Hub",
+          "specRoute": "/careers",
+          "appRoute": "/careers",
+          "appReqId": "FR-PUB-014",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "13",
+          "canonicalId": "PAGE-PUB-13",
+          "appId": "PUB-13",
+          "specTitle": "Job Details & Application Portal",
+          "appTitle": "Job Detail & Application",
+          "specRoute": "/careers/:slug",
+          "appRoute": "/careers/clinical-nurse-specialist",
+          "appReqId": "FR-PUB-015",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "14",
+          "canonicalId": "PAGE-PUB-14",
+          "appId": "PUB-14",
+          "specTitle": "Insights & Resources Hub",
+          "appTitle": "Insights & Articles",
+          "specRoute": "/insights",
+          "appRoute": "/insights",
+          "appReqId": "FR-PUB-016",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "15",
+          "canonicalId": "PAGE-PUB-15",
+          "appId": "PUB-15",
+          "specTitle": "Individual Article View",
+          "appTitle": "Article Detail",
+          "specRoute": "/insights/:slug",
+          "appRoute": "/insights/optimizing-healthcare-workforce-models-2026",
+          "appReqId": "FR-PUB-017",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "16",
+          "canonicalId": "PAGE-PUB-16",
+          "appId": "PUB-16",
+          "specTitle": "Frequently Asked Questions (FAQs)",
+          "appTitle": "Frequently Asked Questions",
+          "specRoute": "/faqs",
+          "appRoute": "/faqs",
+          "appReqId": "FR-PUB-018",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "17",
+          "canonicalId": "PAGE-PUB-17",
+          "appId": "PUB-17",
+          "specTitle": "Contact Us",
+          "appTitle": "Contact Us",
+          "specRoute": "/contact",
+          "appRoute": "/contact",
+          "appReqId": "FR-PUB-019",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "18",
+          "canonicalId": "PAGE-PUB-18",
+          "appId": "PUB-18",
+          "specTitle": "Partner With Us",
+          "appTitle": "Partner With Us",
+          "specRoute": "/partner-with-us",
+          "appRoute": "/partner-with-us",
+          "appReqId": "FR-PUB-020",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "19",
+          "canonicalId": "PAGE-PUB-19",
+          "appId": "PUB-19",
+          "specTitle": "Request a Proposal (RFP)",
+          "appTitle": "Request a Proposal",
+          "specRoute": "/request-proposal",
+          "appRoute": "/request-proposal",
+          "appReqId": "FR-PUB-021",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "20",
+          "canonicalId": "PAGE-PUB-20",
+          "appId": "PUB-20",
+          "specTitle": "Privacy Policy",
+          "appTitle": "Privacy Policy",
+          "specRoute": "/privacy-policy",
+          "appRoute": "/privacy-policy",
+          "appReqId": "FR-PUB-022 (Privacy Policy)",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "21",
+          "canonicalId": "PAGE-PUB-21",
+          "appId": "PUB-21",
+          "specTitle": "Terms of Service & Legal Notices",
+          "appTitle": "Terms & Conditions",
+          "specRoute": "/terms",
+          "appRoute": "/terms",
+          "appReqId": "FR-PUB-022 (Terms & Conditions)",
+          "comparison_result": "PASS"
+        },
+        {
+          "num": "22",
+          "canonicalId": "PAGE-PUB-22",
+          "appId": "PUB-22",
+          "specTitle": "404 Not Found & Error Boundaries",
+          "appTitle": "System Error States (404 / 500)",
+          "specRoute": "/*",
+          "appRoute": "/error",
+          "appReqId": "FR-PUB-023",
+          "comparison_result": "PASS"
+        }
+      ],
+      "comparison_result": "PASS"
+    },
+    "mandatory_routes": {
+      "description": "Required routes include /partners-clients, /faqs, /request-proposal, /privacy-policy, /terms, and /error",
+      "expected_routes": [
+        "/partners-clients",
+        "/faqs",
+        "/request-proposal",
+        "/privacy-policy",
+        "/terms",
+        "/error"
+      ],
+      "route_status": {
+        "/partners-clients": true,
+        "/faqs": true,
+        "/request-proposal": true,
+        "/privacy-policy": true,
+        "/terms": true,
+        "/error": true
+      },
+      "comparison_result": "PASS"
+    },
+    "page_pub_10_mapping": {
+      "description": "PAGE-PUB-10 remains mapped to FR-PUB-004",
+      "expected_reqId": "FR-PUB-004",
+      "actual_reqId": "FR-PUB-004 (Verified Partner & Social Proof Directory, Phase 24)",
+      "comparison_result": "PASS"
+    },
+    "admin_modules": {
+      "description": "All 19 admin module IDs and names in actual prototype match canonical module specification",
+      "expected_count": 19,
+      "actual_count": 19,
+      "module_details": [
+        {
+          "canonicalId": "ADM-001",
+          "appKey": "ADM-01",
+          "specTitle": "Dashboard Overview & System Telemetry",
+          "actualTitle": "ADM-01: Executive Dashboard & Operational Telemetry",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-002",
+          "appKey": "ADM-02",
+          "specTitle": "Authentication, Session & Multi-Factor Gate",
+          "actualTitle": "ADM-02: Authentication & Multi-Factor Security (MFA Portal)",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-003",
+          "appKey": "ADM-03",
+          "specTitle": "User & Role-Based Access Control (RBAC) Management",
+          "actualTitle": "ADM-03: Users & Role-Based Access Control (RBAC Matrix)",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-004",
+          "appKey": "ADM-04",
+          "specTitle": "Content & Static Page Management",
+          "actualTitle": "ADM-04: Static Pages Content CMS",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-005",
+          "appKey": "ADM-05",
+          "specTitle": "Hero & Homepage Layout Management",
+          "actualTitle": "ADM-05: Homepage Layout Configurator",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-006",
+          "appKey": "ADM-06",
+          "specTitle": "Services Catalog Management Console",
+          "actualTitle": "ADM-06: Services Management CMS",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-007",
+          "appKey": "ADM-07",
+          "specTitle": "Industries Catalog Management Console",
+          "actualTitle": "ADM-07: Industries Verticals Management",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-008",
+          "appKey": "ADM-08",
+          "specTitle": "Media Library & Asset Optimization Console",
+          "actualTitle": "ADM-08: Media Asset Library & Storage Governance",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-009",
+          "appKey": "ADM-09",
+          "specTitle": "Contact Enquiries Triage CRM",
+          "actualTitle": "ADM-09: Contact Inquiries CRM Desk",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-010",
+          "appKey": "ADM-10",
+          "specTitle": "Strategic Partnership Pipeline Desk",
+          "actualTitle": "ADM-10: Strategic Partnership Pipeline CRM",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-011",
+          "appKey": "ADM-11",
+          "specTitle": "Request a Proposal (RFP) Review Desk",
+          "actualTitle": "ADM-11: Proposal / RFP Review Desk",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-012",
+          "appKey": "ADM-12",
+          "specTitle": "Transactional Email Templates & Outbox Console",
+          "actualTitle": "ADM-12: Transactional Email Templates & Outbox",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-013",
+          "appKey": "ADM-13",
+          "specTitle": "Careers & Job Openings Management",
+          "actualTitle": "ADM-13: Careers Job Postings CMS",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-014",
+          "appKey": "ADM-14",
+          "specTitle": "Candidate Applications & Recruitment Triage",
+          "actualTitle": "ADM-14: Candidate Applications & Resume Vault (PII)",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-015",
+          "appKey": "ADM-15",
+          "specTitle": "Case Studies & Social Proof Console",
+          "actualTitle": "ADM-15: Case Studies & Verified Testimonials CMS",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-016",
+          "appKey": "ADM-16",
+          "specTitle": "Insights & Articles CMS",
+          "actualTitle": "ADM-16: Insights & Articles CMS",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-017",
+          "appKey": "ADM-17",
+          "specTitle": "SEO & Metadata Management Console",
+          "actualTitle": "ADM-17: SEO Console & Redirect Manager",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-018",
+          "appKey": "ADM-18",
+          "specTitle": "System Settings & Configuration",
+          "actualTitle": "ADM-18: System Settings & Configurable Entity",
+          "comparison_result": "PASS"
+        },
+        {
+          "canonicalId": "ADM-019",
+          "appKey": "ADM-19",
+          "specTitle": "Immutable Audit Logs & Telemetry",
+          "actualTitle": "ADM-19: Immutable Audit Logs & Telemetry Monitoring",
+          "comparison_result": "PASS"
+        }
+      ],
+      "comparison_result": "PASS"
+    },
+    "roles": {
+      "description": "All five role IDs match canonical role matrix",
+      "expected_roles": [
+        "ROLE_SUPER_ADMIN",
+        "ROLE_WEBSITE_ADMIN",
+        "ROLE_CONTENT_EDITOR",
+        "ROLE_BD_MANAGER",
+        "ROLE_HR_MANAGER"
+      ],
+      "actual_roles": [
+        "ROLE_BD_MANAGER",
+        "ROLE_CONTENT_EDITOR",
+        "ROLE_HR_MANAGER",
+        "ROLE_SUPER_ADMIN",
+        "ROLE_WEBSITE_ADMIN"
+      ],
+      "comparison_result": "PASS"
+    },
+    "rbac_permissions": {
+      "description": "Each role's actual module permissions match canonical RBAC matrix",
+      "roles": {
+        "ROLE_SUPER_ADMIN": {
+          "expected_modules": [
+            "ADM-01",
+            "ADM-02",
+            "ADM-03",
+            "ADM-04",
+            "ADM-05",
+            "ADM-06",
+            "ADM-07",
+            "ADM-08",
+            "ADM-09",
+            "ADM-10",
+            "ADM-11",
+            "ADM-12",
+            "ADM-13",
+            "ADM-14",
+            "ADM-15",
+            "ADM-16",
+            "ADM-17",
+            "ADM-18",
+            "ADM-19"
+          ],
+          "actual_modules": [
+            "ADM-01",
+            "ADM-02",
+            "ADM-03",
+            "ADM-04",
+            "ADM-05",
+            "ADM-06",
+            "ADM-07",
+            "ADM-08",
+            "ADM-09",
+            "ADM-10",
+            "ADM-11",
+            "ADM-12",
+            "ADM-13",
+            "ADM-14",
+            "ADM-15",
+            "ADM-16",
+            "ADM-17",
+            "ADM-18",
+            "ADM-19"
+          ],
+          "comparison_result": "PASS"
+        },
+        "ROLE_WEBSITE_ADMIN": {
+          "expected_modules": [
+            "ADM-01",
+            "ADM-02",
+            "ADM-04",
+            "ADM-05",
+            "ADM-06",
+            "ADM-07",
+            "ADM-08",
+            "ADM-09",
+            "ADM-12",
+            "ADM-13",
+            "ADM-15",
+            "ADM-16",
+            "ADM-17"
+          ],
+          "actual_modules": [
+            "ADM-01",
+            "ADM-02",
+            "ADM-04",
+            "ADM-05",
+            "ADM-06",
+            "ADM-07",
+            "ADM-08",
+            "ADM-09",
+            "ADM-12",
+            "ADM-13",
+            "ADM-15",
+            "ADM-16",
+            "ADM-17"
+          ],
+          "comparison_result": "PASS"
+        },
+        "ROLE_CONTENT_EDITOR": {
+          "expected_modules": [
+            "ADM-01",
+            "ADM-02",
+            "ADM-04",
+            "ADM-05",
+            "ADM-06",
+            "ADM-07",
+            "ADM-08",
+            "ADM-15",
+            "ADM-16"
+          ],
+          "actual_modules": [
+            "ADM-01",
+            "ADM-02",
+            "ADM-04",
+            "ADM-05",
+            "ADM-06",
+            "ADM-07",
+            "ADM-08",
+            "ADM-15",
+            "ADM-16"
+          ],
+          "comparison_result": "PASS"
+        },
+        "ROLE_BD_MANAGER": {
+          "expected_modules": [
+            "ADM-01",
+            "ADM-02",
+            "ADM-09",
+            "ADM-10",
+            "ADM-11"
+          ],
+          "actual_modules": [
+            "ADM-01",
+            "ADM-02",
+            "ADM-09",
+            "ADM-10",
+            "ADM-11"
+          ],
+          "comparison_result": "PASS"
+        },
+        "ROLE_HR_MANAGER": {
+          "expected_modules": [
+            "ADM-01",
+            "ADM-02",
+            "ADM-13",
+            "ADM-14"
+          ],
+          "actual_modules": [
+            "ADM-01",
+            "ADM-02",
+            "ADM-13",
+            "ADM-14"
+          ],
+          "comparison_result": "PASS"
+        }
+      },
+      "comparison_result": "PASS"
+    },
+    "forms": {
+      "description": "All 12 form IDs are present and their mappings to relevant UI modules are explicit",
+      "expected_count": 12,
+      "actual_count": 12,
+      "form_details": [
+        {
+          "formId": "FORM-PUB-01",
+          "formName": "General Corporate Contact Form",
+          "mappedUiModule": "PAGE-PUB-17 (/contact) & ADM-09 (Contact Triage CRM)",
+          "context": "Public Contact Page & Admin Triage",
+          "present_in_prototype": true,
+          "comparison_result": "PASS"
+        },
+        {
+          "formId": "FORM-PUB-02",
+          "formName": "Strategic Partnership Intake Form",
+          "mappedUiModule": "PAGE-PUB-18 (/partner-with-us) & ADM-10 (Partnership Pipeline)",
+          "context": "Public Partnership Page & Admin Pipeline",
+          "present_in_prototype": true,
+          "comparison_result": "PASS"
+        },
+        {
+          "formId": "FORM-PUB-03",
+          "formName": "Multi-Step Request a Proposal (RFP) Engine",
+          "mappedUiModule": "PAGE-PUB-19 (/request-proposal) & ADM-11 (RFP Desk) & Proposal Wizard Modal",
+          "context": "Public Proposal Wizard & Admin RFP Review",
+          "present_in_prototype": true,
+          "comparison_result": "PASS"
+        },
+        {
+          "formId": "FORM-PUB-04",
+          "formName": "Careers Candidate Application Form",
+          "mappedUiModule": "PAGE-PUB-13 (/careers/:slug) & ADM-14 (Candidate Resume Vault)",
+          "context": "Public Job Application & Admin Resume Triage",
+          "present_in_prototype": true,
+          "comparison_result": "PASS"
+        },
+        {
+          "formId": "FORM-ADM-01",
+          "formName": "Administrative Login Form",
+          "mappedUiModule": "ADM-02 (/admin/login)",
+          "context": "Admin Authentication Gate",
+          "present_in_prototype": true,
+          "comparison_result": "PASS"
+        },
+        {
+          "formId": "FORM-ADM-02",
+          "formName": "Password Recovery Request Form",
+          "mappedUiModule": "ADM-02 (/admin/password-recover)",
+          "context": "Admin Password Recovery",
+          "present_in_prototype": true,
+          "comparison_result": "PASS"
+        },
+        {
+          "formId": "FORM-ADM-03",
+          "formName": "Multi-Factor Authentication (TOTP) Challenge Form",
+          "mappedUiModule": "ADM-02 (/admin/mfa-verify)",
+          "context": "Admin TOTP MFA Challenge",
+          "present_in_prototype": true,
+          "comparison_result": "PASS"
+        },
+        {
+          "formId": "FORM-ADM-04",
+          "formName": "Content & Static Page Editor Form",
+          "mappedUiModule": "ADM-04 (/admin/pages/:id/edit)",
+          "context": "Admin CMS Static Pages",
+          "present_in_prototype": true,
+          "comparison_result": "PASS"
+        },
+        {
+          "formId": "FORM-ADM-05",
+          "formName": "Healthcare Service Management Form",
+          "mappedUiModule": "ADM-06 (/admin/services/:id/edit)",
+          "context": "Admin Services CMS",
+          "present_in_prototype": true,
+          "comparison_result": "PASS"
+        },
+        {
+          "formId": "FORM-ADM-06",
+          "formName": "Media & Document Asset Upload Form",
+          "mappedUiModule": "ADM-08 (/admin/media/upload)",
+          "context": "Admin Media Asset Library",
+          "present_in_prototype": true,
+          "comparison_result": "PASS"
+        },
+        {
+          "formId": "FORM-ADM-07",
+          "formName": "Transactional Email Template Editor Form",
+          "mappedUiModule": "ADM-12 (/admin/email-templates/:id)",
+          "context": "Admin Email Outbox & Templates",
+          "present_in_prototype": true,
+          "comparison_result": "PASS"
+        },
+        {
+          "formId": "FORM-ADM-08",
+          "formName": "User Account & Role Provisioning Form",
+          "mappedUiModule": "ADM-03 (/admin/users/create)",
+          "context": "Admin User & RBAC Management",
+          "present_in_prototype": true,
+          "comparison_result": "PASS"
+        }
+      ],
+      "comparison_result": "PASS"
+    }
+  }
+}

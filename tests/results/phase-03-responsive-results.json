@@ -1,0 +1,6410 @@
+{
+  "timestamp": "2026-10-19T03:59:49.185Z",
+  "summary": {
+    "total": 264,
+    "passed": 264,
+    "failed": 0
+  },
+  "masterHomepage": [
+    {
+      "id": "PUB-01-MASTER",
+      "type": "MASTER_HOMEPAGE_CHECK",
+      "title": "Master Homepage (Root index.html)",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "div",
+          "class": "bento-card",
+          "left": 275,
+          "right": 386
+        },
+        {
+          "tag": "h3",
+          "class": "",
+          "left": 275,
+          "right": 386
+        },
+        {
+          "tag": "span",
+          "class": "chip",
+          "left": 275,
+          "right": 386
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "trust-container",
+          "scrollW": 240,
+          "clientW": 220
+        },
+        {
+          "tag": "section",
+          "class": "section-wrapper",
+          "scrollW": 521,
+          "clientW": 294
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 489,
+          "clientW": 230
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01-MASTER",
+      "type": "MASTER_HOMEPAGE_CHECK",
+      "title": "Master Homepage (Root index.html)",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "div",
+          "class": "bento-card",
+          "left": 275,
+          "right": 386
+        },
+        {
+          "tag": "h3",
+          "class": "",
+          "left": 275,
+          "right": 386
+        },
+        {
+          "tag": "span",
+          "class": "chip",
+          "left": 275,
+          "right": 386
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "section",
+          "class": "section-wrapper",
+          "scrollW": 521,
+          "clientW": 334
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 489,
+          "clientW": 270
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01-MASTER",
+      "type": "MASTER_HOMEPAGE_CHECK",
+      "title": "Master Homepage (Root index.html)",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "div",
+          "class": "bento-card",
+          "left": 410,
+          "right": 534
+        },
+        {
+          "tag": "h3",
+          "class": "",
+          "left": 410,
+          "right": 534
+        },
+        {
+          "tag": "p",
+          "class": "",
+          "left": 410,
+          "right": 534
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "section",
+          "class": "section-wrapper",
+          "scrollW": 521,
+          "clientW": 364
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 489,
+          "clientW": 300
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01-MASTER",
+      "type": "MASTER_HOMEPAGE_CHECK",
+      "title": "Master Homepage (Root index.html)",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "div",
+          "class": "bento-card",
+          "left": 410,
+          "right": 534
+        },
+        {
+          "tag": "h3",
+          "class": "",
+          "left": 410,
+          "right": 534
+        },
+        {
+          "tag": "p",
+          "class": "",
+          "left": 410,
+          "right": 534
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "section",
+          "class": "section-wrapper",
+          "scrollW": 521,
+          "clientW": 402
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 489,
+          "clientW": 338
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01-MASTER",
+      "type": "MASTER_HOMEPAGE_CHECK",
+      "title": "Master Homepage (Root index.html)",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "hero-visual-stage",
+          "scrollW": 655,
+          "clientW": 630
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01-MASTER",
+      "type": "MASTER_HOMEPAGE_CHECK",
+      "title": "Master Homepage (Root index.html)",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "hero-visual-stage",
+          "scrollW": 920,
+          "clientW": 895
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01-MASTER",
+      "type": "MASTER_HOMEPAGE_CHECK",
+      "title": "Master Homepage (Root index.html)",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "hero-visual-stage",
+          "scrollW": 470,
+          "clientW": 445
+        },
+        {
+          "tag": "div",
+          "class": "feature-card-content",
+          "scrollW": 191,
+          "clientW": 171
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01-MASTER",
+      "type": "MASTER_HOMEPAGE_CHECK",
+      "title": "Master Homepage (Root index.html)",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "hero-visual-stage",
+          "scrollW": 510,
+          "clientW": 485
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01-MASTER",
+      "type": "MASTER_HOMEPAGE_CHECK",
+      "title": "Master Homepage (Root index.html)",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "hero-visual-stage",
+          "scrollW": 510,
+          "clientW": 485
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    }
+  ],
+  "publicPages": [
+    {
+      "id": "PUB-01",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Home",
+      "route": "/",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Home",
+      "route": "/",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Home",
+      "route": "/",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Home",
+      "route": "/",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Home",
+      "route": "/",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "hero-visual-stage",
+          "scrollW": 679,
+          "clientW": 654
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Home",
+      "route": "/",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "hero-visual-stage",
+          "scrollW": 920,
+          "clientW": 895
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Home",
+      "route": "/",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "hero-visual-stage",
+          "scrollW": 470,
+          "clientW": 445
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Home",
+      "route": "/",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "hero-visual-stage",
+          "scrollW": 510,
+          "clientW": 485
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Home",
+      "route": "/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "hero-visual-stage",
+          "scrollW": 510,
+          "clientW": 485
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-02",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "About Us",
+      "route": "/about",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-02",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "About Us",
+      "route": "/about",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-02",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "About Us",
+      "route": "/about",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-02",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "About Us",
+      "route": "/about",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-02",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "About Us",
+      "route": "/about",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-02",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "About Us",
+      "route": "/about",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-02",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "About Us",
+      "route": "/about",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-02",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "About Us",
+      "route": "/about",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-02",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "About Us",
+      "route": "/about",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-03",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Services Catalog",
+      "route": "/services",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-03",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Services Catalog",
+      "route": "/services",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-03",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Services Catalog",
+      "route": "/services",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-03",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Services Catalog",
+      "route": "/services",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-03",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Services Catalog",
+      "route": "/services",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-03",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Services Catalog",
+      "route": "/services",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-03",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Services Catalog",
+      "route": "/services",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-03",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Services Catalog",
+      "route": "/services",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-03",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Services Catalog",
+      "route": "/services",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-04",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Service Detail",
+      "route": "/services/clinical-workforce",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-04",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Service Detail",
+      "route": "/services/clinical-workforce",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-04",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Service Detail",
+      "route": "/services/clinical-workforce",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-04",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Service Detail",
+      "route": "/services/clinical-workforce",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-04",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Service Detail",
+      "route": "/services/clinical-workforce",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-04",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Service Detail",
+      "route": "/services/clinical-workforce",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-04",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Service Detail",
+      "route": "/services/clinical-workforce",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-04",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Service Detail",
+      "route": "/services/clinical-workforce",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-04",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Service Detail",
+      "route": "/services/clinical-workforce",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-05",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industries",
+      "route": "/industries",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-05",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industries",
+      "route": "/industries",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-05",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industries",
+      "route": "/industries",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-05",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industries",
+      "route": "/industries",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-05",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industries",
+      "route": "/industries",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-05",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industries",
+      "route": "/industries",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-05",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industries",
+      "route": "/industries",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-05",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industries",
+      "route": "/industries",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-05",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industries",
+      "route": "/industries",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-06",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industry Detail",
+      "route": "/industries/hospitals-health-services",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "footer-bottom",
+          "scrollW": 260,
+          "clientW": 254
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 260,
+          "clientW": 254
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-06",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industry Detail",
+      "route": "/industries/hospitals-health-services",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-06",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industry Detail",
+      "route": "/industries/hospitals-health-services",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-06",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industry Detail",
+      "route": "/industries/hospitals-health-services",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-06",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industry Detail",
+      "route": "/industries/hospitals-health-services",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-06",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industry Detail",
+      "route": "/industries/hospitals-health-services",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-06",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industry Detail",
+      "route": "/industries/hospitals-health-services",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-06",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industry Detail",
+      "route": "/industries/hospitals-health-services",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-06",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industry Detail",
+      "route": "/industries/hospitals-health-services",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-07",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Why Choose Voak",
+      "route": "/why-choose-voak",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "thead",
+          "class": "",
+          "left": 18,
+          "right": 457
+        },
+        {
+          "tag": "tr",
+          "class": "",
+          "left": 18,
+          "right": 457
+        },
+        {
+          "tag": "th",
+          "class": "",
+          "left": 311,
+          "right": 457
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-07",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Why Choose Voak",
+      "route": "/why-choose-voak",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "thead",
+          "class": "",
+          "left": 18,
+          "right": 457
+        },
+        {
+          "tag": "tr",
+          "class": "",
+          "left": 18,
+          "right": 457
+        },
+        {
+          "tag": "th",
+          "class": "",
+          "left": 311,
+          "right": 457
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-07",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Why Choose Voak",
+      "route": "/why-choose-voak",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "thead",
+          "class": "",
+          "left": 18,
+          "right": 457
+        },
+        {
+          "tag": "tr",
+          "class": "",
+          "left": 18,
+          "right": 457
+        },
+        {
+          "tag": "th",
+          "class": "",
+          "left": 311,
+          "right": 457
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-07",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Why Choose Voak",
+      "route": "/why-choose-voak",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "thead",
+          "class": "",
+          "left": 18,
+          "right": 457
+        },
+        {
+          "tag": "tr",
+          "class": "",
+          "left": 18,
+          "right": 457
+        },
+        {
+          "tag": "th",
+          "class": "",
+          "left": 311,
+          "right": 457
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-07",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Why Choose Voak",
+      "route": "/why-choose-voak",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-07",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Why Choose Voak",
+      "route": "/why-choose-voak",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-07",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Why Choose Voak",
+      "route": "/why-choose-voak",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-07",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Why Choose Voak",
+      "route": "/why-choose-voak",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-07",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Why Choose Voak",
+      "route": "/why-choose-voak",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-08",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "How We Work",
+      "route": "/how-we-work",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-08",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "How We Work",
+      "route": "/how-we-work",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-08",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "How We Work",
+      "route": "/how-we-work",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-08",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "How We Work",
+      "route": "/how-we-work",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-08",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "How We Work",
+      "route": "/how-we-work",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-08",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "How We Work",
+      "route": "/how-we-work",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-08",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "How We Work",
+      "route": "/how-we-work",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-08",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "How We Work",
+      "route": "/how-we-work",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-08",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "How We Work",
+      "route": "/how-we-work",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-09",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Quality & Compliance",
+      "route": "/quality-compliance",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "div",
+          "class": "",
+          "left": 307,
+          "right": 412
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "left": 324,
+          "right": 395
+        },
+        {
+          "tag": "strong",
+          "class": "",
+          "left": 324,
+          "right": 395
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 655,
+          "clientW": 318
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 638,
+          "clientW": 284
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 598,
+          "clientW": 204
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-09",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Quality & Compliance",
+      "route": "/quality-compliance",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "div",
+          "class": "",
+          "left": 307,
+          "right": 412
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "left": 324,
+          "right": 395
+        },
+        {
+          "tag": "strong",
+          "class": "",
+          "left": 324,
+          "right": 395
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 655,
+          "clientW": 358
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 638,
+          "clientW": 324
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 598,
+          "clientW": 244
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-09",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Quality & Compliance",
+      "route": "/quality-compliance",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "div",
+          "class": "",
+          "left": 307,
+          "right": 412
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "left": 324,
+          "right": 395
+        },
+        {
+          "tag": "strong",
+          "class": "",
+          "left": 324,
+          "right": 395
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 655,
+          "clientW": 388
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 638,
+          "clientW": 354
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 598,
+          "clientW": 274
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-09",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Quality & Compliance",
+      "route": "/quality-compliance",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "div",
+          "class": "",
+          "left": 428,
+          "right": 533
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "left": 445,
+          "right": 516
+        },
+        {
+          "tag": "strong",
+          "class": "",
+          "left": 445,
+          "right": 516
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 655,
+          "clientW": 426
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 638,
+          "clientW": 392
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 598,
+          "clientW": 312
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-09",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Quality & Compliance",
+      "route": "/quality-compliance",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-09",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Quality & Compliance",
+      "route": "/quality-compliance",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-09",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Quality & Compliance",
+      "route": "/quality-compliance",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-09",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Quality & Compliance",
+      "route": "/quality-compliance",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-09",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Quality & Compliance",
+      "route": "/quality-compliance",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-10",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partners & Clients",
+      "route": "/partners-clients",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-10",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partners & Clients",
+      "route": "/partners-clients",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-10",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partners & Clients",
+      "route": "/partners-clients",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-10",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partners & Clients",
+      "route": "/partners-clients",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-10",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partners & Clients",
+      "route": "/partners-clients",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-10",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partners & Clients",
+      "route": "/partners-clients",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-10",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partners & Clients",
+      "route": "/partners-clients",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-10",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partners & Clients",
+      "route": "/partners-clients",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-10",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partners & Clients",
+      "route": "/partners-clients",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-11",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Case Studies",
+      "route": "/case-studies",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [
+        {
+          "tag": "p",
+          "class": "",
+          "left": 255,
+          "right": 351
+        },
+        {
+          "tag": "strong",
+          "class": "",
+          "left": 255,
+          "right": 339
+        }
+      ],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 350,
+          "clientW": 318
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 333,
+          "clientW": 284
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 309,
+          "clientW": 236
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-11",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Case Studies",
+      "route": "/case-studies",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 333,
+          "clientW": 324
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 309,
+          "clientW": 276
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-11",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Case Studies",
+      "route": "/case-studies",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 309,
+          "clientW": 306
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-11",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Case Studies",
+      "route": "/case-studies",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-11",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Case Studies",
+      "route": "/case-studies",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-11",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Case Studies",
+      "route": "/case-studies",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-11",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Case Studies",
+      "route": "/case-studies",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-11",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Case Studies",
+      "route": "/case-studies",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-11",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Case Studies",
+      "route": "/case-studies",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-12",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Careers Hub",
+      "route": "/careers",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-12",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Careers Hub",
+      "route": "/careers",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-12",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Careers Hub",
+      "route": "/careers",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-12",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Careers Hub",
+      "route": "/careers",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-12",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Careers Hub",
+      "route": "/careers",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-12",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Careers Hub",
+      "route": "/careers",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-12",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Careers Hub",
+      "route": "/careers",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-12",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Careers Hub",
+      "route": "/careers",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-12",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Careers Hub",
+      "route": "/careers",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-13",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Job Detail & Application",
+      "route": "/careers/clinical-nurse-specialist",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-13",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Job Detail & Application",
+      "route": "/careers/clinical-nurse-specialist",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-13",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Job Detail & Application",
+      "route": "/careers/clinical-nurse-specialist",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-13",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Job Detail & Application",
+      "route": "/careers/clinical-nurse-specialist",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-13",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Job Detail & Application",
+      "route": "/careers/clinical-nurse-specialist",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-13",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Job Detail & Application",
+      "route": "/careers/clinical-nurse-specialist",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-13",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Job Detail & Application",
+      "route": "/careers/clinical-nurse-specialist",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-13",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Job Detail & Application",
+      "route": "/careers/clinical-nurse-specialist",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-13",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Job Detail & Application",
+      "route": "/careers/clinical-nurse-specialist",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-14",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Insights & Articles",
+      "route": "/insights",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 297,
+          "clientW": 284
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-14",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Insights & Articles",
+      "route": "/insights",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 332,
+          "clientW": 324
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-14",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Insights & Articles",
+      "route": "/insights",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 358,
+          "clientW": 354
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-14",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Insights & Articles",
+      "route": "/insights",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-14",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Insights & Articles",
+      "route": "/insights",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-14",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Insights & Articles",
+      "route": "/insights",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-14",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Insights & Articles",
+      "route": "/insights",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-14",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Insights & Articles",
+      "route": "/insights",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-14",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Insights & Articles",
+      "route": "/insights",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-15",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Article Detail",
+      "route": "/insights/optimizing-healthcare-workforce-models-2026",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-15",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Article Detail",
+      "route": "/insights/optimizing-healthcare-workforce-models-2026",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-15",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Article Detail",
+      "route": "/insights/optimizing-healthcare-workforce-models-2026",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-15",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Article Detail",
+      "route": "/insights/optimizing-healthcare-workforce-models-2026",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-15",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Article Detail",
+      "route": "/insights/optimizing-healthcare-workforce-models-2026",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-15",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Article Detail",
+      "route": "/insights/optimizing-healthcare-workforce-models-2026",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-15",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Article Detail",
+      "route": "/insights/optimizing-healthcare-workforce-models-2026",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-15",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Article Detail",
+      "route": "/insights/optimizing-healthcare-workforce-models-2026",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-15",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Article Detail",
+      "route": "/insights/optimizing-healthcare-workforce-models-2026",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-16",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Frequently Asked Questions",
+      "route": "/faqs",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-16",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Frequently Asked Questions",
+      "route": "/faqs",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-16",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Frequently Asked Questions",
+      "route": "/faqs",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-16",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Frequently Asked Questions",
+      "route": "/faqs",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-16",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Frequently Asked Questions",
+      "route": "/faqs",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-16",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Frequently Asked Questions",
+      "route": "/faqs",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-16",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Frequently Asked Questions",
+      "route": "/faqs",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-16",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Frequently Asked Questions",
+      "route": "/faqs",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-16",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Frequently Asked Questions",
+      "route": "/faqs",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-17",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Contact Us",
+      "route": "/contact",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-17",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Contact Us",
+      "route": "/contact",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-17",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Contact Us",
+      "route": "/contact",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-17",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Contact Us",
+      "route": "/contact",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-17",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Contact Us",
+      "route": "/contact",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-17",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Contact Us",
+      "route": "/contact",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-17",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Contact Us",
+      "route": "/contact",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-17",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Contact Us",
+      "route": "/contact",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-17",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Contact Us",
+      "route": "/contact",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-18",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partner With Us",
+      "route": "/partner-with-us",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-18",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partner With Us",
+      "route": "/partner-with-us",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-18",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partner With Us",
+      "route": "/partner-with-us",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-18",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partner With Us",
+      "route": "/partner-with-us",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-18",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partner With Us",
+      "route": "/partner-with-us",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-18",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partner With Us",
+      "route": "/partner-with-us",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-18",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partner With Us",
+      "route": "/partner-with-us",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-18",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partner With Us",
+      "route": "/partner-with-us",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-18",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partner With Us",
+      "route": "/partner-with-us",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-19",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Request a Proposal",
+      "route": "/request-proposal",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-19",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Request a Proposal",
+      "route": "/request-proposal",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-19",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Request a Proposal",
+      "route": "/request-proposal",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-19",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Request a Proposal",
+      "route": "/request-proposal",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-19",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Request a Proposal",
+      "route": "/request-proposal",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-19",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Request a Proposal",
+      "route": "/request-proposal",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-19",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Request a Proposal",
+      "route": "/request-proposal",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-19",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Request a Proposal",
+      "route": "/request-proposal",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-19",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Request a Proposal",
+      "route": "/request-proposal",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-20",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Privacy Policy",
+      "route": "/privacy-policy",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-20",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Privacy Policy",
+      "route": "/privacy-policy",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-20",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Privacy Policy",
+      "route": "/privacy-policy",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-20",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Privacy Policy",
+      "route": "/privacy-policy",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-20",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Privacy Policy",
+      "route": "/privacy-policy",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-20",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Privacy Policy",
+      "route": "/privacy-policy",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-20",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Privacy Policy",
+      "route": "/privacy-policy",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-20",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Privacy Policy",
+      "route": "/privacy-policy",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-20",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Privacy Policy",
+      "route": "/privacy-policy",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-21",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Terms & Conditions",
+      "route": "/terms",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-21",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Terms & Conditions",
+      "route": "/terms",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-21",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Terms & Conditions",
+      "route": "/terms",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-21",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Terms & Conditions",
+      "route": "/terms",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-21",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Terms & Conditions",
+      "route": "/terms",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-21",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Terms & Conditions",
+      "route": "/terms",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-21",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Terms & Conditions",
+      "route": "/terms",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-21",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Terms & Conditions",
+      "route": "/terms",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-21",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Terms & Conditions",
+      "route": "/terms",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-22",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "System Error States (404 / 500)",
+      "route": "/error",
+      "viewport": {
+        "width": 320,
+        "height": 568,
+        "category": "Compact Mobile (iPhone SE)"
+      },
+      "markerVerified": true,
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-22",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "System Error States (404 / 500)",
+      "route": "/error",
+      "viewport": {
+        "width": 360,
+        "height": 800,
+        "category": "Standard Android Compact"
+      },
+      "markerVerified": true,
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-22",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "System Error States (404 / 500)",
+      "route": "/error",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Modern iPhone Baseline (iPhone 12/13/14)"
+      },
+      "markerVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-22",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "System Error States (404 / 500)",
+      "route": "/error",
+      "viewport": {
+        "width": 428,
+        "height": 926,
+        "category": "Large Mobile Phablet (iPhone Pro Max)"
+      },
+      "markerVerified": true,
+      "innerWidth": 428,
+      "scrollWidth": 428,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-22",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "System Error States (404 / 500)",
+      "route": "/error",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Portrait (iPad Mini / Air)"
+      },
+      "markerVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-22",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "System Error States (404 / 500)",
+      "route": "/error",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "category": "Tablet Landscape / Small Laptop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1024,
+      "scrollWidth": 1009,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-22",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "System Error States (404 / 500)",
+      "route": "/error",
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "category": "Standard HD Laptop / Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1280,
+      "scrollWidth": 1265,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-22",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "System Error States (404 / 500)",
+      "route": "/error",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Approved Target Desktop Benchmark"
+      },
+      "markerVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-22",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "System Error States (404 / 500)",
+      "route": "/error",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "category": "Full HD Ultrawide Desktop"
+      },
+      "markerVerified": true,
+      "innerWidth": 1920,
+      "scrollWidth": 1905,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    }
+  ],
+  "adminModules": [
+    {
+      "id": "ADM-01",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-01: Executive Dashboard & Operational Telemetry",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-01",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-01: Executive Dashboard & Operational Telemetry",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-01",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-01: Executive Dashboard & Operational Telemetry",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-02",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-02: Authentication & Multi-Factor Security (MFA Portal)",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "admin-card-header",
+          "scrollW": 139,
+          "clientW": 97
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 134,
+          "clientW": 95
+        },
+        {
+          "tag": "div",
+          "class": "form-group",
+          "scrollW": 98,
+          "clientW": 47
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-02",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-02: Authentication & Multi-Factor Security (MFA Portal)",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-02",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-02: Authentication & Multi-Factor Security (MFA Portal)",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-03",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-03: Users & Role-Based Access Control (RBAC Matrix)",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-03",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-03: Users & Role-Based Access Control (RBAC Matrix)",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-03",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-03: Users & Role-Based Access Control (RBAC Matrix)",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-04",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-04: Static Pages Content CMS",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 410,
+          "clientW": 260
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-04",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-04: Static Pages Content CMS",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-04",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-04: Static Pages Content CMS",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-05",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-05: Homepage Layout Configurator",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-05",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-05: Homepage Layout Configurator",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-05",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-05: Homepage Layout Configurator",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-06",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-06: Services Management CMS",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-06",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-06: Services Management CMS",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-06",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-06: Services Management CMS",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-07",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-07: Industries Verticals Management",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 454,
+          "clientW": 260
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-07",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-07: Industries Verticals Management",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-07",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-07: Industries Verticals Management",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-08",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-08: Media Asset Library & Storage Governance",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 110,
+          "clientW": 71
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 74,
+          "clientW": 47
+        },
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 158,
+          "clientW": 71
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-08",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-08: Media Asset Library & Storage Governance",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-08",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-08: Media Asset Library & Storage Governance",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-09",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-09: Contact Inquiries CRM Desk",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-09",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-09: Contact Inquiries CRM Desk",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-09",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-09: Contact Inquiries CRM Desk",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-10",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-10: Strategic Partnership Pipeline CRM",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 607,
+          "clientW": 260
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-10",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-10: Strategic Partnership Pipeline CRM",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-10",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-10: Strategic Partnership Pipeline CRM",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-11",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-11: Proposal / RFP Review Desk",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-11",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-11: Proposal / RFP Review Desk",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-11",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-11: Proposal / RFP Review Desk",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-12",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-12: Transactional Email Templates & Outbox",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 333,
+          "clientW": 260
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-12",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-12: Transactional Email Templates & Outbox",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-12",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-12: Transactional Email Templates & Outbox",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-13",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-13: Careers Job Postings CMS",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-13",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-13: Careers Job Postings CMS",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-13",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-13: Careers Job Postings CMS",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-14",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-14: Candidate Applications & Resume Vault (PII)",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-14",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-14: Candidate Applications & Resume Vault (PII)",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-14",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-14: Candidate Applications & Resume Vault (PII)",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-15",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-15: Case Studies & Verified Testimonials CMS",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-15",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-15: Case Studies & Verified Testimonials CMS",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-15",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-15: Case Studies & Verified Testimonials CMS",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-16",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-16: Insights & Articles CMS",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-16",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-16: Insights & Articles CMS",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-16",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-16: Insights & Articles CMS",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-17",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-17: SEO Console & Redirect Manager",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [
+        {
+          "tag": "div",
+          "class": "",
+          "scrollW": 365,
+          "clientW": 260
+        }
+      ],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-17",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-17: SEO Console & Redirect Manager",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-17",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-17: SEO Console & Redirect Manager",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-18",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-18: System Settings & Configurable Entity",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-18",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-18: System Settings & Configurable Entity",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-18",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-18: System Settings & Configurable Entity",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-19",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-19: Immutable Audit Logs & Telemetry Monitoring",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "category": "Mobile Admin (Compact Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-19",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-19: Immutable Audit Logs & Telemetry Monitoring",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "category": "Tablet Admin (Portrait Viewport)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "ADM-19",
+      "type": "ADMIN_MODULE_WORKSPACE",
+      "title": "ADM-19: Immutable Audit Logs & Telemetry Monitoring",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "category": "Desktop Admin (Target Benchmark)"
+      },
+      "markerVerified": true,
+      "moduleVerified": true,
+      "innerWidth": 1440,
+      "scrollWidth": 1425,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    }
+  ]
+}

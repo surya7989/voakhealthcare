@@ -1,0 +1,50 @@
+[
+  {
+    "file": "design/phase-03/app.js",
+    "line": 745,
+    "pattern": "replacement\\s+protocol",
+    "content": "<p style=\"font-size: 0.875rem; color: var(--voak-muted);\">Operational response targets and replacement protocols defined by client contract [TARGET PARAMETERS &bull; PENDING APPROVAL].</p>"
+  },
+  {
+    "file": "design/phase-03/app.js",
+    "line": 752,
+    "pattern": "clinical\\s+advisor",
+    "content": "<p style=\"font-size: 0.875rem; color: var(--voak-muted);\">Proposed dedicated B2B healthcare coordinators and clinical advisors assigned per facility [GOVERNANCE MODEL PENDING CONFIRMATION].</p>"
+  },
+  {
+    "file": "design/phase-03/app.js",
+    "line": 1074,
+    "pattern": "clinical\\s+advisor",
+    "content": "<td style=\"padding: 1.25rem 1.5rem; background: #FAF9FE;\"><span class=\"chip chip-info\">Proposed Dedicated Lead</span><br><small style=\"color: var(--voak-muted);\">Proposed named B2B coordinator and clinical advisor per facility [PENDING CLIENT CONFIRMATION].</small></td>"
+  },
+  {
+    "file": "design/phase-03/app.js",
+    "line": 1435,
+    "pattern": "dedicated\\s+clinical",
+    "content": "<p style=\"font-size: 0.813rem; color: var(--voak-muted); margin: 0; line-height: 1.5;\">\"Facilities adopting dedicated clinical partner frameworks experience lower vacancy volatility [ILLUSTRATIVE COMMENTARY &bull; RESEARCH HYPOTHESIS].\"</p>"
+  },
+  {
+    "file": "design/phase-03/app.js",
+    "line": 1502,
+    "pattern": "NSW",
+    "content": "Answers to common questions regarding clinical workforce deployment, compliance, and B2B contracting."
+  },
+  {
+    "file": "design/phase-03/app.js",
+    "line": 1534,
+    "pattern": "NSW",
+    "content": "<h4 style=\"font-size: 1.2rem; color: var(--voak-navy); margin-bottom: 0.5rem;\">Have a Question Not Answered Here?</h4>"
+  },
+  {
+    "file": "design/phase-03/app.js",
+    "line": 1743,
+    "pattern": "clinical\\s+advisor",
+    "content": "<h3 style=\"font-size: 1.35rem; color: var(--voak-navy); margin-bottom: 0.75rem;\">2. Non-Clinical Advisory Disclaimer</h3>"
+  },
+  {
+    "file": "design/phase-03/app.js",
+    "line": 2960,
+    "pattern": "NDIS",
+    "content": "<option>Undisclosed / Subject to Proposal</option>"
+  }
+]

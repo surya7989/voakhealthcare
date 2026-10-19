@@ -1,0 +1,92 @@
+[
+  {
+    "width": 320,
+    "height": 568,
+    "category": "Compact Mobile (iPhone SE)",
+    "windowWidth": 320,
+    "scrollWidth": 320,
+    "overflowPx": 0,
+    "status": "PASS",
+    "offendingElement": null
+  },
+  {
+    "width": 360,
+    "height": 800,
+    "category": "Standard Android Compact",
+    "windowWidth": 360,
+    "scrollWidth": 360,
+    "overflowPx": 0,
+    "status": "PASS",
+    "offendingElement": null
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "category": "Modern iPhone Baseline (iPhone 12/13/14)",
+    "windowWidth": 390,
+    "scrollWidth": 390,
+    "overflowPx": 0,
+    "status": "PASS",
+    "offendingElement": null
+  },
+  {
+    "width": 428,
+    "height": 926,
+    "category": "Large Mobile Phablet (iPhone Pro Max)",
+    "windowWidth": 428,
+    "scrollWidth": 428,
+    "overflowPx": 0,
+    "status": "PASS",
+    "offendingElement": null
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "category": "Tablet Portrait (iPad Mini / Air)",
+    "windowWidth": 768,
+    "scrollWidth": 753,
+    "overflowPx": 0,
+    "status": "PASS",
+    "offendingElement": null
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "category": "Tablet Landscape / Small Laptop",
+    "windowWidth": 1024,
+    "scrollWidth": 1009,
+    "overflowPx": 0,
+    "status": "PASS",
+    "offendingElement": null
+  },
+  {
+    "width": 1280,
+    "height": 800,
+    "category": "Standard HD Laptop / Desktop",
+    "windowWidth": 1280,
+    "scrollWidth": 1265,
+    "overflowPx": 0,
+    "status": "PASS",
+    "offendingElement": null
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "category": "Approved Target Desktop Benchmark",
+    "windowWidth": 1440,
+    "scrollWidth": 1425,
+    "overflowPx": 0,
+    "status": "PASS",
+    "offendingElement": null
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "category": "Full HD Ultrawide Desktop",
+    "windowWidth": 1920,
+    "scrollWidth": 1905,
+    "overflowPx": 0,
+    "status": "PASS",
+    "offendingElement": null
+  }
+]

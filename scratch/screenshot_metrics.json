@@ -1,0 +1,302 @@
+{
+  "01_desktop_homepage.png": {
+    "width": 1440,
+    "height": 4716,
+    "sizeBytes": 1415035,
+    "sizeKb": "1381.9"
+  },
+  "02_mobile_homepage_390px.png": {
+    "width": 390,
+    "height": 1854,
+    "sizeBytes": 248668,
+    "sizeKb": "242.8"
+  },
+  "03_tablet_homepage_768px.png": {
+    "width": 768,
+    "height": 7285,
+    "sizeBytes": 1323321,
+    "sizeKb": "1292.3"
+  },
+  "04_public_pages_gallery.png": {
+    "width": 1440,
+    "height": 3510,
+    "sizeBytes": 684537,
+    "sizeKb": "668.5"
+  },
+  "06_component_system.png": {
+    "width": 1440,
+    "height": 2096,
+    "sizeBytes": 258234,
+    "sizeKb": "252.2"
+  },
+  "07_approved_reference_comparison.png": {
+    "width": 1440,
+    "height": 1141,
+    "sizeBytes": 451722,
+    "sizeKb": "441.1"
+  },
+  "08_proposal_wizard_modal.png": {
+    "width": 1440,
+    "height": 960,
+    "sizeBytes": 228887,
+    "sizeKb": "223.5"
+  },
+  "admin_modules/admin_adm-01_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 220103,
+    "sizeKb": "214.9"
+  },
+  "05_admin_dashboard.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 220103,
+    "sizeKb": "214.9"
+  },
+  "admin_modules/admin_adm-02_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 198273,
+    "sizeKb": "193.6"
+  },
+  "admin_modules/admin_adm-03_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 248728,
+    "sizeKb": "242.9"
+  },
+  "admin_modules/admin_adm-04_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 190292,
+    "sizeKb": "185.8"
+  },
+  "admin_modules/admin_adm-05_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 170183,
+    "sizeKb": "166.2"
+  },
+  "admin_modules/admin_adm-06_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 191532,
+    "sizeKb": "187.0"
+  },
+  "admin_modules/admin_adm-07_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 174138,
+    "sizeKb": "170.1"
+  },
+  "admin_modules/admin_adm-08_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 340793,
+    "sizeKb": "332.8"
+  },
+  "admin_modules/admin_adm-09_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 172256,
+    "sizeKb": "168.2"
+  },
+  "admin_modules/admin_adm-10_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 179897,
+    "sizeKb": "175.7"
+  },
+  "admin_modules/admin_adm-11_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 194114,
+    "sizeKb": "189.6"
+  },
+  "admin_modules/admin_adm-12_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 175318,
+    "sizeKb": "171.2"
+  },
+  "admin_modules/admin_adm-13_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 174217,
+    "sizeKb": "170.1"
+  },
+  "admin_modules/admin_adm-14_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 202020,
+    "sizeKb": "197.3"
+  },
+  "admin_modules/admin_adm-15_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 177089,
+    "sizeKb": "172.9"
+  },
+  "admin_modules/admin_adm-16_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 165250,
+    "sizeKb": "161.4"
+  },
+  "admin_modules/admin_adm-17_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 171387,
+    "sizeKb": "167.4"
+  },
+  "admin_modules/admin_adm-18_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 180632,
+    "sizeKb": "176.4"
+  },
+  "admin_modules/admin_adm-19_preview.png": {
+    "width": 1440,
+    "height": 1217,
+    "sizeBytes": 198335,
+    "sizeKb": "193.7"
+  },
+  "09_simulated_403_access_denied.png": {
+    "width": 1440,
+    "height": 1200,
+    "sizeBytes": 194503,
+    "sizeKb": "189.9"
+  },
+  "public_pages/page_pub-01_preview.png": {
+    "width": 1440,
+    "height": 3615,
+    "sizeBytes": 995311,
+    "sizeKb": "972.0"
+  },
+  "public_pages/page_pub-02_preview.png": {
+    "width": 1440,
+    "height": 2540,
+    "sizeBytes": 310192,
+    "sizeKb": "302.9"
+  },
+  "public_pages/page_pub-03_preview.png": {
+    "width": 1440,
+    "height": 2013,
+    "sizeBytes": 217984,
+    "sizeKb": "212.9"
+  },
+  "public_pages/page_pub-04_preview.png": {
+    "width": 1440,
+    "height": 1830,
+    "sizeBytes": 216933,
+    "sizeKb": "211.8"
+  },
+  "public_pages/page_pub-05_preview.png": {
+    "width": 1440,
+    "height": 2165,
+    "sizeBytes": 250632,
+    "sizeKb": "244.8"
+  },
+  "public_pages/page_pub-06_preview.png": {
+    "width": 1440,
+    "height": 1801,
+    "sizeBytes": 209393,
+    "sizeKb": "204.5"
+  },
+  "public_pages/page_pub-07_preview.png": {
+    "width": 1440,
+    "height": 2047,
+    "sizeBytes": 240175,
+    "sizeKb": "234.5"
+  },
+  "public_pages/page_pub-08_preview.png": {
+    "width": 1440,
+    "height": 2233,
+    "sizeBytes": 239264,
+    "sizeKb": "233.7"
+  },
+  "public_pages/page_pub-09_preview.png": {
+    "width": 1440,
+    "height": 1856,
+    "sizeBytes": 197151,
+    "sizeKb": "192.5"
+  },
+  "public_pages/page_pub-10_preview.png": {
+    "width": 1440,
+    "height": 1991,
+    "sizeBytes": 206091,
+    "sizeKb": "201.3"
+  },
+  "public_pages/page_pub-11_preview.png": {
+    "width": 1440,
+    "height": 2075,
+    "sizeBytes": 265728,
+    "sizeKb": "259.5"
+  },
+  "public_pages/page_pub-12_preview.png": {
+    "width": 1440,
+    "height": 2188,
+    "sizeBytes": 251694,
+    "sizeKb": "245.8"
+  },
+  "public_pages/page_pub-13_preview.png": {
+    "width": 1440,
+    "height": 1990,
+    "sizeBytes": 201184,
+    "sizeKb": "196.5"
+  },
+  "public_pages/page_pub-14_preview.png": {
+    "width": 1440,
+    "height": 2030,
+    "sizeBytes": 228903,
+    "sizeKb": "223.5"
+  },
+  "public_pages/page_pub-15_preview.png": {
+    "width": 1440,
+    "height": 2236,
+    "sizeBytes": 290401,
+    "sizeKb": "283.6"
+  },
+  "public_pages/page_pub-16_preview.png": {
+    "width": 1440,
+    "height": 2168,
+    "sizeBytes": 243057,
+    "sizeKb": "237.4"
+  },
+  "public_pages/page_pub-17_preview.png": {
+    "width": 1440,
+    "height": 2095,
+    "sizeBytes": 188869,
+    "sizeKb": "184.4"
+  },
+  "public_pages/page_pub-18_preview.png": {
+    "width": 1440,
+    "height": 2035,
+    "sizeBytes": 185392,
+    "sizeKb": "181.0"
+  },
+  "public_pages/page_pub-19_preview.png": {
+    "width": 1440,
+    "height": 1687,
+    "sizeBytes": 176078,
+    "sizeKb": "172.0"
+  },
+  "public_pages/page_pub-20_preview.png": {
+    "width": 1440,
+    "height": 2038,
+    "sizeBytes": 257563,
+    "sizeKb": "251.5"
+  },
+  "public_pages/page_pub-21_preview.png": {
+    "width": 1440,
+    "height": 1718,
+    "sizeBytes": 190624,
+    "sizeKb": "186.2"
+  },
+  "public_pages/page_pub-22_preview.png": {
+    "width": 1440,
+    "height": 1616,
+    "sizeBytes": 152296,
+    "sizeKb": "148.7"
+  }
+}
