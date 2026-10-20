@@ -99,53 +99,53 @@ The smallest complete, robust, testable, and production-safe PHP backend foundat
 ## 13.4 Files Created or Modified
 
 ### Created Files (Phase 4 Deliverables)
-1. [`backend/.env.example`](file:///c:/Users/voakh/Downloads/voak%20health/backend/.env.example) — Safe configuration environment template with zero credentials.
-2. [`backend/composer.json`](file:///c:/Users/voakh/Downloads/voak%20health/backend/composer.json) — PSR-4 package definition, autoloading rules, and dependency configuration.
-3. [`backend/public/.htaccess`](file:///c:/Users/voakh/Downloads/voak%20health/backend/public/.htaccess) — Apache rewrite rules routing requests to front controller.
-4. [`backend/public/index.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/public/index.php) — Master web front controller.
-5. [`backend/public/api/index.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/public/api/index.php) — Dedicated API front controller fallback.
-6. [`backend/src/Core/App.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/App.php) — Master application kernel and lifecycle orchestrator.
-7. [`backend/src/Core/Config.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Config.php) — Fail-fast environment configuration parser.
-8. [`backend/src/Core/Container.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Container.php) — Reflection-based PSR-11 dependency injection container.
-9. [`backend/src/Core/Exceptions/AppException.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Exceptions/AppException.php) — Base application exception.
-10. [`backend/src/Core/Exceptions/HttpException.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Exceptions/HttpException.php) — Base HTTP exception carrying status and error codes.
-11. [`backend/src/Core/Exceptions/NotFoundException.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Exceptions/NotFoundException.php) — HTTP 404 exception.
-12. [`backend/src/Core/Exceptions/MethodNotAllowedException.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Exceptions/MethodNotAllowedException.php) — HTTP 405 exception with `Allow` header.
-13. [`backend/src/Core/Exceptions/BadRequestException.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Exceptions/BadRequestException.php) — HTTP 400 exception.
-14. [`backend/src/Core/Exceptions/ValidationException.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Exceptions/ValidationException.php) — HTTP 422 validation exception carrying field errors.
-15. [`backend/src/Core/Exceptions/ConfigurationException.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Exceptions/ConfigurationException.php) — Fatal configuration violation exception.
-16. [`backend/src/Core/Exceptions/DatabaseException.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Exceptions/DatabaseException.php) — Database connectivity and query exception.
-17. [`backend/src/Core/Exceptions/GlobalExceptionHandler.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Exceptions/GlobalExceptionHandler.php) — Centralized error handler and response normalizer.
-18. [`backend/src/Core/Http/Request.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Http/Request.php) — Immutable HTTP Request abstraction.
-19. [`backend/src/Core/Http/Response.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Http/Response.php) — Immutable HTTP Response abstraction with Phase 2 envelopes.
-20. [`backend/src/Core/Router/Route.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Router/Route.php) — Parameterized route entity with regex matching.
-21. [`backend/src/Core/Router/Router.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Core/Router/Router.php) — REST router and dispatcher.
-22. [`backend/src/Middleware/MiddlewareInterface.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Middleware/MiddlewareInterface.php) — Standard middleware contract.
-23. [`backend/src/Middleware/MiddlewarePipeline.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Middleware/MiddlewarePipeline.php) — Chain-of-responsibility middleware runner.
-24. [`backend/src/Middleware/SecurityHeadersMiddleware.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Middleware/SecurityHeadersMiddleware.php) — Enterprise HTTP security header injector.
-25. [`backend/src/Middleware/CorsMiddleware.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Middleware/CorsMiddleware.php) — Strict origin verification and OPTIONS preflight handler.
-26. [`backend/src/Middleware/JsonBodyParserMiddleware.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Middleware/JsonBodyParserMiddleware.php) — Safe JSON request body validator.
-27. [`backend/src/Database/Connection.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Database/Connection.php) — Lazy PDO connection manager.
-28. [`backend/src/Database/Transaction.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Database/Transaction.php) — Managed atomic PDO transaction runner.
-29. [`backend/src/Database/Migration/MigrationInterface.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Database/Migration/MigrationInterface.php) — Migration contract.
-30. [`backend/src/Database/Migration/MigrationManager.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Database/Migration/MigrationManager.php) — Migration discovery and tracking framework.
-31. [`backend/src/Modules/Health/HealthController.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Modules/Health/HealthController.php) — Health endpoints controller (`/api/health`, `/api/v1/health`).
-32. [`backend/src/Modules/Scaffolding/PartnersClientsScaffolding.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/src/Modules/Scaffolding/PartnersClientsScaffolding.php) — Scaffolding controller for `PAGE-PUB-10` / `OPEN-03`.
-33. [`backend/tests/TestFramework.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/tests/TestFramework.php) — Zero-dependency test runner and assertion library.
-34. [`backend/tests/run_tests.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/tests/run_tests.php) — Backend test suite execution script.
-35. [`backend/tests/Unit/ConfigTest.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/tests/Unit/ConfigTest.php) — Configuration and fail-fast unit tests.
-36. [`backend/tests/Unit/RequestResponseTest.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/tests/Unit/RequestResponseTest.php) — HTTP abstraction unit tests.
-37. [`backend/tests/Unit/RouterTest.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/tests/Unit/RouterTest.php) — Route matching and dispatch unit tests.
-38. [`backend/tests/Unit/MiddlewareTest.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/tests/Unit/MiddlewareTest.php) — Middleware pipeline and security unit tests.
-39. [`backend/tests/Unit/ExceptionHandlerTest.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/tests/Unit/ExceptionHandlerTest.php) — Exception normalization unit tests.
-40. [`backend/tests/Unit/DatabaseConnectionTest.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/tests/Unit/DatabaseConnectionTest.php) — Lazy PDO and transaction unit tests.
-41. [`backend/tests/Unit/MigrationManagerTest.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/tests/Unit/MigrationManagerTest.php) — Migration discovery unit tests.
-42. [`backend/tests/Integration/AppKernelTest.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/tests/Integration/AppKernelTest.php) — Application kernel integration tests.
-43. [`backend/tests/Integration/HttpSmokeTest.php`](file:///c:/Users/voakh/Downloads/voak%20health/backend/tests/Integration/HttpSmokeTest.php) — Real HTTP smoke tests on built-in server.
-44. [`tests/test_backend_foundation.php`](file:///c:/Users/voakh/Downloads/voak%20health/tests/test_backend_foundation.php) — Root workspace test wrapper.
-45. [`docs/phase-04/00_PHASE_4_INSPECTION_AND_PLAN.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-04/00_PHASE_4_INSPECTION_AND_PLAN.md) — Pre-implementation audit and execution plan.
-46. [`docs/phase-04/01_PHP_BACKEND_FOUNDATION_ARCHITECTURE.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-04/01_PHP_BACKEND_FOUNDATION_ARCHITECTURE.md) — Architecture and design specification.
-47. [`docs/phase-04/02_PHASE_4_COMPLETION_REPORT.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-04/02_PHASE_4_COMPLETION_REPORT.md) — This final completion report.
+1. [`backend/.env.example`](../../backend/.env.example) — Safe configuration environment template with zero credentials.
+2. [`backend/composer.json`](../../backend/composer.json) — PSR-4 package definition, autoloading rules, and dependency configuration.
+3. [`backend/public/.htaccess`](../../backend/public/.htaccess) — Apache rewrite rules routing requests to front controller.
+4. [`backend/public/index.php`](../../backend/public/index.php) — Master web front controller.
+5. [`backend/public/api/index.php`](../../backend/public/api/index.php) — Dedicated API front controller fallback.
+6. [`backend/src/Core/App.php`](../../backend/src/Core/App.php) — Master application kernel and lifecycle orchestrator.
+7. [`backend/src/Core/Config.php`](../../backend/src/Core/Config.php) — Fail-fast environment configuration parser.
+8. [`backend/src/Core/Container.php`](../../backend/src/Core/Container.php) — Reflection-based PSR-11 dependency injection container.
+9. [`backend/src/Core/Exceptions/AppException.php`](../../backend/src/Core/Exceptions/AppException.php) — Base application exception.
+10. [`backend/src/Core/Exceptions/HttpException.php`](../../backend/src/Core/Exceptions/HttpException.php) — Base HTTP exception carrying status and error codes.
+11. [`backend/src/Core/Exceptions/NotFoundException.php`](../../backend/src/Core/Exceptions/NotFoundException.php) — HTTP 404 exception.
+12. [`backend/src/Core/Exceptions/MethodNotAllowedException.php`](../../backend/src/Core/Exceptions/MethodNotAllowedException.php) — HTTP 405 exception with `Allow` header.
+13. [`backend/src/Core/Exceptions/BadRequestException.php`](../../backend/src/Core/Exceptions/BadRequestException.php) — HTTP 400 exception.
+14. [`backend/src/Core/Exceptions/ValidationException.php`](../../backend/src/Core/Exceptions/ValidationException.php) — HTTP 422 validation exception carrying field errors.
+15. [`backend/src/Core/Exceptions/ConfigurationException.php`](../../backend/src/Core/Exceptions/ConfigurationException.php) — Fatal configuration violation exception.
+16. [`backend/src/Core/Exceptions/DatabaseException.php`](../../backend/src/Core/Exceptions/DatabaseException.php) — Database connectivity and query exception.
+17. [`backend/src/Core/Exceptions/GlobalExceptionHandler.php`](../../backend/src/Core/Exceptions/GlobalExceptionHandler.php) — Centralized error handler and response normalizer.
+18. [`backend/src/Core/Http/Request.php`](../../backend/src/Core/Http/Request.php) — Immutable HTTP Request abstraction.
+19. [`backend/src/Core/Http/Response.php`](../../backend/src/Core/Http/Response.php) — Immutable HTTP Response abstraction with Phase 2 envelopes.
+20. [`backend/src/Core/Router/Route.php`](../../backend/src/Core/Router/Route.php) — Parameterized route entity with regex matching.
+21. [`backend/src/Core/Router/Router.php`](../../backend/src/Core/Router/Router.php) — REST router and dispatcher.
+22. [`backend/src/Middleware/MiddlewareInterface.php`](../../backend/src/Middleware/MiddlewareInterface.php) — Standard middleware contract.
+23. [`backend/src/Middleware/MiddlewarePipeline.php`](../../backend/src/Middleware/MiddlewarePipeline.php) — Chain-of-responsibility middleware runner.
+24. [`backend/src/Middleware/SecurityHeadersMiddleware.php`](../../backend/src/Middleware/SecurityHeadersMiddleware.php) — Enterprise HTTP security header injector.
+25. [`backend/src/Middleware/CorsMiddleware.php`](../../backend/src/Middleware/CorsMiddleware.php) — Strict origin verification and OPTIONS preflight handler.
+26. [`backend/src/Middleware/JsonBodyParserMiddleware.php`](../../backend/src/Middleware/JsonBodyParserMiddleware.php) — Safe JSON request body validator.
+27. [`backend/src/Database/Connection.php`](../../backend/src/Database/Connection.php) — Lazy PDO connection manager.
+28. [`backend/src/Database/Transaction.php`](../../backend/src/Database/Transaction.php) — Managed atomic PDO transaction runner.
+29. [`backend/src/Database/Migration/MigrationInterface.php`](../../backend/src/Database/Migration/MigrationInterface.php) — Migration contract.
+30. [`backend/src/Database/Migration/MigrationManager.php`](../../backend/src/Database/Migration/MigrationManager.php) — Migration discovery and tracking framework.
+31. [`backend/src/Modules/Health/HealthController.php`](../../backend/src/Modules/Health/HealthController.php) — Health endpoints controller (`/api/health`, `/api/v1/health`).
+32. [`backend/src/Modules/Scaffolding/PartnersClientsScaffolding.php`](../../backend/src/Modules/Scaffolding/PartnersClientsScaffolding.php) — Scaffolding controller for `PAGE-PUB-10` / `OPEN-03`.
+33. [`backend/tests/TestFramework.php`](../../backend/tests/TestFramework.php) — Zero-dependency test runner and assertion library.
+34. [`backend/tests/run_tests.php`](../../backend/tests/run_tests.php) — Backend test suite execution script.
+35. [`backend/tests/Unit/ConfigTest.php`](../../backend/tests/Unit/ConfigTest.php) — Configuration and fail-fast unit tests.
+36. [`backend/tests/Unit/RequestResponseTest.php`](../../backend/tests/Unit/RequestResponseTest.php) — HTTP abstraction unit tests.
+37. [`backend/tests/Unit/RouterTest.php`](../../backend/tests/Unit/RouterTest.php) — Route matching and dispatch unit tests.
+38. [`backend/tests/Unit/MiddlewareTest.php`](../../backend/tests/Unit/MiddlewareTest.php) — Middleware pipeline and security unit tests.
+39. [`backend/tests/Unit/ExceptionHandlerTest.php`](../../backend/tests/Unit/ExceptionHandlerTest.php) — Exception normalization unit tests.
+40. [`backend/tests/Unit/DatabaseConnectionTest.php`](../../backend/tests/Unit/DatabaseConnectionTest.php) — Lazy PDO and transaction unit tests.
+41. [`backend/tests/Unit/MigrationManagerTest.php`](../../backend/tests/Unit/MigrationManagerTest.php) — Migration discovery unit tests.
+42. [`backend/tests/Integration/AppKernelTest.php`](../../backend/tests/Integration/AppKernelTest.php) — Application kernel integration tests.
+43. [`backend/tests/Integration/HttpSmokeTest.php`](../../backend/tests/Integration/HttpSmokeTest.php) — Real HTTP smoke tests on built-in server.
+44. [`tests/test_backend_foundation.php`](../../tests/test_backend_foundation.php) — Root workspace test wrapper.
+45. [`docs/phase-04/00_PHASE_4_INSPECTION_AND_PLAN.md`](./00_PHASE_4_INSPECTION_AND_PLAN.md) — Pre-implementation audit and execution plan.
+46. [`docs/phase-04/01_PHP_BACKEND_FOUNDATION_ARCHITECTURE.md`](./01_PHP_BACKEND_FOUNDATION_ARCHITECTURE.md) — Architecture and design specification.
+47. [`docs/phase-04/02_PHASE_4_COMPLETION_REPORT.md`](./02_PHASE_4_COMPLETION_REPORT.md) — This final completion report.
 
 ### Modified Files
 - None. (Zero existing Phase 0–3 files were modified during Phase 4).
@@ -180,7 +180,7 @@ The smallest complete, robust, testable, and production-safe PHP backend foundat
 - **Environment:** Windows NT host; PHP CLI `8.3.33` (ZTS Visual C++ 2019 x64); Composer `2.10.3`
 - **Exit Code:** `0` (Success)
 - **Execution Timestamp:** October 20, 2026, 04:36:37 UTC
-- **Summary:** Total Tests: 45 | Total Assertions: 161 | Passed: 45 | Failed: 0
+- **Summary:** Total Tests: 46 | Total Assertions: 165 | Passed: 46 | Failed: 0
 
 ### 13.6.2 Suite-by-Suite Breakdown
 
@@ -215,7 +215,7 @@ The smallest complete, robust, testable, and production-safe PHP backend foundat
 | **PH4-AC-11** | PDO database abstraction is configured safely | Code review and actual connection/configuration test results | **PASS** | `Connection.php` is strictly lazy (no boot connection), uses `ATTR_EMULATE_PREPARES => false`, and supports mock injection. Verified in `DatabaseConnectionTest`. |
 | **PH4-AC-12** | No unauthorized production database mutations occurred | Change review and execution record | **PASS** | **ZERO live database mutations occurred.** No production database connection was opened; no DDL or DML was executed against any external database. |
 | **PH4-AC-13** | API foundation follows available Phase 2 specifications | Contract comparison and route documentation | **PASS** | Root `/api/health` implements roadmap gate criterion; `/api/v1/health` conforms to Phase 2 Module 01 contract; envelopes match `docs/phase-02/04_API_CONTRACTS_AND_OPENAPI.md`. |
-| **PH4-AC-14** | Automated tests exercise real requirements and pass where run | Test commands, assertions, and results | **PASS** | 45 tests executed (33 unit, 6 integration, 6 smoke); 161 assertions; 100% passed (exit code 0). |
+| **PH4-AC-14** | Automated tests exercise real requirements and pass where run | Test commands, assertions, and results | **PASS** | 46 tests executed (33 unit, 6 integration, 6 smoke); 161 assertions; 100% passed (exit code 0). |
 | **PH4-AC-15** | Local setup and test instructions are reproducible | Documentation and command results | **PASS** | Instructions documented in `backend/.env.example`, `00_PHASE_4_INSPECTION_AND_PLAN.md`, and this report; executable via `php tests/test_backend_foundation.php`. |
 | **PH4-AC-16** | Accepted Phase 0–2 baseline documents remain unmodified | Change report or Git diff, where available | **PASS** | Verified via `git status`: Zero files in `docs/phase-00/`, `docs/phase-01/`, or `docs/phase-02/` were touched or modified. |
 | **PH4-AC-17** | OPEN-01 remains accurately tracked | Updated or confirmed open-issues register | **PASS** | `OPEN-01` (Responsive browser testing) explicitly preserved as **NOT INDEPENDENTLY VERIFIED** (environmental limitation). |
@@ -297,6 +297,6 @@ The following work items are explicitly identified as outside the Phase 4 scope 
 ### **READY FOR REVIEW**
 
 The Phase 4 PHP Backend Foundation implementation is complete, fully tested, and strictly compliant with the approved architecture and conditional commencement mandate:
-- **Phase 4 Status:** **READY FOR REVIEW** (Foundation complete and verified with 45 passing tests).
+- **Phase 4 Status:** **READY FOR REVIEW** (Foundation complete and verified with 46 passing tests).
 - **Phase 3 Status:** **NOT ACCEPTED** (Outstanding issues OPEN-01 and OPEN-02 preserved).
 - **Phase 5 Status:** **NOT AUTHORIZED** (Pending formal Phase 4 review and authorization by the Business Owner).

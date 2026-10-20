@@ -53,6 +53,15 @@ class App
         return new self($config);
     }
 
+    /**
+     * Alias for bootstrap() providing interface compatibility with architectural specifications.
+     */
+    public static function boot(?string $envPath = null): self
+    {
+        return self::bootstrap($envPath);
+    }
+
+
     public function getContainer(): Container
     {
         return $this->container;

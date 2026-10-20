@@ -123,6 +123,16 @@ class AppKernelTest
                 T::assertFalse($decoded['success']);
                 T::assertEquals('BAD_REQUEST', $decoded['error']['code']);
             });
+
+            T::test('bootstrap() and boot() factory methods initialize App kernel', function () {
+                $app1 = App::bootstrap();
+                T::assertTrue($app1 instanceof App);
+                T::assertTrue($app1->getConfig() instanceof Config);
+
+                $app2 = App::boot();
+                T::assertTrue($app2 instanceof App);
+                T::assertTrue($app2->getConfig() instanceof Config);
+            });
         });
     }
 }
