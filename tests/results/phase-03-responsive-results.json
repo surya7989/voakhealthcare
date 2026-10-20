@@ -1,11 +1,11 @@
 {
-  "testSuite": "Voak Health Care — Phase 3 V9 Expanded Responsive Automated Verification Suite",
+  "testSuite": "Voak Health Care — Phase 3 V10 Expanded Responsive Automated Verification Suite",
   "browserExecutable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
   "browserVersion": "155.0.4283.62",
-  "timestamp": "2026-10-20T01:37:20.260Z",
+  "timestamp": "2026-10-20T02:40:29.497Z",
   "summary": {
-    "total": 264,
-    "passed": 264,
+    "total": 310,
+    "passed": 310,
     "failed": 0
   },
   "masterHomepage": [
@@ -56,6 +56,27 @@
       "type": "MASTER_HOMEPAGE_CHECK",
       "title": "Master Homepage (Root index.html)",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01-MASTER",
+      "type": "MASTER_HOMEPAGE_CHECK",
+      "title": "Master Homepage (Root index.html)",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -63,6 +84,27 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01-MASTER",
+      "type": "MASTER_HOMEPAGE_CHECK",
+      "title": "Master Homepage (Root index.html)",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -250,6 +292,28 @@
       "title": "Home",
       "route": "/",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Home",
+      "route": "/",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -257,6 +321,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-01",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Home",
+      "route": "/",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -448,6 +534,28 @@
       "title": "About Us",
       "route": "/about",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-02",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "About Us",
+      "route": "/about",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -455,6 +563,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-02",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "About Us",
+      "route": "/about",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -646,6 +776,28 @@
       "title": "Services Catalog",
       "route": "/services",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-03",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Services Catalog",
+      "route": "/services",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -653,6 +805,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-03",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Services Catalog",
+      "route": "/services",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -844,6 +1018,28 @@
       "title": "Service Detail",
       "route": "/services/clinical-workforce",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-04",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Service Detail",
+      "route": "/services/clinical-workforce",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -851,6 +1047,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-04",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Service Detail",
+      "route": "/services/clinical-workforce",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -1042,6 +1260,28 @@
       "title": "Industries",
       "route": "/industries",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-05",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industries",
+      "route": "/industries",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -1049,6 +1289,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-05",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industries",
+      "route": "/industries",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -1240,6 +1502,28 @@
       "title": "Industry Detail",
       "route": "/industries/hospitals-health-services",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-06",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industry Detail",
+      "route": "/industries/hospitals-health-services",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -1247,6 +1531,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-06",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Industry Detail",
+      "route": "/industries/hospitals-health-services",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -1438,6 +1744,28 @@
       "title": "Why Choose Voak",
       "route": "/why-choose-voak",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-07",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Why Choose Voak",
+      "route": "/why-choose-voak",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -1445,6 +1773,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-07",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Why Choose Voak",
+      "route": "/why-choose-voak",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -1636,6 +1986,28 @@
       "title": "How We Work",
       "route": "/how-we-work",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-08",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "How We Work",
+      "route": "/how-we-work",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -1643,6 +2015,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-08",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "How We Work",
+      "route": "/how-we-work",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -1834,6 +2228,28 @@
       "title": "Quality & Compliance",
       "route": "/quality-compliance",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-09",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Quality & Compliance",
+      "route": "/quality-compliance",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -1841,6 +2257,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-09",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Quality & Compliance",
+      "route": "/quality-compliance",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -2032,6 +2470,28 @@
       "title": "Partners & Clients",
       "route": "/partners-clients",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-10",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partners & Clients",
+      "route": "/partners-clients",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -2039,6 +2499,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-10",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partners & Clients",
+      "route": "/partners-clients",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -2230,6 +2712,28 @@
       "title": "Case Studies",
       "route": "/case-studies",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-11",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Case Studies",
+      "route": "/case-studies",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -2237,6 +2741,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-11",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Case Studies",
+      "route": "/case-studies",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -2428,6 +2954,28 @@
       "title": "Careers Hub",
       "route": "/careers",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-12",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Careers Hub",
+      "route": "/careers",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -2435,6 +2983,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-12",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Careers Hub",
+      "route": "/careers",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -2626,6 +3196,28 @@
       "title": "Job Detail & Application",
       "route": "/careers/clinical-nurse-specialist",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-13",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Job Detail & Application",
+      "route": "/careers/clinical-nurse-specialist",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -2633,6 +3225,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-13",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Job Detail & Application",
+      "route": "/careers/clinical-nurse-specialist",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -2824,6 +3438,28 @@
       "title": "Insights & Articles",
       "route": "/insights",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-14",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Insights & Articles",
+      "route": "/insights",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -2831,6 +3467,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-14",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Insights & Articles",
+      "route": "/insights",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -3022,6 +3680,28 @@
       "title": "Article Detail",
       "route": "/insights/optimizing-healthcare-workforce-models-2026",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-15",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Article Detail",
+      "route": "/insights/optimizing-healthcare-workforce-models-2026",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -3029,6 +3709,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-15",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Article Detail",
+      "route": "/insights/optimizing-healthcare-workforce-models-2026",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -3220,6 +3922,28 @@
       "title": "Frequently Asked Questions",
       "route": "/faqs",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-16",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Frequently Asked Questions",
+      "route": "/faqs",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -3227,6 +3951,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-16",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Frequently Asked Questions",
+      "route": "/faqs",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -3418,6 +4164,28 @@
       "title": "Contact Us",
       "route": "/contact",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-17",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Contact Us",
+      "route": "/contact",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -3425,6 +4193,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-17",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Contact Us",
+      "route": "/contact",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -3616,6 +4406,28 @@
       "title": "Partner With Us",
       "route": "/partner-with-us",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-18",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partner With Us",
+      "route": "/partner-with-us",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -3623,6 +4435,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-18",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Partner With Us",
+      "route": "/partner-with-us",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -3814,6 +4648,28 @@
       "title": "Request a Proposal",
       "route": "/request-proposal",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-19",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Request a Proposal",
+      "route": "/request-proposal",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -3821,6 +4677,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-19",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Request a Proposal",
+      "route": "/request-proposal",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -4012,6 +4890,28 @@
       "title": "Privacy Policy",
       "route": "/privacy-policy",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-20",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Privacy Policy",
+      "route": "/privacy-policy",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -4019,6 +4919,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-20",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Privacy Policy",
+      "route": "/privacy-policy",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -4210,6 +5132,28 @@
       "title": "Terms & Conditions",
       "route": "/terms",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-21",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Terms & Conditions",
+      "route": "/terms",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -4217,6 +5161,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-21",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "Terms & Conditions",
+      "route": "/terms",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],
@@ -4408,6 +5374,28 @@
       "title": "System Error States (404 / 500)",
       "route": "/error",
       "viewport": {
+        "width": 375,
+        "height": 667,
+        "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)"
+      },
+      "markerVerified": true,
+      "innerWidth": 375,
+      "scrollWidth": 375,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-22",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "System Error States (404 / 500)",
+      "route": "/error",
+      "viewport": {
         "width": 390,
         "height": 844,
         "category": "Modern iPhone Baseline (iPhone 12/13/14)"
@@ -4415,6 +5403,28 @@
       "markerVerified": true,
       "innerWidth": 390,
       "scrollWidth": 390,
+      "overflowPx": 0,
+      "overflow": false,
+      "offscreenElements": [],
+      "offscreenControls": [],
+      "containerBlowouts": [],
+      "consoleErrors": [],
+      "failureReasons": [],
+      "status": "PASS"
+    },
+    {
+      "id": "PUB-22",
+      "type": "PROTOTYPE_PUBLIC_PAGE_MOCKUP",
+      "title": "System Error States (404 / 500)",
+      "route": "/error",
+      "viewport": {
+        "width": 414,
+        "height": 896,
+        "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)"
+      },
+      "markerVerified": true,
+      "innerWidth": 414,
+      "scrollWidth": 414,
       "overflowPx": 0,
       "overflow": false,
       "offscreenElements": [],

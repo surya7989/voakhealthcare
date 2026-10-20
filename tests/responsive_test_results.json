@@ -20,11 +20,31 @@
     "offendingElement": null
   },
   {
+    "width": 375,
+    "height": 667,
+    "category": "Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)",
+    "windowWidth": 375,
+    "scrollWidth": 375,
+    "overflowPx": 0,
+    "status": "PASS",
+    "offendingElement": null
+  },
+  {
     "width": 390,
     "height": 844,
     "category": "Modern iPhone Baseline (iPhone 12/13/14)",
     "windowWidth": 390,
     "scrollWidth": 390,
+    "overflowPx": 0,
+    "status": "PASS",
+    "offendingElement": null
+  },
+  {
+    "width": 414,
+    "height": 896,
+    "category": "Plus/XR Mobile (iPhone 8 Plus / XR / 11)",
+    "windowWidth": 414,
+    "scrollWidth": 414,
     "overflowPx": 0,
     "status": "PASS",
     "offendingElement": null

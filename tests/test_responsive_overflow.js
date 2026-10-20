@@ -57,7 +57,9 @@ const MIME_TYPES = {
 const BREAKPOINTS = [
   { width: 320, height: 568, category: 'Compact Mobile (iPhone SE)' },
   { width: 360, height: 800, category: 'Standard Android Compact' },
+  { width: 375, height: 667, category: 'Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)' },
   { width: 390, height: 844, category: 'Modern iPhone Baseline (iPhone 12/13/14)' },
+  { width: 414, height: 896, category: 'Plus/XR Mobile (iPhone 8 Plus / XR / 11)' },
   { width: 428, height: 926, category: 'Large Mobile Phablet (iPhone Pro Max)' },
   { width: 768, height: 1024, category: 'Tablet Portrait (iPad Mini / Air)' },
   { width: 1024, height: 768, category: 'Tablet Landscape / Small Laptop' },

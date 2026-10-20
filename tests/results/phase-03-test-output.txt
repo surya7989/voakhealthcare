@@ -1,17 +1,19 @@
 ======================================================================
-VOAK HEALTH CARE — PHASE 3 V7 EXPANDED RESPONSIVE VERIFICATION SUITE
+VOAK HEALTH CARE — PHASE 3 V10 EXPANDED RESPONSIVE VERIFICATION SUITE
 ======================================================================
-Timestamp: 2026-10-20T01:37:18.602Z
+Timestamp: 2026-10-20T02:40:27.941Z
 Test Environment: Headless Edge CDP on port 9255
 Verification Standard: Real Browser Geometry, 0px Blowout, Zero Forced Clipping, Full Parity
 
 ======================================================================
-PART 0: MASTER HOMEPAGE RESPONSIVE VERIFICATION (LIVE ROOT × 9 BREAKPOINTS)
+PART 0: MASTER HOMEPAGE RESPONSIVE VERIFICATION (LIVE ROOT × 11 BREAKPOINTS)
 ======================================================================
 
   [PASS] Master Homepage @ 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] Master Homepage @ 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] Master Homepage @ 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] Master Homepage @ 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] Master Homepage @ 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] Master Homepage @ 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] Master Homepage @ 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] Master Homepage @ 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -20,13 +22,15 @@ PART 0: MASTER HOMEPAGE RESPONSIVE VERIFICATION (LIVE ROOT × 9 BREAKPOINTS)
   [PASS] Master Homepage @ 1920px (Full HD Ultrawide Desktop): innerW=1920px, scrollW=1905px, overflow=0px, errors=0
 
 ======================================================================
-PART 1: PUBLIC PAGES MOCKUP INSPECTION (22 PAGES × 9 BREAKPOINTS)
+PART 1: PUBLIC PAGES MOCKUP INSPECTION (22 PAGES × 11 BREAKPOINTS)
 ======================================================================
 
 Testing Public Page [PUB-01] - Home (/) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -37,7 +41,9 @@ Testing Public Page [PUB-01] - Home (/) [PROTOTYPE MOCKUP VIEW]
 Testing Public Page [PUB-02] - About Us (/about) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -48,7 +54,9 @@ Testing Public Page [PUB-02] - About Us (/about) [PROTOTYPE MOCKUP VIEW]
 Testing Public Page [PUB-03] - Services Catalog (/services) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -59,7 +67,9 @@ Testing Public Page [PUB-03] - Services Catalog (/services) [PROTOTYPE MOCKUP VI
 Testing Public Page [PUB-04] - Service Detail (/services/clinical-workforce) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -70,7 +80,9 @@ Testing Public Page [PUB-04] - Service Detail (/services/clinical-workforce) [PR
 Testing Public Page [PUB-05] - Industries (/industries) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -81,7 +93,9 @@ Testing Public Page [PUB-05] - Industries (/industries) [PROTOTYPE MOCKUP VIEW]
 Testing Public Page [PUB-06] - Industry Detail (/industries/hospitals-health-services) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -92,7 +106,9 @@ Testing Public Page [PUB-06] - Industry Detail (/industries/hospitals-health-ser
 Testing Public Page [PUB-07] - Why Choose Voak (/why-choose-voak) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -103,7 +119,9 @@ Testing Public Page [PUB-07] - Why Choose Voak (/why-choose-voak) [PROTOTYPE MOC
 Testing Public Page [PUB-08] - How We Work (/how-we-work) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -114,7 +132,9 @@ Testing Public Page [PUB-08] - How We Work (/how-we-work) [PROTOTYPE MOCKUP VIEW
 Testing Public Page [PUB-09] - Quality & Compliance (/quality-compliance) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -125,7 +145,9 @@ Testing Public Page [PUB-09] - Quality & Compliance (/quality-compliance) [PROTO
 Testing Public Page [PUB-10] - Partners & Clients (/partners-clients) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -136,7 +158,9 @@ Testing Public Page [PUB-10] - Partners & Clients (/partners-clients) [PROTOTYPE
 Testing Public Page [PUB-11] - Case Studies (/case-studies) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -147,7 +171,9 @@ Testing Public Page [PUB-11] - Case Studies (/case-studies) [PROTOTYPE MOCKUP VI
 Testing Public Page [PUB-12] - Careers Hub (/careers) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -158,7 +184,9 @@ Testing Public Page [PUB-12] - Careers Hub (/careers) [PROTOTYPE MOCKUP VIEW]
 Testing Public Page [PUB-13] - Job Detail & Application (/careers/clinical-nurse-specialist) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -169,7 +197,9 @@ Testing Public Page [PUB-13] - Job Detail & Application (/careers/clinical-nurse
 Testing Public Page [PUB-14] - Insights & Articles (/insights) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -180,7 +210,9 @@ Testing Public Page [PUB-14] - Insights & Articles (/insights) [PROTOTYPE MOCKUP
 Testing Public Page [PUB-15] - Article Detail (/insights/optimizing-healthcare-workforce-models-2026) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -191,7 +223,9 @@ Testing Public Page [PUB-15] - Article Detail (/insights/optimizing-healthcare-w
 Testing Public Page [PUB-16] - Frequently Asked Questions (/faqs) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -202,7 +236,9 @@ Testing Public Page [PUB-16] - Frequently Asked Questions (/faqs) [PROTOTYPE MOC
 Testing Public Page [PUB-17] - Contact Us (/contact) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -213,7 +249,9 @@ Testing Public Page [PUB-17] - Contact Us (/contact) [PROTOTYPE MOCKUP VIEW]
 Testing Public Page [PUB-18] - Partner With Us (/partner-with-us) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -224,7 +262,9 @@ Testing Public Page [PUB-18] - Partner With Us (/partner-with-us) [PROTOTYPE MOC
 Testing Public Page [PUB-19] - Request a Proposal (/request-proposal) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -235,7 +275,9 @@ Testing Public Page [PUB-19] - Request a Proposal (/request-proposal) [PROTOTYPE
 Testing Public Page [PUB-20] - Privacy Policy (/privacy-policy) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -246,7 +288,9 @@ Testing Public Page [PUB-20] - Privacy Policy (/privacy-policy) [PROTOTYPE MOCKU
 Testing Public Page [PUB-21] - Terms & Conditions (/terms) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -257,7 +301,9 @@ Testing Public Page [PUB-21] - Terms & Conditions (/terms) [PROTOTYPE MOCKUP VIE
 Testing Public Page [PUB-22] - System Error States (404 / 500) (/error) [PROTOTYPE MOCKUP VIEW]
   [PASS] 320px (Compact Mobile (iPhone SE)): innerW=320px, scrollW=320px, overflow=0px, errors=0
   [PASS] 360px (Standard Android Compact): innerW=360px, scrollW=360px, overflow=0px, errors=0
+  [PASS] 375px (Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)): innerW=375px, scrollW=375px, overflow=0px, errors=0
   [PASS] 390px (Modern iPhone Baseline (iPhone 12/13/14)): innerW=390px, scrollW=390px, overflow=0px, errors=0
+  [PASS] 414px (Plus/XR Mobile (iPhone 8 Plus / XR / 11)): innerW=414px, scrollW=414px, overflow=0px, errors=0
   [PASS] 428px (Large Mobile Phablet (iPhone Pro Max)): innerW=428px, scrollW=428px, overflow=0px, errors=0
   [PASS] 768px (Tablet Portrait (iPad Mini / Air)): innerW=768px, scrollW=768px, overflow=0px, errors=0
   [PASS] 1024px (Tablet Landscape / Small Laptop): innerW=1024px, scrollW=1009px, overflow=0px, errors=0
@@ -367,8 +413,8 @@ Testing Admin Module [ADM-19] - ADM-19: Immutable Audit Logs & Telemetry Monitor
 ======================================================================
 EXPANDED RESPONSIVE VERIFICATION EXECUTION SUMMARY
 ======================================================================
-Total Verification Checks: 264
-Passed:                    264 (100.0%)
+Total Verification Checks: 310
+Passed:                    310 (100.0%)
 Failed:                    0 (0.0%)
 ======================================================================
 Structured results saved to: C:\Users\voakh\Downloads\voak health\tests\results\phase-03-responsive-results.json

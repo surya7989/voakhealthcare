@@ -79,7 +79,7 @@ if (!browserPath) {
     timestamp: new Date().toISOString(),
     browserExecutable: null,
     browserVersion: null,
-    summary: { total: 264, passed: 0, failed: 0, notTested: 264 }
+    summary: { total: 310, passed: 0, failed: 0, notTested: 310 }
   };
   fs.writeFileSync(path.join(RESULTS_DIR, 'phase-03-responsive-results.json'), JSON.stringify(notTestedOutput, null, 2));
   process.exit(1);
@@ -111,7 +111,9 @@ const MIME_TYPES = {
 const PUBLIC_BREAKPOINTS = [
   { width: 320, height: 568, category: 'Compact Mobile (iPhone SE)' },
   { width: 360, height: 800, category: 'Standard Android Compact' },
+  { width: 375, height: 667, category: 'Standard iPhone Compact (iPhone SE 2/3 / 6/7/8)' },
   { width: 390, height: 844, category: 'Modern iPhone Baseline (iPhone 12/13/14)' },
+  { width: 414, height: 896, category: 'Plus/XR Mobile (iPhone 8 Plus / XR / 11)' },
   { width: 428, height: 926, category: 'Large Mobile Phablet (iPhone Pro Max)' },
   { width: 768, height: 1024, category: 'Tablet Portrait (iPad Mini / Air)' },
   { width: 1024, height: 768, category: 'Tablet Landscape / Small Laptop' },
@@ -225,7 +227,7 @@ async function runTests() {
   };
 
   log('======================================================================');
-  log('VOAK HEALTH CARE — PHASE 3 V7 EXPANDED RESPONSIVE VERIFICATION SUITE');
+  log('VOAK HEALTH CARE — PHASE 3 V10 EXPANDED RESPONSIVE VERIFICATION SUITE');
   log('======================================================================');
   log(`Timestamp: ${new Date().toISOString()}`);
   log(`Test Environment: Headless Edge CDP on port ${DEBUG_PORT}`);
@@ -254,7 +256,7 @@ async function runTests() {
   }
 
   const results = {
-    testSuite: 'Voak Health Care — Phase 3 V9 Expanded Responsive Automated Verification Suite',
+    testSuite: 'Voak Health Care — Phase 3 V10 Expanded Responsive Automated Verification Suite',
     browserExecutable: browserPath,
     browserVersion: browserVersion,
     timestamp: new Date().toISOString(),
@@ -265,10 +267,10 @@ async function runTests() {
   };
 
   // --------------------------------------------------------------------------
-  // PART 0: MASTER HOMEPAGE RESPONSIVE VERIFICATION (9 BREAKPOINTS)
+  // PART 0: MASTER HOMEPAGE RESPONSIVE VERIFICATION (11 BREAKPOINTS)
   // --------------------------------------------------------------------------
   log('======================================================================');
-  log('PART 0: MASTER HOMEPAGE RESPONSIVE VERIFICATION (LIVE ROOT × 9 BREAKPOINTS)');
+  log('PART 0: MASTER HOMEPAGE RESPONSIVE VERIFICATION (LIVE ROOT × 11 BREAKPOINTS)');
   log('======================================================================\n');
 
   await send('Runtime.evaluate', {
@@ -430,10 +432,10 @@ async function runTests() {
   log('');
 
   // --------------------------------------------------------------------------
-  // PART 1: PUBLIC PAGES MOCKUP INSPECTION (22 PAGES × 9 BREAKPOINTS)
+  // PART 1: PUBLIC PAGES MOCKUP INSPECTION (22 PAGES × 11 BREAKPOINTS)
   // --------------------------------------------------------------------------
   log('======================================================================');
-  log('PART 1: PUBLIC PAGES MOCKUP INSPECTION (22 PAGES × 9 BREAKPOINTS)');
+  log('PART 1: PUBLIC PAGES MOCKUP INSPECTION (22 PAGES × 11 BREAKPOINTS)');
   log('======================================================================\n');
 
   // Configure screen inspector modal for automated testing WITHOUT forced horizontal clipping

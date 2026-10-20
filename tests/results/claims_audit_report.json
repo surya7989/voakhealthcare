@@ -1,7 +1,7 @@
 {
   "status": "PASS",
   "total_rules": 14,
-  "total_lines_inspected": 4635,
+  "total_lines_inspected": 4670,
   "violations_count": 0,
   "violations": []
 }
