@@ -24,3 +24,11 @@ yarn-error.log*
 .idea/
 *.sublime-project
 *.sublime-workspace
+
+# PHP Backend & Composer
+backend/vendor/
+backend/.env
+*.log
+!**/.gitkeep
+
+
