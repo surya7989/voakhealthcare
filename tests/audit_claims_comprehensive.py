@@ -102,8 +102,113 @@ CLAIM_RULES = [
         "pattern": re.compile(r"[a-zA-Z0-9_.+-]+@(?!example\.invalid|.*\.invalid)[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+", re.I),
         "allowed_if_has": None,
         "ignore_patterns": [r"fonts\.googleapis\.com", r"schema\.org", r"w3\.org", r"localhost"]
+    },
+    {
+        "id": "RULE-CLM-11",
+        "description": "Unqualified vetting or credential guarantees ('vetted registered nurses', 'verified practitioner placement')",
+        "pattern": re.compile(r"vetted\s+registered\s+nurses|verified\s+practitioner\s+placement", re.I),
+        "allowed_if_has": r"\[(?:Credentialing & Vetting Protocols Subject to Client Contract|Verification Framework Pending Operational Sign-off|PENDING|PROPOSED)"
+    },
+    {
+        "id": "RULE-CLM-12",
+        "description": "Unqualified trust or partnership assertions ('Trusted Healthcare Partner', 'Trusted by Healthcare Organisations')",
+        "pattern": re.compile(r"Trusted\s+Healthcare\s+Partner|Trusted\s+by\s+Healthcare\s+Organisations", re.I),
+        "allowed_if_has": r"\[(?:DEMO|Demonstration Framework|PENDING|PROPOSED)"
+    },
+    {
+        "id": "RULE-CLM-13",
+        "description": "Unqualified uptime or availability guarantees ('zero downtime', '100% uptime')",
+        "pattern": re.compile(r"zero\s+downtime|100%\s+uptime", re.I),
+        "allowed_if_has": r"\[(?:Operational SLA Subject to Contract|Subject to SLA|PENDING|PROPOSED)"
+    },
+    {
+        "id": "RULE-CLM-14",
+        "description": "Unqualified statutory compliance or QA promises ('Rigorous clinical quality assurance', 'full compliance handoff')",
+        "pattern": re.compile(r"Rigorous\s+clinical\s+quality\s+assurance|full\s+compliance\s+handoff", re.I),
+        "allowed_if_has": r"\[(?:Governance Framework Pending Independent Clinical Audit|Operational SLA Subject to Contract|Framework Pending Operational Sign-off|PENDING|PROPOSED)"
     }
 ]
+
+# Regression Fixtures for Auditor Self-Verification
+FIXTURE_POSITIVE_CASES = [
+    ("RULE-CLM-01", "We guarantee no surge pricing for all hospital clients."),
+    ("RULE-CLM-02", "Unlike conventional agencies that use aggressive multiplier markups and call-center brokerage."),
+    ("RULE-CLM-03", "<h3>Primary-Source Verified</h3>"),
+    ("RULE-CLM-04", "Dedicated backup pools and transparent response escalation for your ward."),
+    ("RULE-CLM-05", "Electronic timesheet integration, and dedicated shift coordinator oversight included."),
+    ("RULE-CLM-06", "Quarterly governance meetings, shift fulfillment metric reviews, peer clinical assessments."),
+    ("RULE-CLM-07", "100-point biometric verification and verified clinical peer references."),
+    ("RULE-CLM-08", "We offer flexible B2B engagement models including Master Service Agreements."),
+    ("RULE-CLM-09", "Serving >250+ facilities< across the state."),
+    ("RULE-CLM-10", "Contact our clinical director at admin@voakhealth.com.au for immediate shifts."),
+    ("RULE-CLM-11", "Deploy vetted registered nurses for rapid clinical staffing."),
+    ("RULE-CLM-12", "Voak Health Care is your Trusted Healthcare Partner across the state."),
+    ("RULE-CLM-13", "Guaranteed zero downtime roster integration for all hospital wards."),
+    ("RULE-CLM-14", "Rigorous clinical quality assurance for every placement.")
+]
+
+FIXTURE_NEGATIVE_CASES = [
+    ("RULE-CLM-01", "Pricing models [Proposed capability & subject to bilateral client contract]."),
+    ("RULE-CLM-02", "Standard agency operating model comparison [Demonstration Framework]."),
+    ("RULE-CLM-03", "Primary-Source Verified [Proposed capability & subject to clinical compliance verification]."),
+    ("RULE-CLM-04", "Dedicated backup pools and transparent response escalation [Proposed capability & subject to operational SLA]."),
+    ("RULE-CLM-05", "Electronic timesheet integration, and dedicated shift coordinator oversight [Proposed capability & subject to facility IT integration]."),
+    ("RULE-CLM-06", "Quarterly governance meetings, shift fulfillment metric reviews, peer clinical assessments [Proposed capability & subject to contract terms]."),
+    ("RULE-CLM-07", "100-point biometric [Proposed capability] and verified clinical peer references [PENDING]."),
+    ("RULE-CLM-08", "We offer flexible B2B engagement models including Master Service Agreements [Proposed capability & subject to bilateral contract terms]."),
+    ("RULE-CLM-09", "Active Placements [METRIC TBD • PENDING APPROVAL]."),
+    ("RULE-CLM-10", "Inquiries routed to contact@example.invalid during demonstration."),
+    ("RULE-CLM-11", "Registered nurses [Credentialing & Vetting Protocols Subject to Client Contract]."),
+    ("RULE-CLM-12", "Serving Healthcare Organisations [Demonstration Framework]."),
+    ("RULE-CLM-13", "Targeted transition continuity with structured compliance handoff [Operational SLA Subject to Contract]."),
+    ("RULE-CLM-14", "Clinical quality assurance [Governance Framework Pending Independent Clinical Audit].")
+]
+
+def check_line_against_rules(line):
+    matches = []
+    for rule in CLAIM_RULES:
+        if "ignore_patterns" in rule:
+            if any(re.search(ig, line, re.I) for ig in rule["ignore_patterns"]):
+                continue
+        m = rule["pattern"].search(line)
+        if m:
+            if rule["allowed_if_has"] and re.search(rule["allowed_if_has"], line, re.I):
+                continue
+            matches.append((rule["id"], rule["description"], m.group(0)))
+    return matches
+
+def run_fixture_tests():
+    print("=" * 78)
+    print("RUNNING CLAIMS AUDITOR REGRESSION FIXTURE SELF-TESTS")
+    print("=" * 78)
+    passed = 0
+    total = len(FIXTURE_POSITIVE_CASES) + len(FIXTURE_NEGATIVE_CASES)
+
+    print("\n--- Positive Fixtures (Must Trigger Violations) ---")
+    pos_ok = True
+    for rule_id, sample in FIXTURE_POSITIVE_CASES:
+        violations = check_line_against_rules(sample)
+        detected = [v[0] for v in violations]
+        if rule_id in detected:
+            print(f"  [PASS] {rule_id}: correctly flagged violation")
+            passed += 1
+        else:
+            print(f"  [FAIL] {rule_id}: FAILED to flag unqualified sample -> '{sample}'")
+            pos_ok = False
+
+    print("\n--- Negative Fixtures (Must Pass Without Violations) ---")
+    neg_ok = True
+    for rule_id, sample in FIXTURE_NEGATIVE_CASES:
+        violations = check_line_against_rules(sample)
+        if not violations:
+            print(f"  [PASS] {rule_id}: correctly passed neutralized wording")
+            passed += 1
+        else:
+            print(f"  [FAIL] {rule_id}: FALSE POSITIVE violation -> {violations} on sample '{sample}'")
+            neg_ok = False
+
+    print(f"\nFixture Results: {passed}/{total} passed ({(passed/total)*100:.1f}%)")
+    return pos_ok and neg_ok
 
 def run_audit():
     violations = []
@@ -145,6 +250,7 @@ def run_audit():
 
     results = {
         "status": "PASS" if len(violations) == 0 else "FAIL",
+        "total_rules": len(CLAIM_RULES),
         "total_lines_inspected": inspected_count,
         "violations_count": len(violations),
         "violations": violations
@@ -156,10 +262,11 @@ def run_audit():
     with open(report_path, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
 
-    print(f"Total Lines Inspected: {inspected_count}")
-    print(f"Total Violations:      {len(violations)}")
-    print(f"Audit Status:          {results['status']}")
-    print(f"Report Generated:      {os.path.relpath(report_path, BASE_DIR)}\n")
+    print(f"Total Rules Configured: {len(CLAIM_RULES)}")
+    print(f"Total Lines Inspected:  {inspected_count}")
+    print(f"Total Violations:       {len(violations)}")
+    print(f"Audit Status:           {results['status']}")
+    print(f"Report Generated:       {os.path.relpath(report_path, BASE_DIR)}\n")
 
     if violations:
         print("[!] Unneutralized Claims Detected:")
@@ -172,5 +279,15 @@ def run_audit():
         return True
 
 if __name__ == "__main__":
-    ok = run_audit()
-    sys.exit(0 if ok else 1)
+    if "--fixtures-only" in sys.argv:
+        fixtures_ok = run_fixture_tests()
+        sys.exit(0 if fixtures_ok else 1)
+
+    fixtures_ok = run_fixture_tests()
+    if not fixtures_ok:
+        print("[!] Fixture self-tests failed! Halting audit.")
+        sys.exit(1)
+
+    print()
+    audit_ok = run_audit()
+    sys.exit(0 if audit_ok else 1)

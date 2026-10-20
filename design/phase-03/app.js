@@ -604,7 +604,7 @@ function renderFullPageScreen(page) {
         </div>
         <div class="footer-bottom">
           <p>&copy; 2026 Voak Health Care. All rights reserved. [Entity & Jurisdiction Subject to Confirmation]</p>
-          <div style="display: flex; gap: 1.5rem;">
+          <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
             <span>A11y Target: WCAG 2.2 AA Standard</span>
             <span>Canonical Route: ${page.route}</span>
           </div>
@@ -659,7 +659,7 @@ function renderPageSpecificBody(page) {
             <div class="hero-floating-facility-card">
               <img src="assets/images/hospital_building.jpg" alt="Healthcare Facility" class="facility-card-img" width="56" height="56">
               <div class="facility-card-body">
-                <span class="facility-card-label">Trusted Healthcare Partner</span>
+                <span class="facility-card-label">Healthcare Facility Partner [DEMO]</span>
                 <button class="facility-card-btn" aria-label="Learn more about partner facilities" onclick="inspectPage('PUB-10')">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </button>
@@ -716,7 +716,7 @@ function renderPageSpecificBody(page) {
               <span class="card-tag">PARTNER WITH US</span>
               <h2 class="card-title-lg">Grow Together</h2>
               <p class="card-desc">
-                Establish institutional service agreements, customized staffing frameworks, and accredited healthcare delivery partnerships.
+                Establish institutional service agreements, customized staffing frameworks, and structured healthcare delivery partnerships.
               </p>
               <div class="card-action-row">
                 <button class="card-pill-white-btn" onclick="showProposalWizard()">
@@ -753,7 +753,7 @@ function renderPageSpecificBody(page) {
                 </div>
                 <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Clinical Workforce & Staffing</h3>
                 <p style="margin-bottom: 1rem; font-size: 0.813rem; line-height: 1.45;">
-                  Vetted registered nurses and healthcare professionals for surge relief and facility placements.
+                  Registered nurses and healthcare professionals for surge relief and facility placements [Credentialing & Vetting Protocols Subject to Client Contract].
                 </p>
                 <span class="chip chip-purple" style="align-self: flex-start; margin-top: auto; font-size: 0.7rem;">ICU / ED / Acute</span>
               </div>
@@ -849,9 +849,9 @@ function renderPageSpecificBody(page) {
 
             <div class="trust-content-col">
               <span class="trust-tag">WHY VOAK</span>
-              <h2 class="trust-heading">Trusted by Healthcare Organisations</h2>
+              <h2 class="trust-heading">Serving Healthcare Organisations [Demonstration Framework]</h2>
               <p class="trust-desc">
-                We combine clinical governance with operational reliability, supporting healthcare networks with verified practitioner placement, workforce coordination, and institutional accountability.
+                We combine clinical governance with operational reliability, supporting healthcare networks with structured practitioner placement [Verification Framework Pending Operational Sign-off], workforce coordination, and institutional accountability.
               </p>
               <button class="trust-learn-btn" onclick="inspectPage('PUB-07')">
                 Learn More
@@ -891,7 +891,7 @@ function renderPageSpecificBody(page) {
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;">
+          <div class="industries-cards-grid">
             <div class="bento-card" style="border-top: 4px solid var(--voak-purple-cta);">
               <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Public & Private Hospitals</h3>
               <p style="font-size: 0.875rem;">Emergency department staffing, ICU nurse allocation, and acute surgical team support.</p>
@@ -934,7 +934,7 @@ function renderPageSpecificBody(page) {
             <div class="step-card">
               <div class="step-number-chip">03</div>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Deployment & Integration</h3>
-              <p style="font-size: 0.875rem;">Seamless onboarding into your roster systems with zero downtime and full compliance handoff.</p>
+              <p style="font-size: 0.875rem;">Targeted transition continuity into your roster systems with structured compliance handoff [Operational SLA Subject to Contract].</p>
             </div>
             <div class="step-card">
               <div class="step-number-chip">04</div>
@@ -947,7 +947,7 @@ function renderPageSpecificBody(page) {
         <!-- SECTION 11: PARTNER CTA BANNER -->
         <section class="partner-cta-card">
           <h2>Transform Your Healthcare Operations Today</h2>
-          <p>Partner with Voak Health Care to secure accredited workforce reliability, operational excellence, and peace of mind.</p>
+          <p>Partner with Voak Health Care to secure governed workforce reliability, operational excellence, and peace of mind.</p>
           <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
             <button class="btn btn-pill-yellow" onclick="showProposalWizard()">Request Formal Proposal</button>
             <button class="btn btn-outline" style="border-color: #FFF; color: #FFF;" onclick="inspectPage('PUB-17')">Schedule Discovery Call</button>
@@ -1101,7 +1101,7 @@ function renderPageSpecificBody(page) {
             <span class="chip chip-info" style="margin-bottom: 0.75rem;">Service Pillar 01 &bull; FR-PUB-006</span>
             <h1 style="font-family: var(--font-serif); font-size: 2.75rem; color: var(--voak-navy); margin-bottom: 1rem;">Clinical Workforce Solutions</h1>
             <p style="font-size: 1.15rem; color: var(--voak-muted); max-width: 720px; line-height: 1.6;">
-              Dependable staffing for specialized clinical environments. Providing vetted registered nurses, clinical coordinators, and emergency healthcare professionals for short-term surge relief and planned facility placements.
+              Dependable staffing for specialized clinical environments. Providing registered nurses [Credentialing & Vetting Protocols Subject to Client Contract], clinical coordinators, and emergency healthcare professionals for short-term surge relief and planned facility placements.
             </p>
           </div>
         </div>
@@ -1147,7 +1147,7 @@ function renderPageSpecificBody(page) {
           </p>
         </div>
         <div style="padding: 3rem 2.5rem; max-width: 1200px; margin: 0 auto;">
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3rem;">
+          <div class="grid-3col-responsive" style="gap: 2rem; margin-bottom: 3rem;">
             <div style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-xl); padding: 2rem; border-top: 4px solid var(--voak-purple-cta);">
               <span class="card-tag">Public Healthcare</span>
               <h3 style="font-size: 1.35rem; color: var(--voak-navy); margin: 0.75rem 0 0.5rem 0;">Public Hospital Networks</h3>
@@ -1219,7 +1219,7 @@ function renderPageSpecificBody(page) {
             <div style="background: #F8FAFC; padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid #E2E8F0;">
               <h4 style="font-size: 1.15rem; color: var(--voak-navy); margin-bottom: 0.5rem;">Voak Hospital Solutions</h4>
               <ul style="padding-left: 1.25rem; font-size: 0.9rem; color: var(--voak-muted); line-height: 1.8;">
-                <li>Pre-credentialed, verified clinical talent pools</li>
+                <li>Pre-credentialed clinical talent pools [Credentialing Protocols Subject to Client Contract]</li>
                 <li>Rapid escalation workflows for unexpected ward surges</li>
                 <li>Clinical account coordination workflows [TARGET WORKFLOW &bull; PENDING CLIENT CONTRACT]</li>
                 <li>Transparent, audited billing with zero hidden markup</li>
@@ -1247,7 +1247,7 @@ function renderPageSpecificBody(page) {
         </div>
         <div style="padding: 3rem 2.5rem; max-width: 1100px; margin: 0 auto;">
           <!-- Comparison Table -->
-          <div style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-xl); overflow: hidden; margin-bottom: 3rem; box-shadow: var(--shadow-sm);">
+          <div class="table-responsive-wrapper" style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-xl); margin-bottom: 3rem; box-shadow: var(--shadow-sm);">
             <table class="admin-table" style="margin: 0;">
               <thead>
                 <tr style="background: #F8FAFC;">
@@ -1343,7 +1343,7 @@ function renderPageSpecificBody(page) {
           <span class="preview-badge" style="background: var(--voak-sky); color: #FFF;">Clinical Governance</span>
           <h1 style="font-family: var(--font-serif); font-size: 3rem; color: var(--voak-navy); margin: 1rem 0;">Quality & Compliance Framework</h1>
           <p style="max-width: 680px; margin: 0 auto; color: var(--voak-muted); font-size: 1.125rem;">
-            Rigorous clinical quality assurance, multi-tier verification protocols, and healthcare statutory compliance.
+            Proposed clinical quality assurance framework, multi-tier credentialing baselines, and healthcare statutory compliance alignment [Framework Pending Operational Sign-off].
           </p>
         </div>
         <div style="padding: 3rem 2.5rem; max-width: 1000px; margin: 0 auto;">
@@ -1351,7 +1351,7 @@ function renderPageSpecificBody(page) {
           <div style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-xl); padding: 2.5rem; margin-bottom: 2.5rem;">
             <h3 style="font-size: 1.4rem; color: var(--voak-navy); margin-bottom: 0.5rem;">5-Point Primary-Source Credentialing Framework <span class="chip chip-warning" style="font-size: 0.65rem; padding: 2px 6px;">PROPOSED FRAMEWORK &bull; PENDING CONFIRMATION</span></h3>
             <p style="font-size: 0.813rem; color: var(--voak-muted); margin-bottom: 1.5rem;">[FRAMEWORK PARAMETERS & STATUTORY BOARD DETAILS PENDING OPERATIONAL CONFIRMATION]</p>
-            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; text-align: center;">
+            <div class="grid-5col-responsive" style="gap: 1rem; text-align: center;">
               <div style="background: #F8FAFC; padding: 1rem; border-radius: var(--radius-md); border: 1px solid #E2E8F0;">
                 <div style="font-weight: 800; color: var(--voak-purple-cta); font-size: 1.2rem;">01</div>
                 <strong style="display: block; font-size: 0.813rem; margin: 0.25rem 0;">Identity</strong>
@@ -1397,7 +1397,7 @@ function renderPageSpecificBody(page) {
         </div>
         <div style="padding: 3rem 2.5rem; max-width: 1000px; margin: 0 auto;">
           <!-- Partnership Categories -->
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem;">
+          <div class="grid-3col-responsive" style="gap: 1.5rem; margin-bottom: 3rem;">
             <div style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-lg); padding: 1.75rem;">
               <h4 style="font-size: 1.2rem; color: var(--voak-navy); margin-bottom: 0.5rem;">Health System Alliances</h4>
               <p style="font-size: 0.85rem; color: var(--voak-muted); line-height: 1.5;">Structured workforce agreements with metropolitan and regional healthcare networks.</p>
@@ -1435,19 +1435,19 @@ function renderPageSpecificBody(page) {
             Real-world evidence of how Voak Health Care stabilizes hospital rosters, maintains compliance, and mitigates staffing risk.
           </p>
         </div>
-        <div style="padding: 3rem 2.5rem; max-width: 1100px; margin: 0 auto;">
+        <div style="padding: 2.5rem 1.25rem; max-width: 1100px; margin: 0 auto; box-sizing: border-box;">
           <!-- Compliance Quarantine Notice for Case Studies -->
-          <div style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 2.5rem; text-align: left;">
-            <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
-              <span class="chip chip-warning" style="flex-shrink: 0;">CONTENT PENDING APPROVAL</span>
-              <p style="margin: 0; font-size: 0.875rem; color: #92400E; line-height: 1.5;">
+          <div style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 2.5rem; text-align: left; box-sizing: border-box;">
+            <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-start;">
+              <span class="chip chip-warning" style="margin-bottom: 0.25rem;">CONTENT PENDING APPROVAL</span>
+              <p style="margin: 0; font-size: 0.875rem; color: #92400E; line-height: 1.5; flex: 1 1 200px; min-width: 0;">
                 <strong>Governance & Privacy Notice:</strong> In accordance with corporate compliance rules and client confidentiality covenants, formal case studies, institutional identifiers, and quantitative outcome statistics are published only following executed bilateral release deeds. The cards below illustrate the canonical Problem-Intervention-Outcome format required by Phase 1 (FR-PUB-013).
               </p>
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3rem;">
-            <div style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-xl); padding: 2rem; display: flex; flex-direction: column;">
+          <div class="grid-3col-responsive" style="gap: 1.5rem; margin-bottom: 3rem;">
+            <div style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-xl); padding: 1.5rem 1.25rem; display: flex; flex-direction: column; min-width: 0; box-sizing: border-box;">
               <span class="chip chip-warning" style="align-self: flex-start; margin-bottom: 0.75rem;">ILLUSTRATIVE TEMPLATE &bull; PENDING RELEASE</span>
               <h3 style="font-size: 1.3rem; color: var(--voak-navy); margin-bottom: 0.5rem;">Critical Care Shift Stabilization</h3>
               <p style="font-size: 0.85rem; color: var(--voak-muted); line-height: 1.5; margin-bottom: 1rem;"><strong>Challenge:</strong> Roster vacancy across intensive care units during seasonal admissions surge.</p>
@@ -1457,7 +1457,7 @@ function renderPageSpecificBody(page) {
               </div>
             </div>
 
-            <div style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-xl); padding: 2rem; display: flex; flex-direction: column;">
+            <div style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-xl); padding: 1.5rem 1.25rem; display: flex; flex-direction: column; min-width: 0; box-sizing: border-box;">
               <span class="chip chip-warning" style="align-self: flex-start; margin-bottom: 0.75rem;">ILLUSTRATIVE TEMPLATE &bull; PENDING RELEASE</span>
               <h3 style="font-size: 1.3rem; color: var(--voak-navy); margin-bottom: 0.5rem;">Emergency Department Continuity</h3>
               <p style="font-size: 0.85rem; color: var(--voak-muted); line-height: 1.5; margin-bottom: 1rem;"><strong>Challenge:</strong> Healthcare facility facing emergency triage continuity challenges due to staffing transitions.</p>
@@ -1467,7 +1467,7 @@ function renderPageSpecificBody(page) {
               </div>
             </div>
 
-            <div style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-xl); padding: 2rem; display: flex; flex-direction: column;">
+            <div style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-xl); padding: 1.5rem 1.25rem; display: flex; flex-direction: column; min-width: 0; box-sizing: border-box;">
               <span class="chip chip-warning" style="align-self: flex-start; margin-bottom: 0.75rem;">ILLUSTRATIVE TEMPLATE &bull; PENDING RELEASE</span>
               <h3 style="font-size: 1.3rem; color: var(--voak-navy); margin-bottom: 0.5rem;">Compliance Audit Turnaround</h3>
               <p style="font-size: 0.85rem; color: var(--voak-muted); line-height: 1.5; margin-bottom: 1rem;"><strong>Challenge:</strong> Facility requiring clinical documentation and credentialing governance alignment.</p>
@@ -1491,7 +1491,7 @@ function renderPageSpecificBody(page) {
         </div>
         <div style="padding: 3rem 2.5rem; max-width: 1000px; margin: 0 auto;">
           <!-- Value Cards -->
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem;">
+          <div class="grid-3col-responsive" style="gap: 1.5rem; margin-bottom: 3rem;">
             <div style="background: #FFF; padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--voak-border-subtle);">
               <h4 style="font-size: 1.15rem; color: var(--voak-navy); margin-bottom: 0.5rem;">Flexible Rostering</h4>
               <p style="font-size: 0.85rem; color: var(--voak-muted); line-height: 1.5;">Choose shift schedules that align with your lifestyle across acute, aged care, and community facilities.</p>
@@ -1502,7 +1502,7 @@ function renderPageSpecificBody(page) {
             </div>
             <div style="background: #FFF; padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--voak-border-subtle);">
               <h4 style="font-size: 1.15rem; color: var(--voak-navy); margin-bottom: 0.5rem;">Clinical Liaison Support</h4>
-              <p style="font-size: 0.85rem; color: var(--voak-muted); line-height: 1.5;">Structured clinical coordination pathways to support your facility placements during operational hours [24/7 SUPPORT PENDING APPROVAL].</p>
+              <p style="font-size: 0.85rem; color: var(--voak-muted); line-height: 1.5;">Structured clinical coordination pathways to support your facility placements during standard operational hours [Extended Shift Coordination Subject to Formal Agreement].</p>
             </div>
           </div>
 
@@ -1574,7 +1574,7 @@ function renderPageSpecificBody(page) {
                 </div>
                 <div class="form-group">
                   <label class="form-label form-label-required">Phone (International Format)</label>
-                  <input type="tel" class="form-control" placeholder="+61 412 345 678" required>
+                  <input type="tel" class="form-control" placeholder="+61 491 570 006" required>
                 </div>
               </div>
               <div class="form-group">
@@ -1615,7 +1615,7 @@ function renderPageSpecificBody(page) {
           </div>
 
           <!-- Featured Article -->
-          <div style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-2xl); overflow: hidden; margin-bottom: 3rem; box-shadow: var(--shadow-sm); display: grid; grid-template-columns: 1fr 1fr;">
+          <div class="grid-2col-responsive" style="background: #FFF; border: 1px solid var(--voak-border-subtle); border-radius: var(--radius-2xl); overflow: hidden; margin-bottom: 3rem; box-shadow: var(--shadow-sm);">
             <div style="padding: 3rem; display: flex; flex-direction: column; justify-content: center;">
               <span class="chip chip-purple" style="align-self: flex-start; margin-bottom: 0.75rem;">Featured Editorial</span>
               <h2 style="font-family: var(--font-serif); font-size: 1.85rem; color: var(--voak-navy); margin-bottom: 1rem; line-height: 1.25;">Optimizing Healthcare Workforce Models in 2026</h2>
@@ -1636,13 +1636,13 @@ function renderPageSpecificBody(page) {
           </div>
 
           <!-- Newsletter Proposed Box -->
-          <div style="background: #FAF5FF; border: 1px solid #E9D5FF; border-radius: var(--radius-lg); padding: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+          <div style="background: #FAF5FF; border: 1px solid #E9D5FF; border-radius: var(--radius-lg); padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
             <div>
               <span class="chip chip-warning" style="font-size: 0.7rem; margin-bottom: 0.25rem;">[PROPOSED &bull; PENDING AUTHORIZATION]</span>
               <h4 style="font-size: 1.1rem; color: #581C87; margin: 0.25rem 0;">Subscribe to Quarterly Healthcare Executive Briefings</h4>
               <p style="font-size: 0.813rem; color: #7E22CE; margin: 0;">Curated clinical workforce analysis delivered directly to healthcare leadership desks.</p>
             </div>
-            <button class="btn btn-outline" style="border-color: #7E22CE; color: #7E22CE; white-space: nowrap;" onclick="alert('Newsletter subscription feature is currently PROPOSED and awaiting client authorization.')">Join Proposed Dispatch</button>
+            <button class="btn btn-outline" style="border-color: #7E22CE; color: #7E22CE;" onclick="alert('Newsletter subscription feature is currently PROPOSED and awaiting client authorization.')">Join Proposed Dispatch</button>
           </div>
         </div>
       `;
@@ -1770,7 +1770,7 @@ function renderPageSpecificBody(page) {
                 </div>
                 <div class="form-group">
                   <label class="form-label form-label-required">Phone (International Format)</label>
-                  <input type="tel" class="form-control" placeholder="+61 400 123 456 or +1 555 123 4567" required>
+                  <input type="tel" class="form-control" placeholder="+61 491 570 007 or +1 555 0100" required>
                 </div>
               </div>
               <div class="form-group">
@@ -2064,7 +2064,7 @@ const ADMIN_MODULES = {
     title: 'ADM-02: Authentication & Multi-Factor Security (MFA Portal)',
     allowedRoles: ['ROLE_SUPER_ADMIN', 'ROLE_WEBSITE_ADMIN', 'ROLE_CONTENT_EDITOR', 'ROLE_BD_MANAGER', 'ROLE_HR_MANAGER'],
     render: () => `
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+      <div class="admin-grid-2col" style="gap: 2rem;">
         <div class="admin-card">
           <div class="admin-card-header">
             <span class="preview-badge" style="background: var(--voak-navy);">FORM-ADM-01 & FORM-ADM-03</span>
@@ -2190,7 +2190,7 @@ const ADMIN_MODULES = {
           </div>
           <button class="btn btn-primary" style="padding: 0.45rem 1rem; font-size: 0.813rem;">Publish Page</button>
         </div>
-        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem;">
+        <div class="admin-sidebar-layout">
           <div style="border-right: 1px solid var(--admin-border); padding-right: 1rem;">
             <div style="font-size: 0.75rem; font-weight: 700; color: #64748B; margin-bottom: 0.5rem;">SELECT PAGE:</div>
             <div style="display: flex; flex-direction: column; gap: 0.4rem;">
@@ -2233,7 +2233,7 @@ Voak Health Care partners with healthcare institutions to provide reliable clini
         <p style="font-size: 0.875rem; color: var(--voak-muted); margin-bottom: 1.5rem;">
           Configure hero title, floating healthcare badges, and bento card arrangement adhering to the approved Image 2 aesthetic benchmark.
         </p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div class="admin-grid-2col" style="gap: 1.5rem;">
           <div style="background: #F8FAFC; padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid #E2E8F0;">
             <div class="form-group">
               <label class="form-label">Hero Headline</label>
@@ -2322,7 +2322,7 @@ Voak Health Care partners with healthcare institutions to provide reliable clini
           <h3 class="admin-card-title">Healthcare Industry Verticals</h3>
           <button class="btn btn-primary" style="padding: 0.45rem 1rem; font-size: 0.813rem;">+ Add Sector</button>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+        <div class="grid-3col-responsive" style="gap: 1.5rem;">
           <div style="border: 1px solid var(--admin-border); border-radius: var(--radius-md); padding: 1.25rem;">
             <span class="chip chip-info" style="margin-bottom: 0.5rem;">HOSPITAL</span>
             <h4 style="font-size: 1.15rem; color: var(--voak-navy);">Hospitals & Health Services</h4>
@@ -2365,7 +2365,7 @@ Voak Health Care partners with healthcare institutions to provide reliable clini
         </div>
 
         <h4 style="font-size: 1.15rem; margin-bottom: 1rem;">Verified Media Library</h4>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
+        <div class="grid-3col-responsive" style="gap: 1.25rem;">
           <div style="border: 1px solid var(--admin-border); border-radius: var(--radius-sm); overflow: hidden;">
             <img src="assets/images/hero_doctor.jpg" alt="Doctor thumbnail" style="height: 140px; width: 100%; object-fit: cover;">
             <div style="padding: 0.75rem; font-size: 0.75rem;">
@@ -2417,7 +2417,7 @@ Voak Health Care partners with healthcare institutions to provide reliable clini
               <td>[SIMULATED ENQUIRER A]</td>
               <td>[DEMO FACILITY] Regional Health Network</td>
               <td>inquiry-a.demo@example.invalid</td>
-              <td>+61 2 9000 0001 (Simulated)</td>
+              <td>+61 2 7010 1111 (Demonstration)</td>
               <td><span class="chip chip-warning">NEW</span></td>
               <td><button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Triage</button></td>
             </tr>
@@ -2426,7 +2426,7 @@ Voak Health Care partners with healthcare institutions to provide reliable clini
               <td>[SIMULATED ENQUIRER B]</td>
               <td>[DEMO FACILITY] Aged Care Facility</td>
               <td>inquiry-b.demo@example.invalid</td>
-              <td>+61 2 9000 0002 (Simulated)</td>
+              <td>+61 2 7010 1112 (Demonstration)</td>
               <td><span class="chip chip-info">TRIAGED</span></td>
               <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">View Notes</button></td>
             </tr>
@@ -2451,7 +2451,7 @@ Voak Health Care partners with healthcare institutions to provide reliable clini
         <p style="font-size: 0.875rem; color: var(--voak-muted); margin-bottom: 1.5rem;">
           Restricted CRM gate: Only Super Admin and BD Manager can view organizational alliance proposals.
         </p>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+        <div class="kanban-grid-4col">
           <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 1rem; border-radius: var(--radius-md);">
             <div style="font-weight: 700; color: #475569; font-size: 0.813rem; margin-bottom: 0.5rem;">STAGE 1: INITIAL (2)</div>
             <div style="background: #FFF; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid #CBD5E1; margin-bottom: 0.5rem; font-size: 0.813rem;">
@@ -2549,7 +2549,7 @@ Voak Health Care partners with healthcare institutions to provide reliable clini
           </div>
           <button class="btn btn-primary" style="padding: 0.45rem 1rem; font-size: 0.813rem;">+ New Template</button>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div class="admin-grid-2col" style="gap: 1.5rem;">
           <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 1.25rem; border-radius: var(--radius-md);">
             <div class="form-group">
               <label class="form-label">Subject Line Template</label>
@@ -2662,7 +2662,7 @@ Voak Health Care partners with healthcare institutions to provide reliable clini
             <tr>
               <td><strong>[SIMULATED CANDIDATE A] Clinical Nurse Specialist</strong></td>
               <td>Clinical Nurse Specialist</td>
-              <td>candidate-a.demo@example.invalid<br>+61 400 000 001 (Simulated)</td>
+              <td>candidate-a.demo@example.invalid<br>+61 491 570 008 (Demonstration)</td>
               <td>REG-DEMO-001 [MOCK]</td>
               <td><span class="chip chip-info">Resume_Simulated_A.pdf (Quarantined)</span></td>
               <td><span class="chip chip-success">SCREENING</span></td>
@@ -2671,7 +2671,7 @@ Voak Health Care partners with healthcare institutions to provide reliable clini
             <tr>
               <td><strong>[SIMULATED CANDIDATE B] Emergency Room Nurse</strong></td>
               <td>Emergency Room Nurse</td>
-              <td>candidate-b.demo@example.invalid<br>+61 400 000 002 (Simulated)</td>
+              <td>candidate-b.demo@example.invalid<br>+61 491 570 009 (Demonstration)</td>
               <td>REG-DEMO-002 [MOCK]</td>
               <td><span class="chip chip-info">Resume_Simulated_B.docx (Quarantined)</span></td>
               <td><span class="chip chip-warning">APPLIED</span></td>
@@ -2775,7 +2775,7 @@ Voak Health Care partners with healthcare institutions to provide reliable clini
           <h3 class="admin-card-title">SEO Meta Controls, 301 Redirects & XML Sitemap</h3>
           <button class="btn btn-primary" style="padding: 0.45rem 1rem; font-size: 0.813rem;">Rebuild XML Sitemap</button>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div class="admin-grid-2col" style="gap: 1.5rem;">
           <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 1.25rem; border-radius: var(--radius-md);">
             <h4 style="font-size: 1rem; margin-bottom: 0.75rem;">Automated 301 Redirect Manager</h4>
             <div style="font-size: 0.813rem; color: var(--voak-muted); margin-bottom: 1rem;">
@@ -2813,7 +2813,7 @@ Voak Health Care partners with healthcare institutions to provide reliable clini
         <p style="font-size: 0.875rem; color: var(--voak-muted); margin-bottom: 1.5rem;">
           Geographic neutrality settings: Corporate legal name, headquarters address, and default country phone code are configurable parameters rather than hardcoded assumptions.
         </p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div class="admin-grid-2col" style="gap: 1.5rem;">
           <div class="form-group">
             <label class="form-label">Legal Entity Name</label>
             <input type="text" class="form-control" value="Voak Health Care [Confirmation Pending]">
@@ -3099,7 +3099,7 @@ function renderWizardStep() {
           </div>
           <div class="form-group">
             <label class="form-label form-label-required">Lead Contact Phone (International)</label>
-            <input type="tel" class="form-control" id="wiz-phone" placeholder="+61 400 123 456 or international format">
+            <input type="tel" class="form-control" id="wiz-phone" placeholder="+61 491 570 006 or international format">
           </div>
         </div>
         <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">

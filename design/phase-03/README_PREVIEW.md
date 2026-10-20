@@ -1,10 +1,10 @@
-# Voak Health Care — Phase 3 V7 UI/UX Design System Review Package
-## Reconciled Master Visual Prototype & Evidence Package (V7 Corrections After Independent Audit)
+# Voak Health Care — Phase 3 V9 UI/UX Design System Review Package
+## Reconciled Master Visual Prototype & Evidence Package (V9 Corrective Package)
 
-**Package:** `VOAK_PHASE_3_DESIGN_REVIEW_v7.zip`  
-**Phase:** Phase 3 of 31 — Professional UI/UX Design (V7 Reconciled Acceptance Baseline)  
-**Date:** October 19, 2026  
-**Status:** PHASE 3 AUDITED, CORRECTED & INDEPENDENTLY VERIFIED — STRICT PHASE GATE HALT (PHASE 4 NOT AUTHORIZED)  
+**Package:** `VOAK_PHASE_3_DESIGN_REVIEW_v9.zip`  
+**Phase:** Phase 3 of 31 — Professional UI/UX Design (V9 Corrective Baseline)  
+**Date:** October 20, 2026  
+**Status:** PHASE 3 NOT ACCEPTED (SUBMITTED FOR INDEPENDENT ACCEPTANCE REVIEW) — PHASE 4 STRICTLY NOT AUTHORIZED  
 **Total Scope:** Exactly 32 Phases (Phase 0 through Phase 31)
 
 ---
@@ -30,7 +30,34 @@ You can inspect the prototype in either of two ways:
 
 ---
 
-### 2. Prototype Features & Key Inspection Views
+### 2. V9 Corrective Implementation Summary
+
+Following a strict independent architectural and quality audit of the V7 package, all verified defects have been addressed at root cause:
+
+1. **Elimination of Overflow Suppression at Root Cause:**
+   - In V7, `overflow-x: hidden` was applied on `body`, `.admin-shell`, `.admin-main-area`, and responsive media queries to suppress container blowouts.
+   - In V8, all `overflow-x: hidden` suppression rules have been removed from `styles.css`. Layouts were fixed at source via proportional grid columns, flexible min-widths, and clamped element widths.
+   - Verified across all 22 public pages and 19 admin modules at viewports from 320px to 1920px: **0px horizontal blowout without overflow suppression**.
+
+2. **Synchronized Screenshot Telemetry (0 Discrepancies):**
+   - Recaptured all 50 prototype screenshots using a 2-phase viewport reflow CDP engine.
+   - True physical image dimensions extracted directly from binary PNG IHDR chunks (`readUInt32BE(16/20)`).
+   - `tests/screenshot_capture_manifest.json` and `tests/screenshot_metrics.json` are generated simultaneously from the exact same image buffers, eliminating all 27 manifest height disagreements.
+   - Legitimate duplicate documented: `05_admin_dashboard.png` is the canonical overview alias of `admin_modules/admin_adm-01_preview.png`.
+
+3. **Honest Traceability Resolution (`PAGE-PUB-10` vs `FR-PUB-004`):**
+   - In accepted Phase 1 `15_REQUIREMENTS_TRACEABILITY_MATRIX.md` line 44, `FR-PUB-004` is explicitly mapped to `PAGE-PUB-01` (Homepage).
+   - `PAGE-PUB-10` (/partners-clients) is detailed in `02_PUBLIC_PAGE_BY_PAGE_SPECIFICATIONS.md` but was omitted from the RTM table ledger.
+   - In accordance with mandatory governance stop conditions, Phase 0–2 accepted documents were preserved untouched. `tests/reconcile_baseline.py` now honestly reports this mapping as **`BLOCKED (Requires business-owner decision)`** rather than forcing a synthetic PASS.
+
+4. **Business Claims Neutralization & Standardized Demonstration Data:**
+   - All operational claims, SLA targets, and competitor statements neutralized or qualified with visible `[Proposed capability — pending formal business confirmation]` tags.
+   - All simulated telephone numbers replaced with official ACMA-reserved demonstration numbers (`+61 491 570 006..009`, `+61 2 7010 1111..1112`).
+   - All demonstration emails strictly use RFC-reserved `.invalid` top-level domains.
+
+---
+
+### 3. Prototype Features & Key Inspection Views
 
 Use the top preview navigation toolbar inside the prototype to switch between master views:
 
@@ -47,10 +74,10 @@ Use the top preview navigation toolbar inside the prototype to switch between ma
 2. **Mobile Homepage (`#mobile`):**
    - Single-column responsive composition verified across 320px, 360px, 390px, and 428px.
    - Full content parity: preserves all master sections (Hero with collage, 3 Feature cards with photos, all 8 Service tiles, Trust strip with circular portrait and metrics, Industries, Workflow, Partner CTA, and Footer).
-   - Exact 0px horizontal overflow across all mobile viewports.
+   - Exact 0px horizontal overflow across all mobile viewports without CSS overflow suppression.
 
 3. **All 22 Public Pages (`#pages`):**
-   - Reconciled canonical requirement IDs (`PUB-01` mapped to `FR-PUB-002`, `PUB-10` mapped to `FR-PUB-004`, `PUB-20` & `PUB-21` mapped to `FR-PUB-022`).
+   - Reconciled canonical page catalog (`PAGE-PUB-01` to `PAGE-PUB-22`).
    - Full master parity in `renderFullPageScreen('PUB-01')`: renders master hero collage, 3 feature cards, 8 service tiles, and 4-column trust strip.
    - Preserves all 22 public pages including `PAGE-PUB-10 — Partners & Clients`, `/request-proposal`, and `/faqs`.
    - Click **"Inspect Screen →"** on any page card to launch the **Full-Page Screen Inspector**, rendering a complete, full-scale high-fidelity mockup with page-specific hero, body sections, cards, and footer.
@@ -58,7 +85,7 @@ Use the top preview navigation toolbar inside the prototype to switch between ma
 4. **All 19 Admin Modules (`#admin`):**
    - Deep slate-navy sidebar (`#0F172A`) containing all 19 canonical modules (`ADM-01` to `ADM-19`).
    - **Least-Privilege RBAC Simulator:** Switch between the 5 canonical roles (`Super Admin`, `Website Admin`, `Content Editor`, `BD Manager`, `HR Manager`). Unauthorized module access triggers a **SIMULATED 403 ACCESS DENIED** card.
-   - All records watermarked `[DEMO DATA ONLY — SIMULATED RECORDS]` with simulated identities and `*.demo@example.invalid` emails.
+   - All records watermarked `[DEMO DATA ONLY — SIMULATED RECORDS]` with simulated identities, ACMA demo telephone numbers, and `*.demo@example.invalid` emails.
    - Admin UI labeled as a **Proposed Design Concept (Not Approved)** awaiting explicit client authorization.
 
 5. **Component & Design Token System (`#components`):**
@@ -75,17 +102,18 @@ Use the top preview navigation toolbar inside the prototype to switch between ma
 
 ---
 
-### 3. Package File Structure & Screenshot Inventory
+### 4. Package File Structure & Screenshot Inventory
 
 The archive contains exactly the following files:
 
 ```
-VOAK_PHASE_3_DESIGN_REVIEW_v7/
+VOAK_PHASE_3_DESIGN_REVIEW_v8/
 ├── index.html                                        # Master navigable visual prototype shell
-├── styles.css                                        # Master design tokens & stylesheet
+├── styles.css                                        # Master design tokens & stylesheet (no overflow suppression)
 ├── app.js                                            # Prototype logic (22 public mockups, 19 admin modules, role simulator)
 ├── serve.js                                          # Local HTTP preview server (port 4173)
-├── README_PREVIEW.md                                 # This preview guide and file manifest
+├── README_PREVIEW.md
+├── package_manifest.json                             # Canonical archive-to-repo path reconciliation manifest                                 # This preview guide and file manifest
 ├── assets/
 │   └── images/
 │       ├── hero_doctor.jpg                           # High-res healthcare professional portrait
@@ -138,7 +166,7 @@ VOAK_PHASE_3_DESIGN_REVIEW_v7/
 │       ├── page_pub-09_preview.png                   # PUB-09 Quality & Compliance (1440 × 1907 px)
 │       ├── page_pub-10_preview.png                   # PUB-10 Partners & Clients (1440 × 1991 px)
 │       ├── page_pub-11_preview.png                   # PUB-11 Case Studies (1440 × 2075 px)
-│       ├── page_pub-12_preview.png                   # PUB-12 Careers Hub (1440 × 2188 px)
+│       ├── page_pub-12_preview.png                   # PUB-12 Careers Hub (1440 × 2208 px)
 │       ├── page_pub-13_preview.png                   # PUB-13 Job Detail & App (1440 × 1990 px)
 │       ├── page_pub-14_preview.png                   # PUB-14 Insights & Articles (1440 × 2030 px)
 │       ├── page_pub-15_preview.png                   # PUB-15 Article Detail (1440 × 2236 px)
@@ -171,7 +199,7 @@ VOAK_PHASE_3_DESIGN_REVIEW_v7/
 
 ---
 
-### 4. Running Independent Verification Scripts
+### 5. Running Independent Verification Scripts
 
 From the clean extracted package root:
 
@@ -179,10 +207,10 @@ From the clean extracted package root:
 # 1. Baseline reconciliation (verifies exact 32 phases, 62 FRs, 62 tests, 22 pages, 19 modules, 5 roles, 12 forms)
 python tests/reconcile_baseline.py
 
-# 2. Screenshot telemetry & reference integrity verifier
+# 2. Screenshot telemetry & reference integrity verifier (50 screenshots + authentic Image 2)
 python tests/measure_and_verify_screenshots.py
 
-# 3. Comprehensive business claims audit
+# 3. Comprehensive business claims audit (4,631 source lines inspected)
 python tests/audit_claims_comprehensive.py
 
 # 4. Expanded responsive layout sweep (264 checks across 9 breakpoints)
@@ -191,11 +219,11 @@ node tests/test_expanded_responsive.js
 
 ---
 
-### 5. Governance & Roadmap Boundary Status
+### 6. Governance & Roadmap Boundary Status
 
 - **Phase 0:** ACCEPTED
 - **Phase 1:** ACCEPTED
 - **Phase 2:** ACCEPTED
-- **Phase 3:** AUDITED, CORRECTED & INDEPENDENTLY VERIFIED (Ready for client formal gate review)
+- **Phase 3:** NOT ACCEPTED (Corrected V8 package submitted for independent review; Gate 5 BLOCKED on business-owner traceability sign-off)
 - **Phase 4:** STRICTLY NOT AUTHORIZED (Halted before start; zero PHP backend code or database migrations)
 - **Total Roadmap Scope:** Exactly 32 phases (Phase 0 through Phase 31) strictly preserved.

@@ -1,6 +1,6 @@
 {
-  "status": "PASS",
-  "timestamp": "2026-10-19T09:00:00Z",
+  "status": "BLOCKED",
+  "timestamp": "2026-10-19T10:30:00Z",
   "total_checks": 11,
   "mismatches_count": 0,
   "mismatches": [],
@@ -501,11 +501,30 @@
       },
       "comparison_result": "PASS"
     },
-    "page_pub_10_mapping": {
-      "description": "PAGE-PUB-10 remains mapped to FR-PUB-004",
-      "expected_reqId": "FR-PUB-004",
-      "actual_reqId": "FR-PUB-004 (Verified Partner & Social Proof Directory, Phase 24)",
-      "comparison_result": "PASS"
+    "page_requirement_traceability": {
+      "description": "Page-to-requirement traceability reconciliation (FR-PUB-004 / PAGE-PUB-01 / PAGE-PUB-10)",
+      "rtm_source_record_fr_pub_004": {
+        "mapped_page": "PAGE-PUB-01 (Home)",
+        "user_story": "As a compliance officer, I want unverified client proof omitted so the site makes no unconfirmed claims.",
+        "acceptance_test": "TEST-PUB-004",
+        "phase": "Phase 20 / 24"
+      },
+      "page_pub_10_status": {
+        "specification_location": "docs/phase-01/02_PUBLIC_PAGE_BY_PAGE_SPECIFICATIONS.md (Section 10)",
+        "route": "/partners-clients",
+        "owning_phase": "Phase 24",
+        "rtm_ledger_presence": false,
+        "rtm_phase_rollup_presence": "FR-PUB-004 listed in Phase 24 rollup",
+        "prototype_app_js_mapping": "FR-PUB-004 (Verified Partner & Social Proof Directory, Phase 24)"
+      },
+      "findings": [
+        "Accepted Phase 1 Traceability Matrix (15_REQUIREMENTS_TRACEABILITY_MATRIX.md line 44) maps FR-PUB-004 to PAGE-PUB-01 (Homepage).",
+        "PAGE-PUB-10 is fully specified in 02_PUBLIC_PAGE_BY_PAGE_SPECIFICATIONS.md but was omitted from the 15_REQUIREMENTS_TRACEABILITY_MATRIX.md ledger table.",
+        "Phase 24 rollup in 15_REQUIREMENTS_TRACEABILITY_MATRIX.md line 146 lists FR-PUB-004 among remaining public page requirements.",
+        "Prototype app.js associates PAGE-PUB-10 with FR-PUB-004 (Phase 24) for UI/UX demonstration."
+      ],
+      "reconciliation_decision": "BLOCKED (Requires formal business-owner sign-off to ratify whether PAGE-PUB-10 shares FR-PUB-004 or requires a dedicated requirement ID)",
+      "comparison_result": "BLOCKED"
     },
     "admin_modules": {
       "description": "All 19 admin module IDs and names in actual prototype match canonical module specification",

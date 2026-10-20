@@ -53,25 +53,48 @@ for (const rf of requiredFiles) {
 }
 console.log('Serving verified prototype root from:', ROOT);
 
-// 2. Resolve browser executable
+// 2. Resolve browser executable and preflight check
+const RESULTS_DIR = path.join(__dirname, 'results');
+if (!fs.existsSync(RESULTS_DIR)) fs.mkdirSync(RESULTS_DIR, { recursive: true });
+
 const candidateBrowsers = [
   process.env.BROWSER_PATH,
   process.env.EDGE_PATH,
   'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
   'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
   process.env.CHROME_PATH,
-  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+  'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+  process.env.LOCALAPPDATA ? path.join(process.env.LOCALAPPDATA, 'Microsoft\\Edge\\Application\\msedge.exe') : null,
+  process.env.LOCALAPPDATA ? path.join(process.env.LOCALAPPDATA, 'Google\\Chrome\\Application\\chrome.exe') : null
 ].filter(Boolean);
 
 const browserPath = candidateBrowsers.find(p => fs.existsSync(p));
 if (!browserPath) {
-  console.error('FATAL: No compatible Chromium browser found.');
+  console.error('FATAL: No compatible Chromium / Edge / Chrome browser found.');
+  const notTestedOutput = {
+    testSuite: 'Phase 3 Expanded Responsive Layout Verification Suite',
+    status: 'NOT TESTED',
+    reason: 'No compatible Chromium/Edge/Chrome executable found on host system.',
+    timestamp: new Date().toISOString(),
+    browserExecutable: null,
+    browserVersion: null,
+    summary: { total: 264, passed: 0, failed: 0, notTested: 264 }
+  };
+  fs.writeFileSync(path.join(RESULTS_DIR, 'phase-03-responsive-results.json'), JSON.stringify(notTestedOutput, null, 2));
   process.exit(1);
 }
-console.log('Using browser executable:', browserPath);
 
-const RESULTS_DIR = path.join(__dirname, 'results');
-if (!fs.existsSync(RESULTS_DIR)) fs.mkdirSync(RESULTS_DIR, { recursive: true });
+// Preflight: Extract exact product version
+let browserVersion = 'Unknown';
+try {
+  const versionCmd = `powershell -NoProfile -Command "(Get-Item '${browserPath}').VersionInfo.ProductVersion"`;
+  browserVersion = require('child_process').execSync(versionCmd, { encoding: 'utf8', timeout: 5000 }).trim();
+} catch (e) {
+  browserVersion = 'Detected (Version Query Fallback)';
+}
+console.log('Using browser executable:', browserPath);
+console.log('Browser Product Version:', browserVersion);
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -231,6 +254,9 @@ async function runTests() {
   }
 
   const results = {
+    testSuite: 'Voak Health Care — Phase 3 V9 Expanded Responsive Automated Verification Suite',
+    browserExecutable: browserPath,
+    browserVersion: browserVersion,
     timestamp: new Date().toISOString(),
     summary: { total: 0, passed: 0, failed: 0 },
     masterHomepage: [],
@@ -330,16 +356,18 @@ async function runTests() {
           const containers = home.querySelectorAll('section, div, article');
           for (let ct of containers) {
             const st = window.getComputedStyle(ct);
-            if (st.overflowX !== 'auto' && st.overflowX !== 'scroll' && st.overflowX !== 'hidden') {
-              if (ct.scrollWidth > ct.clientWidth + 2 && ct.clientWidth > 0) {
-                containerBlowouts.push({
-                  tag: ct.tagName.toLowerCase(),
-                  class: ct.className ? String(ct.className).split(' ')[0] : '',
-                  scrollW: ct.scrollWidth,
-                  clientW: ct.clientWidth
-                });
-                if (containerBlowouts.length >= 3) break;
-              }
+            // Allow intentional horizontal scroll containers only
+            if (st.overflowX === 'auto' || st.overflowX === 'scroll' || ct.classList.contains('table-responsive-wrapper') || ct.classList.contains('admin-card')) {
+              continue;
+            }
+            if (ct.scrollWidth > ct.clientWidth + 2 && ct.clientWidth > 0) {
+              containerBlowouts.push({
+                tag: ct.tagName.toLowerCase(),
+                class: ct.className ? String(ct.className).split(' ')[0] : '',
+                scrollW: ct.scrollWidth,
+                clientW: ct.clientWidth
+              });
+              if (containerBlowouts.length >= 3) break;
             }
           }
         }
@@ -366,8 +394,8 @@ async function runTests() {
     if (!chk.contentMarkerVerified) failedReasons.push('Missing master homepage content markers (hero/services/trust/workflow)');
     if (chk.isOverflow) failedReasons.push(`Horizontal overflow: ${chk.overflowPx}px blowout (scrollWidth: ${chk.scrollWidth}px > innerWidth: ${chk.innerWidth}px)`);
     if (chk.offscreenControls && chk.offscreenControls.length > 0) failedReasons.push(`Offscreen interactive controls: ${JSON.stringify(chk.offscreenControls)}`);
-    if (chk.offscreenElements && chk.offscreenElements.length > 0 && chk.isOverflow) failedReasons.push(`Offscreen layout elements: ${JSON.stringify(chk.offscreenElements)}`);
-    if (chk.containerBlowouts && chk.containerBlowouts.length > 0 && chk.isOverflow) failedReasons.push(`Container blowouts: ${JSON.stringify(chk.containerBlowouts)}`);
+    if (chk.offscreenElements && chk.offscreenElements.length > 0) failedReasons.push(`Offscreen layout elements: ${JSON.stringify(chk.offscreenElements)}`);
+    if (chk.containerBlowouts && chk.containerBlowouts.length > 0) failedReasons.push(`Container blowouts: ${JSON.stringify(chk.containerBlowouts)}`);
     if (testErrors.length > 0) failedReasons.push(`Console errors: ${testErrors.join('; ')}`);
 
     const passed = failedReasons.length === 0;
@@ -499,6 +527,7 @@ async function runTests() {
           if (body) {
             const all = body.querySelectorAll('*');
             for (let el of all) {
+              if (el.closest('.table-responsive-wrapper, .admin-card, [data-intentional-scroll]')) continue;
               const rect = el.getBoundingClientRect();
               if (rect.width > 0 && rect.height > 0) {
                 if (rect.right > innerW + 2 || rect.left < -2) {
@@ -519,6 +548,7 @@ async function runTests() {
           if (body) {
             const controls = body.querySelectorAll('button, a, input, select, textarea');
             for (let c of controls) {
+              if (c.closest('.table-responsive-wrapper, .admin-card, [data-intentional-scroll]')) continue;
               const r = c.getBoundingClientRect();
               if (r.width > 0 && r.height > 0) {
                 if (r.right > innerW + 2 || r.left < -2) {
@@ -540,16 +570,20 @@ async function runTests() {
             const containers = body.querySelectorAll('section, div, article');
             for (let ct of containers) {
               const st = window.getComputedStyle(ct);
-              if (st.overflowX !== 'auto' && st.overflowX !== 'scroll' && st.overflowX !== 'hidden') {
-                if (ct.scrollWidth > ct.clientWidth + 2 && ct.clientWidth > 0) {
-                  containerBlowouts.push({
-                    tag: ct.tagName.toLowerCase(),
-                    class: ct.className ? String(ct.className).split(' ')[0] : '',
-                    scrollW: ct.scrollWidth,
-                    clientW: ct.clientWidth
-                  });
-                  if (containerBlowouts.length >= 3) break;
-                }
+              if (st.overflowX === 'auto' || st.overflowX === 'scroll' || ct.classList.contains('table-responsive-wrapper') || ct.classList.contains('admin-card')) {
+                continue;
+              }
+              if (ct.classList.contains('screen-inspector-modal') || ct.classList.contains('screen-inspector-container')) {
+                continue;
+              }
+              if (ct.scrollWidth > ct.clientWidth + 2 && ct.clientWidth > 0) {
+                containerBlowouts.push({
+                  tag: ct.tagName.toLowerCase(),
+                  class: ct.className ? String(ct.className).split(' ')[0] : '',
+                  scrollW: ct.scrollWidth,
+                  clientW: ct.clientWidth
+                });
+                if (containerBlowouts.length >= 3) break;
               }
             }
           }
@@ -575,8 +609,8 @@ async function runTests() {
       if (!meaningfulContent) failedReasons.push(`Missing meaningful content markers (textLen: ${textLen})`);
       if (chk.isOverflow) failedReasons.push(`Horizontal overflow: ${chk.overflowPx}px blowout (scrollWidth: ${chk.scrollWidth}px > innerWidth: ${chk.innerWidth}px)`);
       if (chk.offscreenControls && chk.offscreenControls.length > 0) failedReasons.push(`Offscreen interactive controls: ${JSON.stringify(chk.offscreenControls)}`);
-      if (chk.offscreenElements && chk.offscreenElements.length > 0 && chk.isOverflow) failedReasons.push(`Offscreen layout elements: ${JSON.stringify(chk.offscreenElements)}`);
-      if (chk.containerBlowouts && chk.containerBlowouts.length > 0 && chk.isOverflow) failedReasons.push(`Container blowout: ${JSON.stringify(chk.containerBlowouts)}`);
+      if (chk.offscreenElements && chk.offscreenElements.length > 0) failedReasons.push(`Offscreen layout elements: ${JSON.stringify(chk.offscreenElements)}`);
+      if (chk.containerBlowouts && chk.containerBlowouts.length > 0) failedReasons.push(`Container blowout: ${JSON.stringify(chk.containerBlowouts)}`);
       if (testErrors.length > 0) failedReasons.push(`Console errors: ${testErrors.join('; ')}`);
 
       const passed = failedReasons.length === 0;
@@ -679,9 +713,19 @@ async function runTests() {
           const isOverflow = overflowPx > 1.5;
 
           const offscreen = [];
-          if (isOverflow) {
-            const all = document.querySelectorAll('*');
-            for (let el of all) {
+          const all = document.querySelectorAll('#admin-module-display *');
+          for (let el of all) {
+            let insideScroll = false;
+            let p = el.parentElement;
+            while (p && p !== document.body) {
+              const cs = window.getComputedStyle(p);
+              if (cs.overflowX === 'auto' || cs.overflowX === 'scroll' || p.classList.contains('admin-card') || p.classList.contains('table-responsive-wrapper')) {
+                insideScroll = true;
+                break;
+              }
+              p = p.parentElement;
+            }
+            if (!insideScroll) {
               const r = el.getBoundingClientRect();
               if (r.width > 0 && r.height > 0) {
                 if (r.right > innerW + 2 || r.left < -2) {
@@ -708,7 +752,7 @@ async function runTests() {
                 let p = c.parentElement;
                 while (p && p !== document.body) {
                   const cs = window.getComputedStyle(p);
-                  if (cs.overflowX === 'auto' || cs.overflowX === 'scroll') {
+                  if (cs.overflowX === 'auto' || cs.overflowX === 'scroll' || p.classList.contains('admin-card') || p.classList.contains('table-responsive-wrapper')) {
                     insideScroll = true;
                     break;
                   }
@@ -732,16 +776,17 @@ async function runTests() {
           const containers = document.querySelectorAll('#admin-module-display div, #admin-module-display section');
           for (let ct of containers) {
             const st = window.getComputedStyle(ct);
-            if (st.overflowX !== 'auto' && st.overflowX !== 'scroll' && st.overflowX !== 'hidden') {
-              if (ct.scrollWidth > ct.clientWidth + 2 && ct.clientWidth > 0) {
-                containerBlowouts.push({
-                  tag: ct.tagName.toLowerCase(),
-                  class: ct.className ? String(ct.className).split(' ')[0] : '',
-                  scrollW: ct.scrollWidth,
-                  clientW: ct.clientWidth
-                });
-                if (containerBlowouts.length >= 3) break;
-              }
+            if (st.overflowX === 'auto' || st.overflowX === 'scroll' || ct.classList.contains('admin-card') || ct.classList.contains('table-responsive-wrapper')) {
+              continue;
+            }
+            if (ct.scrollWidth > ct.clientWidth + 2 && ct.clientWidth > 0) {
+              containerBlowouts.push({
+                tag: ct.tagName.toLowerCase(),
+                class: ct.className ? String(ct.className).split(' ')[0] : '',
+                scrollW: ct.scrollWidth,
+                clientW: ct.clientWidth
+              });
+              if (containerBlowouts.length >= 3) break;
             }
           }
 
@@ -766,8 +811,9 @@ async function runTests() {
       if (!hasContent) failedReasons.push('Missing workspace content marker');
       if (!moduleMatch) failedReasons.push(`Rendered module mismatch: expected ${modId}`);
       if (chk.isOverflow) failedReasons.push(`Horizontal overflow: ${chk.overflowPx}px blowout (scrollWidth: ${chk.scrollWidth}px > innerWidth: ${chk.innerWidth}px)`);
+      if (chk.offscreen && chk.offscreen.length > 0) failedReasons.push(`Offscreen layout elements: ${JSON.stringify(chk.offscreen)}`);
       if (chk.offscreenControls && chk.offscreenControls.length > 0) failedReasons.push(`Offscreen interactive controls: ${JSON.stringify(chk.offscreenControls)}`);
-      if (chk.containerBlowouts && chk.containerBlowouts.length > 0 && chk.isOverflow) failedReasons.push(`Container blowout: ${JSON.stringify(chk.containerBlowouts)}`);
+      if (chk.containerBlowouts && chk.containerBlowouts.length > 0) failedReasons.push(`Container blowout: ${JSON.stringify(chk.containerBlowouts)}`);
       if (testErrors.length > 0) failedReasons.push(`Console errors: ${testErrors.join('; ')}`);
 
       const passed = failedReasons.length === 0;

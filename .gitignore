@@ -8,6 +8,7 @@ $RECYCLE.BIN/
 # Temporary browser session caches and automation profiles
 scratch/edge-*/
 scratch/extracted_*/
+scratch/clean_extracted_*/
 scratch/staging_*/
 scratch/test_extracted_*/
 scratch/check_images/

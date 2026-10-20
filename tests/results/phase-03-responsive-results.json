@@ -1,5 +1,8 @@
 {
-  "timestamp": "2026-10-19T03:59:49.185Z",
+  "testSuite": "Voak Health Care — Phase 3 V9 Expanded Responsive Automated Verification Suite",
+  "browserExecutable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+  "browserVersion": "155.0.4283.62",
+  "timestamp": "2026-10-20T01:37:20.260Z",
   "summary": {
     "total": 264,
     "passed": 264,
@@ -20,47 +23,9 @@
       "scrollWidth": 320,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "div",
-          "class": "bento-card",
-          "left": 275,
-          "right": 386
-        },
-        {
-          "tag": "h3",
-          "class": "",
-          "left": 275,
-          "right": 386
-        },
-        {
-          "tag": "span",
-          "class": "chip",
-          "left": 275,
-          "right": 386
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "trust-container",
-          "scrollW": 240,
-          "clientW": 220
-        },
-        {
-          "tag": "section",
-          "class": "section-wrapper",
-          "scrollW": 521,
-          "clientW": 294
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 489,
-          "clientW": 230
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -79,41 +44,9 @@
       "scrollWidth": 360,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "div",
-          "class": "bento-card",
-          "left": 275,
-          "right": 386
-        },
-        {
-          "tag": "h3",
-          "class": "",
-          "left": 275,
-          "right": 386
-        },
-        {
-          "tag": "span",
-          "class": "chip",
-          "left": 275,
-          "right": 386
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "section",
-          "class": "section-wrapper",
-          "scrollW": 521,
-          "clientW": 334
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 489,
-          "clientW": 270
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -132,41 +65,9 @@
       "scrollWidth": 390,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "div",
-          "class": "bento-card",
-          "left": 410,
-          "right": 534
-        },
-        {
-          "tag": "h3",
-          "class": "",
-          "left": 410,
-          "right": 534
-        },
-        {
-          "tag": "p",
-          "class": "",
-          "left": 410,
-          "right": 534
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "section",
-          "class": "section-wrapper",
-          "scrollW": 521,
-          "clientW": 364
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 489,
-          "clientW": 300
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -185,41 +86,9 @@
       "scrollWidth": 428,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "div",
-          "class": "bento-card",
-          "left": 410,
-          "right": 534
-        },
-        {
-          "tag": "h3",
-          "class": "",
-          "left": 410,
-          "right": 534
-        },
-        {
-          "tag": "p",
-          "class": "",
-          "left": 410,
-          "right": 534
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "section",
-          "class": "section-wrapper",
-          "scrollW": 521,
-          "clientW": 402
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 489,
-          "clientW": 338
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -240,14 +109,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "hero-visual-stage",
-          "scrollW": 655,
-          "clientW": 630
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -268,14 +130,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "hero-visual-stage",
-          "scrollW": 920,
-          "clientW": 895
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -296,20 +151,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "hero-visual-stage",
-          "scrollW": 470,
-          "clientW": 445
-        },
-        {
-          "tag": "div",
-          "class": "feature-card-content",
-          "scrollW": 191,
-          "clientW": 171
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -330,14 +172,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "hero-visual-stage",
-          "scrollW": 510,
-          "clientW": 485
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -358,14 +193,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "hero-visual-stage",
-          "scrollW": 510,
-          "clientW": 485
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -477,14 +305,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "hero-visual-stage",
-          "scrollW": 679,
-          "clientW": 654
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -506,14 +327,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "hero-visual-stage",
-          "scrollW": 920,
-          "clientW": 895
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -535,14 +349,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "hero-visual-stage",
-          "scrollW": 470,
-          "clientW": 445
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -564,14 +371,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "hero-visual-stage",
-          "scrollW": 510,
-          "clientW": 485
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -593,14 +393,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "hero-visual-stage",
-          "scrollW": 510,
-          "clientW": 485
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -1414,20 +1207,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "footer-bottom",
-          "scrollW": 260,
-          "clientW": 254
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 260,
-          "clientW": 254
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -1623,26 +1403,7 @@
       "scrollWidth": 320,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "thead",
-          "class": "",
-          "left": 18,
-          "right": 457
-        },
-        {
-          "tag": "tr",
-          "class": "",
-          "left": 18,
-          "right": 457
-        },
-        {
-          "tag": "th",
-          "class": "",
-          "left": 311,
-          "right": 457
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
       "containerBlowouts": [],
       "consoleErrors": [],
@@ -1664,26 +1425,7 @@
       "scrollWidth": 360,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "thead",
-          "class": "",
-          "left": 18,
-          "right": 457
-        },
-        {
-          "tag": "tr",
-          "class": "",
-          "left": 18,
-          "right": 457
-        },
-        {
-          "tag": "th",
-          "class": "",
-          "left": 311,
-          "right": 457
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
       "containerBlowouts": [],
       "consoleErrors": [],
@@ -1705,26 +1447,7 @@
       "scrollWidth": 390,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "thead",
-          "class": "",
-          "left": 18,
-          "right": 457
-        },
-        {
-          "tag": "tr",
-          "class": "",
-          "left": 18,
-          "right": 457
-        },
-        {
-          "tag": "th",
-          "class": "",
-          "left": 311,
-          "right": 457
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
       "containerBlowouts": [],
       "consoleErrors": [],
@@ -1746,26 +1469,7 @@
       "scrollWidth": 428,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "thead",
-          "class": "",
-          "left": 18,
-          "right": 457
-        },
-        {
-          "tag": "tr",
-          "class": "",
-          "left": 18,
-          "right": 457
-        },
-        {
-          "tag": "th",
-          "class": "",
-          "left": 311,
-          "right": 457
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
       "containerBlowouts": [],
       "consoleErrors": [],
@@ -2095,47 +1799,9 @@
       "scrollWidth": 320,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "div",
-          "class": "",
-          "left": 307,
-          "right": 412
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "left": 324,
-          "right": 395
-        },
-        {
-          "tag": "strong",
-          "class": "",
-          "left": 324,
-          "right": 395
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 655,
-          "clientW": 318
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 638,
-          "clientW": 284
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 598,
-          "clientW": 204
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -2155,47 +1821,9 @@
       "scrollWidth": 360,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "div",
-          "class": "",
-          "left": 307,
-          "right": 412
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "left": 324,
-          "right": 395
-        },
-        {
-          "tag": "strong",
-          "class": "",
-          "left": 324,
-          "right": 395
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 655,
-          "clientW": 358
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 638,
-          "clientW": 324
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 598,
-          "clientW": 244
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -2215,47 +1843,9 @@
       "scrollWidth": 390,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "div",
-          "class": "",
-          "left": 307,
-          "right": 412
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "left": 324,
-          "right": 395
-        },
-        {
-          "tag": "strong",
-          "class": "",
-          "left": 324,
-          "right": 395
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 655,
-          "clientW": 388
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 638,
-          "clientW": 354
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 598,
-          "clientW": 274
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -2275,47 +1865,9 @@
       "scrollWidth": 428,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "div",
-          "class": "",
-          "left": 428,
-          "right": 533
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "left": 445,
-          "right": 516
-        },
-        {
-          "tag": "strong",
-          "class": "",
-          "left": 445,
-          "right": 516
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 655,
-          "clientW": 426
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 638,
-          "clientW": 392
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 598,
-          "clientW": 312
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -2643,41 +2195,9 @@
       "scrollWidth": 320,
       "overflowPx": 0,
       "overflow": false,
-      "offscreenElements": [
-        {
-          "tag": "p",
-          "class": "",
-          "left": 255,
-          "right": 351
-        },
-        {
-          "tag": "strong",
-          "class": "",
-          "left": 255,
-          "right": 339
-        }
-      ],
+      "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 350,
-          "clientW": 318
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 333,
-          "clientW": 284
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 309,
-          "clientW": 236
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -2699,20 +2219,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 333,
-          "clientW": 324
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 309,
-          "clientW": 276
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -2734,14 +2241,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 309,
-          "clientW": 306
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -3291,14 +2791,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 297,
-          "clientW": 284
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -3320,14 +2813,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 332,
-          "clientW": 324
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -3349,14 +2835,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 358,
-          "clientW": 354
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -5162,26 +4641,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "admin-card-header",
-          "scrollW": 139,
-          "clientW": 97
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 134,
-          "clientW": 95
-        },
-        {
-          "tag": "div",
-          "class": "form-group",
-          "scrollW": 98,
-          "clientW": 47
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -5313,14 +4773,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 410,
-          "clientW": 260
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -5518,14 +4971,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 454,
-          "clientW": 260
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -5591,26 +5037,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 110,
-          "clientW": 71
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 74,
-          "clientW": 47
-        },
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 158,
-          "clientW": 71
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -5742,14 +5169,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 607,
-          "clientW": 260
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -5881,14 +5301,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 333,
-          "clientW": 260
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"
@@ -6218,14 +5631,7 @@
       "overflow": false,
       "offscreenElements": [],
       "offscreenControls": [],
-      "containerBlowouts": [
-        {
-          "tag": "div",
-          "class": "",
-          "scrollW": 365,
-          "clientW": 260
-        }
-      ],
+      "containerBlowouts": [],
       "consoleErrors": [],
       "failureReasons": [],
       "status": "PASS"

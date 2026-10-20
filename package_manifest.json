@@ -1,0 +1,835 @@
+{
+  "manifestVersion": "1.0",
+  "packageName": "VOAK_PHASE_3_DESIGN_REVIEW_v9.zip",
+  "generatedAt": "2026-10-20T01:48:46.946113+00:00",
+  "summary": {
+    "totalEntries": 116,
+    "categoryCounts": {
+      "Core Prototype": 5,
+      "Visual Assets": 6,
+      "Approved Reference Benchmark": 1,
+      "Screenshot (Overview)": 8,
+      "Screenshot (Public Page)": 23,
+      "Screenshot (Admin Module)": 19,
+      "Automated Test Suite": 2,
+      "Traceability Engine": 1,
+      "Telemetry Engine": 1,
+      "Claims Auditor": 1,
+      "Screenshot Telemetry": 1,
+      "Capture Manifest": 1,
+      "Test Results": 4,
+      "Final Evidence Verification": 1,
+      "Audit Gate Report": 3,
+      "Accepted Phase 0 Baseline Spec": 18,
+      "Accepted Phase 1 Baseline Spec": 20
+    }
+  },
+  "pathReconciliationNotes": "Explicit mapping of development repository locations to review-package root paths. Allows verification engines to validate integrity in both workspace and extracted archive layouts.",
+  "files": [
+    {
+      "archivePath": "index.html",
+      "repositoryPath": "design/phase-03/index.html",
+      "sha256": "0432895d20e63b8d827f30e741a11acf4fc17d89bb92e03891c40c875ad1d487",
+      "sizeBytes": 99578,
+      "category": "Core Prototype"
+    },
+    {
+      "archivePath": "styles.css",
+      "repositoryPath": "design/phase-03/styles.css",
+      "sha256": "460c6b1b1280e6cc20c82efbf32bf36085a47c3479b7ef6fa415485e7961c542",
+      "sizeBytes": 53771,
+      "category": "Core Prototype"
+    },
+    {
+      "archivePath": "app.js",
+      "repositoryPath": "design/phase-03/app.js",
+      "sha256": "f3c00140a43011fe38e6d8cad79487f841f1585ccd414d4f1d557933cc7a0de1",
+      "sizeBytes": 204349,
+      "category": "Core Prototype"
+    },
+    {
+      "archivePath": "serve.js",
+      "repositoryPath": "design/phase-03/serve.js",
+      "sha256": "91fc274a360032740ed14fcb6fa7a42fa436375078a471f36791d938a4b5d84a",
+      "sizeBytes": 1231,
+      "category": "Core Prototype"
+    },
+    {
+      "archivePath": "README_PREVIEW.md",
+      "repositoryPath": "design/phase-03/README_PREVIEW.md",
+      "sha256": "0c427c45cff5f140cfa3cc2c83261152923d0e4580f785b8bd6d185458e85969",
+      "sizeBytes": 17441,
+      "category": "Core Prototype"
+    },
+    {
+      "archivePath": "assets/images/hero_doctor.jpg",
+      "repositoryPath": "design/phase-03/assets/images/hero_doctor.jpg",
+      "sha256": "e7896264e22b95c43c31ef018dfc197647398baef53ec5a6d80f757b764b26ad",
+      "sizeBytes": 652540,
+      "category": "Visual Assets"
+    },
+    {
+      "archivePath": "assets/images/hospital_building.jpg",
+      "repositoryPath": "design/phase-03/assets/images/hospital_building.jpg",
+      "sha256": "2709c1bdc873b4a3eb81d129d03819a7eb12500a1999bd57d29a12eb5e7e2afa",
+      "sizeBytes": 1067501,
+      "category": "Visual Assets"
+    },
+    {
+      "archivePath": "assets/images/male_clinician.jpg",
+      "repositoryPath": "design/phase-03/assets/images/male_clinician.jpg",
+      "sha256": "31cb8fed2a794b355c8998b86462e4a3ae4e6e0e3bfe2c6aa8c67c89cb26c1dd",
+      "sizeBytes": 609144,
+      "category": "Visual Assets"
+    },
+    {
+      "archivePath": "assets/images/operations_manager.jpg",
+      "repositoryPath": "design/phase-03/assets/images/operations_manager.jpg",
+      "sha256": "6d5ccfd4d2037cd072b6b9b39c689701b81efda26ca35bb76a178bd0248dc195",
+      "sizeBytes": 669150,
+      "category": "Visual Assets"
+    },
+    {
+      "archivePath": "assets/images/partnership_consultation.jpg",
+      "repositoryPath": "design/phase-03/assets/images/partnership_consultation.jpg",
+      "sha256": "8146b66c9870693c5df4253eca26da0e7dfdb9e98039f62a1798c2dcbb21a6f1",
+      "sizeBytes": 768620,
+      "category": "Visual Assets"
+    },
+    {
+      "archivePath": "assets/images/patient_care_trust.jpg",
+      "repositoryPath": "design/phase-03/assets/images/patient_care_trust.jpg",
+      "sha256": "73de7fb6b7f1b7e8948b53d6c02bfa126069de180612d3b4197d42e50e30d4ff",
+      "sizeBytes": 754956,
+      "category": "Visual Assets"
+    },
+    {
+      "archivePath": "references/approved_homepage_reference_image_2.png",
+      "repositoryPath": "design/phase-03/references/approved_homepage_reference_image_2.png",
+      "sha256": "b0483fffc8e2719771c9aa3a587710b67b389b940c21b56d247ace4a2bc971ba",
+      "sizeBytes": 1685155,
+      "category": "Approved Reference Benchmark"
+    },
+    {
+      "archivePath": "screenshots/01_desktop_homepage.png",
+      "repositoryPath": "design/phase-03/screenshots/01_desktop_homepage.png",
+      "sha256": "f119023c9d20ee79bdd494d09b0093758f3eb90f77e51c7a398991420990dbd6",
+      "sizeBytes": 1512483,
+      "category": "Screenshot (Overview)"
+    },
+    {
+      "archivePath": "screenshots/02_mobile_homepage_390px.png",
+      "repositoryPath": "design/phase-03/screenshots/02_mobile_homepage_390px.png",
+      "sha256": "e02d07b5e1941f45f94c828f7b7b3a2bd0573ba6e83c9b5164be5efeed92bbe2",
+      "sizeBytes": 785507,
+      "category": "Screenshot (Overview)"
+    },
+    {
+      "archivePath": "screenshots/03_tablet_homepage_768px.png",
+      "repositoryPath": "design/phase-03/screenshots/03_tablet_homepage_768px.png",
+      "sha256": "208ce29651ac47df4b53983935f0bcd42261f26a5b3b4608a724256e1876a481",
+      "sizeBytes": 1466442,
+      "category": "Screenshot (Overview)"
+    },
+    {
+      "archivePath": "screenshots/04_public_pages_gallery.png",
+      "repositoryPath": "design/phase-03/screenshots/04_public_pages_gallery.png",
+      "sha256": "1db2e1ec0c75b5a9a9b151e61d8d60f31bb62c404c67ba5a1f978a3dfc9b76f2",
+      "sizeBytes": 684537,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/05_admin_dashboard.png",
+      "repositoryPath": "design/phase-03/screenshots/05_admin_dashboard.png",
+      "sha256": "bce870adee5321937aba5833fd1d0901c520a1586ea559cd2644820c5f1e145c",
+      "sizeBytes": 221403,
+      "category": "Screenshot (Overview)"
+    },
+    {
+      "archivePath": "screenshots/06_component_system.png",
+      "repositoryPath": "design/phase-03/screenshots/06_component_system.png",
+      "sha256": "831060c804e225478539b6daa834ccdeed8b8a26e68bf6a46335a28016db95e3",
+      "sizeBytes": 258234,
+      "category": "Screenshot (Overview)"
+    },
+    {
+      "archivePath": "screenshots/07_approved_reference_comparison.png",
+      "repositoryPath": "design/phase-03/screenshots/07_approved_reference_comparison.png",
+      "sha256": "f7047eebf86aa5b7df661e10d6618b0db1b24054262c062fb9b026d8c17f908b",
+      "sizeBytes": 1874244,
+      "category": "Screenshot (Overview)"
+    },
+    {
+      "archivePath": "screenshots/08_proposal_wizard_modal.png",
+      "repositoryPath": "design/phase-03/screenshots/08_proposal_wizard_modal.png",
+      "sha256": "aacf5ea353cb639bf971e372fa639d5964f642d67a07465d9841b3b2df2218af",
+      "sizeBytes": 245093,
+      "category": "Screenshot (Overview)"
+    },
+    {
+      "archivePath": "screenshots/09_simulated_403_access_denied.png",
+      "repositoryPath": "design/phase-03/screenshots/09_simulated_403_access_denied.png",
+      "sha256": "a6e5db7c7a2ad331466a071f7b2e483f3e4b334532bdc9c5d2f706ad851d0a4d",
+      "sizeBytes": 194503,
+      "category": "Screenshot (Overview)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-01_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-01_preview.png",
+      "sha256": "bce870adee5321937aba5833fd1d0901c520a1586ea559cd2644820c5f1e145c",
+      "sizeBytes": 221403,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-02_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-02_preview.png",
+      "sha256": "1883a7a709babb110c1717f1dd8167e5911e8ac5d2d6dc3567eeb4c25b61d882",
+      "sizeBytes": 198227,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-03_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-03_preview.png",
+      "sha256": "49e1d488195ef8259e61c06699d5a343f591b2aa4eb45122b234e62c775d70de",
+      "sizeBytes": 249262,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-04_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-04_preview.png",
+      "sha256": "41042633c2b706d072f2f5849e025772c71d655a0cc5141de86af64051e27070",
+      "sizeBytes": 190251,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-05_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-05_preview.png",
+      "sha256": "b6ba1a821115b88a973266e3da21f5439238615910dad4cc93adb8b4bd00fba4",
+      "sizeBytes": 170676,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-06_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-06_preview.png",
+      "sha256": "f0da668dd24b1c0cb85fec9a9dcdb04302d2e9fcd42ea8feb295b5e3095b4f1b",
+      "sizeBytes": 192015,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-07_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-07_preview.png",
+      "sha256": "dfcae4346a33793f7e6b259b8d6cc06e2ee2577dddecf158a1e4b981c809e9b4",
+      "sizeBytes": 174219,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-08_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-08_preview.png",
+      "sha256": "d058661f6482db5eb9234efc04c229110887eb502a59b19fd2f6c9fbb823c72a",
+      "sizeBytes": 340795,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-09_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-09_preview.png",
+      "sha256": "07f4873c530d8070d50efe90c0a25ea7e7ce948c8028557a1ecbfde7704c1e3e",
+      "sizeBytes": 177502,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-10_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-10_preview.png",
+      "sha256": "e90d8a5cef7605e3f3775665e50ab02534ed7c1f29e633a2faa46d349619be05",
+      "sizeBytes": 180189,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-11_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-11_preview.png",
+      "sha256": "2c9703dd4bcef1d5b5d6acd70d19e443934e54b6a2503d1b250f521db6b627cb",
+      "sizeBytes": 195185,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-12_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-12_preview.png",
+      "sha256": "f84ca18d009840c7a527499b79cdf7ebd8ba9559e4797049d3595d220e22d553",
+      "sizeBytes": 175320,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-13_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-13_preview.png",
+      "sha256": "70564b0f4633d1af24437cceccaf183ca8516d8fd7fb1ca2aee65666753d497a",
+      "sizeBytes": 174198,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-14_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-14_preview.png",
+      "sha256": "c8020f01e95f4ab87d93ba3e08765ed4bb40a3d20c4e3e4c66e7aff3c1b23eae",
+      "sizeBytes": 220585,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-15_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-15_preview.png",
+      "sha256": "0c89316a942fadfc168f7326764739955c5a8ed514462e26285c0a634a134e79",
+      "sizeBytes": 177083,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-16_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-16_preview.png",
+      "sha256": "ba9461e8f34743aee9c57bc7426273669fea68bff62474291ce3dabc7915c554",
+      "sizeBytes": 165229,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-17_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-17_preview.png",
+      "sha256": "cabbaf5bd2a9bb79dedf3bd85777fdf36e19d587c248b2001f0980de2c7ea533",
+      "sizeBytes": 171568,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-18_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-18_preview.png",
+      "sha256": "0adb72115e2265cfcba75a82063628f47fab7bf534a858a3234882424054f6ec",
+      "sizeBytes": 180944,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/admin_modules/admin_adm-19_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/admin_modules/admin_adm-19_preview.png",
+      "sha256": "8339be5a39e65e40a53086595f432e92f41a77e00961e55300d6df11764166fc",
+      "sizeBytes": 197007,
+      "category": "Screenshot (Admin Module)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-01_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-01_preview.png",
+      "sha256": "74911e42c128c8f87bbf90db8b4fea45409fb935e4c0a4273e170173b27e6a5a",
+      "sizeBytes": 1495096,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-02_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-02_preview.png",
+      "sha256": "1605881ee7721c55b7bc134a5cc1b2b896decb3d36db874b89dc02ef908970ff",
+      "sizeBytes": 305244,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-03_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-03_preview.png",
+      "sha256": "a6fff197ae1e0f0422d58069952fbad177851d20557b8731e8c3d39045d1c956",
+      "sizeBytes": 214295,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-04_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-04_preview.png",
+      "sha256": "bb49ae9330aba8ef71524bebb0729eab1c162127bf10d929674be648ab4dda4d",
+      "sizeBytes": 219757,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-05_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-05_preview.png",
+      "sha256": "e50c63f85ec85c74afbc71da4b557527601ea2680e88f8ac9cb6ec8e68e7f801",
+      "sizeBytes": 247149,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-06_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-06_preview.png",
+      "sha256": "9030589720e135a4029e7c62b7728e30dbf26dce09385cb3662b8beb6f444671",
+      "sizeBytes": 211738,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-07_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-07_preview.png",
+      "sha256": "03c2e903a51d5d9a421904f4a5b7259c09d0b7eb166ab837472d58bdf45a4d7c",
+      "sizeBytes": 259666,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-08_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-08_preview.png",
+      "sha256": "cd6e4f2f48649382d20c8ebecd7b46e67a79c8b6b518d7f30fd53fc934467db9",
+      "sizeBytes": 240877,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-09_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-09_preview.png",
+      "sha256": "0cf3fe2f7b0401fb8fe637074524fc01f2bc99f9d37d6ca111c6978d77988746",
+      "sizeBytes": 214491,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-10_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-10_preview.png",
+      "sha256": "9a5d44e96e80d9ee12f37e704fcd8f4f229115aa90c2ed72d48c412b47a5d426",
+      "sizeBytes": 202398,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-11_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-11_preview.png",
+      "sha256": "9fa0d8a1a00fa5c77b4f380d06298742f8914b494fc4c4038f026307ec4fd61d",
+      "sizeBytes": 255094,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-12_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-12_preview.png",
+      "sha256": "aa11fff94a3617a3ad3e1ec2164df14ecbcfe12964984fd2cbaebf2c7be2dff5",
+      "sizeBytes": 251648,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-13_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-13_preview.png",
+      "sha256": "7e33e4da32b9bd7910270168c8417d5e2ac15ab837880dc936c7d24694a5d3b3",
+      "sizeBytes": 198580,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-14_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-14_preview.png",
+      "sha256": "6428916aec5df5e1a2f47025f2aed2c712e6f14fdc53734b4ee7ef6b2447f176",
+      "sizeBytes": 226412,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-15_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-15_preview.png",
+      "sha256": "3d07938c79e4509aa7f9fb36d61c4a8536272c1fe455b07416ca0b9359e350bc",
+      "sizeBytes": 286770,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-16_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-16_preview.png",
+      "sha256": "07c9015d0583cf3830158561f641d22f36f02cfb0c5dc8818e5ca953e9b115aa",
+      "sizeBytes": 246381,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-17_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-17_preview.png",
+      "sha256": "8897186d14598401a0951eb5d29ffec41d56c3661752b364922da0c4993f5a86",
+      "sizeBytes": 185846,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-18_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-18_preview.png",
+      "sha256": "9708d3c01fe6080d2759ce3c0fc2b5c6427006d87015942b1a7baf439c6576eb",
+      "sizeBytes": 181741,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-19_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-19_preview.png",
+      "sha256": "f6a41d0d69067bac9bd2ce059816729ba859527877303ec02cf83dcc8152cffa",
+      "sizeBytes": 172681,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-20_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-20_preview.png",
+      "sha256": "3ad5c7890f641a969c355e5b1d36ffaca49d6d2364e3ac9412648c5e9a62569e",
+      "sizeBytes": 254087,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-21_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-21_preview.png",
+      "sha256": "c66aac85bbd835f4c6dd9a4b18b8c62bbdb1661a6dfff7716e01ddf6caf98818",
+      "sizeBytes": 187232,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "screenshots/public_pages/page_pub-22_preview.png",
+      "repositoryPath": "design/phase-03/screenshots/public_pages/page_pub-22_preview.png",
+      "sha256": "3fb178d3caebcf3c709ad701fbb501c2664f97af5de71af7e5110cc075b5944d",
+      "sizeBytes": 148787,
+      "category": "Screenshot (Public Page)"
+    },
+    {
+      "archivePath": "tests/test_expanded_responsive.js",
+      "repositoryPath": "tests/test_expanded_responsive.js",
+      "sha256": "017589348f2a625fedbf0d9eff9415572a708a300d33469e23464a2c0fac8533",
+      "sizeBytes": 37346,
+      "category": "Automated Test Suite"
+    },
+    {
+      "archivePath": "tests/test_responsive_overflow.js",
+      "repositoryPath": "tests/test_responsive_overflow.js",
+      "sha256": "94f54d551955e46440e8405de030f4a9d8eb1551b8970f73271e43e4be113ed9",
+      "sizeBytes": 9638,
+      "category": "Automated Test Suite"
+    },
+    {
+      "archivePath": "tests/reconcile_baseline.py",
+      "repositoryPath": "tests/reconcile_baseline.py",
+      "sha256": "64d98001e9bbd731f614ab0aded790bc1cfba1c32422ab366cdf4aa3d5ab268d",
+      "sizeBytes": 24836,
+      "category": "Traceability Engine"
+    },
+    {
+      "archivePath": "tests/measure_and_verify_screenshots.py",
+      "repositoryPath": "tests/measure_and_verify_screenshots.py",
+      "sha256": "a6852f671243159c5707073bb177fff39d52ffbc4a5d16a78670ff9f55eba49b",
+      "sizeBytes": 7857,
+      "category": "Telemetry Engine"
+    },
+    {
+      "archivePath": "tests/audit_claims_comprehensive.py",
+      "repositoryPath": "tests/audit_claims_comprehensive.py",
+      "sha256": "fb0317010572c0f772c43bb4ef50a70796865396a2f91f36cea91b5d577f0968",
+      "sizeBytes": 14667,
+      "category": "Claims Auditor"
+    },
+    {
+      "archivePath": "tests/screenshot_metrics.json",
+      "repositoryPath": "tests/screenshot_metrics.json",
+      "sha256": "17d524c1f8271ce781ae05774c4ad505ac91c1c056df59595570c06b744315cd",
+      "sizeBytes": 11171,
+      "category": "Screenshot Telemetry"
+    },
+    {
+      "archivePath": "tests/screenshot_capture_manifest.json",
+      "repositoryPath": "tests/screenshot_capture_manifest.json",
+      "sha256": "5b2ff9208792d44f04b0ad79ba2677f06d6fea3a78527fd22f56a2dbbd82752a",
+      "sizeBytes": 22881,
+      "category": "Capture Manifest"
+    },
+    {
+      "archivePath": "tests/results/baseline_reconciliation.json",
+      "repositoryPath": "tests/results/baseline_reconciliation.json",
+      "sha256": "b9ca001e0af08d93e2470568b77e4dd0826abc7762bcacfcdae076bc10c5eff2",
+      "sizeBytes": 29874,
+      "category": "Test Results"
+    },
+    {
+      "archivePath": "tests/results/phase-03-responsive-results.json",
+      "repositoryPath": "tests/results/phase-03-responsive-results.json",
+      "sha256": "5866c8acf777bde275f2b7a0cb44f0582852cdf9d2d9fb46c80271839c71f9bd",
+      "sizeBytes": 154238,
+      "category": "Test Results"
+    },
+    {
+      "archivePath": "tests/results/phase-03-test-output.txt",
+      "repositoryPath": "tests/results/phase-03-test-output.txt",
+      "sha256": "1fdec98c21eaa38eb227fe511d18ae57bd40cdad96b06d03b92095c842200076",
+      "sizeBytes": 32832,
+      "category": "Test Results"
+    },
+    {
+      "archivePath": "tests/results/claims_audit_report.json",
+      "repositoryPath": "tests/results/claims_audit_report.json",
+      "sha256": "3fc501472bb2682898ae4a4c935b2b9b654777c801467e9d874f3a3f93626546",
+      "sizeBytes": 127,
+      "category": "Test Results"
+    },
+    {
+      "archivePath": "docs/20_FINAL_VISUAL_EVIDENCE_VERIFICATION.md",
+      "repositoryPath": "docs/phase-03/20_FINAL_VISUAL_EVIDENCE_VERIFICATION.md",
+      "sha256": "79201b105cc564eb1a7e92a053fcc31175ab429d3b386bc129044abebddd8645",
+      "sizeBytes": 25856,
+      "category": "Final Evidence Verification"
+    },
+    {
+      "archivePath": "docs/GATE_1_REFERENCE_IMAGE_AUDIT_REPORT.md",
+      "repositoryPath": "docs/phase-03/GATE_1_REFERENCE_IMAGE_AUDIT_REPORT.md",
+      "sha256": "f545ebb225256b94e5df61297d887ad8c6f6a8e9102666d481399604079762b0",
+      "sizeBytes": 3727,
+      "category": "Audit Gate Report"
+    },
+    {
+      "archivePath": "docs/GATE_2_BASELINE_RECONCILIATION_REPORT.md",
+      "repositoryPath": "docs/phase-03/GATE_2_BASELINE_RECONCILIATION_REPORT.md",
+      "sha256": "86ea4cb5d2bd59cee4080f5916ef731699c78b21834d107a0ad8f02855cf2c01",
+      "sizeBytes": 17826,
+      "category": "Audit Gate Report"
+    },
+    {
+      "archivePath": "docs/GATE_4_CLAIM_AUDIT_REPORT.md",
+      "repositoryPath": "docs/phase-03/GATE_4_CLAIM_AUDIT_REPORT.md",
+      "sha256": "d2ce93647359bb06931ef518980eb1347225a64d59fcf647fdb085d75f733c4a",
+      "sizeBytes": 9006,
+      "category": "Audit Gate Report"
+    },
+    {
+      "archivePath": "docs/phase-00/00_PHASE_0_EXECUTIVE_SUMMARY.md",
+      "repositoryPath": "docs/phase-00/00_PHASE_0_EXECUTIVE_SUMMARY.md",
+      "sha256": "27c17407f7bc05bc7aa55efc6a9269294f6f3a73d1a5708fa041401441887413",
+      "sizeBytes": 9174,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/01_BUSINESS_REQUIREMENTS.md",
+      "repositoryPath": "docs/phase-00/01_BUSINESS_REQUIREMENTS.md",
+      "sha256": "1a122125b8e567535e2c8e58efcb711abb99cff0e3a4c6b632f76e8a43b57cd5",
+      "sizeBytes": 9885,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/02_COMPLETE_FEATURE_MATRIX.md",
+      "repositoryPath": "docs/phase-00/02_COMPLETE_FEATURE_MATRIX.md",
+      "sha256": "29ea1526251d03ae149e3a10e640b3b176e10ab6496b4def16156785efe6e550",
+      "sizeBytes": 15214,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/03_PUBLIC_WEBSITE_SITEMAP.md",
+      "repositoryPath": "docs/phase-00/03_PUBLIC_WEBSITE_SITEMAP.md",
+      "sha256": "4dfee8863e76e9cf7bd2d49e1bcc06ba3cc3a93744c0fdf92dc9609c9a79679d",
+      "sizeBytes": 13638,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/04_ADMIN_MODULES_AND_RBAC.md",
+      "repositoryPath": "docs/phase-00/04_ADMIN_MODULES_AND_RBAC.md",
+      "sha256": "f3a61ede7f79b36c1381b3e8b117d5ae1bb820a18e06a32dcd54a3a6cbd0715a",
+      "sizeBytes": 10760,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/05_APPROVED_DESIGN_SYSTEM.md",
+      "repositoryPath": "docs/phase-00/05_APPROVED_DESIGN_SYSTEM.md",
+      "sha256": "8ebcaca05f690f7504eff5e018993f6daf08a790a5bc5407c451cbd993df2c1e",
+      "sizeBytes": 9603,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/06_HOSTINGER_COMPATIBILITY_AUDIT.md",
+      "repositoryPath": "docs/phase-00/06_HOSTINGER_COMPATIBILITY_AUDIT.md",
+      "sha256": "577240aceeb25427ec585c54108ef82c7a5b1bb440c78e4fc3656ab1b6e38259",
+      "sizeBytes": 8298,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/07_TECHNICAL_ARCHITECTURE.md",
+      "repositoryPath": "docs/phase-00/07_TECHNICAL_ARCHITECTURE.md",
+      "sha256": "093bd630e00150e3f5b3bb21259df92b8de1adbffd95e2188746d0b166d211cb",
+      "sizeBytes": 10486,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/08_DATABASE_DOMAIN_MODEL.md",
+      "repositoryPath": "docs/phase-00/08_DATABASE_DOMAIN_MODEL.md",
+      "sha256": "e8e195eaaf6113ad3416734cd98a9c067108f74897e1867994289f6456ec88a3",
+      "sizeBytes": 16048,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/09_API_CONTRACT_PLAN.md",
+      "repositoryPath": "docs/phase-00/09_API_CONTRACT_PLAN.md",
+      "sha256": "fdfb8f3ead14859bf96e7baedb683343796b2335dd6e428531f6f23fe23b2ceb",
+      "sizeBytes": 8440,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/10_SECURITY_AND_PRIVACY_BASELINE.md",
+      "repositoryPath": "docs/phase-00/10_SECURITY_AND_PRIVACY_BASELINE.md",
+      "sha256": "35fe3696f3028679b8358115728beb33d883e04157b433a4f5376f1732aa5417",
+      "sizeBytes": 8901,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/11_SEO_AND_RENDERING_STRATEGY.md",
+      "repositoryPath": "docs/phase-00/11_SEO_AND_RENDERING_STRATEGY.md",
+      "sha256": "17927f3fe4020c25b0f8527c4d4c2ad7009ab3c36c84d3a2206d6a65bf5b6ea6",
+      "sizeBytes": 9696,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/12_DEPLOYMENT_STRATEGY.md",
+      "repositoryPath": "docs/phase-00/12_DEPLOYMENT_STRATEGY.md",
+      "sha256": "23e0be17c0b17a8a5fc4028af244b818477676e88a61130bb1ebd59dd4a479bd",
+      "sizeBytes": 9132,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/13_COMPLETE_32_PHASE_TRACEABILITY.md",
+      "repositoryPath": "docs/phase-00/13_COMPLETE_32_PHASE_TRACEABILITY.md",
+      "sha256": "eb42e73d643c6f0792295239cbf6a0f8f681aa43214b1a2027ca23c48dcf2318",
+      "sizeBytes": 12561,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/14_TESTING_AND_ACCEPTANCE_STRATEGY.md",
+      "repositoryPath": "docs/phase-00/14_TESTING_AND_ACCEPTANCE_STRATEGY.md",
+      "sha256": "da98bc9f270c80e7b6e92fbf0624cca4acfe677e1f564f52449cc4214c82566a",
+      "sizeBytes": 6894,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/15_UNVERIFIED_ASSUMPTIONS_AND_BLOCKERS.md",
+      "repositoryPath": "docs/phase-00/15_UNVERIFIED_ASSUMPTIONS_AND_BLOCKERS.md",
+      "sha256": "01ecee2da5b829cadfb7c11d4d540e975105736aca4dfaad33ce32cc99590856",
+      "sizeBytes": 6137,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/16_PHASE_0_FINAL_REPORT.md",
+      "repositoryPath": "docs/phase-00/16_PHASE_0_FINAL_REPORT.md",
+      "sha256": "7aaca44a2cc8ed1c7dcbb5f3486f0d48427268e18531e11ec7aea915f7294041",
+      "sizeBytes": 10954,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-00/17_PHASE_0_CORRECTION_AND_ACCEPTANCE_REPORT.md",
+      "repositoryPath": "docs/phase-00/17_PHASE_0_CORRECTION_AND_ACCEPTANCE_REPORT.md",
+      "sha256": "4db1a60f542387b951e9e43c5908c0e24ce743b9706f9219ddaf6c48bf793a21",
+      "sizeBytes": 16882,
+      "category": "Accepted Phase 0 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/00_PHASE_1_EXECUTIVE_SUMMARY.md",
+      "repositoryPath": "docs/phase-01/00_PHASE_1_EXECUTIVE_SUMMARY.md",
+      "sha256": "980fa486bc286f993deb521abb7015c0b1f2db328b64a689b5413369675d4f4d",
+      "sizeBytes": 8299,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/01_MASTER_FUNCTIONAL_REQUIREMENTS.md",
+      "repositoryPath": "docs/phase-01/01_MASTER_FUNCTIONAL_REQUIREMENTS.md",
+      "sha256": "569227b93c8821d6039f189eb7f6f9d5c7ddf49455adedd74b856e1e039594e2",
+      "sizeBytes": 16293,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/02_PUBLIC_PAGE_BY_PAGE_SPECIFICATIONS.md",
+      "repositoryPath": "docs/phase-01/02_PUBLIC_PAGE_BY_PAGE_SPECIFICATIONS.md",
+      "sha256": "5660ad8a3936d2b416d89309084b26f48e6bea4d295640dbaf187804f549f6c8",
+      "sizeBytes": 83213,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/03_HOMEPAGE_SECTION_SPECIFICATIONS.md",
+      "repositoryPath": "docs/phase-01/03_HOMEPAGE_SECTION_SPECIFICATIONS.md",
+      "sha256": "425e4dde5de299211ffdbba28742d2268565f3189baf04fd2e1279d5cb248ce9",
+      "sizeBytes": 33967,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/04_SERVICES_AND_INDUSTRIES_FUNCTIONAL_SPEC.md",
+      "repositoryPath": "docs/phase-01/04_SERVICES_AND_INDUSTRIES_FUNCTIONAL_SPEC.md",
+      "sha256": "d2771d72829c06da20f2fb5e1d155242259af3c6ce4c542e6d78bbc85d624ed9",
+      "sizeBytes": 12534,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/05_ADMIN_19_MODULE_SPECIFICATIONS.md",
+      "repositoryPath": "docs/phase-01/05_ADMIN_19_MODULE_SPECIFICATIONS.md",
+      "sha256": "f5ed2993fa1c4de02532a6e99535923c09cf9e499297a3bb3a36523103dc2f6e",
+      "sizeBytes": 41312,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/06_COMPLETE_RBAC_PERMISSION_MATRIX.md",
+      "repositoryPath": "docs/phase-01/06_COMPLETE_RBAC_PERMISSION_MATRIX.md",
+      "sha256": "dbf23fc3eb14dd5be39ef879eceb0c92d710d3089fe0563e15da3cefec3431fd",
+      "sizeBytes": 16666,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/07_FORM_FIELDS_AND_VALIDATION_CATALOG.md",
+      "repositoryPath": "docs/phase-01/07_FORM_FIELDS_AND_VALIDATION_CATALOG.md",
+      "sha256": "06292e6e055173cbe2059230d9019ce154302eebd47f36960d37cb0c307eac87",
+      "sizeBytes": 17514,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/08_BUSINESS_WORKFLOWS_AND_STATE_MACHINES.md",
+      "repositoryPath": "docs/phase-01/08_BUSINESS_WORKFLOWS_AND_STATE_MACHINES.md",
+      "sha256": "f5ca0b6524ed23e33e3c5f8ffd3a92fa1214958ee190f9c3ae923a546b025a90",
+      "sizeBytes": 12257,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/09_CMS_AND_PUBLISHING_WORKFLOWS.md",
+      "repositoryPath": "docs/phase-01/09_CMS_AND_PUBLISHING_WORKFLOWS.md",
+      "sha256": "162cc770fd5bbed65623c545338d829246f57d747412e96a93fe1713709299a5",
+      "sizeBytes": 10954,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/10_EMAIL_NOTIFICATION_REQUIREMENTS.md",
+      "repositoryPath": "docs/phase-01/10_EMAIL_NOTIFICATION_REQUIREMENTS.md",
+      "sha256": "29f916689e352ead897db8f704bd0e67568759534730d4758919ce09647f7620",
+      "sizeBytes": 15392,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/11_API_AND_DATABASE_REQUIREMENT_MAPPING.md",
+      "repositoryPath": "docs/phase-01/11_API_AND_DATABASE_REQUIREMENT_MAPPING.md",
+      "sha256": "8fe27af345c9a5642a0c022a283d9220dc1b449c6d18216f456a01d76b4d62b2",
+      "sizeBytes": 12102,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/12_SEO_ACCESSIBILITY_AND_RESPONSIVENESS.md",
+      "repositoryPath": "docs/phase-01/12_SEO_ACCESSIBILITY_AND_RESPONSIVENESS.md",
+      "sha256": "3c6c13dbc146a151316b770b2394e7bc73bafd88cde8af06bd461700066a11aa",
+      "sizeBytes": 13100,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/13_ERROR_STATES_AND_EDGE_CASES.md",
+      "repositoryPath": "docs/phase-01/13_ERROR_STATES_AND_EDGE_CASES.md",
+      "sha256": "d7b5b654f5b7a2efc06efbe2b2b8e7d0fe20de02c6144da81e52502ed8974b1c",
+      "sizeBytes": 24477,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/14_SECURITY_PRIVACY_AND_AUDIT_REQUIREMENTS.md",
+      "repositoryPath": "docs/phase-01/14_SECURITY_PRIVACY_AND_AUDIT_REQUIREMENTS.md",
+      "sha256": "39e0bdad70348c9d05f43800337476944cca63187a89a679cbc72393ec9a86dd",
+      "sizeBytes": 12217,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/15_REQUIREMENTS_TRACEABILITY_MATRIX.md",
+      "repositoryPath": "docs/phase-01/15_REQUIREMENTS_TRACEABILITY_MATRIX.md",
+      "sha256": "c3a13a5bb6d3be6c4965c2a3c11c5e778b8a57e295b65f4aa0ffad453c7a09d8",
+      "sizeBytes": 23806,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/16_BUSINESS_INPUTS_AND_OPEN_DECISIONS.md",
+      "repositoryPath": "docs/phase-01/16_BUSINESS_INPUTS_AND_OPEN_DECISIONS.md",
+      "sha256": "ef691da12f38b07a239304a86d5e93ea22c168a417107f93837fb114f9453ef9",
+      "sizeBytes": 12040,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/17_PHASE_1_ACCEPTANCE_TEST_CATALOG.md",
+      "repositoryPath": "docs/phase-01/17_PHASE_1_ACCEPTANCE_TEST_CATALOG.md",
+      "sha256": "482d6256698ba998d5e51a8425defe4e1dbadc77c3a535afbc62f67f3d19b281",
+      "sizeBytes": 85332,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/18_PHASE_1_FINAL_COMPLETION_REPORT.md",
+      "repositoryPath": "docs/phase-01/18_PHASE_1_FINAL_COMPLETION_REPORT.md",
+      "sha256": "6dbe56eb5b1ccb3b1f01a110e657fdb35051eca2155f471d771ac1a0ef71e988",
+      "sizeBytes": 11820,
+      "category": "Accepted Phase 1 Baseline Spec"
+    },
+    {
+      "archivePath": "docs/phase-01/19_PHASE_1_CORRECTION_AND_ACCEPTANCE_REPORT.md",
+      "repositoryPath": "docs/phase-01/19_PHASE_1_CORRECTION_AND_ACCEPTANCE_REPORT.md",
+      "sha256": "65c111d47dfc62a5c435ef98168764c406a9854a37a2df5a410b3eef274c9828",
+      "sizeBytes": 29337,
+      "category": "Accepted Phase 1 Baseline Spec"
+    }
+  ]
+}
