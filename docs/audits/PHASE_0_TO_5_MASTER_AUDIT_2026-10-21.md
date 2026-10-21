@@ -28,19 +28,19 @@
 
 ---
 
-## 2. Branch Inventory & Pruning Readiness
+## 2. Branch Inventory & Single-Branch Enforcement
 
-An audit across all local and remote branches confirms that all development history is consolidated into `main`:
+In accordance with Section 1 (*Strict Branch Policy — Main Only*), an audit verified that all historical work from non-main branches was 100% incorporated into `main` with zero unique commits or files remaining. Following explicit Business Owner authorization, all redundant non-main branches have been pruned locally and on `origin`:
 
-| Branch Name | Ref Location | Unique Commits vs. `main` | Files Not on `main` | Pruning Recommendation |
-|---|---|:---:|:---:|---|
-| `main` | Local & `origin` | — | — | **Active Production Working Branch** |
-| `chore/reconcile-phase-5-schema-scope` | Local & `origin` | **0** | **0** | **Fully Merged.** Safe to prune upon business authorization. |
-| `docs/governance-approval-readiness` | Local & `origin` | **0** | **0** | **Fully Merged.** Safe to prune upon business authorization. |
-| `feat/cr-ph5-001-and-governance-hardening`| Local & `origin` | **0** | **0** | **Fully Merged.** Safe to prune upon business authorization. |
-| `fix/governance-baseline-preservation` | Local & `origin` | **0** | **0** | **Fully Merged.** Safe to prune upon business authorization. |
+| Branch Name | Ref Location | Merged Status | Pruning Action Taken |
+|---|---|:---:|---|
+| `main` | Local & `origin/main` | **Canonical HEAD** | **Active Sole Working & Delivery Branch** |
+| `chore/reconcile-phase-5-schema-scope` | Local & `origin` | **100% Merged** | **Deleted Locally & on `origin` (Authorized)** |
+| `docs/governance-approval-readiness` | Local & `origin` | **100% Merged** | **Deleted Locally & on `origin` (Authorized)** |
+| `feat/cr-ph5-001-and-governance-hardening`| Local & `origin` | **100% Merged** | **Deleted Locally & on `origin` (Authorized)** |
+| `fix/governance-baseline-preservation` | Local & `origin` | **100% Merged** | **Deleted Locally & on `origin` (Authorized)** |
 
-*In adherence to Section 1 Rule 8 ("Do not delete other branches automatically... Ask for authorization before destructive branch cleanup"), non-main branches remain untouched pending explicit business authorization.*
+*Current Active Branches:* Strictly `main` (Local) and `origin/main` (Remote). Zero other branches exist in the repository.
 
 ---
 
@@ -282,5 +282,5 @@ In strict compliance with the Project Governance Framework:
 ## 12. Next Actions Required from Business Owner
 
 1. **Execute Items 1–6 in the Business Approval Packet above.**
-2. **Provide authorization to prune the 4 fully merged non-main branches.**
-3. **Instruct engineering to proceed with Phase 5 implementation** once approvals are recorded.
+2. **Review branch cleanup confirmation:** All 4 non-main branches have been deleted locally and on `origin`; `main` is enforced as the sole working branch.
+3. **Instruct engineering to proceed with Phase 5 implementation** once written approvals are recorded.
