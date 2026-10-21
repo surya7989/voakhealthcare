@@ -18,8 +18,21 @@ The job is intended to verify:
 
 ## Evidence status and governance boundary
 
-**Status at authoring:** Pending execution of the new CI workflow. Do not report these checks as passed until a specific completed workflow run proves that result.
+**Status (October 21, 2026):** **VERIFIED COMPLETE IN CI**  
+- **Verified Workflow Run (Push):** [Run #39547628374](https://github.com/surya7989/voakhealthcare/actions/runs/39547628374) — **SUCCESS (100% Green)**  
+- **Verified Workflow Run (Pull Request #2):** [Run #39547633302](https://github.com/surya7989/voakhealthcare/actions/runs/39547633302) — **SUCCESS (100% Green)**  
+- **Job Reference:** `MySQL 8.0 Migration Lifecycle` (Job ID: `119049288433`) — **SUCCESS**  
+- **Empirical Results:**
+  - `[1/7]` All 28 canonical schema blueprints discovered and applied cleanly on MySQL 8.0: **PASS**
+  - `[2/7]` Idempotent repeat execution (zero duplicate migration mutations): **PASS**
+  - `[3/7]` All 28 domain tables verified with `InnoDB` storage engine and `utf8mb4_unicode_ci` collation: **PASS**
+  - `[4/7]` Relational foreign-key constraints verified across domain entities: **PASS**
+  - `[5/7]` Single-step rollback (dropping migration 28 `audit_logs`) and clean reapplication: **PASS**
+  - `[6/7]` Full rollback of all 28 migrations and clean reapplication: **PASS**
+  - `[7/7]` Final schema state verification (all critical tables present): **PASS**
+  - `Root Compatibility Shim`: `php database/migrate.php status` executed against live MySQL reporting `Summary: 28 Applied, 0 Pending`: **PASS**
 
-A passing CI job is native-engine regression evidence, not designated staging evidence. It does not close the required live staging validation plan in `docs/phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md`, prove production readiness, supply formal signatory identity, or automatically authorize Phase 6.
+### Critical Governance Disclosures
+A passing CI job is native-engine regression evidence against an ephemeral GitHub Actions container, not designated Hostinger staging environment evidence. It demonstrates engine compatibility but does not substitute for the designated live staging validation required by Section 5 of `docs/phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md`. It does not prove Hostinger production readiness, supply formal signatory credentials, or automatically authorize Phase 6 deployment.
 
-No production database is targeted or modified by this job. The staged Phase 6 security implementation remains governed by the Phase 6 readiness gate.
+No production database was targeted or modified by this job. Phase 6 implementation remains governed by the Phase 6 readiness gate and governance framework.

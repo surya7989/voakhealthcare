@@ -172,9 +172,20 @@ php database/migrate.php status
 
 ### Supplementary CI Validation Versus Designated Staging Acceptance
 
-The repository CI workflow now includes a MySQL 8.0 service job intended to exercise the migration lifecycle against a disposable, isolated CI database. Its result is supplemental regression evidence only and must be recorded from the actual workflow run after it completes.
+The repository CI workflow includes a dedicated MySQL 8.0 service job (`MySQL 8.0 Migration Lifecycle`) that exercises the migration lifecycle against a disposable, isolated database (`voak_staging_ci`).
 
-A successful ephemeral CI job **does not substitute** for the designated staging environment validation required by Steps 1–6 above. It does not establish Hostinger connectivity, staging credentials/privileges, production readiness, or formal Gate D signatory execution. No production database is used by this CI job.
+**Verified Automated CI Results (October 21, 2026):**
+- **GitHub Actions Workflow Run:** [Run #39547628374](https://github.com/surya7989/voakhealthcare/actions/runs/39547628374) (push) / [Run #39547633302](https://github.com/surya7989/voakhealthcare/actions/runs/39547633302) (PR #2) — **SUCCESS (100% Green)**
+- **Verified Checks on Native MySQL 8.0:**
+  1. Discovery and fresh execution of all 28 migration blueprints: **VERIFIED PASS**
+  2. Idempotent repeat execution: **VERIFIED PASS**
+  3. All 28 domain tables verified with InnoDB storage engine and `utf8mb4_unicode_ci` collation: **VERIFIED PASS**
+  4. Relational foreign-key constraints created and enforced: **VERIFIED PASS**
+  5. Single-step rollback (dropping `audit_logs`) and reapplication: **VERIFIED PASS**
+  6. Complete rollback of all 28 migrations and clean reapplication: **VERIFIED PASS**
+  7. Root compatibility shim (`php database/migrate.php status`) reporting `28 Applied, 0 Pending`: **VERIFIED PASS**
+
+**Governance Boundary:** A successful ephemeral CI job **does not substitute** for the designated Hostinger staging environment validation required by Steps 1–6 above. It does not establish Hostinger connectivity, staging credentials/privileges, production readiness, or formal Gate D signatory execution. No production database is used by this CI job.
 
 ---
 
