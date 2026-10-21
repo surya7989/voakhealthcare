@@ -60,6 +60,10 @@ Neither observation impacts semantic correctness, responsive stability, or acces
 
 ## 5. Formal Business Owner Sign-Off Gate
 
+> [!WARNING]
+> **GOVERNANCE STATUS: SIGN-OFF PENDING — VISUAL PARITY NOT FORMALLY ACCEPTED**  
+> Visual parity comparative analysis and screenshot evidence have been compiled and verified by engineering. However, formal business-owner sign-off has NOT occurred. This section is an unexecuted sign-off template.
+
 | Sign-Off Criterion | Status | Business Owner Verification |
 |---|---|---|
 | **Design Parity with Reference Image 2** | Ready for Sign-off | `[ ] APPROVED   [ ] REVISION REQUESTED` |

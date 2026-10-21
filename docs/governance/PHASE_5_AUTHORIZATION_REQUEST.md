@@ -29,7 +29,7 @@ This document formally requests written authorization to commence the implementa
    - Real HTTP smoke tests on built-in server verified.
    - Apache `.htaccess` rewrite and security configuration implemented.
    - Composer configuration validated (`composer validate --strict` passed).
-   - PHP syntax linted across 100% of files (42/42 clean).
+   - PHP syntax linted across 100% of files (43/43 clean).
 2. **Phase 3 Governance Items Documented:**
    - `OPEN-01` (Responsive layout testing): 310/310 checks passed (100%) in real Microsoft Edge.
    - `OPEN-02` (Visual reference parity): Complete report compiled in `docs/phase-03/21_HOMEPAGE_VISUAL_PARITY_SIGN_OFF_REPORT.md` (Pending Business Sign-Off).
@@ -56,6 +56,10 @@ If authorized, Phase 5 implementation will strictly cover:
 ---
 
 ## 4. Formal Authorization Sign-Off
+
+> [!WARNING]
+> **GOVERNANCE STATUS: AUTHORIZATION PENDING — IMPLEMENTATION BLOCKED**  
+> The form below is an unexecuted request. Written authorization from the Business Owner has NOT yet been granted. Engineering must not initiate Phase 5 database migration development until this section is formally completed and signed.
 
 *To be completed by the authorized Business Owner or Steering Committee:*
 

@@ -118,8 +118,8 @@ backend/
 - **Result:** `./composer.json is valid` (Exit Code: 0)
 
 ### 4.3 Static PHP Syntax Linting
-- **Command:** `php -l` on all tracked PHP files across `backend/src/`, `backend/public/`, and `backend/tests/`
-- **Result:** 42/42 files checked, 0 errors detected (Exit Code: 0)
+- **Command:** `php -l` on all tracked PHP files across `backend/src/`, `backend/public/`, and `tests/`
+- **Result:** 43/43 files checked, 0 errors detected (Exit Code: 0)
 
 ### 4.4 Automated Browser Responsive Sweeps
 - **Command:** `node tests/test_expanded_responsive.js`
@@ -175,6 +175,11 @@ It is hereby certified that **zero premature implementation** of downstream phas
 ---
 
 ### Gate B: Formal Phase 4 Acceptance (Business Owner Sign-Off)
+
+> [!WARNING]
+> **GOVERNANCE STATUS: SIGNATURE PENDING — NOT YET FORMALLY ACCEPTED**  
+> Technical readiness has been proven and recommended by engineering. However, formal business-owner acceptance has NOT occurred. This section is an unexecuted template awaiting physical or digital execution by the authorized business signatory.
+
 *To be completed by the authorized Business Owner or Steering Committee:*
 
 ```
@@ -192,6 +197,11 @@ It is hereby certified that **zero premature implementation** of downstream phas
 ---
 
 ### Gate C: Phase 5 Commencement Authorization
+
+> [!WARNING]
+> **GOVERNANCE STATUS: AUTHORIZATION HELD — PHASE 5 IMPLEMENTATION FORBIDDEN**  
+> Phase 5 implementation is strictly blocked until Gate B (Phase 4 Acceptance) and Gate C (Phase 5 Authorization) are explicitly signed by the Business Owner. No database migrations, schemas, or code may be generated prior to this authorization.
+
 *To be completed by the authorized Business Owner or Steering Committee:*
 
 ```

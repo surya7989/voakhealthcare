@@ -42,3 +42,17 @@
 2. **No Fabricated Approvals:** Signatures, approvals, browser outputs, deployment results, and client decisions must never be assumed or generated.
 3. **Phase 5 Implementation Hard Stop:** No production database migrations, live schema creation, or Phase 5 source code may be committed until the repository holds written Phase 4 acceptance and explicit Phase 5 authorization from the Business Owner.
 4. **Security & Zero Secrets:** Zero credentials, private keys, live database passwords, or unredacted `.env` files may enter git history.
+
+---
+
+## 4. Actionable Business Owner Decision & Approval Checklist
+
+The following four specific items require formal Business Owner review and action:
+
+| Item # | Governance Area | Document to Review & Sign | Action Required by Business Owner | Engineering Recommendation |
+|---|---|---|---|---|
+| **1** | **Phase 4 Backend Foundation Acceptance** | [`docs/phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md`](../phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md) (Gate B) | Sign off Gate B to formally accept Phase 4 PHP backend foundation based on 46/46 automated test pass and CI verification. | **RECOMMENDED FOR FORMAL ACCEPTANCE** |
+| **2** | **Phase 3 OPEN-02 Visual Parity Sign-Off** | [`docs/phase-03/21_HOMEPAGE_VISUAL_PARITY_SIGN_OFF_REPORT.md`](../phase-03/21_HOMEPAGE_VISUAL_PARITY_SIGN_OFF_REPORT.md) (Section 5) | Review desktop (1440px), mobile (390px), and comparison screenshots against Image 2 benchmark; sign approval or provide punch-list. | **READY FOR BUSINESS SIGN-OFF** |
+| **3** | **Phase 3 OPEN-03 Requirement Traceability Decision** | [`docs/governance/DECISION_RECORD_OPEN_03_REQUIREMENT_TRACEABILITY.md`](DECISION_RECORD_OPEN_03_REQUIREMENT_TRACEABILITY.md) (Section 4) | Select **Option A** (Shared mapping across Homepage ribbon & Partners page) or **Option B** (Allocate new requirement ID). | **RECOMMEND OPTION A** (Least disruptive; zero regression risk) |
+| **4** | **Phase 5 Commencement Authorization** | [`docs/governance/PHASE_5_AUTHORIZATION_REQUEST.md`](PHASE_5_AUTHORIZATION_REQUEST.md) (Section 4) and [`docs/phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md`](../phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md) (Gate C) | Sign authorization granting permission to begin Phase 5 database migration runner & production schema implementation. | **RECOMMENDED FOR AUTHORIZATION (Contingent on Item 1)** |
+

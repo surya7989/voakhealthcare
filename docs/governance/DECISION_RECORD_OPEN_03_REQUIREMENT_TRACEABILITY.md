@@ -57,6 +57,10 @@ As mandated by **Rule 1 & Rule 3 of the Project Governance Framework**:
 
 ## 4. Formal Decision Sign-off
 
+> [!WARNING]
+> **GOVERNANCE STATUS: DECISION PENDING — OPTION UNSELECTED**  
+> While engineering recommends Option A (Ratify shared mapping), the final decision authority rests exclusively with the Business Owner. No baseline change will be applied until this sign-off is completed.
+
 | Field | Detail |
 |---|---|
 | **Selected Option:** | `[ A / B ]` (Awaiting Business Owner Selection) |
