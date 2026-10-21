@@ -41,6 +41,9 @@ jobs:
       - name: Run Root Backend Test Suite
         run: php tests/test_backend_foundation.php
 
+      - name: Run Phase 6 Admin Auth and Security Test Suite
+        run: php tests/test_phase6_admin_auth.php
+
       - name: Verify Secret Scanning Baseline
         run: php tests/scan_secrets.php
 

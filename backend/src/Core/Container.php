@@ -19,6 +19,11 @@ class Container
         $this->instances[$id] = $value;
     }
 
+    public function instance(string $id, mixed $value): void
+    {
+        $this->instances[$id] = $value;
+    }
+
     public function singleton(string $id, callable $factory): void
     {
         $this->bindings[$id] = ['factory' => $factory, 'singleton' => true];

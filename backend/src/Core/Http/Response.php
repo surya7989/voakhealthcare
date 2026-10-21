@@ -96,12 +96,21 @@ class Response
      */
     public static function error(
         string $message,
-        string $errorCode = 'ERROR',
-        int $statusCode = 400,
+        string|int $errorCode = 'ERROR',
+        int|string $statusCode = 400,
         string $referenceId = '',
         array $details = [],
         string $correlationId = ''
     ): self {
+        if (is_int($errorCode) && is_string($statusCode)) {
+            $temp = $errorCode;
+            $errorCode = $statusCode;
+            $statusCode = $temp;
+        } elseif (is_int($errorCode)) {
+            $statusCode = $errorCode;
+            $errorCode = 'ERROR';
+        }
+        $statusCode = (int)$statusCode;
         $errorPayload = [
             'code' => $errorCode,
             'message' => $message,

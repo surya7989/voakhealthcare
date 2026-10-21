@@ -104,6 +104,27 @@ class Request
         return array_key_exists($normalized, $this->headers);
     }
 
+    /**
+     * Extracts a named cookie value from the Cookie header.
+     */
+    public function getCookie(string $name, ?string $default = null): ?string
+    {
+        $cookieHeader = $this->getHeader('cookie');
+        if ($cookieHeader === null) {
+            return $default;
+        }
+
+        $cookies = explode(';', $cookieHeader);
+        foreach ($cookies as $cookie) {
+            $parts = explode('=', trim($cookie), 2);
+            if (count($parts) === 2 && trim($parts[0]) === $name) {
+                return urldecode(trim($parts[1]));
+            }
+        }
+
+        return $default;
+    }
+
     public function getRawBody(): string
     {
         return $this->rawBody;
@@ -145,6 +166,17 @@ class Request
 
     public function getClientIp(): string
     {
+        $forwarded = $this->getHeader('x-forwarded-for');
+        if ($forwarded !== null && $forwarded !== '') {
+            $ips = explode(',', $forwarded);
+            return trim($ips[0]);
+        }
+
+        $realIp = $this->getHeader('x-real-ip');
+        if ($realIp !== null && $realIp !== '') {
+            return trim($realIp);
+        }
+
         return $this->clientIp;
     }
 

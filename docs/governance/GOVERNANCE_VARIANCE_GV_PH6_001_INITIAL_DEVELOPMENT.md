@@ -6,7 +6,8 @@
 **Project:** Voak Health Care Corporate B2B Platform  
 **Target Phase:** Phase 6 — Admin Authentication, RBAC, Sessions & MFA  
 **Date Submitted:** October 21, 2026  
-**Status:** **PROPOSED — PENDING FORMAL BUSINESS OWNER APPROVAL**  
+**Status:** **AUTHORIZED BY BUSINESS OWNER DIRECTIVE (Direct-to-Main Development Scope)**  
+**Authorization Date:** October 21, 2026  
 **Governing Documents:**
 - `docs/governance/00_CENTRAL_GOVERNANCE_REGISTER.md`
 - `docs/phase-00/13_COMPLETE_32_PHASE_TRACEABILITY.md` (Project Rules 1, 9, 10)
@@ -29,19 +30,21 @@
 3. **Current Governance State:**
    - The Business Owner communicated the directive: *"DECISION: PHASE 5 ACCEPTED, DESPITE OUTSTANDING LIVE MYSQL STAGING VALIDATION."*
    - Phase 5 is recorded as **Accepted in Principle**.
-   - Under Project Governance Rules 1, 9, and 10, full formal execution of Gate D requires individual signatory identity (name/title) and live validation on the designated Hostinger staging environment.
-   - Consequently, Phase 6 commencement on `main` is currently held/blocked pending those requirements.
+   - On October 21, 2026, the Business Owner issued an explicit instruction: *"I want Phase 6 developed directly in the existing main branch. Do not create a separate Phase 6 feature branch or separate sub-branches. All verified fixes and completed components must be committed and pushed directly to main, with tests run throughout development."*
 
 ---
 
-## 2. Proposed Variance Scope & Technical Rationale
+## 2. Authorized Scope & Strict Governance Boundaries
 
-To prevent technical schedule stalling while physical signatory execution and Hostinger live staging instance provisioning are completed, this variance requests permission to proceed with Phase 6 initial development under strict isolation controls:
+In response to the Business Owner's explicit directive, engineering is authorized to execute Phase 6 development directly on `main` subject to the following non-negotiable boundaries:
 
-1. **Feature Branch Isolation:** All Phase 6 development will take place on a dedicated feature branch (`feature/phase6-admin-auth`) rather than directly committing incomplete features to `main`.
-2. **Isolated Database Persistence:** Unit tests, integration tests, and negative security tests for Phase 6 will run against isolated SQLite memory mode and ephemeral MySQL 8.0 CI service containers.
-3. **Zero Production Mutation:** No live Hostinger or production databases will be accessed, configured, or modified.
-4. **No Premature Main Merge:** The feature branch will **not** be merged into `main` until all Phase 6 implementation requirements, automated security tests, and CI runs are 100% verified and reviewed.
+1. **Direct-to-Main Incremental Implementation:** Phase 6 components are implemented directly in `main`, but every commit must be verified locally with 100% passing tests, PHP syntax lint, and secret scanning prior to push.
+2. **Isolated Database Persistence During Development:** Unit, integration, and security tests run against isolated SQLite memory instances and ephemeral GitHub Actions MySQL 8.0 service containers.
+3. **Strict Production & Staging Safeguards:**
+   - Zero live production database connections, schema mutations, or deployments are authorized.
+   - Dedicated Hostinger live staging validation remains an outstanding requirement and is not bypassed or fabricated.
+   - Zero credentials, API tokens, passwords, or `.env` secrets may enter git history.
+4. **Gate E & Production Deployment Gating:** Full Phase 6 production deployment and Gate E acceptance remain strictly gated pending formal signatory execution and subsequent live staging validation.
 
 ---
 
@@ -66,26 +69,30 @@ If approved, engineering will implement the complete Phase 6 specification defin
 
 ## 4. Governance Action & Approval Block
 
-> [!IMPORTANT]
-> **STATUS:** PROPOSED — This variance request is documented transparently in repository history. Engineering will not treat this variance as approved until the Business Owner explicitly reviews and grants authorization.
+> [!NOTE]
+> **STATUS:** AUTHORIZED VIA BUSINESS OWNER DIRECTIVE (October 21, 2026).
+> Direct-to-main incremental implementation authorized under isolated testing. Staging deployment and formal Gate E remain gated pending Hostinger staging infrastructure and physical signatory execution.
 
 ```markdown
 ================================================================================
 GOVERNANCE VARIANCE RECORD: GV-PH6-001
 ================================================================================
 
-[ ] VARIANCE APPROVED:
-    Permission is granted to commence Phase 6 implementation on a dedicated
-    feature branch using isolated testing environments while formal signatory
-    credentials and Hostinger staging validation are finalized.
+[X] VARIANCE AUTHORIZED (DIRECT-TO-MAIN DEVELOPMENT SCOPE):
+    Permission granted via explicit Business Owner instruction on October 21, 2026:
+    "I want Phase 6 developed directly in the existing main branch. Do not create
+    a separate Phase 6 feature branch or separate sub-branches. All verified fixes
+    and completed components must be committed and pushed directly to main, with
+    tests run throughout development."
 
-[ ] VARIANCE REJECTED / DEFERRED:
-    Engineering must remain paused on Phase 6 until full Gate D formal signature
-    and live Hostinger staging validation are completed.
+    Limitations:
+    - Development occurs directly on 'main' with tests verified per commit.
+    - Testing limited to isolated SQLite and ephemeral MySQL 8.0 CI service containers.
+    - Zero production database mutation or Hostinger deployment.
+    - Formal Gate D/E physical signatory identity and live Hostinger staging validation
+      remain outstanding prerequisites prior to any production deployment.
 
-Business Owner / Authorized Signatory: _________________________________________
-Title / Role:                           _________________________________________
-Signature:                              _________________________________________
-Date:                                   _________________________________________
+Authorization Source: Business Owner Directive
+Authorization Date:   October 21, 2026
 ================================================================================
 ```

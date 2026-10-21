@@ -1,0 +1,295 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Voak\Health\Auth;
+
+use Voak\Health\Core\Exceptions\AuthenticationException;
+use Voak\Health\Security\AuditLogger;
+use Voak\Health\Security\Crypto;
+use Voak\Health\Security\PasswordHasher;
+
+/**
+ * Enterprise Authentication Service for Administrative Staff.
+ * Implements timing-attack resistance, brute-force lockout, MFA handoff, and session provisioning.
+ */
+class AuthenticationService
+{
+    public const MAX_FAILED_ATTEMPTS = 5;
+    public const LOCKOUT_DURATION_SECONDS = 900; // 15 minutes
+    public const PRE_AUTH_TTL_SECONDS = 300;     // 5 minutes
+
+    private PasswordHasher $hasher;
+    private SessionManager $sessionManager;
+    private TotpService $totpService;
+    private RbacManager $rbacManager;
+    private AuditLogger $auditLogger;
+
+    public function __construct(
+        ?PasswordHasher $hasher = null,
+        ?SessionManager $sessionManager = null,
+        ?TotpService $totpService = null,
+        ?RbacManager $rbacManager = null,
+        ?AuditLogger $auditLogger = null
+    ) {
+        $this->hasher = $hasher ?? new PasswordHasher();
+        $this->sessionManager = $sessionManager ?? new SessionManager();
+        $this->totpService = $totpService; // injected or initialized in method
+        $this->rbacManager = $rbacManager ?? new RbacManager();
+        $this->auditLogger = $auditLogger ?? new AuditLogger();
+    }
+
+    /**
+     * Authenticates an administrative user by email and password.
+     *
+     * @return array{
+     *   status: 'authenticated'|'requires_mfa',
+     *   user?: array<string, mixed>,
+     *   session?: array{session_id: string, csrf_token: string, expires_at: int},
+     *   pre_auth_token?: string
+     * }
+     */
+    public function authenticate(
+        \PDO $pdo,
+        string $email,
+        string $password,
+        string $ipAddress = '127.0.0.1',
+        string $userAgent = 'Unknown'
+    ): array {
+        $cleanEmail = strtolower(trim($email));
+
+        // 1. Fetch user record
+        $stmt = $pdo->prepare(
+            "SELECT `id`, `name`, `email`, `password_hash`, `is_active`, `failed_login_attempts`, `lockout_until` 
+             FROM `users` 
+             WHERE `email` = :email AND `deleted_at` IS NULL"
+        );
+        $stmt->execute(['email' => $cleanEmail]);
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+
+        // 2. Dummy password verification on non-existent account to mitigate timing-based enumeration
+        if (!$user) {
+            $dummyHash = '$2y$12$DUMMY_HASH_FOR_TIMING_ATTACK_MITIGATION_ONLY_XXXXXXXXXXXXX';
+            $this->hasher->verify($password, $dummyHash);
+            $this->auditLogger->log($pdo, 'auth', 'AUTH_LOGIN_FAILURE_UNKNOWN_USER', null, $ipAddress, $userAgent, 'user', null, ['email' => $cleanEmail]);
+            throw new AuthenticationException("Invalid credentials or account locked.");
+        }
+
+        $userId = (int)$user['id'];
+        $now = time();
+
+        // 3. Check account lockout state
+        if ($user['lockout_until'] !== null) {
+            $lockoutUntil = strtotime((string)$user['lockout_until']);
+            if ($now < $lockoutUntil) {
+                $this->auditLogger->log($pdo, 'auth', 'AUTH_LOGIN_REJECTED_LOCKED', $userId, $ipAddress, $userAgent, 'user', $userId);
+                throw new AuthenticationException("Invalid credentials or account locked.");
+            }
+        }
+
+        // 4. Check active account flag
+        if ((int)$user['is_active'] !== 1) {
+            $this->auditLogger->log($pdo, 'auth', 'AUTH_LOGIN_REJECTED_INACTIVE', $userId, $ipAddress, $userAgent, 'user', $userId);
+            throw new AuthenticationException("Account is inactive or disabled.");
+        }
+
+        // 5. Verify password
+        $passwordValid = $this->hasher->verify($password, (string)$user['password_hash']);
+
+        if (!$passwordValid) {
+            $this->handleFailedLogin($pdo, $userId, (int)$user['failed_login_attempts'], $ipAddress, $userAgent);
+            throw new AuthenticationException("Invalid credentials or account locked.");
+        }
+
+        // 6. Reset failed attempts upon successful password match
+        $resetStmt = $pdo->prepare(
+            "UPDATE `users` SET `failed_login_attempts` = 0, `lockout_until` = NULL WHERE `id` = :uid"
+        );
+        $resetStmt->execute(['uid' => $userId]);
+        $resetStmt->closeCursor();
+
+        // 7. Check if password hash requires parameter upgrade / rehash
+        if ($this->hasher->needsRehash((string)$user['password_hash'])) {
+            $newHash = $this->hasher->hash($password);
+            $upg = $pdo->prepare("UPDATE `users` SET `password_hash` = :hash WHERE `id` = :uid");
+            $upg->execute(['hash' => $newHash, 'uid' => $userId]);
+            $upg->closeCursor();
+        }
+
+        // 8. Check MFA status
+        if ($this->isMfaConfigured($pdo, $userId)) {
+            $preAuthToken = $this->createPreAuthToken($userId);
+            $this->auditLogger->log($pdo, 'auth', 'AUTH_MFA_CHALLENGE_ISSUED', $userId, $ipAddress, $userAgent, 'user', $userId);
+
+            return [
+                'status'         => 'requires_mfa',
+                'pre_auth_token' => $preAuthToken,
+            ];
+        }
+
+        // 9. Provision server-side session
+        $session = $this->sessionManager->createSession($pdo, $userId, $ipAddress, $userAgent);
+        $roles = $this->rbacManager->getUserRoles($pdo, $userId);
+        $permissions = $this->rbacManager->getUserPermissions($pdo, $userId);
+
+        $this->auditLogger->log($pdo, 'auth', 'AUTH_LOGIN_SUCCESS', $userId, $ipAddress, $userAgent, 'user', $userId, ['roles' => $roles]);
+
+        return [
+            'status'  => 'authenticated',
+            'user'    => [
+                'id'          => $userId,
+                'name'        => (string)$user['name'],
+                'email'       => (string)$user['email'],
+                'roles'       => $roles,
+                'permissions' => $permissions,
+            ],
+            'session' => $session,
+        ];
+    }
+
+    /**
+     * Completes authentication by verifying MFA challenge or emergency recovery code.
+     */
+    public function verifyMfaAndEstablishSession(
+        \PDO $pdo,
+        string $preAuthToken,
+        string $mfaCode,
+        bool $isRecoveryCode = false,
+        string $ipAddress = '127.0.0.1',
+        string $userAgent = 'Unknown'
+    ): array {
+        $userId = $this->resolvePreAuthToken($preAuthToken);
+        if ($userId === null) {
+            throw new AuthenticationException("Pre-authentication challenge expired or invalid.");
+        }
+
+        if ($this->totpService === null) {
+            throw new \RuntimeException("TotpService not injected.");
+        }
+
+        if ($isRecoveryCode) {
+            $valid = $this->totpService->verifyAndConsumeRecoveryCode($pdo, $userId, $mfaCode);
+            $action = 'AUTH_MFA_RECOVERY_CODE_VERIFIED';
+        } else {
+            $valid = $this->totpService->verifyLoginCode($pdo, $userId, $mfaCode);
+            $action = 'AUTH_MFA_TOTP_VERIFIED';
+        }
+
+        if (!$valid) {
+            $this->auditLogger->log($pdo, 'auth', 'AUTH_MFA_FAILED', $userId, $ipAddress, $userAgent, 'user', $userId);
+            throw new AuthenticationException("Invalid verification code.");
+        }
+
+        // Provision session
+        $session = $this->sessionManager->createSession($pdo, $userId, $ipAddress, $userAgent);
+
+        $stmt = $pdo->prepare("SELECT `id`, `name`, `email` FROM `users` WHERE `id` = :uid");
+        $stmt->execute(['uid' => $userId]);
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+
+        $roles = $this->rbacManager->getUserRoles($pdo, $userId);
+        $permissions = $this->rbacManager->getUserPermissions($pdo, $userId);
+
+        $this->auditLogger->log($pdo, 'auth', $action, $userId, $ipAddress, $userAgent, 'user', $userId);
+
+        return [
+            'status'  => 'authenticated',
+            'user'    => [
+                'id'          => $userId,
+                'name'        => (string)$user['name'],
+                'email'       => (string)$user['email'],
+                'roles'       => $roles,
+                'permissions' => $permissions,
+            ],
+            'session' => $session,
+        ];
+    }
+
+    private function handleFailedLogin(\PDO $pdo, int $userId, int $currentAttempts, string $ip, string $ua): void
+    {
+        $newAttempts = $currentAttempts + 1;
+        $lockoutUntil = null;
+
+        if ($newAttempts >= self::MAX_FAILED_ATTEMPTS) {
+            $lockoutUntil = gmdate('Y-m-d H:i:s', time() + self::LOCKOUT_DURATION_SECONDS);
+            $this->auditLogger->log($pdo, 'auth', 'AUTH_ACCOUNT_LOCKED', $userId, $ip, $ua, 'user', $userId, [
+                'attempts'      => $newAttempts,
+                'lockout_until' => $lockoutUntil,
+            ]);
+        } else {
+            $this->auditLogger->log($pdo, 'auth', 'AUTH_LOGIN_FAILURE', $userId, $ip, $ua, 'user', $userId, [
+                'attempt' => $newAttempts,
+            ]);
+        }
+
+        $stmt = $pdo->prepare(
+            "UPDATE `users` SET `failed_login_attempts` = :att, `lockout_until` = :lock WHERE `id` = :uid"
+        );
+        $stmt->execute([
+            'att'  => $newAttempts,
+            'lock' => $lockoutUntil,
+            'uid'  => $userId,
+        ]);
+        $stmt->closeCursor();
+    }
+
+    private function isMfaConfigured(\PDO $pdo, int $userId): bool
+    {
+        $stmt = $pdo->prepare("SELECT `is_confirmed` FROM `admin_mfa_secrets` WHERE `user_id` = :uid");
+        $stmt->execute(['uid' => $userId]);
+        $confirmed = $stmt->fetchColumn();
+        $stmt->closeCursor();
+
+        return $confirmed !== false && (int)$confirmed === 1;
+    }
+
+    /**
+     * Creates an HMAC-signed pre-authentication token encoding user ID and expiry timestamp.
+     */
+    public function createPreAuthToken(int $userId): string
+    {
+        $expires = time() + self::PRE_AUTH_TTL_SECONDS;
+        $payload = $userId . ':' . $expires;
+        $signature = hash_hmac('sha256', $payload, 'voak-preauth-signing-secret');
+
+        return base64_encode($payload . ':' . $signature);
+    }
+
+    /**
+     * Resolves user ID from a valid, non-expired pre-auth token.
+     */
+    public function resolvePreAuthToken(string $token): ?int
+    {
+        $decoded = base64_decode($token, true);
+        if ($decoded === false) {
+            return null;
+        }
+
+        $parts = explode(':', $decoded);
+        if (count($parts) !== 3) {
+            return null;
+        }
+
+        [$userIdStr, $expiresStr, $signature] = $parts;
+        $userId = (int)$userIdStr;
+        $expires = (int)$expiresStr;
+
+        if (time() >= $expires) {
+            return null;
+        }
+
+        $expectedSig = hash_hmac('sha256', $userIdStr . ':' . $expiresStr, 'voak-preauth-signing-secret');
+        if (!hash_equals($expectedSig, $signature)) {
+            return null;
+        }
+
+        return $userId;
+    }
+
+    public function setTotpService(TotpService $totpService): void
+    {
+        $this->totpService = $totpService;
+    }
+}
