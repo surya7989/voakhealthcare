@@ -83,7 +83,7 @@ backend/
 |---|---|---|---|---|
 | **`BASE-01`** | **P1 — High** | `backend/public/.htaccess` | Authored full Apache configuration from `docs/phase-02/11_HOSTINGER_DEPLOYMENT_TOPOLOGY.md` protecting sensitive directories, setting security headers, and routing API and SPA requests. | File created, verified syntax, tested rewrite rules against front controllers. |
 | **`BASE-02`** | **P2 — Medium** | `docs/phase-04/01_*.md` Line 97 | Fixed malformed Markdown link syntax `[`backend/src/Core/App.php](../../...)` to balanced brackets. | Markdown parser validation passed without warnings. |
-| **`BASE-03`** | **P2 — Medium** | Documentation suite | Sanitized all machine-specific file URIs (`file:///c:/Users/...`) across `docs/phase-00/`, `docs/phase-02/`, `docs/phase-03/`, and `docs/phase-04/` into portable relative links. | Scripted regex scan confirmed zero local machine paths in documentation. |
+| **`BASE-03`** | **P2 — Medium** | Documentation suite | Sanitized all machine-specific file URIs (`file:///[local-user-path]`) across `docs/phase-00/`, `docs/phase-02/`, `docs/phase-03/`, and `docs/phase-04/` into portable relative links. | Scripted regex scan confirmed zero local machine paths in documentation. |
 | **`BASE-04`** | **P2 — Medium** | `.github/workflows/` | Created `.github/workflows/backend-ci.yml` matrix testing PHP 8.2 and 8.3 with Composer validation, PHP syntax linting, root test suite, secret scans, and path verification. | Workflow syntax validated against GitHub Actions schema. |
 | **`BASE-05`** | **P2 — Medium** | `backend/src/Core/App.php` | Implemented `App::boot()` alias matching specification docs; added explicit assertions in test suite. | 46/46 tests passed (expanded from 45 tests, 165 total assertions). |
 
@@ -123,8 +123,8 @@ backend/
 
 ### 4.4 Automated Browser Responsive Sweeps
 - **Command:** `node tests/test_expanded_responsive.js`
-  - Browser: Headless Microsoft Edge (CDP, Product Version: 141.0.3537.92)
-  - Scope: 22 Public Pages × 9 Viewports, 19 Admin Modules × 3 Viewports, Live Homepage × 9 Viewports
+  - Browser: Headless Microsoft Edge (CDP, Product Version: 155.0.4283.62)
+  - Scope: Master Homepage × 11 Viewports (11), 22 Public Pages × 11 Viewports (242), 19 Admin Modules × 3 Viewports (57)
   - Total Layout Verifications: **310**
   - Passed: **310 (100%)** | Failed: **0** | Horizontal Overflow: **0px**
 - **Command:** `node tests/test_responsive_overflow.js`

@@ -44,7 +44,7 @@ Per mandatory governance controls:
 | **Bento Grid Architecture** | Asymmetrical multi-card bento grid highlighting 4 core service capabilities: Clinical Workforce, Facility Operations, Governance & Compliance, Digital Health Infrastructure. | CSS Grid with `repeat(auto-fit, minmax(280px, 1fr))` on tablet/mobile and 4-column balanced bento on desktop (>1280px). | **PARITY CONFIRMED** |
 | **Proof & Social Ribbon** | Subtle accreditation ribbon with compliance standards (ISO 9001, ACHS, NDIS Registered Provider, RACGP Alignment). | Fully rendered with conditional omission logic in place (`FR-PUB-004`). Total DOM collapse if unverified. | **PARITY CONFIRMED** |
 | **Interactive Modals** | Multi-step B2B Proposal / RFP Wizard with step indicators, validation, and accessibility traps. | Implemented in `design/phase-03/app.js` with full focus containment and escape key listeners. | **PARITY CONFIRMED** |
-| **Responsive Behavior** | 0px horizontal blowout across 320px, 360px, 375px, 390px, 414px, 428px, 768px, 1024px, 1280px, 1440px, 1920px. | All 310 responsive tests passed 100% in real Microsoft Edge (CDP). 0px horizontal scroll blowout. | **PARITY CONFIRMED** |
+| **Responsive Behavior** | 0px horizontal blowout across 320px, 360px, 375px, 390px, 414px, 428px, 768px, 1024px, 1280px, 1440px, 1920px. | All 310 responsive tests passed 100% in real Microsoft Edge (CDP v155.0.4283.62). 0px horizontal scroll blowout across 11 public and 3 admin viewports. | **PARITY CONFIRMED** |
 
 ---
 

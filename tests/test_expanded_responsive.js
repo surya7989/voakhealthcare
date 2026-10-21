@@ -1,11 +1,11 @@
 /**
- * Voak Health Care — Phase 3 V7 Expanded Responsive Automated Verification Suite
+ * Voak Health Care — Phase 3 V10 Expanded Responsive Automated Verification Suite
  *
  * Real CDP Browser Measurement Engine:
- * - Master Homepage (Live Root) × 9 Canonical Viewport Widths (9 checks)
- * - 22 Public Page Mockups × 9 Canonical Viewport Widths (198 checks)
+ * - Master Homepage (Live Root) × 11 Canonical Viewport Widths (11 checks)
+ * - 22 Public Page Mockups × 11 Canonical Viewport Widths (242 checks)
  * - 19 Admin Module Workspaces × 3 Canonical Viewport Widths (57 checks)
- * Total: 264 Distinct Automated Viewport & Layout Verifications
+ * Total: Exactly 310 Distinct Automated Viewport & Layout Verifications (11 + 242 + 57 = 310)
  *
  * Strict Verification Criteria (Zero Tolerance):
  * 1. ZERO horizontal overflow (scrollWidth <= innerWidth, 0px blowout).

@@ -2,7 +2,7 @@ name: Voak Health Care CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, 'fix/**', 'feature/**', 'chore/**' ]
   pull_request:
     branches: [ main ]
 
@@ -42,9 +42,7 @@ jobs:
         run: php tests/test_backend_foundation.php
 
       - name: Verify Secret Scanning Baseline
-        run: |
-          echo "Scanning for accidental committed secret patterns..."
-          ! grep -rnE "(BEGIN PRIVATE KEY|sk_live_|ghp_[A-Za-z0-9]{36})" --exclude-dir={.git,vendor,node_modules,storage} --exclude="*.example" .
+        run: php tests/scan_secrets.php
 
       - name: Verify No Local Machine Absolute Paths in Documentation
         run: |

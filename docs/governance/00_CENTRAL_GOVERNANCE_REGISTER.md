@@ -30,7 +30,7 @@
 
 | Issue ID | Description | Technical State | Governance / Authorization State | Action Required to Unblock |
 |---|---|---|---|---|
-| **`OPEN-01`** | Responsive Browser Verification (310 checks across 22 pages, 19 admin modules, 11 viewports) | **VERIFIED ON-HOST (100% PASS)**<br>Real Headless Microsoft Edge executed: 310/310 passed, 0px blowout, zero JS errors. | **Awaiting Formal Business Acceptance** | Business Owner confirms acceptance of test evidence (`tests/results/phase-03-responsive-results.json`). |
+| **`OPEN-01`** | Responsive Browser Verification (310 checks: 11 master + 242 public [22×11] + 57 admin [19×3]) | **VERIFIED ON-HOST (100% PASS)**<br>Real Headless Microsoft Edge (v155.0.4283.62): 310/310 passed, 0px blowout, zero JS errors. | **Awaiting Formal Business Acceptance** | Business Owner confirms acceptance of test evidence (`tests/results/phase-03-responsive-results.json`). |
 | **`OPEN-02`** | Visual Parity with Approved Reference Image 2 | **EVIDENCE COMPILED**<br>Desktop (1440px), Mobile (390px), Tablet (768px), and Side-by-Side composite generated and verified. | **PENDING BUSINESS SIGN-OFF** | Business Owner reviews `docs/phase-03/21_HOMEPAGE_VISUAL_PARITY_SIGN_OFF_REPORT.md` and provides written sign-off or punch-list. |
 | **`OPEN-03`** | `FR-PUB-004` Traceability Conflict (`PAGE-PUB-01` vs `PAGE-PUB-10`) | **ARCHITECTURAL SCAFFOLDING ACTIVE**<br>`GET /api/v1/public/partners-preview` serves non-breaking modular envelope. | **BLOCKED — BUSINESS DECISION REQUIRED** | Business Owner selects Option A (Shared Mapping - Recommended) or Option B (Allocate new ID) in `docs/governance/DECISION_RECORD_OPEN_03_REQUIREMENT_TRACEABILITY.md`. |
 

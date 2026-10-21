@@ -86,7 +86,7 @@ voak-health-care/
 |---|---|---|---|---|---|
 | **`BASE-01`** | **P1 — High** | `backend/public/.htaccess` | Apache rewrite rules missing from repository, risking unrouted API requests and exposed paths on shared hosting. | Created `backend/public/.htaccess` with exact rules from `docs/phase-02/11_HOSTINGER_DEPLOYMENT_TOPOLOGY.md`. | **RESOLVED & VERIFIED** |
 | **`BASE-02`** | **P2 — Medium** | `docs/phase-04/01_*.md` | Broken markdown link syntax on line 97 (unclosed backtick inside brackets on `App.php`). | Fixed markdown link syntax to balanced backticks: `[`backend/src/Core/App.php`](../../backend/src/Core/App.php)`. | **RESOLVED & VERIFIED** |
-| **`BASE-03`** | **P2 — Medium** | Repository-wide | Non-portable local machine paths (`file:///c:/Users/...`) present in Phase 0, 2, 3, and 4 documentation files. | Sanitized all local URIs in `docs/phase-00/`, `docs/phase-02/`, `docs/phase-03/`, `docs/phase-04/`, and root docs to repository-relative links. | **RESOLVED & VERIFIED** |
+| **`BASE-03`** | **P2 — Medium** | Repository-wide | Non-portable local machine paths (`file:///[local-user-path]`) present in Phase 0, 2, 3, and 4 documentation files. | Sanitized all local URIs in `docs/phase-00/`, `docs/phase-02/`, `docs/phase-03/`, and `docs/phase-04/` into repository-relative links. | **RESOLVED & VERIFIED** |
 | **`BASE-04`** | **P2 — Medium** | CI Automation | `.github/workflows/` was absent; no automated CI pipeline existed to validate pull requests and pushes to `main`. | Created `.github/workflows/backend-ci.yml` running PHP 8.2/8.3 tests, syntax checks, Composer validation, and link scans. | **RESOLVED & VERIFIED** |
 | **`BASE-05`** | **P2 — Medium** | `backend/src/Core/App.php` | Naming discrepancy between `App::bootstrap()` and documented `App::boot()`. | Added `App::boot()` alias and expanded test suite from 45 to 46 tests (165 assertions). | **RESOLVED & VERIFIED** |
 | **`BASE-06`** | **P3 — Low** | Phase 3 Governance | `OPEN-01` (310 responsive checks) was unexecuted due to assumed browser absence. | Executed `node tests/test_expanded_responsive.js` using detected on-host Microsoft Edge (`msedge.exe`). All 310 checks passed (100%). | **EXECUTED & VERIFIED (Awaiting Sign-off)** |
@@ -103,7 +103,8 @@ voak-health-care/
 2. **Phase 3 Responsive Browser Sweep (310 checks):**
    - Command: `node tests/test_expanded_responsive.js`
    - Total Checks: 310 | Passed: 310 | Failed: 0 | Overflow Blowouts: 0px | Exit Code: 0
-   - Browser Runtime: Headless Microsoft Edge (Product Version: 141.0.3537.92)
+   - Browser Runtime: Headless Microsoft Edge (Product Version: 155.0.4283.62)
+   - Scope Breakdown: Master Homepage (11 viewports) + 22 Public Pages (22 × 11 = 242) + 19 Admin Modules (19 × 3 = 57) = Exactly 310 Checks
 3. **Composer Validation:**
    - Command: `composer validate` (in `backend/`)
    - Result: `./composer.json is valid` | Exit Code: 0
