@@ -73,14 +73,24 @@ switch ($action) {
     case 'consume_reset':
         $token = $options['token'] ?? '';
         $newPass = $options['password'] ?? 'Concurrent#2026!Pass';
-        $success = $resetService->confirmReset($pdo, $token, $newPass);
-        exit($success ? 0 : 1);
+        try {
+            $success = $resetService->confirmReset($pdo, $token, $newPass);
+            exit($success ? 0 : 1);
+        } catch (\Throwable $e) {
+            fwrite(STDERR, "consume_reset error: " . $e->getMessage() . "\n" . $e->getTraceAsString() . "\n");
+            exit(1);
+        }
 
     case 'consume_recovery':
         $userId = (int)($options['user_id'] ?? 1);
         $code = $options['code'] ?? '';
-        $success = $totpService->verifyAndConsumeRecoveryCode($pdo, $userId, $code);
-        exit($success ? 0 : 1);
+        try {
+            $success = $totpService->verifyAndConsumeRecoveryCode($pdo, $userId, $code);
+            exit($success ? 0 : 1);
+        } catch (\Throwable $e) {
+            fwrite(STDERR, "consume_recovery error: " . $e->getMessage() . "\n" . $e->getTraceAsString() . "\n");
+            exit(1);
+        }
 
     case 'failed_login':
         $email = $options['email'] ?? 'test@voak.test';
@@ -91,24 +101,26 @@ switch ($action) {
         } catch (AuthenticationException) {
             exit(0); // Expected failed login recorded
         } catch (\Throwable $e) {
-            fwrite(STDERR, $e->getMessage() . "\n");
+            fwrite(STDERR, "failed_login error: " . $e->getMessage() . "\n");
             exit(1);
         }
 
     case 'audit_log':
         $actionName = $options['action_name'] ?? 'CONCURRENT_TEST_EVENT';
         $payload = $options['payload'] ?? 'test';
+        $userId = isset($options['user_id']) && $options['user_id'] !== '' ? (int)$options['user_id'] : null;
         $maxAttempts = 10;
         for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
             try {
-                $auditLogger->log($pdo, 'concurrency', $actionName, 1, '127.0.0.1', 'Worker/1.0', 'test', 1, ['payload' => $payload]);
+                $auditLogger->log($pdo, 'concurrency', $actionName, $userId, '127.0.0.1', 'Worker/1.0', 'test', $userId, ['payload' => $payload]);
                 exit(0);
             } catch (\Throwable $e) {
-                if (str_contains($e->getMessage(), 'database is locked') && $attempt < $maxAttempts) {
+                $msg = $e->getMessage();
+                if ((str_contains($msg, 'database is locked') || str_contains($msg, 'serialization lock')) && $attempt < $maxAttempts) {
                     usleep(random_int(20000, 80000)); // 20-80ms jitter
                     continue;
                 }
-                fwrite(STDERR, $e->getMessage() . "\n");
+                fwrite(STDERR, "audit_log error: " . $msg . "\n" . $e->getTraceAsString() . "\n");
                 exit(1);
             }
         }

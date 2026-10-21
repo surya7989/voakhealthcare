@@ -145,50 +145,81 @@ class TotpService
         $cleanCode = strtoupper(trim(str_replace(['-', ' '], '', $backupCode)));
         $submittedHash = hash('sha256', $cleanCode);
 
-        $stmt = $pdo->prepare("SELECT `backup_codes_json`, `is_confirmed` FROM `admin_mfa_secrets` WHERE `user_id` = :uid");
-        $stmt->execute(['uid' => $userId]);
-        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-        $stmt->closeCursor();
-
-        if (!$row || (int)$row['is_confirmed'] !== 1) {
-            return false;
-        }
-
-        $codes = json_decode((string)$row['backup_codes_json'], true);
-        if (!is_array($codes)) {
-            return false;
-        }
-
-        $foundIndex = null;
-        foreach ($codes as $idx => $storedHash) {
-            if (hash_equals((string)$storedHash, $submittedHash)) {
-                $foundIndex = $idx;
-                break;
+        $driver = (string)$pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+        $startedTx = false;
+        if (!$pdo->inTransaction()) {
+            try {
+                $pdo->beginTransaction();
+                $startedTx = true;
+            } catch (\PDOException) {
+                $startedTx = false;
             }
         }
 
-        if ($foundIndex === null) {
-            return false;
+        try {
+            $lockClause = ($driver === 'mysql') ? ' FOR UPDATE' : '';
+            $stmt = $pdo->prepare("SELECT `backup_codes_json`, `is_confirmed` FROM `admin_mfa_secrets` WHERE `user_id` = :uid" . $lockClause);
+            $stmt->execute(['uid' => $userId]);
+            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+
+            if (!$row || (int)$row['is_confirmed'] !== 1) {
+                if ($startedTx && $pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+                return false;
+            }
+
+            $codes = json_decode((string)$row['backup_codes_json'], true);
+            if (!is_array($codes)) {
+                if ($startedTx && $pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+                return false;
+            }
+
+            $foundIndex = null;
+            foreach ($codes as $idx => $storedHash) {
+                if (hash_equals((string)$storedHash, $submittedHash)) {
+                    $foundIndex = $idx;
+                    break;
+                }
+            }
+
+            if ($foundIndex === null) {
+                if ($startedTx && $pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+                return false;
+            }
+
+            // Consume code with atomic update under transaction
+            unset($codes[$foundIndex]);
+            $updatedJson = json_encode(array_values($codes));
+
+            $update = $pdo->prepare(
+                "UPDATE `admin_mfa_secrets` 
+                 SET `backup_codes_json` = :codes, `updated_at` = CURRENT_TIMESTAMP 
+                 WHERE `user_id` = :uid"
+            );
+            $update->execute([
+                'codes' => $updatedJson,
+                'uid'   => $userId,
+            ]);
+            $affected = $update->rowCount();
+            $update->closeCursor();
+
+            if ($startedTx && $pdo->inTransaction()) {
+                $pdo->commit();
+            }
+
+            return $affected === 1;
+        } catch (\Throwable $e) {
+            if ($startedTx && $pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            throw $e;
         }
-
-        // Consume code with atomic optimistic concurrency check to prevent double consumption
-        unset($codes[$foundIndex]);
-        $updatedJson = json_encode(array_values($codes));
-
-        $update = $pdo->prepare(
-            "UPDATE `admin_mfa_secrets` 
-             SET `backup_codes_json` = :codes, `updated_at` = CURRENT_TIMESTAMP 
-             WHERE `user_id` = :uid AND `backup_codes_json` = :old_codes"
-        );
-        $update->execute([
-            'codes'     => $updatedJson,
-            'uid'       => $userId,
-            'old_codes' => (string)$row['backup_codes_json'],
-        ]);
-        $affected = $update->rowCount();
-        $update->closeCursor();
-
-        return $affected === 1;
     }
 
     private ?string $encryptionKeyOverride = null;
