@@ -92,9 +92,22 @@ class Config
         foreach ($_SERVER as $k => $v) {
             if (is_string($v) && !str_starts_with($k, 'HTTP_')) {
                 // Only consider non-HTTP header server vars
-                if ($config->has($k) || in_array($k, ['APP_ENV', 'APP_DEBUG', 'APP_KEY', 'DB_HOST', 'DB_DATABASE', 'DB_USERNAME', 'DB_PASSWORD'])) {
+                if ($config->has($k) || in_array($k, ['APP_ENV', 'APP_DEBUG', 'APP_KEY', 'DB_HOST', 'DB_PORT', 'DB_DATABASE', 'DB_USERNAME', 'DB_PASSWORD'], true)) {
                     $config->set($k, $v);
                 }
+            }
+        }
+
+        // 3. Overlay getenv() for CLI environments where $_ENV might be unpopulated
+        $wellKnownEnv = [
+            'APP_NAME', 'APP_ENV', 'APP_DEBUG', 'APP_KEY', 'APP_URL',
+            'DB_HOST', 'DB_PORT', 'DB_DATABASE', 'DB_USERNAME', 'DB_PASSWORD', 'DB_CHARSET',
+            'SESSION_SECRET', 'MFA_ENCRYPTION_KEY', 'JWT_SECRET', 'CORS_ALLOWED_ORIGINS'
+        ];
+        foreach ($wellKnownEnv as $key) {
+            $val = getenv($key);
+            if ($val !== false) {
+                $config->set($key, $val);
             }
         }
 
@@ -106,6 +119,16 @@ class Config
 
         self::$instance = $config;
         return $config;
+    }
+
+    public static function fromGlobals(): self
+    {
+        return self::load();
+    }
+
+    public static function fromEnvFile(string $envPath): self
+    {
+        return self::load($envPath);
     }
 
     public function get(string $key, mixed $default = null): mixed
