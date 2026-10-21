@@ -108,13 +108,16 @@ All 28 tables trace directly to accepted Phase 1 functional requirements and Pha
 
 ## 4. Migration & Rollback Architecture
 
-### 4.1 CLI Migration Runner
-- Location: `backend/src/Database/MigrationManager.php` and CLI script `backend/cli/migrate.php`.
-- Idempotent tracking table: `migrations` (`id`, `migration_name VARCHAR(255) UNIQUE`, `batch INT UNSIGNED`, `executed_at`).
-- Supports operations:
-  - `php backend/cli/migrate.php up`: Executes pending migrations sequentially.
-  - `php backend/cli/migrate.php down`: Rolls back the last executed batch.
-  - `php backend/cli/migrate.php status`: Displays migration history and pending status.
+### 4.1 CLI Migration Runner & Entrypoint Reconciliation
+To reconcile the entrypoint path across specifications without altering Phase 0 baselines:
+- **Canonical Implementation Runner:** `backend/cli/migrate.php` (powered by `backend/src/Database/MigrationManager.php`).
+- **Phase 0 Compatibility Shim:** `database/migrate.php` (root-level forwarder delegating directly to `backend/cli/migrate.php`).
+- **Idempotent Tracking Table:** `migrations` (`id`, `migration_name VARCHAR(255) UNIQUE`, `batch INT UNSIGNED`, `executed_at`).
+- **Unified Command Support:**
+  - `php database/migrate.php up`: Phase 0 baseline invocation from repository root.
+  - `php backend/cli/migrate.php up`: Phase 5 plan invocation from repository root.
+  - `cd backend && php cli/migrate.php up`: Phase 2 architecture invocation within backend root.
+  - All entrypoints support `up`, `down`, and `status` flags uniformly.
 
 ### 4.2 Migration Mutex Locking
 - Implemented via MySQL named locks (`GET_LOCK('voak_migration_mutex', 10)`) or dedicated lock record in `system_settings`.

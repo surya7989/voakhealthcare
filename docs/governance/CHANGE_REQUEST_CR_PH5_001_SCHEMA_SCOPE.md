@@ -121,9 +121,9 @@ The proposed 28 domain entities map 100% to accepted Phase 1 functional requirem
 ---
 
 ## 6. Implementation Plan Upon Approval
-
+ 
 Once approved by the Business Owner:
-1. Initialize the CLI migration runner (`backend/cli/migrate.php`).
+1. Initialize the CLI migration runner (`backend/cli/migrate.php`) and root compatibility shim (`database/migrate.php` delegating directly to the runner to honor the Phase 0 baseline command).
 2. Implement 28 migration files in `backend/database/migrations/` ordered by cluster dependencies.
 3. Validate against a local isolated test database (migration execution, idempotency, foreign key enforcement, failure handling, and clean rollback).
 4. Update `docs/phase-00/13_COMPLETE_32_PHASE_TRACEABILITY.md` to formally reflect the approved 28-entity scope.
