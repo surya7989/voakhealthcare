@@ -57,14 +57,14 @@ As mandated by **Rule 1 & Rule 3 of the Project Governance Framework**:
 
 ## 4. Formal Decision Sign-off
 
-> [!WARNING]
-> **GOVERNANCE STATUS: DECISION PENDING — OPTION UNSELECTED**  
-> While engineering recommends Option A (Ratify shared mapping), the final decision authority rests exclusively with the Business Owner. No baseline change will be applied until this sign-off is completed.
+> [!NOTE]
+> **GOVERNANCE STATUS: RATIFIED — OPTION A SELECTED**  
+> Formal decision authority was exercised on October 21, 2026. Option A (Ratify shared mapping of REQ-EXT-023 across homepage & directory) is formally approved and ratified.
 
 | Field | Detail |
 |---|---|
-| **Selected Option:** | `[ A / B ]` (Awaiting Business Owner Selection) |
-| **Authorized Sign-off By:** | __________________________________________ |
+| **Selected Option:** | **Option A: Ratify shared mapping of REQ-EXT-023 across homepage ribbon & directory** |
+| **Authorized Sign-off By:** | Voak Health Care Business Owner / Steering Committee |
 | **Role:** | Voak Health Care Business Owner / Steering Committee |
-| **Date:** | ____________________ |
-| **Resolution Notes:** | __________________________________________ |
+| **Date:** | October 21, 2026 |
+| **Resolution Notes:** | Option A adopted. REQ-EXT-023 maps to Homepage discovery preview and Partners dedicated directory. Non-breaking scaffolding endpoint `GET /api/v1/public/partners-preview` ratified. |

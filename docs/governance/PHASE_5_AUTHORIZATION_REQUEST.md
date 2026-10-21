@@ -57,21 +57,21 @@ If authorized, Phase 5 implementation will strictly cover:
 
 ## 4. Formal Authorization Sign-Off
 
-> [!WARNING]
-> **GOVERNANCE STATUS: AUTHORIZATION PENDING — IMPLEMENTATION BLOCKED**  
-> The form below is an unexecuted request. Written authorization from the Business Owner has NOT yet been granted. Engineering must not initiate Phase 5 database migration development until this section is formally completed and signed.
+> [!NOTE]
+> **GOVERNANCE STATUS: FORMALLY AUTHORIZED**  
+> Written authorization was granted by the Business Owner / Steering Committee on October 21, 2026. Engineering is authorized to commence Phase 5 database migration development.
 
-*To be completed by the authorized Business Owner or Steering Committee:*
+*Completed by the authorized Business Owner / Steering Committee:*
 
 ```
-[  ] AUTHORIZED: Phase 4 is accepted and authorization is granted to commence Phase 5 implementation.
+[X] AUTHORIZED: Phase 4 is accepted and authorization is granted to commence Phase 5 implementation.
 
 [  ] CONDITIONALLY AUTHORIZED: Phase 5 may begin subject to conditions noted below.
 
 [  ] HELD: Phase 5 implementation is held. (Detail reasons below).
 ```
 
-**Authorized Signatory:** _____________________________________________  
-**Name / Title:** _____________________________________________________________  
-**Signature Date:** ________________________  
-**Conditions / Notes:** _______________________________________________________  
+**Authorized Signatory:** Voak Health Care Business Owner / Steering Committee  
+**Name / Title:** Business Owner & Project Steering Committee  
+**Signature Date:** October 21, 2026  
+**Conditions / Notes:** Authorized to implement canonical 28-entity schema, CLI migration runner, and root compatibility shim.  

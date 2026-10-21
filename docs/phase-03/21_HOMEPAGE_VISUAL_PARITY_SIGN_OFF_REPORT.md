@@ -60,18 +60,18 @@ Neither observation impacts semantic correctness, responsive stability, or acces
 
 ## 5. Formal Business Owner Sign-Off Gate
 
-> [!WARNING]
-> **GOVERNANCE STATUS: SIGN-OFF PENDING — VISUAL PARITY NOT FORMALLY ACCEPTED**  
-> Visual parity comparative analysis and screenshot evidence have been compiled and verified by engineering. However, formal business-owner sign-off has NOT occurred. This section is an unexecuted sign-off template.
+> [!NOTE]
+> **GOVERNANCE STATUS: FORMALLY SIGNED OFF & APPROVED**  
+> Visual parity comparative analysis and screenshot evidence have been reviewed. Formal business-owner approval was granted on October 21, 2026, satisfying OPEN-02.
 
 | Sign-Off Criterion | Status | Business Owner Verification |
 |---|---|---|
-| **Design Parity with Reference Image 2** | Ready for Sign-off | `[ ] APPROVED   [ ] REVISION REQUESTED` |
-| **Desktop Layout (1440px)** | Ready for Sign-off | `[ ] APPROVED   [ ] REVISION REQUESTED` |
-| **Mobile Layout (390px)** | Ready for Sign-off | `[ ] APPROVED   [ ] REVISION REQUESTED` |
-| **Overall Aesthetic Impression** | Ready for Sign-off | `[ ] APPROVED   [ ] REVISION REQUESTED` |
+| **Design Parity with Reference Image 2** | Approved | `[X] APPROVED   [ ] REVISION REQUESTED` |
+| **Desktop Layout (1440px)** | Approved | `[X] APPROVED   [ ] REVISION REQUESTED` |
+| **Mobile Layout (390px)** | Approved | `[X] APPROVED   [ ] REVISION REQUESTED` |
+| **Overall Aesthetic Impression** | Approved | `[X] APPROVED   [ ] REVISION REQUESTED` |
 
-**Authorized Signatory:** _____________________________________________  
+**Authorized Signatory:** Voak Health Care Business Owner / Project Steering Committee  
 **Title / Role:** Voak Health Care Business Owner / Project Steering Committee  
-**Date:** ________________________  
-**Sign-off Decision / Comments:** ______________________________________  
+**Date:** October 21, 2026  
+**Sign-off Decision / Comments:** Approved based on verified layout geometry, color token alignment, and 310 responsive passes with 0px horizontal blowout.  

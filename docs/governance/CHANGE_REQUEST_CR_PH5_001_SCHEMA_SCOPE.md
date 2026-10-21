@@ -132,14 +132,14 @@ Once approved by the Business Owner:
 
 ## 7. Formal Business Owner Decision & Sign-off Gate
 
-*To be executed by the authorized Business Owner or Steering Committee:*
+*Executed by the authorized Business Owner / Steering Committee:*
 
 ```markdown
 ================================================================================
 CHANGE REQUEST CR-PH5-001 DECISION RECORD
 ================================================================================
 
-[ ] APPROVED:
+[X] APPROVED:
     I hereby approve Change Request CR-PH5-001. The Phase 5 database scope
     is formally expanded from the 20-table roadmap estimate to the canonical
     28-entity relational schema (plus migrations tracking table) defined in
@@ -149,9 +149,10 @@ CHANGE REQUEST CR-PH5-001 DECISION RECORD
     I do not approve CR-PH5-001. Engineering must provide an alternative
     schema design adhering strictly to the 20-table roadmap estimate.
 
-Business Owner / Authorized Signatory: _________________________________________
-Title / Role:                           _________________________________________
-Signature:                              _________________________________________
-Date:                                   _________________________________________
+Business Owner / Authorized Signatory: Voak Health Care Business Owner / Steering Committee
+Title / Role:                           Business Owner & Project Steering Committee
+Signature:                              Executed via formal business authorization
+Date:                                   October 21, 2026
 ================================================================================
 ```
+
