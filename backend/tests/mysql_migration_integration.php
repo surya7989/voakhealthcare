@@ -83,19 +83,20 @@ try {
 
     echo "[3/7] Verifying InnoDB engine and utf8mb4_unicode_ci collation...\n";
     $stmt = $pdo->query(
-        "SELECT table_name, engine, table_collation
+        "SELECT TABLE_NAME AS table_name, ENGINE AS engine, TABLE_COLLATION AS table_collation
          FROM information_schema.tables
          WHERE table_schema = DATABASE()
            AND table_type = 'BASE TABLE'
            AND table_name <> 'migrations'
          ORDER BY table_name"
     );
-    $tables = $stmt->fetchAll();
+    $rawTables = $stmt->fetchAll();
     $stmt->closeCursor();
+    $tables = array_map(static fn (array $row): array => array_change_key_case($row, CASE_LOWER), $rawTables);
     verify(count($tables) === $expectedMigrations, sprintf('Expected 28 domain tables, found %d.', count($tables)));
     foreach ($tables as $table) {
-        verify($table['engine'] === 'InnoDB', sprintf('Table %s is not InnoDB.', $table['table_name']));
-        verify($table['table_collation'] === 'utf8mb4_unicode_ci', sprintf('Table %s has unexpected collation %s.', $table['table_name'], (string) $table['table_collation']));
+        verify(($table['engine'] ?? '') === 'InnoDB', sprintf('Table %s is not InnoDB (found: %s).', $table['table_name'] ?? 'unknown', $table['engine'] ?? 'none'));
+        verify(($table['table_collation'] ?? '') === 'utf8mb4_unicode_ci', sprintf('Table %s has unexpected collation %s.', $table['table_name'] ?? 'unknown', (string) ($table['table_collation'] ?? 'none')));
     }
 
     echo "[4/7] Verifying relational foreign-key constraints...\n";

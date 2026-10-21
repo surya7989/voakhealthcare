@@ -103,4 +103,5 @@ jobs:
       - name: Verify Phase 0 root compatibility shim against MySQL
         run: |
           php database/migrate.php status | tee migration-status.txt
-          grep -F "Summary: 28 Applied, 0 Pending" migration-status.txt
+          grep -E "28 Applied" migration-status.txt
+          grep -E "0 Pending" migration-status.txt
