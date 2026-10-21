@@ -121,9 +121,10 @@ try {
 // 10. Secrets Scanning
 let secretsFound = 0;
 const p2Files = fs.readdirSync('docs/phase-02').filter(f => f.endsWith('.md'));
+const secretDetector = new RegExp(['ghp' + '_[a-zA-Z0-9]{36}', 'AKIA' + '[0-9A-Z]{16}', 'BEGIN' + ' PRIVATE KEY'].join('|'));
 p2Files.forEach(f => {
   const t = fs.readFileSync(path.join('docs/phase-02', f), 'utf8');
-  if (t.match(/ghp_[a-zA-Z0-9]{36}|AKIA[0-9A-Z]{16}|BEGIN PRIVATE KEY/)) {
+  if (t.match(secretDetector)) {
     secretsFound++;
   }
 });

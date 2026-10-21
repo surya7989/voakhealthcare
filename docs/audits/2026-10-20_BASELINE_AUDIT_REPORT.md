@@ -103,7 +103,8 @@ voak-health-care/
 2. **Phase 3 Responsive Browser Sweep (310 checks):**
    - Command: `node tests/test_expanded_responsive.js`
    - Total Checks: 310 | Passed: 310 | Failed: 0 | Overflow Blowouts: 0px | Exit Code: 0
-   - Browser Runtime: Headless Microsoft Edge (Product Version: 141.0.3537.92)
+   - Browser Runtime: Headless Microsoft Edge (Product Version: 155.0.4283.62)
+   - Scope Breakdown: Master Homepage (11 viewports) + 22 Public Pages (22 × 11 = 242) + 19 Admin Modules (19 × 3 = 57) = Exactly 310 Checks
 3. **Composer Validation:**
    - Command: `composer validate` (in `backend/`)
    - Result: `./composer.json is valid` | Exit Code: 0

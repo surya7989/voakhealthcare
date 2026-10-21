@@ -123,8 +123,8 @@ backend/
 
 ### 4.4 Automated Browser Responsive Sweeps
 - **Command:** `node tests/test_expanded_responsive.js`
-  - Browser: Headless Microsoft Edge (CDP, Product Version: 141.0.3537.92)
-  - Scope: 22 Public Pages × 9 Viewports, 19 Admin Modules × 3 Viewports, Live Homepage × 9 Viewports
+  - Browser: Headless Microsoft Edge (CDP, Product Version: 155.0.4283.62)
+  - Scope: Master Homepage × 11 Viewports (11), 22 Public Pages × 11 Viewports (242), 19 Admin Modules × 3 Viewports (57)
   - Total Layout Verifications: **310**
   - Passed: **310 (100%)** | Failed: **0** | Horizontal Overflow: **0px**
 - **Command:** `node tests/test_responsive_overflow.js`
