@@ -174,6 +174,23 @@ class AuditLogger
                 return false;
             }
 
+            // Normalize diff_json canonically: MySQL JSON column returns formatted string with spaces
+            $diffForHash = '';
+            if ($row['diff_json'] !== null && $row['diff_json'] !== '') {
+                $decoded = json_decode((string)$row['diff_json'], true);
+                if (is_array($decoded)) {
+                    $diffForHash = json_encode($decoded, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                } else {
+                    $diffForHash = (string)$row['diff_json'];
+                }
+            }
+
+            // Normalize created_at to Y-m-d H:i:s format (trim subseconds if provided by driver)
+            $createdAt = (string)$row['created_at'];
+            if (strlen($createdAt) > 19) {
+                $createdAt = substr($createdAt, 0, 19);
+            }
+
             // Recompute row hash across all protected fields
             $payloadToHash = sprintf(
                 '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s',
@@ -185,8 +202,8 @@ class AuditLogger
                 $row['user_agent'] ?? '',
                 $row['entity_type'] ?? '',
                 $row['entity_id'] !== null ? (string)$row['entity_id'] : '0',
-                $row['diff_json'] ?? '',
-                $row['created_at']
+                $diffForHash,
+                $createdAt
             );
 
             $calculated = hash('sha256', $payloadToHash);

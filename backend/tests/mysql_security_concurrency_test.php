@@ -64,6 +64,7 @@ function createPdo(string $host, int $port, string $database, string $username, 
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES   => false,
         PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+        PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = '+00:00'",
     ]);
 }
 
@@ -181,6 +182,9 @@ try {
 
     // TEST 3: Concurrent Audit Writes over Independent MySQL Connections & Unbroken Hash Chain
     $runTest('Concurrent audit writes over independent MySQL connections maintain unbroken hash chain', function () use ($phpBin, $workerScript, $pdo, $desc, $testUserId) {
+        // Clean table to guarantee unbroken genesis hash chain
+        $pdo->exec("DELETE FROM `audit_logs`");
+
         $numWorkers = 4;
         $procs = [];
         $pipes = [];
@@ -217,7 +221,9 @@ try {
         $auditLogger = new AuditLogger();
         $chainValid = $auditLogger->verifyChain($pdo);
         if (!$chainValid) {
-            throw new RuntimeException("Audit ledger cryptographic hash chain verification FAILED on MySQL after concurrent writes.");
+            $rows = $pdo->query("SELECT * FROM `audit_logs` ORDER BY `id` ASC")->fetchAll();
+            $debug = json_encode($rows, JSON_PRETTY_PRINT);
+            throw new RuntimeException("Audit ledger cryptographic hash chain verification FAILED on MySQL after concurrent writes. Ledger dump: " . $debug);
         }
     });
 
