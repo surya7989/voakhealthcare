@@ -204,13 +204,20 @@ class TotpService
             return $this->encryptionKeyOverride;
         }
 
-        $key = (string)$this->config->get('MFA_ENCRYPTION_KEY', '');
+        $key = '';
+        if ($this->config !== null) {
+            $key = (string)$this->config->get('MFA_ENCRYPTION_KEY', '');
+        }
+
         if ($key === '') {
-            $key = (string)$this->config->get('APP_KEY', '');
+            $envKey = getenv('MFA_ENCRYPTION_KEY');
+            if ($envKey) {
+                $key = (string)$envKey;
+            }
         }
 
         if ($key === '' || strlen($key) < 16) {
-            throw new SecurityException("MFA encryption key is not configured or fails security requirements (min 16 chars). Set MFA_ENCRYPTION_KEY or APP_KEY in configuration.");
+            throw new SecurityException("MFA encryption key is not configured or fails security requirements (min 16 chars). Set MFA_ENCRYPTION_KEY in configuration.");
         }
 
         return $key;

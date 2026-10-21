@@ -64,20 +64,17 @@ class AuthenticationService
         $key = '';
         if ($this->config !== null) {
             $key = (string)$this->config->get('AUTH_SIGNING_KEY', '');
-            if ($key === '') {
-                $key = (string)$this->config->get('APP_KEY', '');
-            }
         }
 
         if ($key === '') {
-            $envKey = getenv('AUTH_SIGNING_KEY') ?: getenv('APP_KEY');
+            $envKey = getenv('AUTH_SIGNING_KEY');
             if ($envKey) {
                 $key = (string)$envKey;
             }
         }
 
         if ($key === '' || strlen($key) < 16) {
-            throw new SecurityException("Authentication pre-auth signing key is not configured or insecure (min 16 chars). Set AUTH_SIGNING_KEY or APP_KEY in configuration.");
+            throw new SecurityException("Authentication pre-auth signing key is not configured or insecure (min 16 chars). Set AUTH_SIGNING_KEY in configuration.");
         }
 
         return $key;

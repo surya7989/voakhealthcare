@@ -19,7 +19,10 @@ class AdminAuthApiTest
     {
         $pdo = new \PDO('sqlite::memory:', null, null, [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
         ]);
+        $pdo->exec("PRAGMA foreign_keys = ON;");
+
         $migrationsDir = dirname(__DIR__, 2) . '/database/migrations';
         $manager = new MigrationManager($migrationsDir, 'migrations');
         $manager->migrateUp($pdo);
@@ -34,9 +37,12 @@ class AdminAuthApiTest
         $rbac->assignRole($pdo, 1, RbacManager::ROLE_SUPER_ADMIN);
 
         $config = new Config([
-            'APP_KEY' => 'base64:' . base64_encode('test-encryption-key-32-chars-long!'),
-            'APP_ENV' => 'testing',
-            'APP_DEBUG' => true,
+            'APP_KEY'            => 'base64:' . base64_encode('test-encryption-key-32-chars-long!'),
+            'AUTH_SIGNING_KEY'   => 'auth-signing-key-32-characters-min!!',
+            'MFA_ENCRYPTION_KEY' => 'mfa-encryption-key-32-characters-min!!',
+            'CSRF_SIGNING_KEY'   => 'csrf-signing-key-32-characters-min!',
+            'APP_ENV'            => 'testing',
+            'APP_DEBUG'          => true,
         ]);
 
         $app = new App($config);
@@ -49,10 +55,24 @@ class AdminAuthApiTest
         return $app;
     }
 
+    private static function getBootstrapCsrf(App $app): array
+    {
+        $req = new Request('GET', '/api/v1/admin/auth/csrf');
+        $res = $app->handle($req);
+        $data = json_decode($res->getBody(), true);
+        $token = (string)($data['data']['csrf_token'] ?? '');
+        $cookieHeader = (string)($res->getHeader('Set-Cookie') ?? '');
+        preg_match('/voak_csrf=([^;]+)/', $cookieHeader, $matches);
+        $cookie = $matches[1] ?? '';
+
+        return ['token' => $token, 'cookie' => $cookie];
+    }
+
     public static function run(): void
     {
         T::suite('Phase 6 — Admin Authentication & RBAC API Integration Tests', function () {
-            T::test('POST /api/v1/admin/auth/login with wrong credentials returns HTTP 401', function () {
+
+            T::test('POST /api/v1/admin/auth/login without CSRF token returns 403 ERR_CSRF_MISSING', function () {
                 $app = self::createAppWithMigratedDatabase();
 
                 $req = new Request(
@@ -60,6 +80,54 @@ class AdminAuthApiTest
                     '/api/v1/admin/auth/login',
                     [],
                     ['Content-Type' => 'application/json'],
+                    json_encode(['email' => 'admin@voak.test', 'password' => 'VoakAdmin#2026!Secure'])
+                );
+
+                $res = $app->handle($req);
+                T::assertEquals(403, $res->getStatusCode());
+
+                $data = json_decode($res->getBody(), true);
+                T::assertFalse($data['success']);
+                T::assertEquals('ERR_CSRF_MISSING', $data['error']['code']);
+            });
+
+            T::test('POST /api/v1/admin/auth/login with tampered CSRF token returns 403 ERR_CSRF_INVALID', function () {
+                $app = self::createAppWithMigratedDatabase();
+                $csrf = self::getBootstrapCsrf($app);
+
+                $req = new Request(
+                    'POST',
+                    '/api/v1/admin/auth/login',
+                    [],
+                    [
+                        'Content-Type' => 'application/json',
+                        'X-CSRF-Token' => 'forged_csrf_token_mismatch',
+                        'Cookie'       => "voak_csrf={$csrf['cookie']}",
+                    ],
+                    json_encode(['email' => 'admin@voak.test', 'password' => 'VoakAdmin#2026!Secure'])
+                );
+
+                $res = $app->handle($req);
+                T::assertEquals(403, $res->getStatusCode());
+
+                $data = json_decode($res->getBody(), true);
+                T::assertFalse($data['success']);
+                T::assertEquals('ERR_CSRF_INVALID', $data['error']['code']);
+            });
+
+            T::test('POST /api/v1/admin/auth/login with valid CSRF and wrong credentials returns HTTP 401', function () {
+                $app = self::createAppWithMigratedDatabase();
+                $csrf = self::getBootstrapCsrf($app);
+
+                $req = new Request(
+                    'POST',
+                    '/api/v1/admin/auth/login',
+                    [],
+                    [
+                        'Content-Type' => 'application/json',
+                        'X-CSRF-Token' => $csrf['token'],
+                        'Cookie'       => "voak_csrf={$csrf['cookie']}",
+                    ],
                     json_encode(['email' => 'admin@voak.test', 'password' => 'WrongPassword!'])
                 );
 
@@ -73,12 +141,17 @@ class AdminAuthApiTest
 
             T::test('POST /api/v1/admin/auth/login with valid credentials returns 200 and Set-Cookie', function () {
                 $app = self::createAppWithMigratedDatabase();
+                $csrf = self::getBootstrapCsrf($app);
 
                 $req = new Request(
                     'POST',
                     '/api/v1/admin/auth/login',
                     [],
-                    ['Content-Type' => 'application/json'],
+                    [
+                        'Content-Type' => 'application/json',
+                        'X-CSRF-Token' => $csrf['token'],
+                        'Cookie'       => "voak_csrf={$csrf['cookie']}",
+                    ],
                     json_encode(['email' => 'admin@voak.test', 'password' => 'VoakAdmin#2026!Secure'])
                 );
 
@@ -110,22 +183,26 @@ class AdminAuthApiTest
 
             T::test('GET /api/v1/admin/auth/me returns user profile when session cookie is provided', function () {
                 $app = self::createAppWithMigratedDatabase();
+                $csrf = self::getBootstrapCsrf($app);
 
-                // 1. Login
+                // 1. Login with valid CSRF
                 $loginReq = new Request(
                     'POST',
                     '/api/v1/admin/auth/login',
                     [],
-                    ['Content-Type' => 'application/json'],
+                    [
+                        'Content-Type' => 'application/json',
+                        'X-CSRF-Token' => $csrf['token'],
+                        'Cookie'       => "voak_csrf={$csrf['cookie']}",
+                    ],
                     json_encode(['email' => 'admin@voak.test', 'password' => 'VoakAdmin#2026!Secure'])
                 );
                 $loginRes = $app->handle($loginReq);
                 $cookieHeader = $loginRes->getHeader('Set-Cookie');
-                // Extract session token
                 preg_match('/voak_admin_session=([a-f0-9]+);/', $cookieHeader, $matches);
                 $sessionToken = $matches[1];
 
-                // 2. Call /me with cookie
+                // 2. Call /me with session cookie
                 $meReq = new Request(
                     'GET',
                     '/api/v1/admin/auth/me',
@@ -143,13 +220,18 @@ class AdminAuthApiTest
 
             T::test('POST /api/v1/admin/auth/logout revokes session and clears cookie', function () {
                 $app = self::createAppWithMigratedDatabase();
+                $csrf = self::getBootstrapCsrf($app);
 
                 // 1. Login
                 $loginReq = new Request(
                     'POST',
                     '/api/v1/admin/auth/login',
                     [],
-                    ['Content-Type' => 'application/json'],
+                    [
+                        'Content-Type' => 'application/json',
+                        'X-CSRF-Token' => $csrf['token'],
+                        'Cookie'       => "voak_csrf={$csrf['cookie']}",
+                    ],
                     json_encode(['email' => 'admin@voak.test', 'password' => 'VoakAdmin#2026!Secure'])
                 );
                 $loginRes = $app->handle($loginReq);
@@ -187,15 +269,20 @@ class AdminAuthApiTest
                 T::assertEquals(401, $meResAfter->getStatusCode());
             });
 
-            T::test('POST mutating admin request without CSRF token returns 403 CSRF_INVALID', function () {
+            T::test('POST mutating admin request without CSRF token returns 403 ERR_CSRF_MISSING', function () {
                 $app = self::createAppWithMigratedDatabase();
+                $csrf = self::getBootstrapCsrf($app);
 
                 // Login
                 $loginReq = new Request(
                     'POST',
                     '/api/v1/admin/auth/login',
                     [],
-                    ['Content-Type' => 'application/json'],
+                    [
+                        'Content-Type' => 'application/json',
+                        'X-CSRF-Token' => $csrf['token'],
+                        'Cookie'       => "voak_csrf={$csrf['cookie']}",
+                    ],
                     json_encode(['email' => 'admin@voak.test', 'password' => 'VoakAdmin#2026!Secure'])
                 );
                 $loginRes = $app->handle($loginReq);
@@ -219,6 +306,7 @@ class AdminAuthApiTest
 
             T::test('rate limits repeated login attempts (HTTP 429)', function () {
                 $app = self::createAppWithMigratedDatabase();
+                $csrf = self::getBootstrapCsrf($app);
 
                 $loginPayload = json_encode(['email' => 'admin@voak.test', 'password' => 'BadPass!']);
                 $hit429 = false;
@@ -231,7 +319,8 @@ class AdminAuthApiTest
                         [],
                         [
                             'Content-Type' => 'application/json',
-                            'X-Forwarded-For' => '192.168.1.100',
+                            'X-CSRF-Token' => $csrf['token'],
+                            'Cookie'       => "voak_csrf={$csrf['cookie']}",
                         ],
                         $loginPayload
                     );

@@ -151,13 +151,16 @@ Before Phase 6 administrative authentication can be deployed or verified on a st
 | **5** | TOTP MFA Engine | Unit & Flow Test | RFC 6238 verified, AES-256-GCM encrypted secrets in `admin_mfa_secrets` | **VERIFIED** |
 | **6** | MFA Emergency Recovery | Integration Test | Single-use backup codes hashed, consumed upon verification | **VERIFIED** |
 | **7** | Brute-Force Lockout | Security Test | 5 failed attempts in 15m trigger 15m lockout with generic error | **VERIFIED** |
-| **8** | Auth Rate Limiting | Rate Limit Test | Persistent `flock` rate limiting, max 10 requests/min per IP on auth routes | **VERIFIED** |
-| **9** | Tamper-Evident Audit Logs| Cryptographic Test | Full-row cryptographically chained SHA-256 records logged in `audit_logs` | **VERIFIED** |
-| **10** | Automated Test Pass | CI Workflow | 100% test pass on PHP 8.2 and PHP 8.3 with zero secrets | **VERIFIED (115/115 ROOT SUITE PASS, 60/60 PHASE 6 SUITE PASS)** |
+| **8** | Auth Rate Limiting & Fail-Closed | Rate Limit Test | Persistent advisory locks, fails closed on storage errors, trusted-proxy strictness | **VERIFIED** |
+| **9** | Tamper-Evident Audit Logs| Cryptographic Test | Full-row cryptographically chained SHA-256 records, GET_LOCK() serialization, input normalization | **VERIFIED** |
+| **10** | Automated Test Pass | CI Workflow | 100% test pass on PHP 8.2 and PHP 8.3 with zero secrets | **VERIFIED (118/118 ROOT SUITE PASS, 63/63 PHASE 6 SUITE PASS)** |
 | **11** | Pre-Auth HMAC Signing & Anti-Replay | Security Hardening Test | Dynamic challenge ID stored & atomically consumed; signature verified | **VERIFIED** |
 | **12** | Secret Exposure Defense | Security & CLI Test | CLI prohibits `--password` argument; dev tokens concealed unless explicit | **VERIFIED** |
-| **13** | Live Hostinger Staging Verification | Staging Environment | Validation on live Hostinger staging domain and MySQL database | **PENDING (Hostinger Infrastructure Provisioning Outstanding)** |
-| **14** | Formal Gate E Signatory Acceptance | Physical Sign-Off | Formal governance sign-off package with physical signatory identity | **PENDING (Awaiting Live Staging & Stakeholder Review)** |
+| **13** | CSRF Bootstrap Token Flow | Integration & E2E Test | `GET /api/v1/admin/auth/csrf` issues signed bootstrap token; enforced on all unauthenticated & authenticated mutation routes | **VERIFIED** |
+| **14** | Cryptographic Key Management | Unit & Config Test | `AUTH_SIGNING_KEY` and `MFA_ENCRYPTION_KEY` strictly independent production secrets; fails closed on missing/weak keys | **VERIFIED** |
+| **15** | Real Multi-Process Concurrency | Concurrency Worker Test | Simultaneous child process consumption of reset tokens, recovery codes, and parallel audit writes verified | **VERIFIED** |
+| **16** | Live Hostinger Staging Verification | Staging Environment | Validation on live Hostinger staging domain and MySQL database | **PENDING (Hostinger Infrastructure Provisioning Outstanding)** |
+| **17** | Formal Gate E Signatory Acceptance | Physical Sign-Off | Formal governance sign-off package with physical signatory identity | **PENDING (Awaiting Live Staging & Stakeholder Review)** |
 
 ---
 

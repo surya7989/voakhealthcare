@@ -44,8 +44,9 @@ class AuthenticationServiceTest
     {
         T::suite('Phase 6 — AuthenticationService & Account Lockout Tests', function () {
             $config = new Config([
-                'APP_KEY' => 'base64:' . base64_encode('test-encryption-key-32-chars-long!'),
+                'APP_KEY'            => 'base64:' . base64_encode('test-encryption-key-32-chars-long!'),
                 'MFA_ENCRYPTION_KEY' => 'test-encryption-key-32-chars-long!',
+                'AUTH_SIGNING_KEY'   => 'test-auth-signing-key-32-chars-long!',
             ]);
 
             T::test('authenticates active user successfully and creates session', function () use ($config) {

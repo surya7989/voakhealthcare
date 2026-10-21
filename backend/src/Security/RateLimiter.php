@@ -28,24 +28,48 @@ class RateLimiter
      */
     public function hit(string $key, int $maxAttempts = 10, int $decaySeconds = 60): array
     {
+        if (!is_dir($this->storageDir) || !is_writable($this->storageDir)) {
+            // Fail closed: deny request if storage cannot be securely maintained
+            return [
+                'allowed'     => false,
+                'attempts'    => $maxAttempts,
+                'retry_after' => $decaySeconds,
+            ];
+        }
+
         $safeKey = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $key);
         $filepath = $this->storageDir . DIRECTORY_SEPARATOR . 'rl_' . $safeKey . '.lock';
 
         $fp = @fopen($filepath, 'c+');
         if ($fp === false) {
-            // Fail open only if filesystem is entirely inaccessible
-            return ['allowed' => true, 'attempts' => 1, 'retry_after' => 0];
+            // Fail closed if lockfile cannot be created or opened
+            return [
+                'allowed'     => false,
+                'attempts'    => $maxAttempts,
+                'retry_after' => $decaySeconds,
+            ];
         }
 
         // Acquire exclusive advisory lock (blocks concurrent worker processes)
-        flock($fp, LOCK_EX);
+        if (!@flock($fp, LOCK_EX)) {
+            @fclose($fp);
+            return [
+                'allowed'     => false,
+                'attempts'    => $maxAttempts,
+                'retry_after' => $decaySeconds,
+            ];
+        }
 
         try {
             $now = time();
             $contents = '';
             rewind($fp);
             while (!feof($fp)) {
-                $contents .= fread($fp, 8192);
+                $chunk = @fread($fp, 8192);
+                if ($chunk === false) {
+                    break;
+                }
+                $contents .= $chunk;
             }
 
             $timestamps = [];
@@ -59,7 +83,7 @@ class RateLimiter
             // Filter out timestamps older than the decay window
             $timestamps = array_values(array_filter(
                 $timestamps,
-                static fn(int $ts): bool => ($now - $ts) < $decaySeconds
+                static fn(mixed $ts): bool => is_int($ts) && ($now - $ts) < $decaySeconds
             ));
 
             if (count($timestamps) >= $maxAttempts) {
@@ -67,10 +91,10 @@ class RateLimiter
                 $retryAfter = max(1, $decaySeconds - ($now - $oldestInWindow));
 
                 // Rewrite pruned timestamps
-                ftruncate($fp, 0);
-                rewind($fp);
-                fwrite($fp, json_encode($timestamps));
-                fflush($fp);
+                @ftruncate($fp, 0);
+                @rewind($fp);
+                @fwrite($fp, json_encode($timestamps));
+                @fflush($fp);
 
                 return [
                     'allowed'     => false,
@@ -81,10 +105,13 @@ class RateLimiter
 
             // Record this hit
             $timestamps[] = $now;
-            ftruncate($fp, 0);
-            rewind($fp);
-            fwrite($fp, json_encode($timestamps));
-            fflush($fp);
+            if (@ftruncate($fp, 0) === false || @rewind($fp) === false || @fwrite($fp, json_encode($timestamps)) === false || @fflush($fp) === false) {
+                return [
+                    'allowed'     => false,
+                    'attempts'    => $maxAttempts,
+                    'retry_after' => $decaySeconds,
+                ];
+            }
 
             return [
                 'allowed'     => true,
@@ -92,8 +119,8 @@ class RateLimiter
                 'retry_after' => 0,
             ];
         } finally {
-            flock($fp, LOCK_UN);
-            fclose($fp);
+            @flock($fp, LOCK_UN);
+            @fclose($fp);
         }
     }
 

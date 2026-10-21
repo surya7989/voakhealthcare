@@ -19,6 +19,8 @@ class Config
         'DB_PASSWORD',
         'SESSION_SECRET',
         'MFA_ENCRYPTION_KEY',
+        'AUTH_SIGNING_KEY',
+        'CSRF_SIGNING_KEY',
         'JWT_SECRET',
         'SMTP_PASSWORD',
         'API_SECRET',

@@ -14,6 +14,7 @@ use Voak\Health\Core\Exceptions\ValidationException;
 use Voak\Health\Core\Http\Request;
 use Voak\Health\Core\Http\Response;
 use Voak\Health\Database\Connection;
+use Voak\Health\Security\Crypto;
 
 /**
  * Administrative Authentication and Session Controller.
@@ -163,22 +164,32 @@ class AdminAuthController
     public function csrf(Request $request): Response
     {
         $sessionId = $request->getAttribute('admin_session_id');
-        $csrfToken = null;
 
         if ($sessionId !== null) {
-            $stmt = $this->connection->getPdo()->prepare("SELECT `csrf_token_hash` FROM `admin_sessions` WHERE `id` = :id");
-            $stmt->execute(['id' => $sessionId]);
-            $hash = $stmt->fetchColumn();
+            // Authenticated session: regenerate session CSRF token
+            $rawToken = Crypto::randomToken(32);
+            $tokenHash = hash('sha256', $rawToken);
+
+            $stmt = $this->connection->getPdo()->prepare("UPDATE `admin_sessions` SET `csrf_token_hash` = :hash WHERE `id` = :id");
+            $stmt->execute(['hash' => $tokenHash, 'id' => $sessionId]);
             $stmt->closeCursor();
-            if ($hash !== false) {
-                $csrfToken = (string)$hash;
-            }
+
+            return Response::success([
+                'csrf_header' => 'X-CSRF-Token',
+                'csrf_token'  => $rawToken,
+            ], 200);
         }
 
-        return Response::success([
+        // Unauthenticated CSRF bootstrap flow
+        $csrfMiddleware = new \Voak\Health\Middleware\CsrfProtectionMiddleware($this->connection, $this->config);
+        $bootstrap = $csrfMiddleware->generateBootstrapToken();
+
+        $response = Response::success([
             'csrf_header' => 'X-CSRF-Token',
-            'csrf_token'  => $csrfToken ?? bin2hex(random_bytes(32)),
+            'csrf_token'  => $bootstrap['token'],
         ], 200);
+
+        return $response->withHeader('Set-Cookie', $bootstrap['cookie_header']);
     }
 
     /**

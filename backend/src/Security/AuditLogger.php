@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Voak\Health\Security;
 
+use Voak\Health\Core\Exceptions\SecurityException;
+
 /**
  * Immutable Cryptographically Chained Audit Logging Engine.
  * Implements running SHA-256 hash chains across all security and domain mutation events.
@@ -38,13 +40,16 @@ class AuditLogger
             if ($lockStmt) {
                 $lockStmt->closeCursor();
             }
+            if (!$lockAcquired) {
+                throw new SecurityException("Failed to acquire audit ledger serialization lock.");
+            }
         } elseif ($driver === 'sqlite') {
             if (!$pdo->inTransaction()) {
                 try {
                     $pdo->beginTransaction();
                     $lockAcquired = true;
-                } catch (\PDOException) {
-                    $lockAcquired = false;
+                } catch (\PDOException $e) {
+                    throw new SecurityException("Failed to acquire audit ledger SQLite write lock: " . $e->getMessage());
                 }
             }
         }
@@ -57,20 +62,28 @@ class AuditLogger
                 $stmt->closeCursor();
             }
 
+            // Normalize fields prior to hashing so hash matches exact persisted values
+            $normDomain = substr(trim($domain), 0, 50);
+            $normAction = substr(trim($action), 0, 100);
+            $normIp = substr(trim($ipAddress), 0, 45);
+            $normUa = substr(trim($userAgent), 0, 255);
+            $normEntityType = $entityType !== null ? substr(trim($entityType), 0, 50) : null;
+            $normUserIdStr = $userId !== null ? (string)$userId : '0';
+            $normEntityIdStr = $entityId !== null ? (string)$entityId : '0';
             $createdAt = gmdate('Y-m-d H:i:s');
             $diffJson = $diff !== null ? json_encode($diff, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : null;
 
-            // 2. Compute cryptographically bound SHA-256 hash across all protected fields
+            // 2. Compute cryptographically bound SHA-256 hash across all protected normalized fields
             $payloadToHash = sprintf(
                 '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s',
                 $prevHash,
-                $domain,
-                $action,
-                $userId !== null ? (string)$userId : '0',
-                $ipAddress,
-                $userAgent,
-                $entityType ?? '',
-                $entityId !== null ? (string)$entityId : '0',
+                $normDomain,
+                $normAction,
+                $normUserIdStr,
+                $normIp,
+                $normUa,
+                $normEntityType ?? '',
+                $normEntityIdStr,
                 $diffJson ?? '',
                 $createdAt
             );
@@ -87,12 +100,12 @@ class AuditLogger
             $insertStmt->execute([
                 'prev'       => $prevHash,
                 'hash'       => $rowHash,
-                'domain'     => substr($domain, 0, 50),
-                'action'     => substr($action, 0, 100),
+                'domain'     => $normDomain,
+                'action'     => $normAction,
                 'uid'        => $userId,
-                'ip'         => substr($ipAddress, 0, 45),
-                'ua'         => substr($userAgent, 0, 255),
-                'etype'      => $entityType !== null ? substr($entityType, 0, 50) : null,
+                'ip'         => $normIp,
+                'ua'         => $normUa,
+                'etype'      => $normEntityType,
                 'eid'        => $entityId,
                 'diff'       => $diffJson,
                 'created_at' => $createdAt,
@@ -117,9 +130,13 @@ class AuditLogger
             throw $e;
         } finally {
             if ($driver === 'mysql' && $lockAcquired) {
-                $unlock = $pdo->query("SELECT RELEASE_LOCK('voak_audit_log_chain_lock')");
-                if ($unlock) {
-                    $unlock->closeCursor();
+                try {
+                    $unlock = $pdo->query("SELECT RELEASE_LOCK('voak_audit_log_chain_lock')");
+                    if ($unlock) {
+                        $unlock->closeCursor();
+                    }
+                } catch (\Throwable) {
+                    // Safe cleanup
                 }
             }
         }

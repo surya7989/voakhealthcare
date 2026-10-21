@@ -210,7 +210,7 @@ class App
         $this->pipeline->pipe($adminAuthMiddleware);
 
         // 6. Admin CSRF Protection Middleware
-        $csrfMiddleware = new CsrfProtectionMiddleware($connection);
+        $csrfMiddleware = new CsrfProtectionMiddleware($connection, $this->config);
         $this->pipeline->pipe($csrfMiddleware);
     }
 
