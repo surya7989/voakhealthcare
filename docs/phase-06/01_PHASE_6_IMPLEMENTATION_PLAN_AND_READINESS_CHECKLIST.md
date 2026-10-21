@@ -63,6 +63,10 @@ Before Phase 6 administrative authentication can be deployed or verified on a st
   - Lock account for 30 minutes (`locked_until = NOW() + INTERVAL 30 MINUTE`) upon 5 consecutive failed attempts within 15 minutes.
   - Return generic error message (`Invalid credentials or account locked`) to prevent username enumeration.
   - Reset `failed_login_attempts` to 0 upon successful authenticated login.
+- [ ] **Password Reset Lifecycle (`FR-ADM-001` / `password_resets`):**
+  - `POST /api/v1/admin/auth/password/forgot`: Generates cryptographically secure 256-bit token (`bin2hex(random_bytes(32))`), stores SHA-256 hash in `password_resets.token_hash` with 1-hour expiration (`expires_at = NOW() + INTERVAL 1 HOUR`).
+  - Dispatches password reset email via transactional outbox (`email_queue`).
+  - `POST /api/v1/admin/auth/password/reset`: Validates token hash, enforces new password entropy, updates `users.password_hash`, invalidates token (`used_at = NOW()`), revokes all active sessions in `admin_sessions`, and logs audit entry.
 
 ### 3.2 Session Lifecycle & Cookie Security (`FR-SEC-001`, `FR-SEC-003`)
 - [ ] **High-Security Session Cookie Configuration:**
@@ -130,6 +134,20 @@ Before Phase 6 administrative authentication can be deployed or verified on a st
   - `SessionLifecycleTest`: Cookie attributes, 15m idle timeout, 8h max duration, logout revocation.
   - `RbacAuthorizationTest`: Verification of all 5 roles across route permissions (403 Forbidden on violation).
   - `AuditLogChainTest`: Cryptographic hash chain validation across successive auth events.
+
+### 3.7 Formal Phase 6 Acceptance Criteria (Gate E Preview)
+| # | Acceptance Criterion | Verification Method | Standard / Threshold |
+|:---:|---|---|---|
+| **1** | Password Hashing Security | Unit Test | Argon2id default (fallback Bcrypt cost 12), entropy >= 12 chars |
+| **2** | Session Cookie Isolation | HTTP Integration Test | `Path=/api/v1/admin; Secure; HttpOnly; SameSite=Lax; Max-Age=28800` |
+| **3** | Session Invalidation | Lifecycle Test | 15m idle timeout, 8h absolute cap, clean DB revocation on logout |
+| **4** | RBAC Enforcement | HTTP Smoke Test | All 5 canonical roles validated; unauthorized calls return HTTP 403 |
+| **5** | TOTP MFA Engine | Unit & Flow Test | RFC 6238 verified, AES-256-GCM encrypted secrets in `admin_mfa_secrets` |
+| **6** | MFA Emergency Recovery | Integration Test | Single-use backup codes hashed, consumed upon verification |
+| **7** | Brute-Force Lockout | Security Test | 5 failed attempts in 15m trigger 30m lockout with generic error |
+| **8** | Auth Rate Limiting | Rate Limit Test | Max 10 requests/min per IP on auth routes, returning HTTP 429 |
+| **9** | Tamper-Evident Audit Logs| Cryptographic Test | Cryptographically chained SHA-256 records logged in `audit_logs` |
+| **10** | Automated Test Pass | CI Workflow | 100% test pass on PHP 8.2 and PHP 8.3 with zero secrets |
 
 ---
 
