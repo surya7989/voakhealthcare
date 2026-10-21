@@ -12,9 +12,9 @@
 
 ### 1. Executive Summary & Root-Cause Resolution of Gate 2
 
-During the Phase 3 V5 audit, an earlier iteration of this report listed an obsolete 22-slug list (derived from an unapproved initial draft where individual service and industry detail items were listed as distinct public pages). That listing conflicted with the canonical Phase 1 architecture defined in [`docs/phase-01/02_PUBLIC_PAGE_BY_PAGE_SPECIFICATIONS.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-01/02_PUBLIC_PAGE_BY_PAGE_SPECIFICATIONS.md) and [`docs/phase-01/15_REQUIREMENTS_TRACEABILITY_MATRIX.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-01/15_REQUIREMENTS_TRACEABILITY_MATRIX.md).
+During the Phase 3 V5 audit, an earlier iteration of this report listed an obsolete 22-slug list (derived from an unapproved initial draft where individual service and industry detail items were listed as distinct public pages). That listing conflicted with the canonical Phase 1 architecture defined in [`docs/phase-01/02_PUBLIC_PAGE_BY_PAGE_SPECIFICATIONS.md`](../phase-01/02_PUBLIC_PAGE_BY_PAGE_SPECIFICATIONS.md) and [`docs/phase-01/15_REQUIREMENTS_TRACEABILITY_MATRIX.md`](../phase-01/15_REQUIREMENTS_TRACEABILITY_MATRIX.md).
 
-An independent, automated reconciliation engine ([`tests/reconcile_baseline.py`](file:///c:/Users/voakh/Downloads/voak%20health/tests/reconcile_baseline.py)) was authored to perform an exhaustive, machine-verified comparison across all authoritative Phase 0 and Phase 1 source documents and the live prototype records in [`design/phase-03/app.js`](file:///c:/Users/voakh/Downloads/voak%20health/design/phase-03/app.js).
+An independent, automated reconciliation engine ([`tests/reconcile_baseline.py`](../../tests/reconcile_baseline.py)) was authored to perform an exhaustive, machine-verified comparison across all authoritative Phase 0 and Phase 1 source documents and the live prototype records in [`design/phase-03/app.js`](../../design/phase-03/app.js).
 
 **Result:** All architectural invariants, IDs, routes, roles, permissions, forms, and requirement traces are verified **100% PASS** with **0 discrepancies**.
 

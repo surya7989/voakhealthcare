@@ -1,0 +1,52 @@
+name: Voak Health Care CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend-test:
+    name: Backend Tests (PHP ${{ matrix.php-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.2', '8.3']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: pdo, json, mbstring, curl
+          coverage: none
+
+      - name: Validate composer.json
+        working-directory: ./backend
+        run: composer validate --strict
+
+      - name: Install Composer dependencies
+        working-directory: ./backend
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Check PHP Syntax (lint)
+        run: |
+          find backend tests -name "*.php" -print0 | xargs -0 -n1 php -l
+
+      - name: Run Root Backend Test Suite
+        run: php tests/test_backend_foundation.php
+
+      - name: Verify Secret Scanning Baseline
+        run: |
+          echo "Scanning for accidental committed secret patterns..."
+          ! grep -rnE "(BEGIN PRIVATE KEY|sk_live_|ghp_[A-Za-z0-9]{36})" --exclude-dir={.git,vendor,node_modules,storage} --exclude="*.example" .
+
+      - name: Verify No Local Machine Absolute Paths in Documentation
+        run: |
+          echo "Verifying no machine-specific absolute file URIs in markdown..."
+          ! grep -rnE "file:///[A-Za-z]:/" docs/

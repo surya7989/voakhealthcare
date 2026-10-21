@@ -31,4 +31,8 @@ backend/.env
 *.log
 !**/.gitkeep
 
+# Temporary scratch directory
+scratch/
+
+
 

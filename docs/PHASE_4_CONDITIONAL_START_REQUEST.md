@@ -11,7 +11,7 @@
 
 ## 1. Context & Governance Objective
 
-This document formally records the **Phase 4 Conditional Start Request** in accordance with project governance protocols. Phase 3 deliverables (packaged in [`VOAK_PHASE_3_DESIGN_REVIEW_v10.zip`](file:///c:/Users/voakh/Downloads/voak%20health/VOAK_PHASE_3_DESIGN_REVIEW_v10.zip)) remain **NOT ACCEPTED**.
+This document formally records the **Phase 4 Conditional Start Request** in accordance with project governance protocols. Phase 3 deliverables (packaged in [`VOAK_PHASE_3_DESIGN_REVIEW_v10.zip`](../VOAK_PHASE_3_DESIGN_REVIEW_v10.zip)) remain **NOT ACCEPTED**.
 
 The business owner has granted approval to begin Phase 4 conditionally. The three critical items below are formally logged into the project risk register with designated owners, explicit impact assessments, and mandatory resolution criteria.
 
@@ -62,7 +62,7 @@ The business owner has granted approval to begin Phase 4 conditionally. The thre
 - **Assigned Owner:** Principal UI/UX Designer & Business Owner
 - **Impact on Phase 4:** Backend architecture must remain strictly decoupled from visual presentation. No presentation markup may be hard-coded into PHP controllers, service classes, or database schemas.
 - **Mandatory Resolution Criteria:**
-  1. Business owner and designated brand stakeholders conduct formal visual comparison of [`01_desktop_homepage.png`](file:///c:/Users/voakh/Downloads/voak%20health/design/phase-03/screenshots/01_desktop_homepage.png) and [`02_mobile_homepage_390px.png`](file:///c:/Users/voakh/Downloads/voak%20health/design/phase-03/screenshots/02_mobile_homepage_390px.png) against [`approved_homepage_reference_image_2.png`](file:///c:/Users/voakh/Downloads/voak%20health/references/approved_homepage_reference_image_2.png).
+  1. Business owner and designated brand stakeholders conduct formal visual comparison of [`01_desktop_homepage.png`](../design/phase-03/screenshots/01_desktop_homepage.png) and [`02_mobile_homepage_390px.png`](../design/phase-03/screenshots/02_mobile_homepage_390px.png) against [`approved_homepage_reference_image_2.png`](../references/approved_homepage_reference_image_2.png).
   2. Stakeholders provide written sign-off or an enumerated punch-list of cosmetic adjustments.
 
 ---

@@ -94,7 +94,7 @@ backend/
 
 ## 3. Application Startup & Initialization Flow
 
-The application initialization sequence is centralized in [`backend/src/Core/App.php](../../backend/src/Core/App.php) and executes as follows:
+The application initialization sequence is centralized in [`backend/src/Core/App.php`](../../backend/src/Core/App.php) and executes as follows:
 
 ```mermaid
 sequenceDiagram

@@ -84,21 +84,21 @@ Phase 0 has established an exhaustive, rigorous, implementation-ready architectu
 
 | # | Verification Criterion | Status | Empirical Evidence & Reference |
 | :---: | :--- | :---: | :--- |
-| **1** | Confirm project scope is strictly B2B healthcare services | **CONFIRMED** | Detailed in [`01_BUSINESS_REQUIREMENTS.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-00/01_BUSINESS_REQUIREMENTS.md). Anti-goals exclude EMR and patient bookings. |
-| **2** | Confirm approved second design image is documented | **CONFIRMED** | Fully formalized in [`05_APPROVED_DESIGN_SYSTEM.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-00/05_APPROVED_DESIGN_SYSTEM.md) with color codes, typography scale, and bento geometry. |
-| **3** | Confirm React + PHP + MySQL architecture is preserved | **CONFIRMED** | Architectural contracts established in [`07_TECHNICAL_ARCHITECTURE.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-00/07_TECHNICAL_ARCHITECTURE.md). |
-| **4** | Confirm Hostinger dependencies are assessed | **CONFIRMED** | Live Hostinger MCP audit executed and detailed in [`06_HOSTINGER_COMPATIBILITY_AUDIT.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-00/06_HOSTINGER_COMPATIBILITY_AUDIT.md). |
-| **5** | Confirm unknown hosting capabilities remain clearly marked | **CONFIRMED** | Domain mapping and SMTP credentials marked as UNVERIFIED pending client assignment in [`15_UNVERIFIED_ASSUMPTIONS_AND_BLOCKERS.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-00/15_UNVERIFIED_ASSUMPTIONS_AND_BLOCKERS.md). |
-| **6** | Confirm all 22 public pages appear in the sitemap | **CONFIRMED** | All 22 pages mapped with routes, metadata, and JSON-LD in [`03_PUBLIC_WEBSITE_SITEMAP.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-00/03_PUBLIC_WEBSITE_SITEMAP.md). |
-| **7** | Confirm all 19 admin modules appear in the feature matrix | **CONFIRMED** | All 19 admin modules cataloged with IDs and acceptance criteria in [`02_COMPLETE_FEATURE_MATRIX.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-00/02_COMPLETE_FEATURE_MATRIX.md). |
-| **8** | Confirm roles and permission boundaries are documented | **CONFIRMED** | 5 roles and granular matrix specified in [`04_ADMIN_MODULES_AND_RBAC.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-00/04_ADMIN_MODULES_AND_RBAC.md). |
-| **9** | Confirm SEO rendering has a viable proposed strategy | **CONFIRMED** | Realistic hybrid semantic pre-render strategy without Node.js SSR specified in [`11_SEO_AND_RENDERING_STRATEGY.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-00/11_SEO_AND_RENDERING_STRATEGY.md). |
-| **10** | Confirm security and privacy requirements are covered | **CONFIRMED** | OWASP ASVS v4.0.3 Level 2 mapping and Australian Privacy Principles detailed in [`10_SECURITY_AND_PRIVACY_BASELINE.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-00/10_SECURITY_AND_PRIVACY_BASELINE.md). |
-| **11** | Confirm there are exactly 32 phases, numbered 0–31 | **CONFIRMED** | Original agreed 32 phases (0–31) restored in [`13_COMPLETE_32_PHASE_TRACEABILITY.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-00/13_COMPLETE_32_PHASE_TRACEABILITY.md). |
+| **1** | Confirm project scope is strictly B2B healthcare services | **CONFIRMED** | Detailed in [`01_BUSINESS_REQUIREMENTS.md`](./01_BUSINESS_REQUIREMENTS.md). Anti-goals exclude EMR and patient bookings. |
+| **2** | Confirm approved second design image is documented | **CONFIRMED** | Fully formalized in [`05_APPROVED_DESIGN_SYSTEM.md`](./05_APPROVED_DESIGN_SYSTEM.md) with color codes, typography scale, and bento geometry. |
+| **3** | Confirm React + PHP + MySQL architecture is preserved | **CONFIRMED** | Architectural contracts established in [`07_TECHNICAL_ARCHITECTURE.md`](./07_TECHNICAL_ARCHITECTURE.md). |
+| **4** | Confirm Hostinger dependencies are assessed | **CONFIRMED** | Live Hostinger MCP audit executed and detailed in [`06_HOSTINGER_COMPATIBILITY_AUDIT.md`](./06_HOSTINGER_COMPATIBILITY_AUDIT.md). |
+| **5** | Confirm unknown hosting capabilities remain clearly marked | **CONFIRMED** | Domain mapping and SMTP credentials marked as UNVERIFIED pending client assignment in [`15_UNVERIFIED_ASSUMPTIONS_AND_BLOCKERS.md`](./15_UNVERIFIED_ASSUMPTIONS_AND_BLOCKERS.md). |
+| **6** | Confirm all 22 public pages appear in the sitemap | **CONFIRMED** | All 22 pages mapped with routes, metadata, and JSON-LD in [`03_PUBLIC_WEBSITE_SITEMAP.md`](./03_PUBLIC_WEBSITE_SITEMAP.md). |
+| **7** | Confirm all 19 admin modules appear in the feature matrix | **CONFIRMED** | All 19 admin modules cataloged with IDs and acceptance criteria in [`02_COMPLETE_FEATURE_MATRIX.md`](./02_COMPLETE_FEATURE_MATRIX.md). |
+| **8** | Confirm roles and permission boundaries are documented | **CONFIRMED** | 5 roles and granular matrix specified in [`04_ADMIN_MODULES_AND_RBAC.md`](./04_ADMIN_MODULES_AND_RBAC.md). |
+| **9** | Confirm SEO rendering has a viable proposed strategy | **CONFIRMED** | Realistic hybrid semantic pre-render strategy without Node.js SSR specified in [`11_SEO_AND_RENDERING_STRATEGY.md`](./11_SEO_AND_RENDERING_STRATEGY.md). |
+| **10** | Confirm security and privacy requirements are covered | **CONFIRMED** | OWASP ASVS v4.0.3 Level 2 mapping and Australian Privacy Principles detailed in [`10_SECURITY_AND_PRIVACY_BASELINE.md`](./10_SECURITY_AND_PRIVACY_BASELINE.md). |
+| **11** | Confirm there are exactly 32 phases, numbered 0–31 | **CONFIRMED** | Original agreed 32 phases (0–31) restored in [`13_COMPLETE_32_PHASE_TRACEABILITY.md`](./13_COMPLETE_32_PHASE_TRACEABILITY.md). |
 | **12** | Confirm all documentation files exist and contain meaningful info | **CONFIRMED** | All 18 files verified in `docs/phase-00/` with technical diagrams, schemas, and zero filler text. |
 | **13** | Confirm no future-phase functionality was implemented | **CONFIRMED** | Zero premature code written; only Phase 0 deliverables produced. |
 | **14** | Confirm no existing production website was modified | **CONFIRMED** | Verified live websites remain completely untouched. |
-| **15** | Confirm all unresolved assumptions and decisions are reported | **CONFIRMED** | Full registry with owners and action timelines documented in [`15_UNVERIFIED_ASSUMPTIONS_AND_BLOCKERS.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-00/15_UNVERIFIED_ASSUMPTIONS_AND_BLOCKERS.md). |
+| **15** | Confirm all unresolved assumptions and decisions are reported | **CONFIRMED** | Full registry with owners and action timelines documented in [`15_UNVERIFIED_ASSUMPTIONS_AND_BLOCKERS.md`](./15_UNVERIFIED_ASSUMPTIONS_AND_BLOCKERS.md). |
 
 ---
 

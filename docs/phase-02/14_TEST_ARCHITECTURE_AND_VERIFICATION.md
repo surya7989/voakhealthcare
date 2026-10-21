@@ -62,7 +62,7 @@ The testing architecture provides a multi-layered verification harness spanning 
 
 ## 3. Traceability to the 62 Canonical Acceptance Tests
 
-Every one of the 62 canonical acceptance tests defined in [`17_PHASE_1_ACCEPTANCE_TEST_CATALOG.md`](file:///c:/Users/voakh/Downloads/voak%20health/docs/phase-01/17_PHASE_1_ACCEPTANCE_TEST_CATALOG.md) maps to an automated testing suite and target execution phase:
+Every one of the 62 canonical acceptance tests defined in [`17_PHASE_1_ACCEPTANCE_TEST_CATALOG.md`](../phase-01/17_PHASE_1_ACCEPTANCE_TEST_CATALOG.md) maps to an automated testing suite and target execution phase:
 
 | Canonical Test Range | Total Tests | Automated Tooling | Target Execution Phase |
 | :--- | :---: | :--- | :---: |

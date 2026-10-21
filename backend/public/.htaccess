@@ -1,0 +1,70 @@
+# ==============================================================================
+# Voak Health Care — Public Web Root Apache Configuration
+# Environment: Hostinger CloudLinux Shared Hosting / Local Apache
+# Document Reference: docs/phase-02/11_HOSTINGER_DEPLOYMENT_TOPOLOGY.md
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Rewrite Engine Initialization
+# ------------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # --------------------------------------------------------------------------
+    # 2. Canonical HTTPS Enforcement (Cloudflare & Hostinger Reverse Proxy Safe)
+    # --------------------------------------------------------------------------
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:\d+)?$ [NC]
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # --------------------------------------------------------------------------
+    # 3. Deny Direct Web Access to Sensitive Files, Directories & Backups
+    # --------------------------------------------------------------------------
+    RewriteRule ^(\.env|\.git|\.agents|config/|storage/|vendor/|cli/|composer\.(json|lock)|package(-lock)?\.json) - [F,L]
+    RewriteRule \.(bak|config|sql|fla|psd|ini|log|sh|inc|swp|dist|md|json)$ - [F,L]
+
+    # --------------------------------------------------------------------------
+    # 4. Stop Processing Immediately for Real Physical Files & Directories
+    # --------------------------------------------------------------------------
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # --------------------------------------------------------------------------
+    # 5. Prevent Self-Rewriting & Infinite Loops for Target Entry Points
+    # --------------------------------------------------------------------------
+    RewriteRule ^(index\.php|api/index\.php|admin/index\.html)$ - [L]
+
+    # --------------------------------------------------------------------------
+    # 6. Route API Requests to PHP API Front Controller (api/index.php)
+    # --------------------------------------------------------------------------
+    RewriteRule ^api(/.*)?$ api/index.php [QSA,L]
+
+    # --------------------------------------------------------------------------
+    # 7. Route Admin SPA Client-Side Routes to Admin SPA (admin/index.html)
+    # --------------------------------------------------------------------------
+    RewriteRule ^admin(/.*)?$ admin/index.html [L]
+
+    # --------------------------------------------------------------------------
+    # 8. Route All Other Page Requests to Public PHP Front Controller (index.php)
+    # --------------------------------------------------------------------------
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# ------------------------------------------------------------------------------
+# 9. Enterprise Security Response Headers
+# ------------------------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "0"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# ------------------------------------------------------------------------------
+# 10. Disable Directory Browsing
+# ------------------------------------------------------------------------------
+Options -Indexes
