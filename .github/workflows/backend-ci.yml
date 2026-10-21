@@ -48,3 +48,59 @@ jobs:
         run: |
           echo "Verifying no machine-specific absolute file URIs in markdown..."
           ! grep -rnE "file:///[A-Za-z]:/" docs/
+
+  mysql-migration-integration:
+    name: MySQL 8.0 Migration Lifecycle
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: mysql-ci-password
+          MYSQL_ROOT_HOST: '%'
+          MYSQL_DATABASE: voak_staging_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -pmysql-ci-password"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: voak_staging_ci
+      DB_USERNAME: root
+      DB_PASSWORD: mysql-ci-password
+      VOAK_MYSQL_TEST: "1"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP with native MySQL PDO
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo, pdo_mysql, json
+          coverage: none
+
+      - name: Validate Composer configuration
+        working-directory: ./backend
+        run: composer validate --strict
+
+      - name: Install Composer dependencies
+        working-directory: ./backend
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Check PHP syntax
+        run: |
+          php -l backend/tests/mysql_migration_integration.php
+          php -l backend/src/Database/Migration/MigrationManager.php
+
+      - name: Execute MySQL 8.0 migration lifecycle integration test
+        run: php backend/tests/mysql_migration_integration.php
+
+      - name: Verify Phase 0 root compatibility shim against MySQL
+        run: |
+          php database/migrate.php status | tee migration-status.txt
+          grep -F "Summary: 28 Applied, 0 Pending" migration-status.txt

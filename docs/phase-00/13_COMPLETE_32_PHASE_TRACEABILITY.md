@@ -31,7 +31,7 @@ graph TD
 ```
 
 > [!IMPORTANT]
-> **Strict Governance Rule:** Roadmap numbering preserves the exact originally agreed definitions (Phases 0 through 31). Only **Phase 0** is currently active. Development of future phases will proceed sequentially upon client acceptance.
+> **Current Governance Snapshot (October 21, 2026):** Roadmap numbering preserves the originally agreed definitions (Phases 0 through 31). Phases 0–4 are recorded as accepted in `docs/governance/00_CENTRAL_GOVERNANCE_REGISTER.md`. Phase 5 is accepted in principle but remains open for formal signatory execution and dedicated live MySQL staging validation. Phase 6 is held/blocked pending those prerequisites. Phases 7–31 are not authorized. This roadmap matrix documents planned scope and acceptance criteria; the Central Governance Register and the latest gate evidence control current authorization.
 
 ---
 
@@ -41,7 +41,7 @@ graph TD
 
 | Phase | Phase Title | Core Objectives & Deliverables | Dependencies | Acceptance Criteria & Verification Gate |
 | :---: | :--- | :--- | :--- | :--- |
-| **0** | **Project Requirements & Hosting Audit** | Establish foundational project charter, BRD, empirical Hostinger hosting audit, unverified assumptions catalog, and 18-document foundation suite. | Initial User Request | Complete 18-document suite in `docs/phase-00/`, live Hostinger audit verified, no premature code written. **[CURRENT ACTIVE PHASE]** |
+| **0** | **Project Requirements & Hosting Audit** | Establish foundational project charter, BRD, empirical Hostinger hosting audit, unverified assumptions catalog, and 18-document foundation suite. | Initial User Request | Complete 18-document suite in `docs/phase-00/`, live Hostinger audit verified, no premature code written. **[ACCEPTED — SEE CENTRAL GOVERNANCE REGISTER]** |
 | **1** | **Complete Functional Specification** | Detailed functional specifications for all 22 public pages and 19 admin modules, user story mapping, form validation schemas, and edge case rules. | Phase 0 | Formal sign-off on functional specification catalog; zero ambiguous requirements. |
 | **2** | **System Architecture** | Full system design specifications, request lifecycles, modular PHP architecture, database domain models, API envelopes, and directory partition isolation. | Phase 1 | Architectural design review sign-off; negative-access rules specified; API response contracts validated. |
 | **3** | **Professional UI/UX Design** | Design system tokenization (colors, typography, spacing, radius), WCAG 2.2 AA contrast matrix, comprehensive wireframes, bento-grid layouts, and master UI component specifications adhering to approved second image reference. | Phase 2 | Design token CSS compiled; contrast verified via automated test; wireframes for 22 pages and 19 admin modules approved. |
@@ -53,7 +53,7 @@ graph TD
 | Phase | Phase Title | Core Objectives & Deliverables | Dependencies | Acceptance Criteria & Verification Gate |
 | :---: | :--- | :--- | :--- | :--- |
 | **4** | **PHP Backend Foundation** | Lightweight PSR-aligned PHP router, Request/Response abstractions, CORS, security headers, production fail-fast environment loaders, and minimal `GET /api/health` endpoint. | Phase 2 | `GET /api/health` returns `{ "status": "ok" }` without leaking PHP version; fail-fast triggers tested. |
-| **5** | **MySQL Database** | Idempotent CLI migration runner (`php database/migrate.php`), schema definitions for all 20 relational tables, migration mutex locking, preflight checks, and pre-migration backup protocols. | Phase 4 | Migrations run up and rollback cleanly on local MySQL 8.x; zero foreign key errors; DDL implicit commit handling verified. |
+| **5** | **MySQL Database** | Idempotent CLI migration runner (`php database/migrate.php`), canonical 28-entity schema, 28 versioned blueprints, migration mutex locking, status reporting, and rollback/reapply lifecycle. | Phase 4 | SQLite automated lifecycle tests pass; native MySQL 8.x engine/collation, foreign keys, idempotency, rollback and reapplication must be verified in CI and on the designated staging environment. Dedicated live staging validation remains outstanding until evidence is recorded. |
 | **6** | **Admin Authentication & Security** | Admin login endpoint, bcrypt password hashing (cost 12), brute-force rate limiting (5 attempts = 15m lockout), CSRF synchronizer tokens, secure cookies (`SameSite=Strict`), and RFC 6238 TOTP MFA with AES-256-GCM secret encryption. | Phase 5 | Automated integration tests prove invalid passwords rejected; rate limiter locks IP after 5 attempts; TOTP challenge verified. |
 | **7** | **Website Content Management** | Backend CMS APIs and storage for static corporate pages (About Us, Why Choose Voak, How We Work), homepage hero copy, and site settings. | Phase 6 | Admin content CRUD endpoints operate with version history; unauthenticated requests rejected. |
 | **8** | **Services Management** | REST CRUD endpoints for the 6 proposed service pillars: slug generation, category assignment, ordering, and publishing toggles. | Phase 6 | Public endpoints return published services; admin endpoints permit CRUD with audit logging. |

@@ -170,6 +170,14 @@ php database/migrate.php status
 
 ---
 
+### Supplementary CI Validation Versus Designated Staging Acceptance
+
+The repository CI workflow now includes a MySQL 8.0 service job intended to exercise the migration lifecycle against a disposable, isolated CI database. Its result is supplemental regression evidence only and must be recorded from the actual workflow run after it completes.
+
+A successful ephemeral CI job **does not substitute** for the designated staging environment validation required by Steps 1–6 above. It does not establish Hostinger connectivity, staging credentials/privileges, production readiness, or formal Gate D signatory execution. No production database is used by this CI job.
+
+---
+
 ## 6. Formal Acceptance Criteria Checklist
 
 | # | Technical Acceptance Criterion | Verification Status | Verification Mechanism |
