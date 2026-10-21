@@ -55,7 +55,7 @@ This table strictly distinguishes **technical deliverable completion** from **fo
 | **Phase 2** | Technical & System Architecture | 100% Complete (19 specification documents) | **ACCEPTED** | **Technically Complete & Formally Accepted** |
 | **Phase 3** | UI/UX Design System & Prototypes | 100% Complete (310/310 responsive tests passed, visual parity evidence compiled, OPEN-03 scaffolding active) | **FORMALLY ACCEPTED** (OPEN-01, OPEN-02, OPEN-03 ratified October 21, 2026) | **Technically Complete & Formally Accepted** |
 | **Phase 4** | PHP Backend Foundation | 100% Complete (46/46 automated tests passed, 165 assertions, .htaccess security rules, CI green) | **FORMALLY ACCEPTED** ([`docs/phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md`](../phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md) Gate B signed October 21, 2026) | **Technically Complete & Formally Accepted** |
-| **Phase 5** | Database Architecture & Production Schema | **Planning:** 100% Complete<br>**Implementation:** 100% Complete (CLI runner, shim, 28 blueprints)<br>**Tests:** 55/55 Tests Passed (221 assertions)<br>**Acceptance Evidence:** Compiled (`03_PHASE_5_COMPLETION_REPORT.md`) | **FORMALLY AUTHORIZED (Gate C & CR-PH5-001 Approved)**<br>Formal Acceptance (Gate D) Pending Business Sign-off | **Implementation Complete & Empirically Verified — Awaiting Gate D Acceptance** |
+| **Phase 5** | Database Architecture & Production Schema | **Planning:** 100% Complete<br>**Implementation:** 100% Complete (CLI runner, shim, 28 blueprints)<br>**Tests:** 55/55 Tests Passed (221 assertions)<br>**Acceptance Evidence:** Compiled ([`03_PHASE_5_COMPLETION_REPORT.md`](../phase-05/03_PHASE_5_COMPLETION_REPORT.md), [`04_PHASE_5_ACCEPTANCE_PACKAGE.md`](../phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md)) | **FORMALLY AUTHORIZED (Gate C & CR-PH5-001 Approved)**<br>Formal Acceptance (Gate D) Pending Business Sign-off | **Implementation Complete & Empirically Verified — Awaiting Gate D Acceptance** |
 
 ---
 
@@ -100,7 +100,7 @@ The following matrix itemizes every mandated Phase 5 technical deliverable and r
 | **9** | **Fresh Migration Run & Idempotency Verification** | **PASS** | Repeat `migrateUp` verified as 0-mutation no-op; `fresh()` verified rolling back 28 tables and re-migrating all 28 cleanly. |
 | **10** | **Foreign-Key Integrity & Schema Verification** | **PASS** | Verified all 28 domain entities + `migrations` table exist in schema (`sqlite_master` test assertion passing). |
 | **11** | **Backend Regression Tests & Secret Scanning** | **PASS** | `php tests/test_backend_foundation.php` passed **55/55 tests (221 assertions)**. `php tests/scan_secrets.php` passed on **278 files (0 secrets detected)**. |
-| **12** | **Phase 5 Completion Report & Acceptance Evidence** | **PASS** | Formal Completion Report authored at [`docs/phase-05/03_PHASE_5_COMPLETION_REPORT.md`](../phase-05/03_PHASE_5_COMPLETION_REPORT.md) with Gate D sign-off template. |
+| **12** | **Phase 5 Completion Report & Acceptance Package** | **PASS** | Formal Completion Report at [`docs/phase-05/03_PHASE_5_COMPLETION_REPORT.md`](../phase-05/03_PHASE_5_COMPLETION_REPORT.md) and Acceptance Package at [`docs/phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md`](../phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md) with Gate D sign-off template. |
 
 
 ---

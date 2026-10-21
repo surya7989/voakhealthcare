@@ -21,7 +21,7 @@
 | **Phase 2** | Technical & System Architecture | **ACCEPTED** | `docs/phase-02/16_PHASE_2_FINAL_REPORT.md` |
 | **Phase 3** | UI/UX Design System & Prototypes | **FORMALLY ACCEPTED** | `docs/phase-03/17_PHASE_3_FINAL_COMPLETION_REPORT.md`, `docs/phase-03/21_HOMEPAGE_VISUAL_PARITY_SIGN_OFF_REPORT.md` |
 | **Phase 4** | PHP Backend Foundation | **FORMALLY ACCEPTED** | `docs/phase-04/02_PHASE_4_COMPLETION_REPORT.md`, `docs/phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md` |
-| **Phase 5** | Database Architecture & Production Schema | **FORMALLY AUTHORIZED — IMPLEMENTATION ACTIVE** | `docs/phase-05/01_DATABASE_ARCHITECTURE_AND_PRODUCTION_SCHEMA_PLAN.md`, `docs/governance/PHASE_5_AUTHORIZATION_REQUEST.md` |
+| **Phase 5** | Database Architecture & Production Schema | **IMPLEMENTATION COMPLETE — PENDING GATE D ACCEPTANCE** | `docs/phase-05/03_PHASE_5_COMPLETION_REPORT.md`, `docs/phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md` |
 | **Phases 6–31**| Implementation, Integration & Operations | **NOT AUTHORIZED (Phase 5 Completion Precedent Required)** | `docs/phase-00/13_COMPLETE_32_PHASE_TRACEABILITY.md` |
 
 ---

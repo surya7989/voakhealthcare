@@ -5,7 +5,7 @@
 **Project:** Voak Health Care Corporate B2B Platform  
 **Date:** October 21, 2026  
 **Auditor / Architect:** Senior MySQL Database Architect & Database Reliability Engineer  
-**Status:** **FORMALLY AUTHORIZED — IMPLEMENTATION ACTIVE**  
+**Status:** **IMPLEMENTATION COMPLETE — PENDING GATE D ACCEPTANCE**  
 **Governing Gate:** Mandated Phase 5 Authorization Gate (Rules 1, 9, 10 — Satisfied October 21, 2026)  
 **Baseline Authority:** Accepted Phase 2 System Architecture (`docs/phase-02/05_DATABASE_SCHEMA_DESIGN.md`)  
 
@@ -40,8 +40,8 @@ This document formalizes the complete implementation architecture and migration 
 7. `email_queue` (Cluster VII, FR-ADM-012): Durable asynchronous transactional outbox required for reliable SMTP delivery.
 8. `url_redirects` (Cluster VII, FR-ADM-017): Automated 301 SEO redirect engine to prevent broken links on slug updates.
 
-**Proposed Scope (Awaiting Sign-Off):**
-Engineering recommends ratifying CR-PH5-001 to adopt **exactly 28 relational domain entities** categorized into 7 functional clusters, plus 1 migration tracking table (`migrations`). Implementing fewer than 28 tables would leave junction tables and security storage missing, directly breaking Phase 6 authentication/RBAC and Phase 7–17 operations.
+**Adopted Scope (CR-PH5-001 Approved):**  
+In accordance with approved Change Request `CR-PH5-001`, Phase 5 adopts **exactly 28 relational domain entities** categorized into 7 functional clusters, plus 1 migration tracking table (`migrations`). All 28 entities and tracking tables have been implemented and verified.
 
 ---
 

@@ -37,9 +37,15 @@ Phase 6 implements the core administrative security perimeter for the Voak Healt
 | **Phase 5 Schema Scope Approval** | CR-PH5-001 Formally Approved | Approved October 21, 2026 (`CHANGE_REQUEST_CR_PH5_001_SCHEMA_SCOPE.md`) | **YES** |
 | **Phase 5 Commencement Authorization**| Gate C Formally Signed | Signed October 21, 2026 (`PHASE_5_AUTHORIZATION_REQUEST.md`) | **YES** |
 | **Phase 5 Technical Deliverables** | CLI Runner, Shim, 28 Blueprints, Tests | 100% complete; 55/55 tests passed (221 assertions) | **YES** |
-| **Phase 5 Formal Business Acceptance** | **Gate D Signed by Business Owner** | **PENDING REVIEW** (`docs/phase-05/03_PHASE_5_COMPLETION_REPORT.md`) | **NO (BLOCKING)** |
+| **Phase 5 Formal Business Acceptance** | **Gate D Signed by Business Owner** | **PENDING REVIEW** (`docs/phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md`) | **NO (BLOCKING)** |
 
----
+### 2.1 Staging Infrastructure & Live MySQL Prerequisites
+Before Phase 6 administrative authentication can be deployed or verified on a staging server:
+1. **Staging MySQL 8.0+ Instance Provisioned:** Dedicated database service active on port 3306 with InnoDB and `utf8mb4_unicode_ci`.
+2. **Phase 5 MySQL 8.x Staging Validation Plan Executed:** Completion of the 6 validation steps defined in `docs/phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md` Section 5.
+3. **Dedicated Staging User Privileges:** Staging database user must hold `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `CREATE`, `ALTER`, `DROP`, `INDEX`, `REFERENCES` privileges.
+4. **Environment Secret Hygiene:** Staging `.env` configured with cryptographically random 32-byte `APP_KEY` for AES-256-GCM encryption of TOTP secrets in `admin_mfa_secrets`.
+5. **Initial Bootstrap Super-Admin Seed Plan:** Controlled CLI seeder script to provision the initial bootstrap administrator account (`users`, `user_roles`, `roles`) with temporary single-use password requiring immediate rotation upon first login.
 
 ## 3. Concrete Phase 6 Implementation Checklist
 
