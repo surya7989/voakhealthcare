@@ -19,10 +19,16 @@ The job is intended to verify:
 ## Evidence status and governance boundary
 
 **Status (October 21, 2026):** **VERIFIED COMPLETE IN CI**  
-- **Verified Workflow Run (Push):** [Run #39547628374](https://github.com/surya7989/voakhealthcare/actions/runs/39547628374) — **SUCCESS (100% Green)**  
-- **Verified Workflow Run (Pull Request #2):** [Run #39547633302](https://github.com/surya7989/voakhealthcare/actions/runs/39547633302) — **SUCCESS (100% Green)**  
-- **Job Reference:** `MySQL 8.0 Migration Lifecycle` (Job ID: `119049288433`) — **SUCCESS**  
-- **Empirical Results:**
+- **Verified Workflow Runs:**
+  - **PR #2 Verification Run:** [Run #39548173212](https://github.com/surya7989/voakhealthcare/actions/runs/39548173212) (commit `8d71496`) — **SUCCESS (100% Green)**
+  - **Branch Push Run:** [Run #39548169013](https://github.com/surya7989/voakhealthcare/actions/runs/39548169013) (commit `8d71496`) — **SUCCESS (100% Green)**
+  - **Main Branch Push Run:** [Run #39548600051](https://github.com/surya7989/voakhealthcare/actions/runs/39548600051) (commit `8d71496`) — **SUCCESS (100% Green)**
+  - **Prior Validation Runs:** [Run #39547633302](https://github.com/surya7989/voakhealthcare/actions/runs/39547633302) (PR #2, commit `9eb75c1`) / [Run #39547628374](https://github.com/surya7989/voakhealthcare/actions/runs/39547628374) (push) — **SUCCESS**
+- **Verified Jobs per Run:**
+  - `MySQL 8.0 Migration Lifecycle` (Job `119051006571` on PR #2): **SUCCESS**
+  - `Backend Tests (PHP 8.2)` (Job `119051006412` on PR #2): **SUCCESS**
+  - `Backend Tests (PHP 8.3)` (Job `119051006558` on PR #2): **SUCCESS**
+- **Empirical Results on Native MySQL 8.0:**
   - `[1/7]` All 28 canonical schema blueprints discovered and applied cleanly on MySQL 8.0: **PASS**
   - `[2/7]` Idempotent repeat execution (zero duplicate migration mutations): **PASS**
   - `[3/7]` All 28 domain tables verified with `InnoDB` storage engine and `utf8mb4_unicode_ci` collation: **PASS**

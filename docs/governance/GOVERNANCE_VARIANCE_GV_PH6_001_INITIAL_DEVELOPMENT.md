@@ -23,7 +23,7 @@
    - Root compatibility shim implemented in `database/migrate.php`.
    - Foundation test suite passes 100% (55/55 tests, 221 assertions).
 2. **Native MySQL 8.0 CI Verification:**
-   - Ephemeral MySQL 8.0 CI integration test executed and verified in GitHub Actions [Run #39547628374](https://github.com/surya7989/voakhealthcare/actions/runs/39547628374) and [Run #39547633302](https://github.com/surya7989/voakhealthcare/actions/runs/39547633302).
+   - Ephemeral MySQL 8.0 CI integration test executed and verified in GitHub Actions [Run #39548173212](https://github.com/surya7989/voakhealthcare/actions/runs/39548173212) (PR #2) and [Run #39548600051](https://github.com/surya7989/voakhealthcare/actions/runs/39548600051) (`main`).
    - All 28 domain tables verified with `InnoDB` storage engine and `utf8mb4_unicode_ci` collation.
    - Idempotency, foreign-key enforcement, single-step rollback, full rollback, and root compatibility shim status verified cleanly.
 3. **Current Governance State:**

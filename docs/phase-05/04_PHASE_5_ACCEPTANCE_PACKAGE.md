@@ -175,7 +175,15 @@ php database/migrate.php status
 The repository CI workflow includes a dedicated MySQL 8.0 service job (`MySQL 8.0 Migration Lifecycle`) that exercises the migration lifecycle against a disposable, isolated database (`voak_staging_ci`).
 
 **Verified Automated CI Results (October 21, 2026):**
-- **GitHub Actions Workflow Run:** [Run #39547628374](https://github.com/surya7989/voakhealthcare/actions/runs/39547628374) (push) / [Run #39547633302](https://github.com/surya7989/voakhealthcare/actions/runs/39547633302) (PR #2) — **SUCCESS (100% Green)**
+- **GitHub Actions Workflow Runs:**
+  - [Run #39548173212](https://github.com/surya7989/voakhealthcare/actions/runs/39548173212) (PR #2 verification, commit `8d71496`) — **SUCCESS (100% Green)**
+  - [Run #39548169013](https://github.com/surya7989/voakhealthcare/actions/runs/39548169013) (branch push, commit `8d71496`) — **SUCCESS (100% Green)**
+  - [Run #39548600051](https://github.com/surya7989/voakhealthcare/actions/runs/39548600051) (`main` branch push, commit `8d71496`) — **SUCCESS (100% Green)**
+  - [Run #39547633302](https://github.com/surya7989/voakhealthcare/actions/runs/39547633302) (PR #2, commit `9eb75c1`) / [Run #39547628374](https://github.com/surya7989/voakhealthcare/actions/runs/39547628374) (push) — **SUCCESS**
+- **Verified Matrix Jobs:**
+  - `MySQL 8.0 Migration Lifecycle` (native MySQL 8.0 service): **VERIFIED PASS**
+  - `Backend Tests (PHP 8.2)`: **VERIFIED PASS**
+  - `Backend Tests (PHP 8.3)`: **VERIFIED PASS**
 - **Verified Checks on Native MySQL 8.0:**
   1. Discovery and fresh execution of all 28 migration blueprints: **VERIFIED PASS**
   2. Idempotent repeat execution: **VERIFIED PASS**
