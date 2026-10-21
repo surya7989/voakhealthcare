@@ -176,7 +176,7 @@ The smallest complete, robust, testable, and production-safe PHP backend foundat
 
 ### 13.6.1 Test Execution Record
 - **Command:** `php tests/test_backend_foundation.php` (also validated via `php backend/tests/run_tests.php`)
-- **Working Directory:** `c:\Users\voakh\Downloads\voak health`
+- **Working Directory:** Repository root (`surya7989/voakhealthcare`)
 - **Environment:** Windows NT host; PHP CLI `8.3.33` (ZTS Visual C++ 2019 x64); Composer `2.10.3`
 - **Exit Code:** `0` (Success)
 - **Execution Timestamp:** October 20, 2026, 04:36:37 UTC

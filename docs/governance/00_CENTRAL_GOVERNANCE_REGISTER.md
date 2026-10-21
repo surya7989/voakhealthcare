@@ -47,13 +47,13 @@
 
 ## 4. Actionable Business Owner Decision & Approval Checklist
 
-The following four specific items require formal Business Owner review and action:
+The following five specific items require formal Business Owner review and action:
 
 | Item # | Governance Area | Document to Review & Sign | Action Required by Business Owner | Engineering Recommendation |
 |---|---|---|---|---|
 | **1** | **Phase 4 Backend Foundation Acceptance** | [`docs/phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md`](../phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md) (Gate B) | Sign off Gate B to formally accept Phase 4 PHP backend foundation based on 46/46 automated test pass and CI verification. | **RECOMMENDED FOR FORMAL ACCEPTANCE** |
 | **2** | **Phase 3 OPEN-02 Visual Parity Sign-Off** | [`docs/phase-03/21_HOMEPAGE_VISUAL_PARITY_SIGN_OFF_REPORT.md`](../phase-03/21_HOMEPAGE_VISUAL_PARITY_SIGN_OFF_REPORT.md) (Section 5) | Review desktop (1440px), mobile (390px), and comparison screenshots against Image 2 benchmark; sign approval or provide punch-list. | **READY FOR BUSINESS SIGN-OFF** |
 | **3** | **Phase 3 OPEN-03 Requirement Traceability Decision** | [`docs/governance/DECISION_RECORD_OPEN_03_REQUIREMENT_TRACEABILITY.md`](DECISION_RECORD_OPEN_03_REQUIREMENT_TRACEABILITY.md) (Section 4) | Select **Option A** (Shared mapping across Homepage ribbon & Partners page) or **Option B** (Allocate new requirement ID). | **RECOMMEND OPTION A** (Least disruptive; zero regression risk) |
-| **4** | **Change Request CR-PH5-001 (Schema Scope Reconciliation)** | [`docs/phase-05/01_DATABASE_ARCHITECTURE_AND_PRODUCTION_SCHEMA_PLAN.md`](../phase-05/01_DATABASE_ARCHITECTURE_AND_PRODUCTION_SCHEMA_PLAN.md) (Section 1.3) | Approve formal expansion from 20-table roadmap estimate to canonical 28-entity relational schema (covering junction tables and isolated credentials). | **RECOMMENDED FOR APPROVAL (CR-PH5-001)** |
+| **4** | **Change Request CR-PH5-001 (Schema Scope Reconciliation)** | [`docs/governance/CHANGE_REQUEST_CR_PH5_001_SCHEMA_SCOPE.md`](CHANGE_REQUEST_CR_PH5_001_SCHEMA_SCOPE.md) (Section 7) | Approve formal expansion from 20-table roadmap estimate to canonical 28-entity relational schema (covering junction tables and isolated credentials). | **RECOMMENDED FOR APPROVAL (CR-PH5-001)** |
 | **5** | **Phase 5 Commencement Authorization** | [`docs/governance/PHASE_5_AUTHORIZATION_REQUEST.md`](PHASE_5_AUTHORIZATION_REQUEST.md) (Section 4) and [`docs/phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md`](../phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md) (Gate C) | Sign authorization granting permission to begin Phase 5 database migration runner & production schema implementation. | **RECOMMENDED FOR AUTHORIZATION (Contingent on Item 1)** |
 

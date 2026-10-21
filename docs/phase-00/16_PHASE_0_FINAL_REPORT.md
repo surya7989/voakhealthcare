@@ -27,7 +27,7 @@ Phase 0 has established an exhaustive, rigorous, implementation-ready architectu
 ### 2. Project Artifacts Inspected & Created
 
 #### A. Files & Environment Inspected
-- Monorepo root directory (`c:\Users\voakh\Downloads\voak health`) inspected and confirmed clean.
+- Monorepo repository root directory (`surya7989/voakhealthcare`) inspected and confirmed clean.
 - Hostinger hosting environment inspected via live, read-only Hostinger Hosting MCP tools.
 - Existing production websites verified and completely isolated. Zero production changes made.
 - Approved second generated homepage design reference inspected, colors mathematically audited, and formalized.

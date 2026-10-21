@@ -417,4 +417,5 @@ Total Verification Checks: 310
 Passed:                    310 (100.0%)
 Failed:                    0 (0.0%)
 ======================================================================
-Structured results saved to: C:\Users\voakh\Downloads\voak health\tests\results\phase-03-responsive-results.json
+Structured results saved to: tests/results/phase-03-responsive-results.json
+Console execution log saved to: tests/results/phase-03-test-output.txt

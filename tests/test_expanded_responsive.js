@@ -864,11 +864,11 @@ async function runTests() {
   // Save artifacts
   const resultsJsonPath = path.join(RESULTS_DIR, 'phase-03-responsive-results.json');
   fs.writeFileSync(resultsJsonPath, JSON.stringify(results, null, 2), 'utf-8');
-  log(`Structured results saved to: ${resultsJsonPath}`);
+  log(`Structured results saved to: ${path.relative(ROOT, resultsJsonPath).replace(/\\/g, '/')}`);
 
   const outputLogPath = path.join(RESULTS_DIR, 'phase-03-test-output.txt');
   fs.writeFileSync(outputLogPath, logLines.join('\n'), 'utf-8');
-  log(`Console execution log saved to: ${outputLogPath}`);
+  log(`Console execution log saved to: ${path.relative(ROOT, outputLogPath).replace(/\\/g, '/')}`);
 
   // Cleanup
   ws.close();

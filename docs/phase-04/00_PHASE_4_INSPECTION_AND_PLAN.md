@@ -11,7 +11,7 @@
 ## 1. Initial Repository & Environmental State (Task 5.1, 5.5)
 
 ### 1.1 Host Environment Preflight
-- **PHP CLI Runtime:** PHP `8.3.33` (ZTS Visual C++ 2019 x64) detected at `C:\Users\voakh\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.3_...`
+- **PHP CLI Runtime:** PHP `8.3.33` (ZTS Visual C++ 2019 x64) detected via system PATH.
 - **Composer Package Manager:** Composer `2.10.3` detected and verified.
 - **Node.js Runtime:** Node.js `v26.7.0` available for cross-tier validation.
 - **Operating System:** Windows host environment; target deployment environment is Linux CloudLinux shared hosting (Hostinger).
