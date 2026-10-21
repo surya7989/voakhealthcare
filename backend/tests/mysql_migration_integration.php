@@ -142,6 +142,7 @@ try {
     );
 } catch (Throwable $error) {
     $msg = "[FAIL] " . $error->getMessage() . "\n" . $error->getFile() . ':' . $error->getLine() . "\n" . $error->getTraceAsString() . "\n";
+    echo "::error title=MySQL Integration Test Error::" . str_replace(["\r", "\n"], ["", "%0A"], $msg) . "\n";
     echo $msg;
     fwrite(STDERR, $msg);
     if ($stepSummary = getenv('GITHUB_STEP_SUMMARY')) {

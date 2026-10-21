@@ -167,8 +167,10 @@ class MigrationManager
     {
         $this->ensureTrackingTable($pdo);
         $stmt = $pdo->query("SELECT COALESCE(MAX(`batch`), 0) + 1 AS next_batch FROM `{$this->tableName}`");
-        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-        $stmt->closeCursor();
+        $row = $stmt ? $stmt->fetch(\PDO::FETCH_ASSOC) : null;
+        if ($stmt) {
+            $stmt->closeCursor();
+        }
         return (int) ($row['next_batch'] ?? 1);
     }
 
@@ -297,11 +299,12 @@ class MigrationManager
                 $targets = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                 $stmt->closeCursor();
             } else {
-                $stmt = $pdo->prepare("SELECT `version`, `description` FROM `{$this->tableName}` ORDER BY `id` DESC LIMIT :lim");
-                $stmt->bindValue(':lim', $steps, \PDO::PARAM_INT);
-                $stmt->execute();
-                $targets = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                $stmt->closeCursor();
+                $limit = (int) $steps;
+                $stmt = $pdo->query("SELECT `version`, `description` FROM `{$this->tableName}` ORDER BY `id` DESC LIMIT {$limit}");
+                $targets = $stmt ? $stmt->fetchAll(\PDO::FETCH_ASSOC) : [];
+                if ($stmt) {
+                    $stmt->closeCursor();
+                }
             }
 
             if (empty($targets)) {
@@ -351,8 +354,10 @@ class MigrationManager
         $this->ensureTrackingTable($pdo);
 
         $stmt = $pdo->query("SELECT COUNT(*) FROM `{$this->tableName}`");
-        $count = (int) $stmt->fetchColumn();
-        $stmt->closeCursor();
+        $count = (int) ($stmt ? $stmt->fetchColumn() : 0);
+        if ($stmt) {
+            $stmt->closeCursor();
+        }
 
         $rolledBack = [];
         if ($count > 0) {
