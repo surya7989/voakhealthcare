@@ -22,10 +22,15 @@ This document formalizes the complete implementation architecture and migration 
    - Phase 7–16 (Application CMS, CRM endpoints, email transports, and recruitment business logic).
    - Phase 18–26 (React frontend components and user interfaces).
 
-### 1.3 Change Control Reconciliation: 20-Table Roadmap vs. 28-Entity Canonical Schema
-The early high-level roadmap summary in `docs/phase-00/13_COMPLETE_32_PHASE_TRACEABILITY.md` (Phase 5 row) originally referenced "20 relational tables". This was a preliminary estimate established during Phase 0 prior to detailed functional decomposition.
+### 1.3 Formal Change Request (CR-PH5-001): 20-Table Baseline Roadmap vs. Proposed 28-Entity Canonical Schema (Pending Business Owner Approval)
 
-During Phase 1 (Functional Specifications in `docs/phase-01/11_API_AND_DATABASE_REQUIREMENT_MAPPING.md`) and Phase 2 (System Architecture in `docs/phase-02/05_DATABASE_SCHEMA_DESIGN.md`), exhaustive domain analysis identified exactly **8 additional required relational entities** to support relational integrity, security isolation, and business requirements without unnormalized JSON antipatterns:
+> [!WARNING]
+> **GOVERNANCE STATUS: CHANGE REQUEST PENDING FORMAL BUSINESS OWNER APPROVAL**  
+> The Phase 0 accepted baseline roadmap (`docs/phase-00/13_COMPLETE_32_PHASE_TRACEABILITY.md`) remains strictly preserved at 20 relational tables. The change below is submitted as a formal Change Request (CR-PH5-001) for Business Owner decision and approval alongside the Phase 5 Authorization Gate.
+
+**Background:** The early high-level roadmap summary in `docs/phase-00/13_COMPLETE_32_PHASE_TRACEABILITY.md` (Phase 5 row) originally referenced "20 relational tables" as a preliminary pre-decomposition estimate established during Phase 0.
+
+**Technical Evaluation:** During Phase 1 (Functional Specifications in `docs/phase-01/11_API_AND_DATABASE_REQUIREMENT_MAPPING.md`) and Phase 2 (System Architecture in `docs/phase-02/05_DATABASE_SCHEMA_DESIGN.md`), exhaustive domain analysis identified exactly **8 additional required relational entities** to support relational integrity, security isolation, and business requirements without unnormalized JSON antipatterns:
 1. `role_permissions` (Cluster I, FR-ADM-003): Normalized many-to-many junction between administrative roles and the 45 granular canonical permissions.
 2. `user_roles` (Cluster I, FR-ADM-003): Normalized junction supporting multi-role assignments.
 3. `admin_mfa_secrets` (Cluster I, FR-ADM-002): Dedicated isolated credential store for encrypted RFC 6238 TOTP secrets and hashed recovery codes, separated from user profile records to prevent accidental exposure in user queries.
@@ -35,8 +40,8 @@ During Phase 1 (Functional Specifications in `docs/phase-01/11_API_AND_DATABASE_
 7. `email_queue` (Cluster VII, FR-ADM-012): Durable asynchronous transactional outbox required for reliable SMTP delivery.
 8. `url_redirects` (Cluster VII, FR-ADM-017): Automated 301 SEO redirect engine to prevent broken links on slug updates.
 
-**Authoritative Database Scope:**
-The authoritative Phase 5 database scope is formally codified as **exactly 28 relational domain entities** categorized into 7 functional clusters, plus 1 migration tracking table (`migrations`). Implementing fewer than 28 tables would leave junction tables and security storage missing, directly breaking Phase 6 authentication/RBAC and Phase 7–17 operations.
+**Proposed Scope (Awaiting Sign-Off):**
+Engineering recommends ratifying CR-PH5-001 to adopt **exactly 28 relational domain entities** categorized into 7 functional clusters, plus 1 migration tracking table (`migrations`). Implementing fewer than 28 tables would leave junction tables and security storage missing, directly breaking Phase 6 authentication/RBAC and Phase 7–17 operations.
 
 ---
 
