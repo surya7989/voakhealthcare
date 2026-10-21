@@ -85,8 +85,8 @@ Following written authorization granted by the Business Owner under **Gate C** a
 | **CLI Runner Commands** | `php backend/cli/migrate.php` | **100% PASS** | `up`, `down`, `status`, `fresh`, `--help` |
 | **Phase 0 Compatibility Shim** | `php database/migrate.php` | **100% PASS** | Seamless Delegated Execution |
 | **Composer Configuration Validation** | `cd backend; composer validate --strict` | **VALID** | Exit Code 0 |
-| **PHP Syntax Linting** | `php -l` on all PHP files | **100% PASS** | 73 PHP Files Clean |
-| **Secret & Credential Scanning** | `php tests/scan_secrets.php` | **100% PASS** | 278 Files Scanned (0 Secrets) |
+| **PHP Syntax Linting** | `php -l` on all PHP files | **100% PASS** | 81 PHP Files Clean |
+| **Secret & Credential Scanning** | `php tests/scan_secrets.php` | **100% PASS** | 279 Files Scanned (0 Secrets) |
 
 ---
 
@@ -97,6 +97,9 @@ Following written authorization granted by the Business Owner under **Gate C** a
    - **MySQL 8.x / MariaDB (Hostinger Target):** Verbatim DDL with `ENGINE=InnoDB`, `utf8mb4_unicode_ci`, full compound primary keys, indexes, foreign keys with `ON DELETE CASCADE` and `ON DELETE SET NULL`, and MySQL mutex locking via `GET_LOCK('voak_migration_mutex', 10)`.
    - **SQLite Persistence (Automated Local & CI Verification):** Dialect-adaptive execution enables fully automated, deterministic execution and verification of migration lifecycles without requiring external daemon infrastructure.
 3. **Cursor Isolation:** Explicit cursor closure (`$stmt->closeCursor()`) guarantees clean statement lifecycle across all RDBMS engines.
+4. **Test Environment Disclosure (SQLite vs. Live MySQL):**
+   - **Empirical Test Evidence (Executed & Passed):** 100% of schema definitions, tracking table mechanics, batch allocations, CLI commands, idempotency guarantees, rollbacks, and foreign-key integrity constraints have been empirically tested and verified on disk-backed SQLite and in-memory SQLite fixtures (`PRAGMA foreign_key_check` returned 0 violations).
+   - **Live MySQL Verification Status:** MySQL-specific locking primitives (`GET_LOCK`/`RELEASE_LOCK`) and native MySQL 8.x InnoDB transactional DDL semantics (where DDL causes an implicit commit) have been validated via syntax check and mock-PDO failure paths, but have **not** been executed against a live MySQL daemon in the local or CI environment because no active MySQL server is provisioned on port 3306. Live MySQL verification is formally scheduled for staging deployment.
 
 ---
 

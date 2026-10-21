@@ -104,7 +104,7 @@ if (empty($args) || in_array('--help', $args, true) || in_array('-h', $args, tru
     exit(0);
 }
 
-$command = strtolower($args[0]);
+$command = null;
 $useSqlite = false;
 $sqlitePath = ':memory:';
 $steps = 0;
@@ -115,10 +115,18 @@ foreach ($args as $arg) {
         if (str_contains($arg, '=')) {
             $sqlitePath = substr($arg, strpos($arg, '=') + 1);
         }
-    }
-    if (str_starts_with($arg, '--steps=')) {
+    } elseif (str_starts_with($arg, '--steps=')) {
         $steps = (int) substr($arg, 8);
+    } elseif (!str_starts_with($arg, '-')) {
+        if ($command === null) {
+            $command = strtolower($arg);
+        }
     }
+}
+
+if ($command === null) {
+    printUsage();
+    exit(0);
 }
 
 // Bootstrap Configuration and PDO

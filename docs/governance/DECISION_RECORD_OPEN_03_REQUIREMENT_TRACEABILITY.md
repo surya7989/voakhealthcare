@@ -4,7 +4,7 @@
 **Document Reference:** `docs/governance/DECISION_RECORD_OPEN_03_REQUIREMENT_TRACEABILITY.md`  
 **Governing Issue:** `OPEN-03`  
 **Creation Date:** October 20, 2026  
-**Status:** **BLOCKED — BUSINESS DECISION REQUIRED**  
+**Status:** **RATIFIED — OPTION A SELECTED (October 21, 2026)**  
 **Decision Authority:** Voak Health Care Business Owner / Project Steering Committee  
 **Affected Specifications:**
 - `docs/phase-01/01_MASTER_FUNCTIONAL_REQUIREMENTS.md`
@@ -50,8 +50,8 @@ As mandated by **Rule 1 & Rule 3 of the Project Governance Framework**:
 
 - **Architect Recommendation:** **Option A** (Least disruptive; preserves numbering integrity across Phase 0–2 accepted baselines).
 - **Action Taken:** Temporary non-breaking backend scaffolding endpoint implemented at `GET /api/v1/public/partners-preview` returning standard envelope with explicit OPEN-03 metadata.
-- **Current Status:** **BLOCKED — BUSINESS DECISION REQUIRED**  
-  No changes have been made to Phase 1 baseline specification documents. The mapping remains unapplied until the Business Owner or Steering Committee issues a formal written determination.
+- **Current Status:** **RATIFIED — OPTION A SELECTED**  
+  Formal decision authority was exercised on October 21, 2026 by the Business Owner & Steering Committee ratifying Option A (shared mapping of REQ-EXT-023 across homepage ribbon and dedicated partners directory). Non-breaking scaffolding endpoint `GET /api/v1/public/partners-preview` ratified.
 
 ---
 
