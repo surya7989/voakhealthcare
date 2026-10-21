@@ -22,7 +22,7 @@ This independent technical audit was conducted on October 20, 2026, pursuant to 
 2. **Independent Test Reproducibility:** The root-level test suite ([`tests/test_backend_foundation.php`](../../tests/test_backend_foundation.php)) and the backend runner ([`backend/tests/run_tests.php`](../../backend/tests/run_tests.php)) were executed independently and achieved **46 / 46 passing tests with 165 assertions (0 failures, 100% success)**.
 3. **Verified Defect Corrections:**
    - **Finding F-01 (Severity P2 — Resolved):** Architectural documentation referenced `App::boot()` while the implementation provided `App::bootstrap()`. An alias `App::boot(?string $envPath = null): self` was added to [`backend/src/Core/App.php`](../../backend/src/Core/App.php), and unit tests were added to verify both factory methods.
-   - **Finding F-02 (Severity P3 — Resolved):** Absolute developer local URIs (`file:///c:/Users/...`) in `docs/phase-04/` were sanitized to repository-relative markdown links.
+   - **Finding F-02 (Severity P3 — Resolved):** Absolute developer local URIs (`file:///[local-user-path]`) in `docs/phase-04/` were sanitized to repository-relative markdown links.
    - **Finding F-03 (Severity P3 — Resolved):** Reconciled the PHP version matrix: syntax compatibility is verified for `PHP ^8.2 || ^8.3` via `composer.json` and syntax analysis, while active runtime verification was proven against `PHP 8.3.33`.
 4. **Database Safety Invariant:** Live database mutations were verified at **ZERO**. The database connection manager ([`backend/src/Database/Connection.php`](../../backend/src/Database/Connection.php)) is strictly lazy and does not initiate a socket connection upon application bootstrap or liveness checks (`/api/health`).
 5. **Governance State:**
@@ -213,7 +213,7 @@ The complete raw test execution transcript has been recorded in:
 | Finding ID | Severity | Component | Issue Description | Remediation Implemented | Verification Result |
 |---|---|---|---|---|---|
 | **`F-01`** | **P2** | `App.php` | Documentation referenced `App::boot()` while code implemented `App::bootstrap()`. | Added `App::boot(?string $envPath = null): self` alias to [`backend/src/Core/App.php`](../../backend/src/Core/App.php) and added test in `AppKernelTest.php`. | **RESOLVED & VERIFIED (PASS)** |
-| **`F-02`** | **P3** | `docs/phase-04/` | Documentation files contained local absolute URIs (`file:///c:/Users/...`). | Replaced all absolute links with repository-relative markdown paths. | **RESOLVED & VERIFIED (PASS)** |
+| **`F-02`** | **P3** | `docs/phase-04/` | Documentation files contained local absolute URIs (`file:///[local-user-path]`). | Replaced all absolute links with repository-relative markdown paths. | **RESOLVED & VERIFIED (PASS)** |
 | **`F-03`** | **P3** | Documentation | Clarified distinction between declared PHP version (`^8.2 \|\| ^8.3`) and tested runtime (`PHP 8.3.33`). | Updated architecture documentation and completion report. | **RESOLVED & VERIFIED (PASS)** |
 
 ---

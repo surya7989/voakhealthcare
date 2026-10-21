@@ -75,7 +75,7 @@
   Execute grep search for absolute file URIs:
   `git grep -n "file:///" docs/phase-04/`
 - **Expected Behavior:** Documentation intended for version control and cross-developer review should use repository-relative markdown links (e.g. `../../backend/...` or relative paths).
-- **Actual Behavior:** Markdown links contained absolute local paths: `file:///c:/Users/voakh/Downloads/voak%20health/...`. These paths break when viewed on GitHub or on other machines.
+- **Actual Behavior:** Markdown links contained absolute local paths: `[file-protocol-scheme]://[local-user-path]/...`. These paths break when viewed on GitHub or on other machines.
 - **Root Cause:** Antigravity IDE workspace link generator inserted machine-local absolute URIs.
 - **Remediation Implemented:**
   Automated replacement script sanitized all 48 instances across `docs/phase-04/`, converting them into portable repository-relative links (`../../backend/...` and `../...`).
