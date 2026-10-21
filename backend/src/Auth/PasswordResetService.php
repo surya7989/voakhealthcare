@@ -117,36 +117,73 @@ class PasswordResetService
             return false;
         }
 
-        // Validate password complexity
+        // Validate password complexity before consuming token
         $this->hasher->enforceEntropy($newPassword);
 
         $userId = (int)$record['user_id'];
         $newHash = $this->hasher->hash($newPassword);
         $now = gmdate('Y-m-d H:i:s');
 
-        // Update password and reset lockout counters
-        $updateUser = $pdo->prepare(
-            "UPDATE `users` 
-             SET `password_hash` = :hash, 
-                 `password_changed_at` = :now, 
-                 `failed_login_attempts` = 0, 
-                 `lockout_until` = NULL 
-             WHERE `id` = :uid"
-        );
-        $updateUser->execute([
-            'hash' => $newHash,
-            'now'  => $now,
-            'uid'  => $userId,
-        ]);
-        $updateUser->closeCursor();
+        $startedTx = false;
+        if (!$pdo->inTransaction()) {
+            try {
+                $pdo->beginTransaction();
+                $startedTx = true;
+            } catch (\PDOException) {
+                $startedTx = false;
+            }
+        }
 
-        // Mark token as consumed
-        $markUsed = $pdo->prepare("UPDATE `password_resets` SET `used_at` = :now WHERE `id` = :id");
-        $markUsed->execute(['now' => $now, 'id' => (int)$record['id']]);
-        $markUsed->closeCursor();
+        try {
+            // Atomic conditional update guarantees token cannot be consumed twice under concurrency
+            $consume = $pdo->prepare(
+                "UPDATE `password_resets` 
+                 SET `used_at` = :now 
+                 WHERE `id` = :id AND `used_at` IS NULL AND `expires_at` > :now_check"
+            );
+            $consume->execute([
+                'now'       => $now,
+                'id'        => (int)$record['id'],
+                'now_check' => $now,
+            ]);
+            $affected = $consume->rowCount();
+            $consume->closeCursor();
 
-        // Revoke all existing sessions for this user (session fixation defense)
-        $this->sessionManager->destroyUserSessions($pdo, $userId);
+            if ($affected !== 1) {
+                if ($startedTx && $pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+                return false;
+            }
+
+            // Update user password and reset lockout counters
+            $updateUser = $pdo->prepare(
+                "UPDATE `users` 
+                 SET `password_hash` = :hash, 
+                     `password_changed_at` = :now, 
+                     `failed_login_attempts` = 0, 
+                     `lockout_until` = NULL 
+                 WHERE `id` = :uid"
+            );
+            $updateUser->execute([
+                'hash' => $newHash,
+                'now'  => $now,
+                'uid'  => $userId,
+            ]);
+            $updateUser->closeCursor();
+
+            // Revoke all existing sessions for this user (session fixation defense)
+            $this->sessionManager->destroyUserSessions($pdo, $userId);
+
+            if ($startedTx && $pdo->inTransaction()) {
+                $pdo->commit();
+            }
+        } catch (\Throwable $e) {
+            if ($startedTx && $pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            throw $e;
+        }
 
         // Audit logging
         $this->auditLogger->log($pdo, 'auth', 'AUTH_PASSWORD_RESET_COMPLETE', $userId, $ipAddress, $userAgent, 'user', $userId);

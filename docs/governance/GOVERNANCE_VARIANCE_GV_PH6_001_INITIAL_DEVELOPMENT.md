@@ -59,7 +59,7 @@ If approved, engineering will implement the complete Phase 6 specification defin
 | **Account Lockout Protection** | Brute-force lockout (5 consecutive failed attempts = 15-minute lockout until `lockout_until`). |
 | **Password Reset Engine** | Cryptographically secure 64-char single-use tokens, 1-hour expiry, constant-time token lookup (`password_resets` table). |
 | **Session Management** | Cryptographically random 64-character session tokens, server-side tracking in `admin_sessions`, idle timeout (30m), absolute timeout (8h), secure cookie attributes (`HttpOnly`, `SameSite=Strict`, `Secure`). |
-| **RBAC Authorization** | 5 canonical roles (`super_admin`, `compliance_officer`, `operations_manager`, `content_editor`, `clinical_advisor`) and complete 45-permission matrix with `RbacMiddleware`. |
+| **RBAC Authorization** | 5 canonical roles (`super_admin`, `website_admin`, `content_editor`, `bd_manager`, `hr_manager`) and complete 45-permission matrix with `RequirePermissionMiddleware`. |
 | **MFA / TOTP Engine** | RFC 6238 compliant TOTP verification (30s step, ±1 window drift), AES-256-GCM encryption of MFA secrets with PBKDF2/SHA-256 key derivation in `admin_mfa_secrets`. Single-use emergency recovery codes. |
 | **Audit Logging Service** | Tamper-evident SHA-256 cryptographically chained ledger entries in `audit_logs`. |
 | **Super Admin CLI Provisioner** | CLI command to provision bootstrap Super Admin without hardcoded credentials. |

@@ -11,7 +11,7 @@ use Voak\Health\Database\Connection;
 
 /**
  * Granular Role-Based Access Control (RBAC) Enforcement Middleware.
- * Enforces least-privilege authorization across the 45 granular action permissions.
+ * Enforces least-privilege authorization across the canonical permission matrix.
  */
 class RequirePermissionMiddleware implements MiddlewareInterface
 {
@@ -38,8 +38,8 @@ class RequirePermissionMiddleware implements MiddlewareInterface
         if ($userId === null || $this->connection === null) {
             return Response::error(
                 "Access denied. Valid administrative authentication required.",
-                401,
-                'ERR_UNAUTHENTICATED'
+                'ERR_UNAUTHENTICATED',
+                401
             );
         }
 
@@ -48,8 +48,9 @@ class RequirePermissionMiddleware implements MiddlewareInterface
         if (!$hasAccess) {
             return Response::error(
                 "Access denied. Your account lacks sufficient privileges for this operational action.",
-                403,
                 'ERR_FORBIDDEN',
+                403,
+                '',
                 ['required_permission' => $this->requiredPermission]
             );
         }
@@ -60,5 +61,10 @@ class RequirePermissionMiddleware implements MiddlewareInterface
     public function setConnection(Connection $connection): void
     {
         $this->connection = $connection;
+    }
+
+    public function getRequiredPermission(): string
+    {
+        return $this->requiredPermission;
     }
 }

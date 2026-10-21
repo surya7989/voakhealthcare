@@ -32,6 +32,14 @@ class CliSuperAdminTest
                 T::assertEquals(1, $code);
             });
 
+            T::test('CLI provisioner prohibits --password argument for security', function () use ($cliScript) {
+                $out = [];
+                $code = 0;
+                exec("php \"{$cliScript}\" --email=\"admin@voak.test\" --name=\"Admin\" --password=\"Secret123!@#\" 2>&1", $out, $code);
+                T::assertEquals(1, $code);
+                T::assertContains('SECURITY ERROR', implode("\n", $out));
+            });
+
             T::test('CLI provisioner rejects weak password failing entropy standards', function () use ($cliScript) {
                 $tempSqlite = sys_get_temp_dir() . '/voak_cli_admin_weak_' . bin2hex(random_bytes(4)) . '.sqlite';
                 $pdo = new \PDO("sqlite:{$tempSqlite}");
@@ -42,7 +50,9 @@ class CliSuperAdminTest
 
                 $out = [];
                 $code = 0;
-                exec("php \"{$cliScript}\" --sqlite=\"{$tempSqlite}\" --email=\"weak@voak.test\" --name=\"Weak Admin\" --password=\"weakpass\"", $out, $code);
+                putenv('VOAK_ADMIN_PASSWORD=weakpass');
+                exec("php \"{$cliScript}\" --sqlite=\"{$tempSqlite}\" --email=\"weak@voak.test\" --name=\"Weak Admin\" 2>&1", $out, $code);
+                putenv('VOAK_ADMIN_PASSWORD');
                 T::assertEquals(1, $code);
 
                 @unlink($tempSqlite);
@@ -58,7 +68,9 @@ class CliSuperAdminTest
 
                 $out = [];
                 $code = 0;
-                exec("php \"{$cliScript}\" --sqlite=\"{$tempSqlite}\" --email=\"superadmin@voak.test\" --name=\"Lead Admin\" --password=\"SuperAdmin#2026!Secure\"", $out, $code);
+                putenv('VOAK_ADMIN_PASSWORD=SuperAdmin#2026!Secure');
+                exec("php \"{$cliScript}\" --sqlite=\"{$tempSqlite}\" --email=\"superadmin@voak.test\" --name=\"Lead Admin\" 2>&1", $out, $code);
+                putenv('VOAK_ADMIN_PASSWORD');
                 T::assertEquals(0, $code);
                 T::assertContains('SUCCESS: Super Administrator provisioned successfully', implode("\n", $out));
 

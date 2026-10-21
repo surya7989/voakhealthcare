@@ -42,18 +42,28 @@ if (PHP_SAPI !== 'cli') {
 }
 
 // Parse arguments
-$options = getopt('', ['email:', 'name:', 'password:', 'sqlite::', 'help']);
+$options = getopt('', ['email:', 'name:', 'sqlite::', 'interactive', 'help']);
+
+// Explicitly prohibit --password argument to prevent exposure in process tables and shell history
+foreach ($argv as $arg) {
+    if (str_starts_with($arg, '--password=') || $arg === '--password') {
+        fwrite(STDERR, "[SECURITY ERROR] Passwords cannot be passed via command-line arguments as they are exposed in process listings (ps aux) and shell history.\n");
+        fwrite(STDERR, "Please provide the password interactively, set the VOAK_ADMIN_PASSWORD environment variable, or omit it to auto-generate a secure credential.\n");
+        exit(1);
+    }
+}
 
 if (isset($options['help'])) {
     echo "Voak Health Care — Initial Super Admin CLI Provisioner\n";
     echo "Usage:\n";
-    echo "  php " . basename(__FILE__) . " --email=\"admin@voak.health\" --name=\"Administrator\" [--password=\"Pass123!@#\"] [--sqlite[=path]]\n";
+    echo "  php " . basename(__FILE__) . " --email=\"admin@voak.health\" --name=\"Administrator\" [--interactive] [--sqlite[=path]]\n";
+    echo "Environment:\n";
+    echo "  VOAK_ADMIN_PASSWORD    Optional pre-set password for headless automated provisioning.\n";
     exit(0);
 }
 
 $email = $options['email'] ?? null;
 $name = $options['name'] ?? null;
-$password = $options['password'] ?? null;
 $sqlite = $options['sqlite'] ?? null;
 
 if (!$email || !$name) {
@@ -75,6 +85,16 @@ if ($sqlite !== null || getenv('DB_DRIVER') === 'sqlite') {
     $config = file_exists($envFile) ? Config::fromEnvFile($envFile) : Config::fromGlobals();
     $connection = Connection::fromConfig($config);
     $pdo = $connection->getPdo();
+}
+
+// Resolve password securely
+$password = getenv('VOAK_ADMIN_PASSWORD') ?: null;
+if (!$password && (isset($options['interactive']) || (function_exists('posix_isatty') && posix_isatty(STDIN)))) {
+    echo "Enter Super Admin password (min 12 chars) or press Enter to auto-generate: ";
+    $line = fgets(STDIN);
+    if ($line !== false && trim($line) !== '') {
+        $password = trim($line);
+    }
 }
 
 // Generate secure password if omitted

@@ -204,8 +204,10 @@ class AdminAuthController
             'message' => 'If the account exists and is active, a password reset link has been dispatched.',
         ];
 
-        // Include token only in local/testing environments for automated testing
-        if ((string)$this->config->get('APP_ENV') !== 'production' && $token !== null) {
+        // Disclose reset token only when explicitly authorized by test configuration (never in production or standard staging)
+        $allowDevTokens = $this->config->get('ALLOW_DEV_RESET_TOKENS', false);
+        $isExplicitTest = ($allowDevTokens === true || $allowDevTokens === '1' || $allowDevTokens === 'true');
+        if ($isExplicitTest && (string)$this->config->get('APP_ENV') !== 'production' && $token !== null) {
             $payload['dev_reset_token'] = $token;
         }
 

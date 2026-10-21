@@ -20,8 +20,10 @@ use Voak\Health\Middleware\CsrfProtectionMiddleware;
 use Voak\Health\Middleware\JsonBodyParserMiddleware;
 use Voak\Health\Middleware\MiddlewarePipeline;
 use Voak\Health\Middleware\RateLimitMiddleware;
+use Voak\Health\Middleware\RequirePermissionMiddleware;
 use Voak\Health\Middleware\SecurityHeadersMiddleware;
 use Voak\Health\Modules\Admin\AdminAuthController;
+use Voak\Health\Modules\Admin\AdminUsersController;
 use Voak\Health\Modules\Admin\MfaController;
 use Voak\Health\Modules\Health\HealthController;
 use Voak\Health\Modules\Scaffolding\PartnersClientsScaffolding;
@@ -148,7 +150,7 @@ class App
         $totpService = new TotpService($this->config, $totpEngine);
         $rbacManager = new RbacManager();
         $resetService = new PasswordResetService($hasher, $sessionManager, $auditLogger);
-        $authService = new AuthenticationService($hasher, $sessionManager, $totpService, $rbacManager, $auditLogger);
+        $authService = new AuthenticationService($hasher, $sessionManager, $totpService, $rbacManager, $auditLogger, $this->config);
 
         $this->container->set(PasswordHasher::class, $hasher);
         $this->container->set(TotpEngine::class, $totpEngine);
@@ -180,6 +182,7 @@ class App
             $sessionManager,
             $this->config
         ));
+        $this->container->set(AdminUsersController::class, new AdminUsersController($connection));
     }
 
     private function initializeMiddleware(): void
@@ -233,5 +236,16 @@ class App
         $this->router->post('/api/v1/admin/auth/mfa/recovery', [MfaController::class, 'verifyRecovery']);
         $this->router->post('/api/v1/admin/auth/mfa/setup', [MfaController::class, 'setupMfa']);
         $this->router->post('/api/v1/admin/auth/mfa/confirm', [MfaController::class, 'confirmMfa']);
+
+        // Phase 6 Privileged Admin Endpoints (Require Specific RBAC Permissions)
+        /** @var RbacManager $rbacManager */
+        $rbacManager = $this->container->get(RbacManager::class);
+        /** @var Connection $connection */
+        $connection = $this->container->get(Connection::class);
+        $this->router->get(
+            '/api/v1/admin/users',
+            [AdminUsersController::class, 'listUsers'],
+            [RequirePermissionMiddleware::with('user:list', $rbacManager, $connection)]
+        );
     }
 }

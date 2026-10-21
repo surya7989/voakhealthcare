@@ -80,7 +80,31 @@ class Router
                     $request = $request->withAttribute($name, $val);
                 }
 
-                return $this->executeHandler($route->getHandler(), $request, $container);
+                $routeMiddlewares = $route->getMiddleware();
+                if (empty($routeMiddlewares)) {
+                    return $this->executeHandler($route->getHandler(), $request, $container);
+                }
+
+                $coreHandler = fn(Request $req): Response => $this->executeHandler($route->getHandler(), $req, $container);
+
+                $pipeline = array_reduce(
+                    array_reverse($routeMiddlewares),
+                    function (callable $next, mixed $middleware) use ($container): callable {
+                        return function (Request $req) use ($next, $middleware, $container): Response {
+                            $mw = is_string($middleware) && $container !== null ? $container->get($middleware) : $middleware;
+                            if ($mw instanceof \Voak\Health\Middleware\MiddlewareInterface) {
+                                return $mw->process($req, $next);
+                            }
+                            if (is_callable($mw)) {
+                                return $mw($req, $next);
+                            }
+                            return $next($req);
+                        };
+                    },
+                    $coreHandler
+                );
+
+                return $pipeline($request);
             }
 
             if ($route->matchesPath($request->getPath())) {

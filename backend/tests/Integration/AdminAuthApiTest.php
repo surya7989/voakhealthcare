@@ -8,6 +8,7 @@ use Voak\Health\Auth\RbacManager;
 use Voak\Health\Core\App;
 use Voak\Health\Core\Config;
 use Voak\Health\Core\Http\Request;
+use Voak\Health\Database\Connection;
 use Voak\Health\Database\Migration\MigrationManager;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Tests\TestFramework as T;
@@ -42,6 +43,8 @@ class AdminAuthApiTest
         /** @var \Voak\Health\Database\Connection $conn */
         $conn = $app->getContainer()->get(\Voak\Health\Database\Connection::class);
         $conn->setMockPdo($pdo);
+
+        \Voak\Health\Middleware\RateLimitMiddleware::reset();
 
         return $app;
     }
@@ -241,6 +244,54 @@ class AdminAuthApiTest
                 }
 
                 T::assertTrue($hit429, 'Expected rate limiter to trigger HTTP 429');
+            });
+
+            T::test('privileged route /api/v1/admin/users enforces authentication and least-privilege RBAC', function () {
+                $app = self::createAppWithMigratedDatabase();
+                /** @var Connection $conn */
+                $conn = $app->getContainer()->get(Connection::class);
+                $pdo = $conn->getPdo();
+
+                // 1. Unauthenticated request -> 401
+                $unauthReq = new Request('GET', '/api/v1/admin/users');
+                $unauthRes = $app->handle($unauthReq);
+                T::assertEquals(401, $unauthRes->getStatusCode());
+
+                // 2. Insert Content Editor user (User 2, has ROLE_CONTENT_EDITOR, lacks user:list)
+                $hasher = new PasswordHasher();
+                $hash = $hasher->hash('Editor@Voak#2026!');
+                $pdo->exec("INSERT INTO users (id, name, email, password_hash, is_active, created_at, updated_at) VALUES (2, 'Editor', 'editor@voak.test', '{$hash}', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)");
+                $rbac = new RbacManager();
+                $rbac->assignRole($pdo, 2, RbacManager::ROLE_CONTENT_EDITOR);
+
+                $sm = new \Voak\Health\Auth\SessionManager();
+                $editorSession = $sm->createSession($pdo, 2, '127.0.0.1', 'TestBrowser');
+
+                // Request as editor -> 403 Forbidden
+                $editorReq = new Request(
+                    'GET',
+                    '/api/v1/admin/users',
+                    [],
+                    ['Cookie' => "voak_admin_session={$editorSession['session_id']}"]
+                );
+                $editorRes = $app->handle($editorReq);
+                T::assertEquals(403, $editorRes->getStatusCode());
+                $editorData = json_decode($editorRes->getBody(), true);
+                T::assertEquals('ERR_FORBIDDEN', $editorData['error']['code']);
+
+                // 3. Request as Super Admin (User 1, has user:list) -> 200 OK
+                $adminSession = $sm->createSession($pdo, 1, '127.0.0.1', 'TestBrowser');
+                $adminReq = new Request(
+                    'GET',
+                    '/api/v1/admin/users',
+                    [],
+                    ['Cookie' => "voak_admin_session={$adminSession['session_id']}"]
+                );
+                $adminRes = $app->handle($adminReq);
+                T::assertEquals(200, $adminRes->getStatusCode());
+                $adminData = json_decode($adminRes->getBody(), true);
+                T::assertTrue($adminData['success']);
+                T::assertTrue(count($adminData['data']['users']) >= 2);
             });
         });
     }

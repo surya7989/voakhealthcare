@@ -171,23 +171,48 @@ class TotpService
             return false;
         }
 
-        // Consume code
+        // Consume code with atomic optimistic concurrency check to prevent double consumption
         unset($codes[$foundIndex]);
         $updatedJson = json_encode(array_values($codes));
 
-        $update = $pdo->prepare("UPDATE `admin_mfa_secrets` SET `backup_codes_json` = :codes, `updated_at` = CURRENT_TIMESTAMP WHERE `user_id` = :uid");
-        $update->execute(['codes' => $updatedJson, 'uid' => $userId]);
+        $update = $pdo->prepare(
+            "UPDATE `admin_mfa_secrets` 
+             SET `backup_codes_json` = :codes, `updated_at` = CURRENT_TIMESTAMP 
+             WHERE `user_id` = :uid AND `backup_codes_json` = :old_codes"
+        );
+        $update->execute([
+            'codes'     => $updatedJson,
+            'uid'       => $userId,
+            'old_codes' => (string)$row['backup_codes_json'],
+        ]);
+        $affected = $update->rowCount();
         $update->closeCursor();
 
-        return true;
+        return $affected === 1;
+    }
+
+    private ?string $encryptionKeyOverride = null;
+
+    public function setEncryptionKey(?string $key): void
+    {
+        $this->encryptionKeyOverride = $key;
     }
 
     private function getEncryptionKey(): string
     {
+        if ($this->encryptionKeyOverride !== null && $this->encryptionKeyOverride !== '') {
+            return $this->encryptionKeyOverride;
+        }
+
         $key = (string)$this->config->get('MFA_ENCRYPTION_KEY', '');
         if ($key === '') {
-            $key = (string)$this->config->get('APP_KEY', 'voak-default-development-encryption-key-32-chars!!');
+            $key = (string)$this->config->get('APP_KEY', '');
         }
+
+        if ($key === '' || strlen($key) < 16) {
+            throw new SecurityException("MFA encryption key is not configured or fails security requirements (min 16 chars). Set MFA_ENCRYPTION_KEY or APP_KEY in configuration.");
+        }
+
         return $key;
     }
 }

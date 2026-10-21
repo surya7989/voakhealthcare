@@ -20,6 +20,7 @@ use Voak\Health\Tests\Unit\SessionManagerTest;
 use Voak\Health\Tests\Unit\PasswordResetServiceTest;
 use Voak\Health\Tests\Unit\TotpServiceTest;
 use Voak\Health\Tests\Unit\AuthenticationServiceTest;
+use Voak\Health\Tests\Unit\SecurityHardeningTest;
 use Voak\Health\Tests\Integration\AdminAuthApiTest;
 use Voak\Health\Tests\Integration\CliSuperAdminTest;
 
@@ -41,6 +42,7 @@ TotpServiceTest::run();
 AuthenticationServiceTest::run();
 AdminAuthApiTest::run();
 CliSuperAdminTest::run();
+SecurityHardeningTest::run();
 
 $exitCode = TestFramework::summarize();
 exit($exitCode);

@@ -164,17 +164,53 @@ class Request
         return $this->correlationId;
     }
 
+    /** @var array<string> */
+    private static array $trustedProxies = [];
+
+    /**
+     * Configures trusted proxy IP addresses authorized to forward client identity headers.
+     *
+     * @param array<string> $proxies
+     */
+    public static function setTrustedProxies(array $proxies): void
+    {
+        self::$trustedProxies = array_values(array_filter(array_map('trim', $proxies)));
+    }
+
+    /**
+     * @return array<string>
+     */
+    public static function getTrustedProxies(): array
+    {
+        return self::$trustedProxies;
+    }
+
+    /**
+     * Resolves the verified client IP.
+     * Forwarded headers (X-Forwarded-For, X-Real-IP) are strictly ignored unless the direct
+     * connection remote address is in the configured trusted proxy roster.
+     */
     public function getClientIp(): string
     {
-        $forwarded = $this->getHeader('x-forwarded-for');
-        if ($forwarded !== null && $forwarded !== '') {
-            $ips = explode(',', $forwarded);
-            return trim($ips[0]);
-        }
+        $isProxyTrusted = !empty(self::$trustedProxies) && in_array($this->clientIp, self::$trustedProxies, true);
 
-        $realIp = $this->getHeader('x-real-ip');
-        if ($realIp !== null && $realIp !== '') {
-            return trim($realIp);
+        if ($isProxyTrusted) {
+            $forwarded = $this->getHeader('x-forwarded-for');
+            if ($forwarded !== null && $forwarded !== '') {
+                $ips = explode(',', $forwarded);
+                $candidate = trim($ips[0]);
+                if (filter_var($candidate, FILTER_VALIDATE_IP)) {
+                    return $candidate;
+                }
+            }
+
+            $realIp = $this->getHeader('x-real-ip');
+            if ($realIp !== null && $realIp !== '') {
+                $candidate = trim($realIp);
+                if (filter_var($candidate, FILTER_VALIDATE_IP)) {
+                    return $candidate;
+                }
+            }
         }
 
         return $this->clientIp;

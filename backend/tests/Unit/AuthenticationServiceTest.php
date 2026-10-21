@@ -57,7 +57,7 @@ class AuthenticationServiceTest
                 $totp = new TotpService($config, $engine);
                 $rbac = new RbacManager();
 
-                $auth = new AuthenticationService($hasher, $sm, $totp, $rbac, $audit);
+                $auth = new AuthenticationService($hasher, $sm, $totp, $rbac, $audit, $config);
 
                 $res = $auth->authenticate($pdo, 'active@voak.test', 'Admin@Voak#2026!', '127.0.0.1', 'TestBrowser');
 
@@ -77,7 +77,7 @@ class AuthenticationServiceTest
                 $totp = new TotpService($config, $engine);
                 $rbac = new RbacManager();
 
-                $auth = new AuthenticationService($hasher, $sm, $totp, $rbac, $audit);
+                $auth = new AuthenticationService($hasher, $sm, $totp, $rbac, $audit, $config);
 
                 T::expectException(AuthenticationException::class, function () use ($auth, $pdo) {
                     $auth->authenticate($pdo, 'inactive@voak.test', 'Admin@Voak#2026!', '127.0.0.1', 'TestBrowser');
@@ -93,7 +93,7 @@ class AuthenticationServiceTest
                 $totp = new TotpService($config, $engine);
                 $rbac = new RbacManager();
 
-                $auth = new AuthenticationService($hasher, $sm, $totp, $rbac, $audit);
+                $auth = new AuthenticationService($hasher, $sm, $totp, $rbac, $audit, $config);
 
                 // Fail 4 times
                 for ($i = 1; $i <= 4; $i++) {
@@ -137,7 +137,7 @@ class AuthenticationServiceTest
                 $totp = new TotpService($config, $engine);
                 $rbac = new RbacManager();
 
-                $auth = new AuthenticationService($hasher, $sm, $totp, $rbac, $audit);
+                $auth = new AuthenticationService($hasher, $sm, $totp, $rbac, $audit, $config);
 
                 // Setup MFA for active user
                 $setup = $totp->initiateSetup($pdo, 1, 'active@voak.test');

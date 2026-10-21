@@ -6,21 +6,23 @@ namespace Voak\Health\Middleware;
 
 use Voak\Health\Core\Http\Request;
 use Voak\Health\Core\Http\Response;
+use Voak\Health\Security\RateLimiter;
 
 /**
- * IP-Based Rate Limiting Middleware for Sensitive Administrative Endpoints.
- * Enforces request throttling (default: 10 requests/min per IP) returning HTTP 429.
+ * IP-Based Persistent Rate Limiting Middleware for Sensitive Administrative Endpoints.
+ * Enforces shared persistent throttling (default: 10 requests/min per IP) returning HTTP 429.
  */
 class RateLimitMiddleware implements MiddlewareInterface
 {
     private int $maxAttempts;
     private int $decaySeconds;
-    private static array $hits = [];
+    private RateLimiter $limiter;
 
-    public function __construct(int $maxAttempts = 10, int $decaySeconds = 60)
+    public function __construct(int $maxAttempts = 10, int $decaySeconds = 60, ?RateLimiter $limiter = null)
     {
         $this->maxAttempts = $maxAttempts;
         $this->decaySeconds = $decaySeconds;
+        $this->limiter = $limiter ?? new RateLimiter();
     }
 
     public function process(Request $request, callable $next): Response
@@ -33,23 +35,12 @@ class RateLimitMiddleware implements MiddlewareInterface
         }
 
         $ip = $request->getClientIp();
-        $now = time();
-        $key = md5($ip . ':' . $path);
+        $key = 'ip_' . md5($ip . ':' . $path);
 
-        // Clean expired records
-        if (!isset(self::$hits[$key])) {
-            self::$hits[$key] = [];
-        }
+        $result = $this->limiter->hit($key, $this->maxAttempts, $this->decaySeconds);
 
-        self::$hits[$key] = array_filter(
-            self::$hits[$key],
-            fn(int $timestamp): bool => ($now - $timestamp) < $this->decaySeconds
-        );
-
-        if (count(self::$hits[$key]) >= $this->maxAttempts) {
-            $retryAfter = $this->decaySeconds - ($now - min(self::$hits[$key]));
-            $retryAfter = max(1, $retryAfter);
-
+        if (!$result['allowed']) {
+            $retryAfter = $result['retry_after'];
             $response = Response::error(
                 "Too many authentication attempts. Please try again in {$retryAfter} seconds.",
                 'ERR_RATE_LIMITED',
@@ -61,13 +52,11 @@ class RateLimitMiddleware implements MiddlewareInterface
             return $response->withHeader('Retry-After', (string)$retryAfter);
         }
 
-        self::$hits[$key][] = $now;
-
         return $next($request);
     }
 
     public static function reset(): void
     {
-        self::$hits = [];
+        (new RateLimiter())->reset();
     }
 }

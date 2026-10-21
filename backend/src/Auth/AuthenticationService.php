@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Voak\Health\Auth;
 
+use Voak\Health\Core\Config;
 use Voak\Health\Core\Exceptions\AuthenticationException;
+use Voak\Health\Core\Exceptions\SecurityException;
 use Voak\Health\Security\AuditLogger;
 use Voak\Health\Security\Crypto;
 use Voak\Health\Security\PasswordHasher;
@@ -21,22 +23,64 @@ class AuthenticationService
 
     private PasswordHasher $hasher;
     private SessionManager $sessionManager;
-    private TotpService $totpService;
+    private ?TotpService $totpService;
     private RbacManager $rbacManager;
     private AuditLogger $auditLogger;
+    private ?Config $config;
+    private ?string $signingKeyOverride = null;
 
     public function __construct(
         ?PasswordHasher $hasher = null,
         ?SessionManager $sessionManager = null,
         ?TotpService $totpService = null,
         ?RbacManager $rbacManager = null,
-        ?AuditLogger $auditLogger = null
+        ?AuditLogger $auditLogger = null,
+        ?Config $config = null
     ) {
         $this->hasher = $hasher ?? new PasswordHasher();
         $this->sessionManager = $sessionManager ?? new SessionManager();
-        $this->totpService = $totpService; // injected or initialized in method
+        $this->totpService = $totpService;
         $this->rbacManager = $rbacManager ?? new RbacManager();
         $this->auditLogger = $auditLogger ?? new AuditLogger();
+        $this->config = $config;
+    }
+
+    public function setConfig(Config $config): void
+    {
+        $this->config = $config;
+    }
+
+    public function setSigningKey(?string $key): void
+    {
+        $this->signingKeyOverride = $key;
+    }
+
+    private function getSigningKey(): string
+    {
+        if ($this->signingKeyOverride !== null && $this->signingKeyOverride !== '') {
+            return $this->signingKeyOverride;
+        }
+
+        $key = '';
+        if ($this->config !== null) {
+            $key = (string)$this->config->get('AUTH_SIGNING_KEY', '');
+            if ($key === '') {
+                $key = (string)$this->config->get('APP_KEY', '');
+            }
+        }
+
+        if ($key === '') {
+            $envKey = getenv('AUTH_SIGNING_KEY') ?: getenv('APP_KEY');
+            if ($envKey) {
+                $key = (string)$envKey;
+            }
+        }
+
+        if ($key === '' || strlen($key) < 16) {
+            throw new SecurityException("Authentication pre-auth signing key is not configured or insecure (min 16 chars). Set AUTH_SIGNING_KEY or APP_KEY in configuration.");
+        }
+
+        return $key;
     }
 
     /**
@@ -119,7 +163,7 @@ class AuthenticationService
 
         // 8. Check MFA status
         if ($this->isMfaConfigured($pdo, $userId)) {
-            $preAuthToken = $this->createPreAuthToken($userId);
+            $preAuthToken = $this->createPreAuthToken($pdo, $userId, $ipAddress, $userAgent);
             $this->auditLogger->log($pdo, 'auth', 'AUTH_MFA_CHALLENGE_ISSUED', $userId, $ipAddress, $userAgent, 'user', $userId);
 
             return [
@@ -159,9 +203,9 @@ class AuthenticationService
         string $ipAddress = '127.0.0.1',
         string $userAgent = 'Unknown'
     ): array {
-        $userId = $this->resolvePreAuthToken($preAuthToken);
+        $userId = $this->consumePreAuthToken($pdo, $preAuthToken);
         if ($userId === null) {
-            throw new AuthenticationException("Pre-authentication challenge expired or invalid.");
+            throw new AuthenticationException("Pre-authentication challenge expired, invalid, or already consumed.");
         }
 
         if ($this->totpService === null) {
@@ -209,11 +253,24 @@ class AuthenticationService
 
     private function handleFailedLogin(\PDO $pdo, int $userId, int $currentAttempts, string $ip, string $ua): void
     {
-        $newAttempts = $currentAttempts + 1;
-        $lockoutUntil = null;
+        $stmt = $pdo->prepare(
+            "UPDATE `users` SET `failed_login_attempts` = `failed_login_attempts` + 1 WHERE `id` = :uid"
+        );
+        $stmt->execute(['uid' => $userId]);
+        $stmt->closeCursor();
 
+        $check = $pdo->prepare("SELECT `failed_login_attempts` FROM `users` WHERE `id` = :uid");
+        $check->execute(['uid' => $userId]);
+        $newAttempts = (int)$check->fetchColumn();
+        $check->closeCursor();
+
+        $lockoutUntil = null;
         if ($newAttempts >= self::MAX_FAILED_ATTEMPTS) {
             $lockoutUntil = gmdate('Y-m-d H:i:s', time() + self::LOCKOUT_DURATION_SECONDS);
+            $lockStmt = $pdo->prepare("UPDATE `users` SET `lockout_until` = :lock WHERE `id` = :uid");
+            $lockStmt->execute(['lock' => $lockoutUntil, 'uid' => $userId]);
+            $lockStmt->closeCursor();
+
             $this->auditLogger->log($pdo, 'auth', 'AUTH_ACCOUNT_LOCKED', $userId, $ip, $ua, 'user', $userId, [
                 'attempts'      => $newAttempts,
                 'lockout_until' => $lockoutUntil,
@@ -223,16 +280,6 @@ class AuthenticationService
                 'attempt' => $newAttempts,
             ]);
         }
-
-        $stmt = $pdo->prepare(
-            "UPDATE `users` SET `failed_login_attempts` = :att, `lockout_until` = :lock WHERE `id` = :uid"
-        );
-        $stmt->execute([
-            'att'  => $newAttempts,
-            'lock' => $lockoutUntil,
-            'uid'  => $userId,
-        ]);
-        $stmt->closeCursor();
     }
 
     private function isMfaConfigured(\PDO $pdo, int $userId): bool
@@ -246,33 +293,60 @@ class AuthenticationService
     }
 
     /**
-     * Creates an HMAC-signed pre-authentication token encoding user ID and expiry timestamp.
+     * Creates a cryptographically signed pre-authentication challenge token with durable single-use storage.
      */
-    public function createPreAuthToken(int $userId): string
+    public function createPreAuthToken(\PDO|int $pdoOrUserId, ?int $maybeUserId = null, string $ipAddress = '127.0.0.1', string $userAgent = 'Unknown'): string
     {
+        $pdo = $pdoOrUserId instanceof \PDO ? $pdoOrUserId : null;
+        $userId = $pdoOrUserId instanceof \PDO ? (int)$maybeUserId : (int)$pdoOrUserId;
+
+        $signingKey = $this->getSigningKey();
+        $challengeId = 'mfa_' . bin2hex(random_bytes(26)); // 60 chars (fits VARCHAR(64))
         $expires = time() + self::PRE_AUTH_TTL_SECONDS;
-        $payload = $userId . ':' . $expires;
-        $signature = hash_hmac('sha256', $payload, 'voak-preauth-signing-secret');
+        $expiresAt = gmdate('Y-m-d H:i:s', $expires);
+
+        if ($pdo !== null) {
+            $csrfPlaceholder = hash('sha256', $challengeId);
+            $insert = $pdo->prepare(
+                "INSERT INTO `admin_sessions` 
+                 (`id`, `user_id`, `ip_address`, `user_agent`, `csrf_token_hash`, `expires_at`, `created_at`) 
+                 VALUES 
+                 (:id, :uid, :ip, :ua, :csrf, :expires, CURRENT_TIMESTAMP)"
+            );
+            $insert->execute([
+                'id'      => $challengeId,
+                'uid'     => $userId,
+                'ip'      => substr($ipAddress, 0, 45),
+                'ua'      => substr($userAgent, 0, 255),
+                'csrf'    => $csrfPlaceholder,
+                'expires' => $expiresAt,
+            ]);
+            $insert->closeCursor();
+        }
+
+        $payload = $challengeId . ':' . $userId . ':' . $expires;
+        $signature = hash_hmac('sha256', $payload, $signingKey);
 
         return base64_encode($payload . ':' . $signature);
     }
 
     /**
-     * Resolves user ID from a valid, non-expired pre-auth token.
+     * Atomically validates signature, verifies expiration, and consumes challenge token to prevent replay attacks.
      */
-    public function resolvePreAuthToken(string $token): ?int
+    public function consumePreAuthToken(\PDO $pdo, string $token): ?int
     {
+        $signingKey = $this->getSigningKey();
         $decoded = base64_decode($token, true);
         if ($decoded === false) {
             return null;
         }
 
         $parts = explode(':', $decoded);
-        if (count($parts) !== 3) {
+        if (count($parts) !== 4) {
             return null;
         }
 
-        [$userIdStr, $expiresStr, $signature] = $parts;
+        [$challengeId, $userIdStr, $expiresStr, $signature] = $parts;
         $userId = (int)$userIdStr;
         $expires = (int)$expiresStr;
 
@@ -280,7 +354,61 @@ class AuthenticationService
             return null;
         }
 
-        $expectedSig = hash_hmac('sha256', $userIdStr . ':' . $expiresStr, 'voak-preauth-signing-secret');
+        $expectedSig = hash_hmac('sha256', $challengeId . ':' . $userIdStr . ':' . $expiresStr, $signingKey);
+        if (!hash_equals($expectedSig, $signature)) {
+            return null;
+        }
+
+        // Atomically consume challenge from admin_sessions to prevent replay
+        $now = gmdate('Y-m-d H:i:s');
+        $del = $pdo->prepare(
+            "DELETE FROM `admin_sessions` 
+             WHERE `id` = :id AND `user_id` = :uid AND `expires_at` > :now"
+        );
+        $del->execute([
+            'id'  => $challengeId,
+            'uid' => $userId,
+            'now' => $now,
+        ]);
+        $affected = $del->rowCount();
+        $del->closeCursor();
+
+        if ($affected !== 1) {
+            return null; // Expired or already consumed
+        }
+
+        return $userId;
+    }
+
+    /**
+     * Inspects and validates token signature and expiration without consuming.
+     */
+    public function resolvePreAuthToken(string $token, ?\PDO $pdo = null): ?int
+    {
+        if ($pdo !== null) {
+            return $this->consumePreAuthToken($pdo, $token);
+        }
+
+        $signingKey = $this->getSigningKey();
+        $decoded = base64_decode($token, true);
+        if ($decoded === false) {
+            return null;
+        }
+
+        $parts = explode(':', $decoded);
+        if (count($parts) !== 4) {
+            return null;
+        }
+
+        [$challengeId, $userIdStr, $expiresStr, $signature] = $parts;
+        $userId = (int)$userIdStr;
+        $expires = (int)$expiresStr;
+
+        if (time() >= $expires) {
+            return null;
+        }
+
+        $expectedSig = hash_hmac('sha256', $challengeId . ':' . $userIdStr . ':' . $expiresStr, $signingKey);
         if (!hash_equals($expectedSig, $signature)) {
             return null;
         }

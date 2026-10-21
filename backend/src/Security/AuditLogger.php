@@ -29,60 +29,100 @@ class AuditLogger
         ?int $entityId = null,
         ?array $diff = null
     ): array {
-        // 1. Fetch latest row_hash as predecessor
-        $stmt = $pdo->query("SELECT `row_hash` FROM `audit_logs` ORDER BY `id` DESC LIMIT 1");
-        $prevHash = $stmt ? (string)($stmt->fetchColumn() ?: self::GENESIS_HASH) : self::GENESIS_HASH;
-        if ($stmt) {
-            $stmt->closeCursor();
+        $driver = (string)$pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+        $lockAcquired = false;
+
+        if ($driver === 'mysql') {
+            $lockStmt = $pdo->query("SELECT GET_LOCK('voak_audit_log_chain_lock', 10)");
+            $lockAcquired = $lockStmt && (int)$lockStmt->fetchColumn() === 1;
+            if ($lockStmt) {
+                $lockStmt->closeCursor();
+            }
+        } elseif ($driver === 'sqlite') {
+            if (!$pdo->inTransaction()) {
+                try {
+                    $pdo->beginTransaction();
+                    $lockAcquired = true;
+                } catch (\PDOException) {
+                    $lockAcquired = false;
+                }
+            }
         }
 
-        $createdAt = gmdate('Y-m-d H:i:s');
-        $diffJson = $diff !== null ? json_encode($diff, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : null;
+        try {
+            // 1. Fetch latest row_hash as predecessor under lock
+            $stmt = $pdo->query("SELECT `row_hash` FROM `audit_logs` ORDER BY `id` DESC LIMIT 1");
+            $prevHash = $stmt ? (string)($stmt->fetchColumn() ?: self::GENESIS_HASH) : self::GENESIS_HASH;
+            if ($stmt) {
+                $stmt->closeCursor();
+            }
 
-        // 2. Compute cryptographically bound SHA-256 hash
-        $payloadToHash = sprintf(
-            '%s|%s|%s|%s|%s|%s|%s|%s',
-            $prevHash,
-            $domain,
-            $action,
-            $userId !== null ? (string)$userId : '0',
-            $ipAddress,
-            $entityType ?? '',
-            $entityId !== null ? (string)$entityId : '0',
-            $diffJson ?? ''
-        );
-        $rowHash = hash('sha256', $payloadToHash);
+            $createdAt = gmdate('Y-m-d H:i:s');
+            $diffJson = $diff !== null ? json_encode($diff, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : null;
 
-        // 3. Insert record into audit_logs table
-        $insertStmt = $pdo->prepare(
-            "INSERT INTO `audit_logs` 
-             (`prev_row_hash`, `row_hash`, `domain`, `action`, `user_id`, `ip_address`, `user_agent`, `entity_type`, `entity_id`, `diff_json`, `created_at`) 
-             VALUES 
-             (:prev, :hash, :domain, :action, :uid, :ip, :ua, :etype, :eid, :diff, :created_at)"
-        );
+            // 2. Compute cryptographically bound SHA-256 hash across all protected fields
+            $payloadToHash = sprintf(
+                '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s',
+                $prevHash,
+                $domain,
+                $action,
+                $userId !== null ? (string)$userId : '0',
+                $ipAddress,
+                $userAgent,
+                $entityType ?? '',
+                $entityId !== null ? (string)$entityId : '0',
+                $diffJson ?? '',
+                $createdAt
+            );
+            $rowHash = hash('sha256', $payloadToHash);
 
-        $insertStmt->execute([
-            'prev'       => $prevHash,
-            'hash'       => $rowHash,
-            'domain'     => substr($domain, 0, 50),
-            'action'     => substr($action, 0, 100),
-            'uid'        => $userId,
-            'ip'         => substr($ipAddress, 0, 45),
-            'ua'         => substr($userAgent, 0, 255),
-            'etype'      => $entityType !== null ? substr($entityType, 0, 50) : null,
-            'eid'        => $entityId,
-            'diff'       => $diffJson,
-            'created_at' => $createdAt,
-        ]);
-        $insertStmt->closeCursor();
+            // 3. Insert record into audit_logs table
+            $insertStmt = $pdo->prepare(
+                "INSERT INTO `audit_logs` 
+                 (`prev_row_hash`, `row_hash`, `domain`, `action`, `user_id`, `ip_address`, `user_agent`, `entity_type`, `entity_id`, `diff_json`, `created_at`) 
+                 VALUES 
+                 (:prev, :hash, :domain, :action, :uid, :ip, :ua, :etype, :eid, :diff, :created_at)"
+            );
 
-        $id = (int)$pdo->lastInsertId();
+            $insertStmt->execute([
+                'prev'       => $prevHash,
+                'hash'       => $rowHash,
+                'domain'     => substr($domain, 0, 50),
+                'action'     => substr($action, 0, 100),
+                'uid'        => $userId,
+                'ip'         => substr($ipAddress, 0, 45),
+                'ua'         => substr($userAgent, 0, 255),
+                'etype'      => $entityType !== null ? substr($entityType, 0, 50) : null,
+                'eid'        => $entityId,
+                'diff'       => $diffJson,
+                'created_at' => $createdAt,
+            ]);
+            $insertStmt->closeCursor();
 
-        return [
-            'id'        => $id,
-            'prev_hash' => $prevHash,
-            'row_hash'  => $rowHash,
-        ];
+            $id = (int)$pdo->lastInsertId();
+
+            if ($driver === 'sqlite' && $lockAcquired && $pdo->inTransaction()) {
+                $pdo->commit();
+            }
+
+            return [
+                'id'        => $id,
+                'prev_hash' => $prevHash,
+                'row_hash'  => $rowHash,
+            ];
+        } catch (\Throwable $e) {
+            if ($driver === 'sqlite' && $lockAcquired && $pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            throw $e;
+        } finally {
+            if ($driver === 'mysql' && $lockAcquired) {
+                $unlock = $pdo->query("SELECT RELEASE_LOCK('voak_audit_log_chain_lock')");
+                if ($unlock) {
+                    $unlock->closeCursor();
+                }
+            }
+        }
     }
 
     /**
@@ -111,17 +151,19 @@ class AuditLogger
                 return false;
             }
 
-            // Recompute row hash
+            // Recompute row hash across all protected fields
             $payloadToHash = sprintf(
-                '%s|%s|%s|%s|%s|%s|%s|%s',
+                '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s',
                 $row['prev_row_hash'],
                 $row['domain'],
                 $row['action'],
                 $row['user_id'] !== null ? (string)$row['user_id'] : '0',
                 $row['ip_address'],
+                $row['user_agent'] ?? '',
                 $row['entity_type'] ?? '',
                 $row['entity_id'] !== null ? (string)$row['entity_id'] : '0',
-                $row['diff_json'] ?? ''
+                $row['diff_json'] ?? '',
+                $row['created_at']
             );
 
             $calculated = hash('sha256', $payloadToHash);
