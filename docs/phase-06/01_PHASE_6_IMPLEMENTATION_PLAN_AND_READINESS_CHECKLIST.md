@@ -37,7 +37,7 @@ Phase 6 implements the core administrative security perimeter for the Voak Healt
 | **Phase 5 Schema Scope Approval** | CR-PH5-001 Formally Approved | Approved October 21, 2026 (`CHANGE_REQUEST_CR_PH5_001_SCHEMA_SCOPE.md`) | **YES** |
 | **Phase 5 Commencement Authorization**| Gate C Formally Signed | Signed October 21, 2026 (`PHASE_5_AUTHORIZATION_REQUEST.md`) | **YES** |
 | **Phase 5 Technical Deliverables** | CLI Runner, Shim, 28 Blueprints, Tests | 100% complete; 55/55 tests passed (221 assertions) | **YES** |
-| **Phase 5 Formal Business Acceptance** | **Gate D Signed by Business Owner** | **PENDING REVIEW** (`docs/phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md`) | **NO (BLOCKING)** |
+| **Phase 5 Formal Business Acceptance** | **Gate D Decision Recorded** | **ACCEPTED IN PRINCIPLE** (Business Owner Directive: *"PHASE 5 ACCEPTED, DESPITE OUTSTANDING LIVE MYSQL STAGING VALIDATION."*) | **HELD (Formal Signatory & Staging Validation Outstanding)** |
 
 ### 2.1 Staging Infrastructure & Live MySQL Prerequisites
 Before Phase 6 administrative authentication can be deployed or verified on a staging server:
@@ -199,9 +199,10 @@ backend/
 ```
 ================================================================================
 PHASE 6 COMMENCEMENT GATE CONDITION:
-STATUS: STRICTLY BLOCKED
-DEPENDENCY: Execution of Gate D in docs/phase-05/03_PHASE_5_COMPLETION_REPORT.md
+STATUS: HELD / BLOCKED
+GOVERNING STATE: Phase 5 Accepted in Principle (Live MySQL Staging Outstanding)
+DEPENDENCY: Formal Signatory Execution & Staging Validation Prerequisites
 ================================================================================
 ```
 
-Engineering will not commit or deploy Phase 6 source code until the Business Owner completes and signs Gate D.
+Engineering will not commit or deploy Phase 6 source code until the outstanding formal signatory requirements are completed and/or explicit staging validation waivers are established in accordance with project governance.

@@ -55,7 +55,7 @@ This table strictly distinguishes **technical deliverable completion** from **fo
 | **Phase 2** | Technical & System Architecture | 100% Complete (19 specification documents) | **ACCEPTED** | **Technically Complete & Formally Accepted** |
 | **Phase 3** | UI/UX Design System & Prototypes | 100% Complete (310/310 responsive tests passed, visual parity evidence compiled, OPEN-03 scaffolding active) | **FORMALLY ACCEPTED** (OPEN-01, OPEN-02, OPEN-03 ratified October 21, 2026) | **Technically Complete & Formally Accepted** |
 | **Phase 4** | PHP Backend Foundation | 100% Complete (46/46 automated tests passed, 165 assertions, .htaccess security rules, CI green) | **FORMALLY ACCEPTED** ([`docs/phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md`](../phase-04/06_PHASE_4_ACCEPTANCE_PACKAGE.md) Gate B signed October 21, 2026) | **Technically Complete & Formally Accepted** |
-| **Phase 5** | Database Architecture & Production Schema | **Planning:** 100% Complete<br>**Implementation:** 100% Complete (CLI runner, shim, 28 blueprints)<br>**Tests:** 55/55 Tests Passed (221 assertions)<br>**Acceptance Evidence:** Compiled ([`03_PHASE_5_COMPLETION_REPORT.md`](../phase-05/03_PHASE_5_COMPLETION_REPORT.md), [`04_PHASE_5_ACCEPTANCE_PACKAGE.md`](../phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md)) | **FORMALLY AUTHORIZED (Gate C & CR-PH5-001 Approved)**<br>Formal Acceptance (Gate D) Pending Business Sign-off | **Implementation Complete & Empirically Verified — Awaiting Gate D Acceptance** |
+| **Phase 5** | Database Architecture & Production Schema | **Planning:** 100% Complete<br>**Implementation:** 100% Complete (CLI runner, shim, 28 blueprints)<br>**Tests:** 55/55 Tests Passed (221 assertions)<br>**Acceptance Evidence:** Compiled ([`03_PHASE_5_COMPLETION_REPORT.md`](../phase-05/03_PHASE_5_COMPLETION_REPORT.md), [`04_PHASE_5_ACCEPTANCE_PACKAGE.md`](../phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md)) | **ACCEPTED IN PRINCIPLE (Business Owner Directive)**<br>*(Live MySQL Staging Validation Outstanding; Formal Signatory Pending)* | **Implementation Complete; Accepted in Principle with Staging Validation Outstanding** |
 
 ---
 
@@ -230,14 +230,14 @@ CONSOLIDATED BUSINESS APPROVAL PACKET & EXECUTED DECISION LEDGER
     Scope: Granted written authorization to implement Phase 5 database migration runner & DDL.
 
 --------------------------------------------------------------------------------
-OUTSTANDING ACTION REQUIRED FOR PHASE 6 COMMENCEMENT:
+RECORDED BUSINESS DECISION FOR PHASE 5 ACCEPTANCE (GATE D):
 --------------------------------------------------------------------------------
 
-[ ] 7. PHASE 5 FORMAL BUSINESS ACCEPTANCE (Gate D)
-    Document: docs/phase-05/03_PHASE_5_COMPLETION_REPORT.md (Section 5)
-    Scope: Formally accept Phase 5 database deliverables based on 55/55 test pass (221 assertions).
+[X] 7. PHASE 5 BUSINESS ACCEPTANCE (Gate D)
+    Document: docs/phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md (Section 9)
+    Scope: Accepted in principle via Business Owner directive: "PHASE 5 ACCEPTED, DESPITE OUTSTANDING LIVE MYSQL STAGING VALIDATION."
     Decision Maker: Business Owner / Steering Committee
-    Current Status: COMPILED & READY FOR REVIEW — PENDING BUSINESS SIGN-OFF
+    Current Status: ACCEPTED IN PRINCIPLE (Live MySQL Staging Validation Outstanding; Formal Signatory Identity Pending)
 ===============================================================================
 ```
 
@@ -259,7 +259,7 @@ OUTSTANDING ACTION REQUIRED FOR PHASE 6 COMMENCEMENT:
 ```
 ================================================================================
 PHASE 6 GATE DECISION:
-PHASE 6 BLOCKED — PENDING PHASE 5 BUSINESS ACCEPTANCE (GATE D)
+PHASE 6 HELD / BLOCKED — PENDING FORMAL SIGNATORY EXECUTION & STAGING VALIDATION
 ================================================================================
 ```
 
@@ -272,9 +272,9 @@ In strict compliance with the Project Governance Framework:
 5. **Change Request CR-PH5-001:** Formally approved (October 21, 2026).
 6. **Gate C (Phase 5 Authorization):** Formally granted (October 21, 2026).
 7. **Phase 5 Technical Implementation:** 100% complete and verified (55/55 tests passed, 221 assertions).
-8. **Phase 5 Formal Business Acceptance (Gate D):** Awaiting Business Owner review and signature on [`docs/phase-05/03_PHASE_5_COMPLETION_REPORT.md`](../phase-05/03_PHASE_5_COMPLETION_REPORT.md) Gate D.
+8. **Phase 5 Business Acceptance (Gate D):** Accepted in principle via business instruction on October 21, 2026: *"PHASE 5 ACCEPTED, DESPITE OUTSTANDING LIVE MYSQL STAGING VALIDATION."* Live MySQL staging validation remains outstanding and formal signatory identity remains pending.
 
-**Phase 6 (Admin Authentication, RBAC, Sessions, MFA) remains gated until Gate D is executed.**
+**Phase 6 (Admin Authentication, RBAC, Sessions, MFA) remains held until formal signatory identity is recorded and/or MySQL staging validation is completed.**
 
 ---
 

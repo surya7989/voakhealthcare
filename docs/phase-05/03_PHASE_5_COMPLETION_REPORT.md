@@ -105,24 +105,35 @@ Following written authorization granted by the Business Owner under **Gate C** a
 
 ## 5. Formal Acceptance Gate (Gate D)
 
-*To be executed by the authorized Business Owner or Steering Committee:*
+*Recorded in accordance with Project Governance Framework Rules 1, 9, and 10:*
 
 ```markdown
 ================================================================================
 PHASE 5 FORMAL BUSINESS ACCEPTANCE RECORD (GATE D)
 ================================================================================
 
-[ ] PHASE 5 ACCEPTED:
-    The Phase 5 database migration runner, Phase 0 compatibility shim, and
-    complete 28-entity relational schema blueprints are reviewed, empirically
-    tested (55 tests, 221 assertions), and accepted as complete.
+[X] PHASE 5 ACCEPTED IN PRINCIPLE (Communicated via Business Owner Prompt Directive):
+    Business Decision Communicated:
+    "DECISION: PHASE 5 ACCEPTED, DESPITE OUTSTANDING LIVE MYSQL STAGING VALIDATION."
+
+    Scope & Boundary Disclosures:
+    - Phase 5 deliverables (CLI runner, root shim, 28 blueprints, 55 tests) accepted in principle.
+    - Live MySQL staging validation remains OUTSTANDING and has not been proven.
+    - Full 6-step Staging Validation Plan in docs/phase-05/04_PHASE_5_ACCEPTANCE_PACKAGE.md
+      remains binding prior to production release.
 
 [ ] REVISIONS REQUESTED:
-    (Detail any required schema or migration modifications below)
+    (None requested by Business Owner)
 
-Business Owner / Authorized Signatory: _________________________________________
-Title / Role:                           _________________________________________
-Signature:                              _________________________________________
-Date:                                   _________________________________________
+---
+GOVERNANCE SIGNATORY AUDIT TRAIL:
+Communication Channel:    Authorized Agent Conversation / Prompt Directive
+Communicated Instruction: "DECISION: PHASE 5 ACCEPTED, DESPITE OUTSTANDING LIVE MYSQL STAGING VALIDATION."
+Record Date:              October 21, 2026
+Signatory Role:           Voak Health Care Business Owner / Project Steering Committee
+Individual Signatory:     Not supplied in prompt directive (Kept blank to avoid fabrication)
+Formal Execution Status:  Recorded as an authorized business decision in principle.
+                          Formal written execution remains distinguished until individual
+                          signatory identity (name/title) is officially supplied.
 ================================================================================
 ```
