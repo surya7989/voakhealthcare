@@ -165,9 +165,11 @@ class SecurityHardeningTest
                 T::assertFalse($res6['allowed']);
                 T::assertTrue($res6['retry_after'] > 0);
 
-                // Fail-closed test on invalid/unwritable directory
-                $inaccessibleLimiter = new RateLimiter('Z:\\non_existent_drive_never_writable\\voak_limits');
+                // Fail-closed test on invalid/unwritable directory (creating directory inside regular file fails on all OS)
+                $tempBlockingFile = tempnam(sys_get_temp_dir(), 'voak_rate_limit_block_');
+                $inaccessibleLimiter = new RateLimiter($tempBlockingFile . DIRECTORY_SEPARATOR . 'never_dir');
                 $failClosedRes = $inaccessibleLimiter->hit('any_key', 10, 60);
+                @unlink($tempBlockingFile);
                 T::assertFalse($failClosedRes['allowed'], 'Rate limiter must fail closed when storage is inaccessible');
 
                 // Reset works
@@ -252,25 +254,36 @@ class SecurityHardeningTest
                 unset($pdo); // Close handle so workers can access WAL file
 
                 $phpBin = PHP_BINARY;
+                $desc = [
+                    0 => ['pipe', 'r'],
+                    1 => ['pipe', 'w'],
+                    2 => ['pipe', 'w'],
+                ];
 
                 // Launch two simultaneous child processes to consume the exact same token
-                $cmd1 = "\"{$phpBin}\" \"{$workerScript}\" --action=consume_reset --db=\"{$tempDb}\" --token=\"{$token}\" --password=\"PassOne#2026!\"";
-                $cmd2 = "\"{$phpBin}\" \"{$workerScript}\" --action=consume_reset --db=\"{$tempDb}\" --token=\"{$token}\" --password=\"PassTwo#2026!\"";
+                $cmd1 = [$phpBin, $workerScript, '--action=consume_reset', "--db={$tempDb}", "--token={$token}", '--password=PassOne#2026!'];
+                $cmd2 = [$phpBin, $workerScript, '--action=consume_reset', "--db={$tempDb}", "--token={$token}", '--password=PassTwo#2026!'];
 
-                $p1 = proc_open($cmd1, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes1);
-                $p2 = proc_open($cmd2, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes2);
+                $p1 = proc_open($cmd1, $desc, $pipes1);
+                $p2 = proc_open($cmd2, $desc, $pipes2);
+                if (isset($pipes1[0])) { fclose($pipes1[0]); }
+                if (isset($pipes2[0])) { fclose($pipes2[0]); }
 
-                if (isset($pipes1[1])) { fclose($pipes1[1]); }
-                if (isset($pipes1[2])) { fclose($pipes1[2]); }
-                if (isset($pipes2[1])) { fclose($pipes2[1]); }
-                if (isset($pipes2[2])) { fclose($pipes2[2]); }
-
+                $out1 = stream_get_contents($pipes1[1]);
+                $err1 = stream_get_contents($pipes1[2]);
+                fclose($pipes1[1]);
+                fclose($pipes1[2]);
                 $code1 = proc_close($p1);
+
+                $out2 = stream_get_contents($pipes2[1]);
+                $err2 = stream_get_contents($pipes2[2]);
+                fclose($pipes2[1]);
+                fclose($pipes2[2]);
                 $code2 = proc_close($p2);
 
                 // Exactly one must succeed (exit 0) and exactly one must fail (exit 1)
                 $successes = ($code1 === 0 ? 1 : 0) + ($code2 === 0 ? 1 : 0);
-                T::assertEquals(1, $successes, 'Exactly one concurrent reset request must succeed');
+                T::assertEquals(1, $successes, "Exactly one concurrent reset request must succeed. (p1: {$code1} [{$err1}], p2: {$code2} [{$err2}])");
 
                 // 5B: Concurrent MFA Recovery Code Consumption
                 $pdoCheck = new \PDO("sqlite:{$tempDb}");
@@ -282,35 +295,44 @@ class SecurityHardeningTest
                 $recoveryCode = $setup['backup_codes'][0];
                 unset($pdoCheck);
 
-                $cmdRec1 = "\"{$phpBin}\" \"{$workerScript}\" --action=consume_recovery --db=\"{$tempDb}\" --user_id=1 --code=\"{$recoveryCode}\"";
-                $cmdRec2 = "\"{$phpBin}\" \"{$workerScript}\" --action=consume_recovery --db=\"{$tempDb}\" --user_id=1 --code=\"{$recoveryCode}\"";
+                $cmdRec1 = [$phpBin, $workerScript, '--action=consume_recovery', "--db={$tempDb}", '--user_id=1', "--code={$recoveryCode}"];
+                $cmdRec2 = [$phpBin, $workerScript, '--action=consume_recovery', "--db={$tempDb}", '--user_id=1', "--code={$recoveryCode}"];
 
-                $pr1 = proc_open($cmdRec1, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipesR1);
-                $pr2 = proc_open($cmdRec2, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipesR2);
+                $pr1 = proc_open($cmdRec1, $desc, $pipesR1);
+                $pr2 = proc_open($cmdRec2, $desc, $pipesR2);
+                if (isset($pipesR1[0])) { fclose($pipesR1[0]); }
+                if (isset($pipesR2[0])) { fclose($pipesR2[0]); }
 
-                if (isset($pipesR1[1])) { fclose($pipesR1[1]); }
-                if (isset($pipesR1[2])) { fclose($pipesR1[2]); }
-                if (isset($pipesR2[1])) { fclose($pipesR2[1]); }
-                if (isset($pipesR2[2])) { fclose($pipesR2[2]); }
-
+                $outR1 = stream_get_contents($pipesR1[1]);
+                $errR1 = stream_get_contents($pipesR1[2]);
+                fclose($pipesR1[1]);
+                fclose($pipesR1[2]);
                 $codeRec1 = proc_close($pr1);
+
+                $outR2 = stream_get_contents($pipesR2[1]);
+                $errR2 = stream_get_contents($pipesR2[2]);
+                fclose($pipesR2[1]);
+                fclose($pipesR2[2]);
                 $codeRec2 = proc_close($pr2);
 
                 $recSuccesses = ($codeRec1 === 0 ? 1 : 0) + ($codeRec2 === 0 ? 1 : 0);
-                T::assertEquals(1, $recSuccesses, 'Exactly one concurrent recovery code consumption must succeed');
+                T::assertEquals(1, $recSuccesses, "Exactly one concurrent recovery code consumption must succeed. (r1: {$codeRec1} [{$errR1}], r2: {$codeRec2} [{$errR2}])");
 
                 // 5C: Concurrent Audit Writes under Simultaneous Multi-Process Load
                 $auditProcs = [];
                 $auditPipes = [];
                 for ($w = 0; $w < 4; $w++) {
-                    $cmdAudit = "\"{$phpBin}\" \"{$workerScript}\" --action=audit_log --db=\"{$tempDb}\" --action_name=\"CONCURRENT_EVENT_{$w}\" --payload=\"load_{$w}\"";
-                    $auditProcs[$w] = proc_open($cmdAudit, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $auditPipes[$w]);
+                    $cmdAudit = [$phpBin, $workerScript, '--action=audit_log', "--db={$tempDb}", "--action_name=CONCURRENT_EVENT_{$w}", "--payload=load_{$w}"];
+                    $auditProcs[$w] = proc_open($cmdAudit, $desc, $auditPipes[$w]);
+                    if (isset($auditPipes[$w][0])) { fclose($auditPipes[$w][0]); }
                 }
                 foreach ($auditProcs as $w => $ap) {
-                    if (isset($auditPipes[$w][1])) { fclose($auditPipes[$w][1]); }
-                    if (isset($auditPipes[$w][2])) { fclose($auditPipes[$w][2]); }
+                    $outA = stream_get_contents($auditPipes[$w][1]);
+                    $errA = stream_get_contents($auditPipes[$w][2]);
+                    fclose($auditPipes[$w][1]);
+                    fclose($auditPipes[$w][2]);
                     $c = proc_close($ap);
-                    T::assertEquals(0, $c, 'Concurrent audit log worker must succeed');
+                    T::assertEquals(0, $c, "Concurrent audit log worker {$w} must succeed. (exit: {$c} [{$errA}])");
                 }
 
                 // Verify resulting audit chain is cryptographically unbroken

@@ -29,10 +29,9 @@ if (!$action || !$dbPath || !file_exists($dbPath)) {
 // Open shared SQLite database with busy timeout so concurrent transactions wait rather than crash
 $pdo = new \PDO("sqlite:{$dbPath}", null, null, [
     \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-    \PDO::ATTR_TIMEOUT => 10,
+    \PDO::ATTR_TIMEOUT => 15,
 ]);
-$pdo->exec("PRAGMA journal_mode = WAL;");
-$pdo->exec("PRAGMA busy_timeout = 10000;");
+$pdo->exec("PRAGMA busy_timeout = 15000;");
 
 $hasher = new PasswordHasher();
 $sessionManager = new SessionManager();
@@ -76,13 +75,21 @@ switch ($action) {
     case 'audit_log':
         $actionName = $options['action_name'] ?? 'CONCURRENT_TEST_EVENT';
         $payload = $options['payload'] ?? 'test';
-        try {
-            $auditLogger->log($pdo, 'concurrency', $actionName, 1, '127.0.0.1', 'Worker/1.0', 'test', 1, ['payload' => $payload]);
-            exit(0);
-        } catch (\Throwable $e) {
-            fwrite(STDERR, $e->getMessage() . "\n");
-            exit(1);
+        $maxAttempts = 10;
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+            try {
+                $auditLogger->log($pdo, 'concurrency', $actionName, 1, '127.0.0.1', 'Worker/1.0', 'test', 1, ['payload' => $payload]);
+                exit(0);
+            } catch (\Throwable $e) {
+                if (str_contains($e->getMessage(), 'database is locked') && $attempt < $maxAttempts) {
+                    usleep(random_int(20000, 80000)); // 20-80ms jitter
+                    continue;
+                }
+                fwrite(STDERR, $e->getMessage() . "\n");
+                exit(1);
+            }
         }
+        exit(1);
 
     default:
         exit(2);
