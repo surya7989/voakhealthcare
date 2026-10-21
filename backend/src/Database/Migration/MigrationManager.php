@@ -138,6 +138,7 @@ class MigrationManager
             $stmt = $pdo->prepare("SELECT GET_LOCK('voak_migration_mutex', :timeout) AS lck");
             $stmt->execute(['timeout' => $timeoutSeconds]);
             $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
             return isset($res['lck']) && (int) $res['lck'] === 1;
         }
 
@@ -151,7 +152,11 @@ class MigrationManager
     {
         $driver = $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
         if ($driver === 'mysql') {
-            $pdo->exec("SELECT RELEASE_LOCK('voak_migration_mutex')");
+            $stmt = $pdo->query("SELECT RELEASE_LOCK('voak_migration_mutex')");
+            if ($stmt) {
+                $stmt->fetchColumn();
+                $stmt->closeCursor();
+            }
         }
     }
 
@@ -178,10 +183,13 @@ class MigrationManager
 
         $stmt = $pdo->query("SELECT `version`, `description`, `batch`, `applied_at` FROM `{$this->tableName}`");
         $applied = [];
-        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-            $applied[$row['version']] = $row;
+        if ($stmt) {
+            $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            foreach ($rows as $row) {
+                $applied[$row['version']] = $row;
+            }
         }
-        $stmt->closeCursor();
 
         $discovered = $this->discoverMigrations();
         $status = [];

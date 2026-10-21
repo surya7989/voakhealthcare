@@ -35,7 +35,9 @@ function tableExists(PDO $pdo, string $table): bool
          WHERE table_schema = DATABASE() AND table_name = :table AND table_type = 'BASE TABLE'"
     );
     $stmt->execute(['table' => $table]);
-    return (int) $stmt->fetchColumn() > 0;
+    $exists = (int) $stmt->fetchColumn() > 0;
+    $stmt->closeCursor();
+    return $exists;
 }
 
 try {
@@ -50,14 +52,17 @@ try {
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
         ]
     );
 
     verify((string) $pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql', 'Connected PDO driver is not MySQL.');
-    $initialTables = $pdo->query(
+    $stmt = $pdo->query(
         "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_type = 'BASE TABLE'"
-    )->fetchColumn();
-    verify((int) $initialTables === 0, 'Refusing to mutate a non-empty CI schema; use a fresh disposable database.');
+    );
+    $initialTables = (int) $stmt->fetchColumn();
+    $stmt->closeCursor();
+    verify($initialTables === 0, 'Refusing to mutate a non-empty CI schema; use a fresh disposable database.');
 
     $migrationDirectory = dirname(__DIR__) . '/database/migrations';
     $manager = new MigrationManager($migrationDirectory, 'migrations');
@@ -77,14 +82,16 @@ try {
     verify($manager->migrateUp($pdo) === [], 'A second migrateUp call mutated an already-current schema.');
 
     echo "[3/7] Verifying InnoDB engine and utf8mb4_unicode_ci collation...\n";
-    $tables = $pdo->query(
+    $stmt = $pdo->query(
         "SELECT table_name, engine, table_collation
          FROM information_schema.tables
          WHERE table_schema = DATABASE()
            AND table_type = 'BASE TABLE'
            AND table_name <> 'migrations'
          ORDER BY table_name"
-    )->fetchAll();
+    );
+    $tables = $stmt->fetchAll();
+    $stmt->closeCursor();
     verify(count($tables) === $expectedMigrations, sprintf('Expected 28 domain tables, found %d.', count($tables)));
     foreach ($tables as $table) {
         verify($table['engine'] === 'InnoDB', sprintf('Table %s is not InnoDB.', $table['table_name']));
@@ -92,10 +99,12 @@ try {
     }
 
     echo "[4/7] Verifying relational foreign-key constraints...\n";
-    $foreignKeys = (int) $pdo->query(
+    $stmt = $pdo->query(
         "SELECT COUNT(*) FROM information_schema.table_constraints
          WHERE table_schema = DATABASE() AND constraint_type = 'FOREIGN KEY'"
-    )->fetchColumn();
+    );
+    $foreignKeys = (int) $stmt->fetchColumn();
+    $stmt->closeCursor();
     verify($foreignKeys > 0, 'No foreign-key constraints were created.');
 
     echo "[5/7] Verifying single-step rollback and reapplication...\n";
@@ -120,14 +129,23 @@ try {
     echo "[7/7] Verifying final MySQL schema state...\n";
     verify(tableExists($pdo, 'users') && tableExists($pdo, 'admin_sessions') && tableExists($pdo, 'admin_mfa_secrets') && tableExists($pdo, 'audit_logs'), 'One or more critical Phase 5/6 prerequisite tables are missing.');
 
+    $stmt = $pdo->query('SELECT VERSION()');
+    $version = (string) $stmt->fetchColumn();
+    $stmt->closeCursor();
+
     printf(
         "PASS: MySQL %s; %d migrations; %d InnoDB domain tables; %d foreign-key constraints; idempotency, one-step rollback, full rollback, and reapplication verified.\n",
-        (string) $pdo->query('SELECT VERSION()')->fetchColumn(),
+        $version,
         $expectedMigrations,
         count($tables),
         $foreignKeys
     );
 } catch (Throwable $error) {
-    fwrite(STDERR, '[FAIL] ' . $error->getMessage() . "\n");
+    $msg = "[FAIL] " . $error->getMessage() . "\n" . $error->getFile() . ':' . $error->getLine() . "\n" . $error->getTraceAsString() . "\n";
+    echo $msg;
+    fwrite(STDERR, $msg);
+    if ($stepSummary = getenv('GITHUB_STEP_SUMMARY')) {
+        @file_put_contents($stepSummary, "### MySQL Integration Test Failure\n```\n" . $msg . "```\n", FILE_APPEND);
+    }
     exit(1);
 }
