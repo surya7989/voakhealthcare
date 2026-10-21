@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
 use Voak\Health\Database\Migration\MigrationManager;
 
 $expectedDatabase = 'voak_staging_ci';
