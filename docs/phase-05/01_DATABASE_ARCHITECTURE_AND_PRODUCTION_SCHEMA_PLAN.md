@@ -108,16 +108,27 @@ All 28 tables trace directly to accepted Phase 1 functional requirements and Pha
 
 ## 4. Migration & Rollback Architecture
 
-### 4.1 CLI Migration Runner & Entrypoint Reconciliation
-To reconcile the entrypoint path across specifications without altering Phase 0 baselines:
-- **Canonical Implementation Runner:** `backend/cli/migrate.php` (powered by `backend/src/Database/MigrationManager.php`).
-- **Phase 0 Compatibility Shim:** `database/migrate.php` (root-level forwarder delegating directly to `backend/cli/migrate.php`).
-- **Idempotent Tracking Table:** `migrations` (`id`, `migration_name VARCHAR(255) UNIQUE`, `batch INT UNSIGNED`, `executed_at`).
-- **Unified Command Support:**
+### 4.1 Planned CLI Migration Runner & Entrypoint Reconciliation (Deferred to Phase 5 Implementation)
+
+> [!IMPORTANT]
+> **Current Repository Implementation Baseline (Phase 4):**  
+> As delivered in Phase 4, the repository contains only the core migration blueprint discovery abstraction:
+> - `backend/src/Database/Migration/MigrationInterface.php` (interface contract)
+> - `backend/src/Database/Migration/MigrationManager.php` (discovery and class loading)
+> - `backend/tests/Unit/MigrationManagerTest.php` (unit tests for discovery)
+> 
+> The standalone CLI script (`backend/cli/migrate.php`), root compatibility shim (`database/migrate.php`), and discrete schema migration files (`backend/database/migrations/*.php`) are **NOT YET IMPLEMENTED**. They represent Phase 5 implementation deliverables and remain strictly held pending formal written approval of `CR-PH5-001` and Gate C authorization.
+
+**Planned Architecture Upon Phase 5 Authorization:**
+To reconcile entrypoint paths across prior specifications without altering Phase 0 baselines:
+- **Planned Canonical CLI Runner:** `backend/cli/migrate.php` (to be created, executing `MigrationManager`).
+- **Planned Phase 0 Compatibility Shim:** `database/migrate.php` (to be created at repository root, forwarding all arguments to `backend/cli/migrate.php` to preserve the Phase 0 baseline command).
+- **Planned Idempotent Tracking Table:** `migrations` (`id`, `migration_name VARCHAR(255) UNIQUE`, `batch INT UNSIGNED`, `executed_at`).
+- **Planned Unified Commands (Post-Authorization):**
   - `php database/migrate.php up`: Phase 0 baseline invocation from repository root.
   - `php backend/cli/migrate.php up`: Phase 5 plan invocation from repository root.
   - `cd backend && php cli/migrate.php up`: Phase 2 architecture invocation within backend root.
-  - All entrypoints support `up`, `down`, and `status` flags uniformly.
+  - All planned entrypoints will support `up`, `down`, and `status` flags uniformly.
 
 ### 4.2 Migration Mutex Locking
 - Implemented via MySQL named locks (`GET_LOCK('voak_migration_mutex', 10)`) or dedicated lock record in `system_settings`.
