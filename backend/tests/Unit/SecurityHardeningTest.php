@@ -62,38 +62,91 @@ class SecurityHardeningTest
     {
         T::suite('Phase 6 — Comprehensive Security Hardening & Abuse Defense Tests', function () {
 
-            // 1. Missing and invalid production cryptographic keys fail safely (no fallback to APP_KEY)
-            T::test('missing and invalid production cryptographic keys fail safely with SecurityException', function () {
-                $emptyConfig = new Config(['APP_KEY' => 'valid-app-key-32-chars-present!', 'MFA_ENCRYPTION_KEY' => '', 'AUTH_SIGNING_KEY' => '']);
-                $engine = new TotpEngine();
-                $totp = new TotpService($emptyConfig, $engine);
-
+            // 1. Missing, placeholder, weak, and duplicated production/staging cryptographic keys fail safely
+            T::test('missing, placeholder, weak, and duplicated keys fail safely in production/staging', function () {
                 $pdo = self::createDatabase();
+                $engine = new TotpEngine();
 
-                // MFA encryption key missing must fail safely even if APP_KEY is set (no fallback)
-                T::expectException(SecurityException::class, function () use ($totp, $pdo) {
-                    $totp->initiateSetup($pdo, 1, 'super@voak.test');
-                }, 'MFA encryption key is not configured');
+                // 1A: In production/staging, Config::validate() rejects missing keys
+                $missingConfig = new Config([
+                    'APP_ENV' => 'production',
+                    'APP_KEY' => 'valid-app-key-32-chars-long-prod!',
+                    // AUTH_SIGNING_KEY missing
+                ]);
+                T::expectException(\Voak\Health\Core\Exceptions\ConfigurationException::class, function () use ($missingConfig) {
+                    $missingConfig->validate();
+                }, 'Required key [AUTH_SIGNING_KEY]');
 
-                // MFA encryption key too short (< 16 chars)
-                $shortMfaConfig = new Config(['MFA_ENCRYPTION_KEY' => 'short']);
-                $totpShort = new TotpService($shortMfaConfig, $engine);
-                T::expectException(SecurityException::class, function () use ($totpShort, $pdo) {
-                    $totpShort->initiateSetup($pdo, 1, 'super@voak.test');
-                }, 'MFA encryption key is not configured or fails security requirements');
+                // 1B: In production/staging, Config::validate() rejects placeholder keys
+                $placeholderConfig = new Config([
+                    'APP_ENV'            => 'production',
+                    'APP_KEY'            => 'valid-app-key-32-chars-long-prod!',
+                    'AUTH_SIGNING_KEY'   => 'base64:PLACEHOLDER_AUTH_KEY_32_BYTES_MIN==',
+                    'CSRF_SIGNING_KEY'   => 'valid-csrf-key-32-chars-long-prod!',
+                    'MFA_ENCRYPTION_KEY' => 'valid-mfa-key-32-chars-long-prod!!',
+                ]);
+                T::expectException(\Voak\Health\Core\Exceptions\ConfigurationException::class, function () use ($placeholderConfig) {
+                    $placeholderConfig->validate();
+                }, 'cannot use known placeholder values');
 
-                // Pre-auth signing key missing must fail safely even if APP_KEY is set (no fallback)
-                $auth = new AuthenticationService(null, null, null, null, null, $emptyConfig);
-                T::expectException(SecurityException::class, function () use ($auth, $pdo) {
-                    $auth->createPreAuthToken($pdo, 1);
-                }, 'signing key is not configured');
+                // 1C: In production/staging, Config::validate() rejects identical/duplicated keys (Key Isolation Failure)
+                $duplicateConfig = new Config([
+                    'APP_ENV'            => 'production',
+                    'APP_KEY'            => 'shared-key-32-chars-used-everywhere!',
+                    'AUTH_SIGNING_KEY'   => 'shared-key-32-chars-used-everywhere!',
+                    'CSRF_SIGNING_KEY'   => 'valid-csrf-key-32-chars-long-prod!',
+                    'MFA_ENCRYPTION_KEY' => 'valid-mfa-key-32-chars-long-prod!!',
+                ]);
+                T::expectException(\Voak\Health\Core\Exceptions\ConfigurationException::class, function () use ($duplicateConfig) {
+                    $duplicateConfig->validate();
+                }, 'Key isolation failure');
 
-                // Pre-auth signing key too short (< 16 chars)
-                $shortAuthConfig = new Config(['AUTH_SIGNING_KEY' => 'short_key']);
-                $authShort = new AuthenticationService(null, null, null, null, null, $shortAuthConfig);
-                T::expectException(SecurityException::class, function () use ($authShort, $pdo) {
-                    $authShort->createPreAuthToken($pdo, 1);
-                }, 'signing key is not configured or insecure');
+                // 1D: CsrfProtectionMiddleware strictly requires CSRF_SIGNING_KEY and does NOT fall back to AUTH_SIGNING_KEY
+                $noCsrfConfig = new Config([
+                    'APP_ENV'          => 'production',
+                    'AUTH_SIGNING_KEY' => 'independent-auth-key-32-chars-prod!',
+                    // CSRF_SIGNING_KEY is omitted
+                ]);
+                $csrfMiddleware = new CsrfProtectionMiddleware(null, $noCsrfConfig);
+                T::expectException(SecurityException::class, function () use ($csrfMiddleware) {
+                    $csrfMiddleware->getSigningKey();
+                }, 'CSRF signing key is not configured');
+
+                // 1E: In production/staging, weak keys (< 32 chars) are rejected by services
+                $weakProdConfig = new Config([
+                    'APP_ENV'            => 'staging',
+                    'AUTH_SIGNING_KEY'   => 'too-short-16ch!', // 16 chars is rejected in prod/staging (requires >= 32)
+                    'CSRF_SIGNING_KEY'   => 'valid-csrf-key-32-chars-long-prod!',
+                    'MFA_ENCRYPTION_KEY' => 'valid-mfa-key-32-chars-long-prod!!',
+                ]);
+                $authServiceWeak = new AuthenticationService(null, null, null, null, null, $weakProdConfig);
+                T::expectException(SecurityException::class, function () use ($authServiceWeak, $pdo) {
+                    $authServiceWeak->createPreAuthToken($pdo, 1);
+                }, 'insecure (min 32 chars)');
+
+                // 1F: In production/staging, service rejects duplicated keys across components
+                $serviceDuplicateConfig = new Config([
+                    'APP_ENV'            => 'staging',
+                    'AUTH_SIGNING_KEY'   => 'reused-identical-key-32-chars-min!!',
+                    'CSRF_SIGNING_KEY'   => 'reused-identical-key-32-chars-min!!',
+                    'MFA_ENCRYPTION_KEY' => 'valid-mfa-key-32-chars-long-prod!!',
+                ]);
+                $authServiceDup = new AuthenticationService(null, null, null, null, null, $serviceDuplicateConfig);
+                T::expectException(SecurityException::class, function () use ($authServiceDup, $pdo) {
+                    $authServiceDup->createPreAuthToken($pdo, 1);
+                }, 'must be distinct and independent');
+
+                // 1G: Valid independent production keys pass validation
+                $validProdConfig = new Config([
+                    'APP_ENV'            => 'production',
+                    'APP_DEBUG'          => false,
+                    'APP_KEY'            => 'production-master-app-key-32-chars!!',
+                    'AUTH_SIGNING_KEY'   => 'production-auth-signing-key-32-chars',
+                    'CSRF_SIGNING_KEY'   => 'production-csrf-signing-key-32-chars',
+                    'MFA_ENCRYPTION_KEY' => 'production-mfa-encrypt-key-32-chars',
+                ]);
+                $validProdConfig->validate(); // Must not throw
+                T::assertTrue(true, 'Valid independent production keys must pass validation');
             });
 
             // 2. Pre-authentication challenge signing, forged, expired, and replay protection

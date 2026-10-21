@@ -48,20 +48,31 @@ class CsrfProtectionMiddleware implements MiddlewareInterface
         $key = '';
         if ($this->config !== null) {
             $key = (string)$this->config->get('CSRF_SIGNING_KEY', '');
-            if ($key === '') {
-                $key = (string)$this->config->get('AUTH_SIGNING_KEY', '');
-            }
         }
 
         if ($key === '') {
-            $envKey = getenv('CSRF_SIGNING_KEY') ?: getenv('AUTH_SIGNING_KEY');
+            $envKey = getenv('CSRF_SIGNING_KEY');
             if ($envKey) {
                 $key = (string)$envKey;
             }
         }
 
-        if ($key === '' || strlen($key) < 16) {
-            throw new SecurityException("CSRF signing key is not configured or insecure (min 16 chars). Set CSRF_SIGNING_KEY or AUTH_SIGNING_KEY in configuration.");
+        $env = $this->config ? (string)$this->config->get('APP_ENV', 'development') : (getenv('APP_ENV') ?: 'development');
+        $isProdOrStaging = in_array(strtolower($env), ['production', 'staging'], true);
+
+        if ($key === '' || strlen($key) < ($isProdOrStaging ? 32 : 16)) {
+            throw new SecurityException("CSRF signing key is not configured or insecure (min " . ($isProdOrStaging ? "32" : "16") . " chars). Set CSRF_SIGNING_KEY in configuration.");
+        }
+
+        if ($isProdOrStaging) {
+            if (str_contains($key, 'PLACEHOLDER') || str_contains($key, 'CHANGE_ME') || str_contains($key, 'YOUR_')) {
+                throw new SecurityException("CSRF signing key cannot use known placeholder values in {$env}.");
+            }
+            $authKey = $this->config ? (string)$this->config->get('AUTH_SIGNING_KEY', '') : '';
+            $mfaKey = $this->config ? (string)$this->config->get('MFA_ENCRYPTION_KEY', '') : '';
+            if (($authKey !== '' && hash_equals($key, $authKey)) || ($mfaKey !== '' && hash_equals($key, $mfaKey))) {
+                throw new SecurityException("CSRF_SIGNING_KEY must be distinct and independent from AUTH_SIGNING_KEY and MFA_ENCRYPTION_KEY.");
+            }
         }
 
         return $key;

@@ -176,7 +176,7 @@ class Config
     {
         $env = strtolower((string)$this->get('APP_ENV', 'development'));
         $debug = $this->isDebug();
-        $appKey = (string)$this->get('APP_KEY', '');
+        $isProdOrStaging = in_array($env, ['production', 'staging'], true);
 
         // Rule 1: In production mode, APP_DEBUG must strictly be FALSE
         if ($env === 'production' && $debug) {
@@ -185,12 +185,63 @@ class Config
             );
         }
 
-        // Rule 2: In production, APP_KEY must be a secure key (not empty or default placeholder)
-        if ($env === 'production') {
-            if ($appKey === '' || strlen($appKey) < 32 || str_contains($appKey, 'PLACEHOLDER') || str_contains($appKey, 'CHANGE_ME')) {
-                throw new ConfigurationException(
-                    "SECURITY VIOLATION: Secure APP_KEY of at least 32 characters is required in production (FR-SEC-005)."
-                );
+        // Rule 2: In production and staging, cryptographic keys must be securely configured, independent, and strong
+        if ($isProdOrStaging) {
+            $requiredKeys = [
+                'APP_KEY'            => 'Master application key',
+                'AUTH_SIGNING_KEY'   => 'Authentication token signing key',
+                'CSRF_SIGNING_KEY'   => 'CSRF bootstrap token signing key',
+                'MFA_ENCRYPTION_KEY' => 'MFA secret encryption key',
+            ];
+
+            $configuredKeys = [];
+
+            foreach ($requiredKeys as $keyName => $description) {
+                $val = (string)$this->get($keyName, '');
+                if ($val === '') {
+                    throw new ConfigurationException(
+                        "SECURITY VIOLATION: Required key [{$keyName}] ({$description}) is missing in {$env} (FR-SEC-005)."
+                    );
+                }
+
+                if (strlen($val) < 32) {
+                    if ($keyName === 'APP_KEY') {
+                        throw new ConfigurationException(
+                            "SECURITY VIOLATION: Secure APP_KEY of at least 32 characters is required in {$env} (FR-SEC-005)."
+                        );
+                    }
+                    throw new ConfigurationException(
+                        "SECURITY VIOLATION: Key [{$keyName}] is insecure: minimum 32 characters required in {$env}."
+                    );
+                }
+
+                if (str_contains($val, 'PLACEHOLDER') || str_contains($val, 'CHANGE_ME') || str_contains($val, 'YOUR_')) {
+                    if ($keyName === 'APP_KEY') {
+                        throw new ConfigurationException(
+                            "SECURITY VIOLATION: Secure APP_KEY of at least 32 characters is required (cannot use placeholder) in {$env} (FR-SEC-005)."
+                        );
+                    }
+                    throw new ConfigurationException(
+                        "SECURITY VIOLATION: Key [{$keyName}] cannot use known placeholder values in {$env}."
+                    );
+                }
+
+                $configuredKeys[$keyName] = $val;
+            }
+
+            // Ensure cryptographic key isolation: all keys must be distinct
+            $keyNames = array_keys($configuredKeys);
+            $count = count($keyNames);
+            for ($i = 0; $i < $count; $i++) {
+                for ($j = $i + 1; $j < $count; $j++) {
+                    $k1 = $keyNames[$i];
+                    $k2 = $keyNames[$j];
+                    if (hash_equals($configuredKeys[$k1], $configuredKeys[$k2])) {
+                        throw new ConfigurationException(
+                            "SECURITY VIOLATION: Key isolation failure: [{$k1}] and [{$k2}] must be independent production secrets and cannot be identical."
+                        );
+                    }
+                }
             }
         }
     }

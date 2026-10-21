@@ -73,8 +73,22 @@ class AuthenticationService
             }
         }
 
-        if ($key === '' || strlen($key) < 16) {
-            throw new SecurityException("Authentication pre-auth signing key is not configured or insecure (min 16 chars). Set AUTH_SIGNING_KEY in configuration.");
+        $env = $this->config ? (string)$this->config->get('APP_ENV', 'development') : (getenv('APP_ENV') ?: 'development');
+        $isProdOrStaging = in_array(strtolower($env), ['production', 'staging'], true);
+
+        if ($key === '' || strlen($key) < ($isProdOrStaging ? 32 : 16)) {
+            throw new SecurityException("Authentication pre-auth signing key is not configured or insecure (min " . ($isProdOrStaging ? "32" : "16") . " chars). Set AUTH_SIGNING_KEY in configuration.");
+        }
+
+        if ($isProdOrStaging) {
+            if (str_contains($key, 'PLACEHOLDER') || str_contains($key, 'CHANGE_ME') || str_contains($key, 'YOUR_')) {
+                throw new SecurityException("AUTH_SIGNING_KEY cannot use known placeholder values in {$env}.");
+            }
+            $csrfKey = $this->config ? (string)$this->config->get('CSRF_SIGNING_KEY', '') : '';
+            $mfaKey = $this->config ? (string)$this->config->get('MFA_ENCRYPTION_KEY', '') : '';
+            if (($csrfKey !== '' && hash_equals($key, $csrfKey)) || ($mfaKey !== '' && hash_equals($key, $mfaKey))) {
+                throw new SecurityException("AUTH_SIGNING_KEY must be distinct and independent from CSRF_SIGNING_KEY and MFA_ENCRYPTION_KEY.");
+            }
         }
 
         return $key;

@@ -31,8 +31,20 @@ class AuditLogger
         ?int $entityId = null,
         ?array $diff = null
     ): array {
+        // Security Rule: The cryptographic hash chain requires strictly serialized, durable commits.
+        // If an audit record were appended within an uncommitted outer transaction, releasing the serialization
+        // lock would expose a race where a concurrent worker selects a stale predecessor hash or the audit row
+        // is rolled back by the outer transaction. Therefore, log() requires non-transactional invocation so it
+        // can commit its own transaction before releasing the serialization lock.
+        if ($pdo->inTransaction()) {
+            throw new SecurityException(
+                "Cannot append chained audit record within an active uncommitted transaction: serialization lock cannot be safely released before commit."
+            );
+        }
+
         $driver = (string)$pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
         $lockAcquired = false;
+        $txStarted = false;
 
         if ($driver === 'mysql') {
             $lockStmt = $pdo->query("SELECT GET_LOCK('voak_audit_log_chain_lock', 10)");
@@ -43,18 +55,12 @@ class AuditLogger
             if (!$lockAcquired) {
                 throw new SecurityException("Failed to acquire audit ledger serialization lock.");
             }
-        } elseif ($driver === 'sqlite') {
-            if (!$pdo->inTransaction()) {
-                try {
-                    $pdo->beginTransaction();
-                    $lockAcquired = true;
-                } catch (\PDOException $e) {
-                    throw new SecurityException("Failed to acquire audit ledger SQLite write lock: " . $e->getMessage());
-                }
-            }
         }
 
         try {
+            $pdo->beginTransaction();
+            $txStarted = true;
+
             // 1. Fetch latest row_hash as predecessor under lock
             $stmt = $pdo->query("SELECT `row_hash` FROM `audit_logs` ORDER BY `id` DESC LIMIT 1");
             $prevHash = $stmt ? (string)($stmt->fetchColumn() ?: self::GENESIS_HASH) : self::GENESIS_HASH;
@@ -114,9 +120,9 @@ class AuditLogger
 
             $id = (int)$pdo->lastInsertId();
 
-            if ($driver === 'sqlite' && $lockAcquired && $pdo->inTransaction()) {
-                $pdo->commit();
-            }
+            // Commit transaction before releasing the lock so the newly inserted row is durable and visible to subsequent lock holders
+            $pdo->commit();
+            $txStarted = false;
 
             return [
                 'id'        => $id,
@@ -124,7 +130,7 @@ class AuditLogger
                 'row_hash'  => $rowHash,
             ];
         } catch (\Throwable $e) {
-            if ($driver === 'sqlite' && $lockAcquired && $pdo->inTransaction()) {
+            if ($txStarted && $pdo->inTransaction()) {
                 $pdo->rollBack();
             }
             throw $e;

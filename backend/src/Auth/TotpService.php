@@ -216,8 +216,22 @@ class TotpService
             }
         }
 
-        if ($key === '' || strlen($key) < 16) {
-            throw new SecurityException("MFA encryption key is not configured or fails security requirements (min 16 chars). Set MFA_ENCRYPTION_KEY in configuration.");
+        $env = $this->config ? (string)$this->config->get('APP_ENV', 'development') : (getenv('APP_ENV') ?: 'development');
+        $isProdOrStaging = in_array(strtolower($env), ['production', 'staging'], true);
+
+        if ($key === '' || strlen($key) < ($isProdOrStaging ? 32 : 16)) {
+            throw new SecurityException("MFA encryption key is not configured or fails security requirements (min " . ($isProdOrStaging ? "32" : "16") . " chars). Set MFA_ENCRYPTION_KEY in configuration.");
+        }
+
+        if ($isProdOrStaging) {
+            if (str_contains($key, 'PLACEHOLDER') || str_contains($key, 'CHANGE_ME') || str_contains($key, 'YOUR_')) {
+                throw new SecurityException("MFA encryption key cannot use known placeholder values in {$env}.");
+            }
+            $authKey = $this->config ? (string)$this->config->get('AUTH_SIGNING_KEY', '') : '';
+            $csrfKey = $this->config ? (string)$this->config->get('CSRF_SIGNING_KEY', '') : '';
+            if (($authKey !== '' && hash_equals($key, $authKey)) || ($csrfKey !== '' && hash_equals($key, $csrfKey))) {
+                throw new SecurityException("MFA_ENCRYPTION_KEY must be distinct and independent from AUTH_SIGNING_KEY and CSRF_SIGNING_KEY.");
+            }
         }
 
         return $key;

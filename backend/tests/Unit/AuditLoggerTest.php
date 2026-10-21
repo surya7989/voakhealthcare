@@ -96,6 +96,24 @@ class AuditLoggerTest
                 $isValid = $logger->verifyChain($pdo);
                 T::assertFalse($isValid);
             });
+
+            T::test('rejects audit logging inside active uncommitted transaction to prevent chain forks', function () {
+                $pdo = self::createDatabase();
+                $logger = new AuditLogger();
+
+                $pdo->beginTransaction();
+                $exceptionThrown = false;
+                try {
+                    $logger->log($pdo, 'security', 'SHOULD_FAIL', 1);
+                } catch (\Voak\Health\Core\Exceptions\SecurityException $e) {
+                    $exceptionThrown = true;
+                    T::assertTrue(str_contains($e->getMessage(), 'active uncommitted transaction'));
+                } finally {
+                    $pdo->rollBack();
+                }
+
+                T::assertTrue($exceptionThrown, 'Must throw SecurityException when invoked within active uncommitted transaction');
+            });
         });
     }
 }

@@ -88,9 +88,12 @@ class ConfigTest
 
             T::test('passes validation in production when properly configured', function () {
                 $config = new Config([
-                    'APP_ENV' => 'production',
-                    'APP_DEBUG' => false,
-                    'APP_KEY' => 'c89316a94ba9461e8f3cabbaf5bd20ad0adb72115e8339be5a39',
+                    'APP_ENV'            => 'production',
+                    'APP_DEBUG'          => false,
+                    'APP_KEY'            => 'c89316a94ba9461e8f3cabbaf5bd20ad0adb72115e8339be5a39',
+                    'AUTH_SIGNING_KEY'   => 'auth_signing_key_for_production_32_characters_minimum',
+                    'CSRF_SIGNING_KEY'   => 'csrf_signing_key_for_production_32_characters_minimum',
+                    'MFA_ENCRYPTION_KEY' => 'mfa_encryption_key_for_production_32_characters_minimum',
                 ]);
 
                 $config->validate();

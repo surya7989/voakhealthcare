@@ -98,6 +98,8 @@ jobs:
       - name: Check PHP syntax
         run: |
           php -l backend/tests/mysql_migration_integration.php
+          php -l backend/tests/mysql_security_concurrency_test.php
+          php -l backend/tests/concurrency_worker.php
           php -l backend/src/Database/Migration/MigrationManager.php
 
       - name: Execute MySQL 8.0 migration lifecycle integration test
@@ -108,3 +110,6 @@ jobs:
           php database/migrate.php status | tee migration-status.txt
           grep -E "28 Applied" migration-status.txt
           grep -E "0 Pending" migration-status.txt
+
+      - name: Execute MySQL 8.0 Security Concurrency & Audit Integrity Test
+        run: php backend/tests/mysql_security_concurrency_test.php
