@@ -75,24 +75,42 @@ switch ($action) {
     case 'consume_reset':
         $token = $options['token'] ?? '';
         $newPass = $options['password'] ?? 'Concurrent#2026!Pass';
-        try {
-            $success = $resetService->confirmReset($pdo, $token, $newPass);
-            exit($success ? 0 : 1);
-        } catch (\Throwable $e) {
-            fwrite(STDERR, "consume_reset error: " . $e->getMessage() . "\n" . $e->getTraceAsString() . "\n");
-            exit(1);
+        $maxAttempts = 10;
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+            try {
+                $success = $resetService->confirmReset($pdo, $token, $newPass);
+                exit($success ? 0 : 1);
+            } catch (\Throwable $e) {
+                $msg = $e->getMessage();
+                if ((str_contains($msg, 'database is locked') || str_contains($msg, 'serialization lock')) && $attempt < $maxAttempts) {
+                    usleep(random_int(20000, 80000)); // 20-80ms jitter
+                    continue;
+                }
+                fwrite(STDERR, "consume_reset error: " . $msg . "\n" . $e->getTraceAsString() . "\n");
+                exit(1);
+            }
         }
+        exit(1);
 
     case 'consume_recovery':
         $userId = (int)($options['user_id'] ?? 1);
         $code = $options['code'] ?? '';
-        try {
-            $success = $totpService->verifyAndConsumeRecoveryCode($pdo, $userId, $code);
-            exit($success ? 0 : 1);
-        } catch (\Throwable $e) {
-            fwrite(STDERR, "consume_recovery error: " . $e->getMessage() . "\n" . $e->getTraceAsString() . "\n");
-            exit(1);
+        $maxAttempts = 10;
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+            try {
+                $success = $totpService->verifyAndConsumeRecoveryCode($pdo, $userId, $code);
+                exit($success ? 0 : 1);
+            } catch (\Throwable $e) {
+                $msg = $e->getMessage();
+                if ((str_contains($msg, 'database is locked') || str_contains($msg, 'serialization lock')) && $attempt < $maxAttempts) {
+                    usleep(random_int(20000, 80000)); // 20-80ms jitter
+                    continue;
+                }
+                fwrite(STDERR, "consume_recovery error: " . $msg . "\n" . $e->getTraceAsString() . "\n");
+                exit(1);
+            }
         }
+        exit(1);
 
     case 'failed_login':
         $email = $options['email'] ?? 'test@voak.test';

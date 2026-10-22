@@ -39,25 +39,25 @@ jobs:
           find backend tests -name "*.php" -print0 | xargs -0 -n1 php -l
 
       - name: Run Root Backend Test Suite
-        run: php tests/test_backend_foundation.php
+        run: php -d memory_limit=512M tests/test_backend_foundation.php
 
       - name: Run Phase 6 Admin Auth and Security Test Suite
-        run: php tests/test_phase6_admin_auth.php
+        run: php -d memory_limit=512M tests/test_phase6_admin_auth.php
 
       - name: Run Phase 7 Website Content Management Test Suite
-        run: php tests/test_phase7_content_management.php
+        run: php -d memory_limit=512M tests/test_phase7_content_management.php
 
       - name: Run Phase 8 Services Catalog Management Test Suite
-        run: php tests/test_phase8_services_management.php
+        run: php -d memory_limit=512M tests/test_phase8_services_management.php
 
       - name: Run Phase 9 Industries Management Test Suite
-        run: php tests/test_phase9_industries_management.php
+        run: php -d memory_limit=512M tests/test_phase9_industries_management.php
 
       - name: Run Phase 10 Media & Document Management Test Suite
-        run: php tests/test_phase10_media_and_document_management.php
+        run: php -d memory_limit=512M tests/test_phase10_media_and_document_management.php
 
       - name: Run Comprehensive Backend Test Suite
-        run: php backend/tests/run_tests.php
+        run: php -d memory_limit=512M backend/tests/run_tests.php
 
       - name: Verify Secret Scanning Baseline
         run: php tests/scan_secrets.php
