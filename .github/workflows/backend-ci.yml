@@ -23,7 +23,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: pdo, json, mbstring, curl
+          extensions: pdo, json, mbstring, curl, dom, libxml
           coverage: none
 
       - name: Validate composer.json
@@ -43,6 +43,9 @@ jobs:
 
       - name: Run Phase 6 Admin Auth and Security Test Suite
         run: php tests/test_phase6_admin_auth.php
+
+      - name: Run Phase 7 Website Content Management Test Suite
+        run: php tests/test_phase7_content_management.php
 
       - name: Verify Secret Scanning Baseline
         run: php tests/scan_secrets.php

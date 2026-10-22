@@ -23,13 +23,21 @@ use Voak\Health\Middleware\RateLimitMiddleware;
 use Voak\Health\Middleware\RequirePermissionMiddleware;
 use Voak\Health\Middleware\SecurityHeadersMiddleware;
 use Voak\Health\Modules\Admin\AdminAuthController;
+use Voak\Health\Modules\Admin\AdminHomepageController;
+use Voak\Health\Modules\Admin\AdminPageController;
+use Voak\Health\Modules\Admin\AdminSettingController;
 use Voak\Health\Modules\Admin\AdminUsersController;
 use Voak\Health\Modules\Admin\MfaController;
 use Voak\Health\Modules\Health\HealthController;
+use Voak\Health\Modules\PublicContent\PublicContentController;
 use Voak\Health\Modules\Scaffolding\PartnersClientsScaffolding;
 use Voak\Health\Security\AuditLogger;
+use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
+use Voak\Health\Services\HomepageService;
+use Voak\Health\Services\PageService;
+use Voak\Health\Services\SettingService;
 
 /**
  * Voak Health Care Application Kernel.
@@ -183,6 +191,27 @@ class App
             $this->config
         ));
         $this->container->set(AdminUsersController::class, new AdminUsersController($connection));
+
+        // Phase 7 Services
+        $sanitizer = new HtmlSanitizer();
+        $pageService = new PageService($connection, $auditLogger, $sanitizer);
+        $homepageService = new HomepageService($connection, $auditLogger, $sanitizer);
+        $settingService = new SettingService($connection, $auditLogger);
+
+        $this->container->set(HtmlSanitizer::class, $sanitizer);
+        $this->container->set(PageService::class, $pageService);
+        $this->container->set(HomepageService::class, $homepageService);
+        $this->container->set(SettingService::class, $settingService);
+
+        // Phase 7 Controllers
+        $this->container->set(AdminPageController::class, new AdminPageController($pageService));
+        $this->container->set(AdminHomepageController::class, new AdminHomepageController($homepageService));
+        $this->container->set(AdminSettingController::class, new AdminSettingController($settingService));
+        $this->container->set(PublicContentController::class, new PublicContentController(
+            $pageService,
+            $homepageService,
+            $settingService
+        ));
     }
 
     private function initializeMiddleware(): void
@@ -246,6 +275,78 @@ class App
             '/api/v1/admin/users',
             [AdminUsersController::class, 'listUsers'],
             [RequirePermissionMiddleware::with('user:list', $rbacManager, $connection)]
+        );
+
+        // Phase 7 Public Content Delivery Routes (Rate-limited, ETag caching)
+        $this->router->get('/api/v1/public/pages/:slug', [PublicContentController::class, 'getPage']);
+        $this->router->get('/api/v1/public/homepage', [PublicContentController::class, 'getHomepage']);
+        $this->router->get('/api/v1/public/settings', [PublicContentController::class, 'getSettings']);
+
+        // Phase 7 Administrative CMS Routes (Authenticated, CSRF-protected, RBAC-enforced)
+        // 1. Pages CRUD, Workflow & Revisions
+        $this->router->get(
+            '/api/v1/admin/pages',
+            [AdminPageController::class, 'index'],
+            [RequirePermissionMiddleware::with('pages.view', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/pages',
+            [AdminPageController::class, 'create'],
+            [RequirePermissionMiddleware::with('pages.create', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/pages/:id',
+            [AdminPageController::class, 'show'],
+            [RequirePermissionMiddleware::with('pages.view', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/v1/admin/pages/:id',
+            [AdminPageController::class, 'update'],
+            [RequirePermissionMiddleware::with('pages.edit', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/pages/:id/status',
+            [AdminPageController::class, 'updateStatus'],
+            [RequirePermissionMiddleware::with('pages.publish', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/pages/:id/rollback/:rev',
+            [AdminPageController::class, 'rollback'],
+            [RequirePermissionMiddleware::with('pages.publish', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/v1/admin/pages/:id',
+            [AdminPageController::class, 'delete'],
+            [RequirePermissionMiddleware::with('pages.delete', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/pages/:id/revisions',
+            [AdminPageController::class, 'revisions'],
+            [RequirePermissionMiddleware::with('pages.view', $rbacManager, $connection)]
+        );
+
+        // 2. Homepage CMS Configuration
+        $this->router->get(
+            '/api/v1/admin/homepage',
+            [AdminHomepageController::class, 'show'],
+            [RequirePermissionMiddleware::with('pages.view', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/v1/admin/homepage',
+            [AdminHomepageController::class, 'update'],
+            [RequirePermissionMiddleware::with('pages.edit', $rbacManager, $connection)]
+        );
+
+        // 3. System and Platform Settings CMS
+        $this->router->get(
+            '/api/v1/admin/settings',
+            [AdminSettingController::class, 'index'],
+            [RequirePermissionMiddleware::with('settings.view', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/v1/admin/settings',
+            [AdminSettingController::class, 'update'],
+            [RequirePermissionMiddleware::with('settings.edit', $rbacManager, $connection)]
         );
     }
 }

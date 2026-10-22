@@ -504,12 +504,37 @@ class RbacManager
     }
 
     /**
+     * Canonical aliases mapping dot notation to colon notation.
+     */
+    public const PERMISSION_ALIASES = [
+        'pages.view'     => ['page:read', 'pages.view'],
+        'pages.create'   => ['page:update', 'pages.create'],
+        'pages.edit'     => ['page:update', 'pages.edit'],
+        'pages.publish'  => ['page:rollback', 'pages.publish'],
+        'pages.delete'   => ['page:update', 'pages.delete'],
+        'settings.view'  => ['settings:read', 'settings.view'],
+        'settings.edit'  => ['settings:update', 'settings.edit'],
+    ];
+
+    /**
      * Checks if a user possesses a specific permission.
      */
     public function hasPermission(\PDO $pdo, int $userId, string $permissionSlug): bool
     {
         $permissions = $this->getUserPermissions($pdo, $userId);
-        return in_array($permissionSlug, $permissions, true);
+        if (in_array($permissionSlug, $permissions, true)) {
+            return true;
+        }
+
+        if (isset(self::PERMISSION_ALIASES[$permissionSlug])) {
+            foreach (self::PERMISSION_ALIASES[$permissionSlug] as $alias) {
+                if (in_array($alias, $permissions, true)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**

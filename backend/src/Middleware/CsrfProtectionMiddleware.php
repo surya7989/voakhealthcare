@@ -93,8 +93,9 @@ class CsrfProtectionMiddleware implements MiddlewareInterface
         $signature = hash_hmac('sha256', $payload, $signingKey);
         $cookieValue = base64_encode("{$payload}:{$signature}");
 
-        $isProduction = $this->config !== null && (string)$this->config->get('APP_ENV') === 'production';
-        $secureFlag = $isProduction ? '; Secure' : '';
+        $env = $this->config ? (string)$this->config->get('APP_ENV', 'development') : (getenv('APP_ENV') ?: 'development');
+        $isSecureEnv = in_array(strtolower($env), ['production', 'staging'], true);
+        $secureFlag = $isSecureEnv ? '; Secure' : '';
         $cookieHeader = "voak_csrf={$cookieValue}; Path=/api/v1/admin; HttpOnly; SameSite=Lax; Max-Age=" . self::BOOTSTRAP_TOKEN_TTL_SECONDS . $secureFlag;
 
         return [

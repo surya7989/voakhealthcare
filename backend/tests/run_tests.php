@@ -33,9 +33,14 @@ use Voak\Health\Tests\Unit\AuthenticationServiceTest;
 use Voak\Health\Tests\Unit\SecurityHardeningTest;
 use Voak\Health\Tests\Integration\AdminAuthApiTest;
 use Voak\Health\Tests\Integration\CliSuperAdminTest;
+use Voak\Health\Tests\Unit\HtmlSanitizerTest;
+use Voak\Health\Tests\Unit\PageServiceTest;
+use Voak\Health\Tests\Unit\HomepageServiceTest;
+use Voak\Health\Tests\Unit\SettingServiceTest;
+use Voak\Health\Tests\Integration\ContentManagementApiTest;
 
 echo "======================================================================\n";
-echo "VOAK HEALTH CARE — BACKEND AUTOMATED TEST SUITE (PHASE 4 & PHASE 6)\n";
+echo "VOAK HEALTH CARE — BACKEND AUTOMATED TEST SUITE (PHASE 4, 6 & 7)\n";
 echo "======================================================================\n";
 echo "PHP Version: " . PHP_VERSION . "\n";
 echo "Runtime:     " . PHP_OS . " (" . php_uname('s') . ")\n";
@@ -65,6 +70,13 @@ AuthenticationServiceTest::run();
 AdminAuthApiTest::run();
 CliSuperAdminTest::run();
 SecurityHardeningTest::run();
+
+// Phase 7 Website Content Management Tests
+HtmlSanitizerTest::run();
+PageServiceTest::run();
+HomepageServiceTest::run();
+SettingServiceTest::run();
+ContentManagementApiTest::run();
 
 $exitCode = TestFramework::summarize();
 exit($exitCode);

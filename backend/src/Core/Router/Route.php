@@ -101,10 +101,11 @@ class Route
     {
         $pattern = $this->pattern;
 
-        // Convert {param} placeholders to regex named capture groups
-        $regex = preg_replace_callback('/\{([a-zA-Z_][a-zA-Z0-9_-]*)\}/', function ($matches) {
-            $this->parameterNames[] = $matches[1];
-            return '(?P<' . $matches[1] . '>[^/]+)';
+        // Convert {param} and :param placeholders to regex named capture groups
+        $regex = preg_replace_callback('/(?:\{([a-zA-Z_][a-zA-Z0-9_-]*)\}|:([a-zA-Z_][a-zA-Z0-9_-]*))/', function ($matches) {
+            $name = !empty($matches[1]) ? $matches[1] : $matches[2];
+            $this->parameterNames[] = $name;
+            return '(?P<' . $name . '>[^/]+)';
         }, $pattern);
 
         $this->regex = '#^' . $regex . '$#u';

@@ -5,8 +5,10 @@
   "license": "proprietary",
   "require": {
     "php": "^8.2 || ^8.3",
-    "ext-pdo": "*",
-    "ext-json": "*"
+    "ext-dom": "*",
+    "ext-json": "*",
+    "ext-libxml": "*",
+    "ext-pdo": "*"
   },
   "autoload": {
     "psr-4": {
