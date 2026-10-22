@@ -9,27 +9,31 @@ use Voak\Health\Core\Http\Request;
 use Voak\Health\Core\Http\Response;
 use Voak\Health\Services\HomepageService;
 use Voak\Health\Services\PageService;
+use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SettingService;
 
 /**
  * Public Content Delivery Controller.
  * Provides high-performance, cached, read-only endpoints for corporate pages,
- * homepage hero configuration, and public settings with HTTP ETag / 304 validation.
+ * homepage hero configuration, public settings, and services catalog with HTTP ETag / 304 validation.
  */
 class PublicContentController
 {
     private PageService $pageService;
     private HomepageService $homepageService;
     private SettingService $settingService;
+    private ?ServiceService $serviceService;
 
     public function __construct(
         PageService $pageService,
         HomepageService $homepageService,
-        SettingService $settingService
+        SettingService $settingService,
+        ?ServiceService $serviceService = null
     ) {
         $this->pageService = $pageService;
         $this->homepageService = $homepageService;
         $this->settingService = $settingService;
+        $this->serviceService = $serviceService;
     }
 
     /**
@@ -115,6 +119,80 @@ class PublicContentController
         return $response
             ->withHeader('ETag', $etag)
             ->withHeader('Cache-Control', 'public, max-age=300, must-revalidate');
+    }
+
+    /**
+     * GET /api/v1/public/services
+     * Delivers published service offerings ordered by display sequence.
+     */
+    public function getServices(Request $request): Response
+    {
+        if ($this->serviceService === null) {
+            throw new NotFoundException("Services catalog not available.");
+        }
+
+        $data = $this->serviceService->getPublishedServices();
+        $etag = $data['etag'];
+
+        // Conditional GET check
+        $ifNoneMatch = $request->getHeader('if-none-match');
+        if ($ifNoneMatch !== null && $this->isEtagMatch($ifNoneMatch, $etag)) {
+            return (new Response(304, [
+                'ETag'             => $etag,
+                'Cache-Control'    => 'public, max-age=300, must-revalidate',
+                'X-Correlation-ID' => $request->getCorrelationId(),
+            ]));
+        }
+
+        $response = Response::success(['services' => $data['services']], 200, $request->getCorrelationId());
+        return $response
+            ->withHeader('ETag', $etag)
+            ->withHeader('Cache-Control', 'public, max-age=300, must-revalidate');
+    }
+
+    /**
+     * GET /api/v1/public/services/:slug
+     * Delivers published service detail.
+     * If service is not found, inspects url_redirects for an active 301 redirect.
+     */
+    public function getService(Request $request): Response
+    {
+        if ($this->serviceService === null) {
+            throw new NotFoundException("Services catalog not available.");
+        }
+
+        $slug = (string)($request->getAttribute('slug') ?? '');
+        if ($slug === '') {
+            throw new NotFoundException("Service not found.");
+        }
+
+        $service = $this->serviceService->getPublishedServiceBySlug($slug);
+        if ($service !== null) {
+            $etag = $service['etag'] ?? $this->serviceService->calculateEtag($service);
+
+            // Conditional GET check
+            $ifNoneMatch = $request->getHeader('if-none-match');
+            if ($ifNoneMatch !== null && $this->isEtagMatch($ifNoneMatch, $etag)) {
+                return (new Response(304, [
+                    'ETag'             => $etag,
+                    'Cache-Control'    => 'public, max-age=300, must-revalidate',
+                    'X-Correlation-ID' => $request->getCorrelationId(),
+                ]));
+            }
+
+            $response = Response::success(['service' => $service], 200, $request->getCorrelationId());
+            return $response
+                ->withHeader('ETag', $etag)
+                ->withHeader('Cache-Control', 'public, max-age=300, must-revalidate');
+        }
+
+        // Check if there is an active 301 redirect in url_redirects (FR-WF-006)
+        $redirect = $this->serviceService->findRedirect('/services/' . $slug);
+        if ($redirect !== null && !empty($redirect['target_path'])) {
+            return Response::redirect($redirect['target_path'], (int)($redirect['http_status_code'] ?? 301));
+        }
+
+        throw new NotFoundException("Service [{$slug}] not found.");
     }
 
     private function isEtagMatch(string $headerValue, string $etag): bool

@@ -31,6 +31,7 @@ use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
 use Voak\Health\Services\PageService;
+use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SettingService;
 
 echo "======================================================================\n";
@@ -569,6 +570,78 @@ try {
         $pdo->exec("DELETE FROM system_settings WHERE updated_by_user_id = {$testUserId}");
     });
 
+    // =========================================================================
+    // TEST 7: Phase 8 — Services Catalog, MySQL 8.0 JSON Storage, 301 Redirects & Integrity
+    // =========================================================================
+    $runTest("Test 7: Services Catalog Management, MySQL 8.0 JSON Storage & 301 Redirect Engine", function () use ($pdo, $auditLogger, $sanitizer, $testUserId) {
+        $connection = new Connection();
+        $connection->setMockPdo($pdo);
+        $serviceService = new ServiceService($connection, $auditLogger, $sanitizer);
+
+        // 1. Ensure Default Services on MySQL 8.0
+        $serviceService->ensureDefaultServices($testUserId);
+        $count = (int)$pdo->query("SELECT COUNT(*) FROM `services`")->fetchColumn();
+        if ($count < 6) {
+            throw new RuntimeException("MySQL 8.0 expected at least 6 canonical services, found {$count}.");
+        }
+
+        // 2. Verify Native JSON Data Extraction on MySQL 8.0
+        $jsonCheck = $pdo->query("SELECT id, JSON_VALID(sla_metrics_json) as valid_sla, JSON_VALID(deliverables_json) as valid_deliv FROM `services` LIMIT 1")->fetch();
+        if ((int)$jsonCheck['valid_sla'] !== 1 || (int)$jsonCheck['valid_deliv'] !== 1) {
+            throw new RuntimeException("MySQL 8.0 JSON columns sla_metrics_json or deliverables_json are invalid JSON.");
+        }
+
+        // 3. Create Custom Test Service with rich JSON deliverables & SLA metrics
+        $testSlug = 'mysql-service-' . bin2hex(random_bytes(4));
+        $created = $serviceService->createService([
+            'title'        => 'MySQL 8.0 Dedicated Service',
+            'slug'         => $testSlug,
+            'tagline'      => 'Testing MySQL 8.0 Enterprise Capabilities',
+            'description'  => '<p>High-reliability healthcare infrastructure validation.</p>',
+            'deliverables' => ['Audit trail compliance', 'High-throughput SLA tracking'],
+            'sla_metrics'  => ['uptime' => '99.99%', 'latency' => '< 50ms'],
+            'is_published' => 1,
+        ], $testUserId);
+
+        $svcId = (int)$created['id'];
+
+        // 4. Verify Unique Slug Constraint on MySQL 8.0
+        $dupCaught = false;
+        try {
+            $serviceService->createService([
+                'title' => 'Duplicate Slug Test',
+                'slug'  => $testSlug,
+            ], $testUserId);
+        } catch (\Throwable $e) {
+            $dupCaught = true;
+        }
+        if (!$dupCaught) {
+            throw new RuntimeException("MySQL 8.0 failed to enforce UNIQUE constraint on services.slug.");
+        }
+
+        // 5. Update Slug & Verify 301 Redirect Recorded in url_redirects
+        $newSlug = $testSlug . '-v2';
+        $serviceService->updateService($svcId, [
+            'slug'  => $newSlug,
+            'title' => 'MySQL 8.0 Dedicated Service (Updated)',
+        ], $testUserId);
+
+        $redirect = $serviceService->findRedirect('/services/' . $testSlug);
+        if (!$redirect || $redirect['target_path'] !== '/services/' . $newSlug || (int)$redirect['http_status_code'] !== 301) {
+            throw new RuntimeException("301 URL redirect was not correctly recorded in MySQL 8.0 url_redirects table.");
+        }
+
+        // 6. Verify Delete & Cleanup
+        $serviceService->deleteService($svcId, $testUserId);
+        $deletedCheck = $pdo->query("SELECT COUNT(*) FROM `services` WHERE id = {$svcId}")->fetchColumn();
+        if ((int)$deletedCheck !== 0) {
+            throw new RuntimeException("Service record was not purged during delete on MySQL 8.0.");
+        }
+
+        // Clean up test redirect
+        $pdo->exec("DELETE FROM `url_redirects` WHERE `source_path` = '/services/{$testSlug}'");
+    });
+
     // Clean up isolated test data
     $pdo->exec("DELETE FROM user_roles WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM admin_sessions WHERE user_id = {$testUserId}");
@@ -577,6 +650,7 @@ try {
     $pdo->exec("DELETE FROM audit_logs WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM content_revisions WHERE editor_user_id = {$testUserId}");
     $pdo->exec("DELETE FROM system_settings WHERE updated_by_user_id = {$testUserId}");
+    $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/services/mysql-service-%'");
     $pdo->exec("DELETE FROM users WHERE id = {$testUserId} OR email = '{$testUserEmail}'");
 
     echo "\n======================================================================\n";

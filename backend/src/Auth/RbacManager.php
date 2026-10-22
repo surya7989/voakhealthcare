@@ -514,6 +514,11 @@ class RbacManager
         'pages.delete'   => ['page:rollback', 'pages.delete'],
         'settings.view'  => ['settings:read', 'settings.view'],
         'settings.edit'  => ['settings:update', 'settings.edit'],
+        'services.view'    => ['service:update', 'service:create', 'services.view'],
+        'services.create'  => ['service:create', 'services.create'],
+        'services.edit'    => ['service:update', 'services.edit'],
+        'services.publish' => ['service:publish', 'services.publish'],
+        'services.delete'  => ['service:delete', 'services.delete'],
     ];
 
     /**

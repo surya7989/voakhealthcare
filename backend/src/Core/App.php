@@ -25,6 +25,7 @@ use Voak\Health\Middleware\SecurityHeadersMiddleware;
 use Voak\Health\Modules\Admin\AdminAuthController;
 use Voak\Health\Modules\Admin\AdminHomepageController;
 use Voak\Health\Modules\Admin\AdminPageController;
+use Voak\Health\Modules\Admin\AdminServiceController;
 use Voak\Health\Modules\Admin\AdminSettingController;
 use Voak\Health\Modules\Admin\AdminUsersController;
 use Voak\Health\Modules\Admin\MfaController;
@@ -37,6 +38,7 @@ use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
 use Voak\Health\Services\HomepageService;
 use Voak\Health\Services\PageService;
+use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SettingService;
 
 /**
@@ -192,25 +194,29 @@ class App
         ));
         $this->container->set(AdminUsersController::class, new AdminUsersController($connection));
 
-        // Phase 7 Services
+        // Phase 7 & 8 Services
         $sanitizer = new HtmlSanitizer();
         $pageService = new PageService($connection, $auditLogger, $sanitizer);
         $homepageService = new HomepageService($connection, $auditLogger, $sanitizer);
         $settingService = new SettingService($connection, $auditLogger);
+        $serviceService = new ServiceService($connection, $auditLogger, $sanitizer);
 
         $this->container->set(HtmlSanitizer::class, $sanitizer);
         $this->container->set(PageService::class, $pageService);
         $this->container->set(HomepageService::class, $homepageService);
         $this->container->set(SettingService::class, $settingService);
+        $this->container->set(ServiceService::class, $serviceService);
 
-        // Phase 7 Controllers
+        // Phase 7 & 8 Controllers
         $this->container->set(AdminPageController::class, new AdminPageController($pageService));
         $this->container->set(AdminHomepageController::class, new AdminHomepageController($homepageService));
         $this->container->set(AdminSettingController::class, new AdminSettingController($settingService));
+        $this->container->set(AdminServiceController::class, new AdminServiceController($serviceService));
         $this->container->set(PublicContentController::class, new PublicContentController(
             $pageService,
             $homepageService,
-            $settingService
+            $settingService,
+            $serviceService
         ));
     }
 
@@ -277,10 +283,14 @@ class App
             [RequirePermissionMiddleware::with('user:list', $rbacManager, $connection)]
         );
 
-        // Phase 7 Public Content Delivery Routes (Rate-limited, ETag caching)
+        // Phase 7 & 8 Public Content Delivery Routes (Rate-limited, ETag caching)
         $this->router->get('/api/v1/public/pages/:slug', [PublicContentController::class, 'getPage']);
         $this->router->get('/api/v1/public/homepage', [PublicContentController::class, 'getHomepage']);
         $this->router->get('/api/v1/public/settings', [PublicContentController::class, 'getSettings']);
+        $this->router->get('/api/v1/public/services', [PublicContentController::class, 'getServices']);
+        $this->router->get('/api/v1/public/services/:slug', [PublicContentController::class, 'getService']);
+        $this->router->get('/api/services', [PublicContentController::class, 'getServices']);
+        $this->router->get('/api/services/:slug', [PublicContentController::class, 'getService']);
 
         // Phase 7 Administrative CMS Routes (Authenticated, CSRF-protected, RBAC-enforced)
         // 1. Pages CRUD, Workflow & Revisions
@@ -347,6 +357,43 @@ class App
             '/api/v1/admin/settings',
             [AdminSettingController::class, 'update'],
             [RequirePermissionMiddleware::with('settings.edit', $rbacManager, $connection)]
+        );
+
+        // 4. Services Catalog Management Console (FR-ADM-007)
+        $this->router->get(
+            '/api/v1/admin/services',
+            [AdminServiceController::class, 'index'],
+            [RequirePermissionMiddleware::with('service:update', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/services',
+            [AdminServiceController::class, 'create'],
+            [RequirePermissionMiddleware::with('service:create', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/services/:id',
+            [AdminServiceController::class, 'show'],
+            [RequirePermissionMiddleware::with('service:update', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/v1/admin/services/:id',
+            [AdminServiceController::class, 'update'],
+            [RequirePermissionMiddleware::with('service:update', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/services/:id/status',
+            [AdminServiceController::class, 'updateStatus'],
+            [RequirePermissionMiddleware::with('service:publish', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/services/reorder',
+            [AdminServiceController::class, 'reorder'],
+            [RequirePermissionMiddleware::with('service:update', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/v1/admin/services/:id',
+            [AdminServiceController::class, 'delete'],
+            [RequirePermissionMiddleware::with('service:delete', $rbacManager, $connection)]
         );
     }
 }

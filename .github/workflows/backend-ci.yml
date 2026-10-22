@@ -47,6 +47,9 @@ jobs:
       - name: Run Phase 7 Website Content Management Test Suite
         run: php tests/test_phase7_content_management.php
 
+      - name: Run Phase 8 Services Catalog Management Test Suite
+        run: php tests/test_phase8_services_management.php
+
       - name: Verify Secret Scanning Baseline
         run: php tests/scan_secrets.php
 

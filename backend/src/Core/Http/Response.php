@@ -147,6 +147,14 @@ class Response
     }
 
     /**
+     * HTTP Redirect response factory (301, 302, 307, 308).
+     */
+    public static function redirect(string $url, int $statusCode = 301): self
+    {
+        return new self($statusCode, ['Location' => $url, 'Cache-Control' => 'no-cache'], '');
+    }
+
+    /**
      * Emit response to client.
      */
     public function send(): void

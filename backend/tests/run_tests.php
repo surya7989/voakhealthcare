@@ -38,9 +38,11 @@ use Voak\Health\Tests\Unit\PageServiceTest;
 use Voak\Health\Tests\Unit\HomepageServiceTest;
 use Voak\Health\Tests\Unit\SettingServiceTest;
 use Voak\Health\Tests\Integration\ContentManagementApiTest;
+use Voak\Health\Tests\Unit\ServiceServiceTest;
+use Voak\Health\Tests\Integration\ServicesManagementApiTest;
 
 echo "======================================================================\n";
-echo "VOAK HEALTH CARE — BACKEND AUTOMATED TEST SUITE (PHASE 4, 6 & 7)\n";
+echo "VOAK HEALTH CARE — BACKEND AUTOMATED TEST SUITE (PHASE 4, 6, 7 & 8)\n";
 echo "======================================================================\n";
 echo "PHP Version: " . PHP_VERSION . "\n";
 echo "Runtime:     " . PHP_OS . " (" . php_uname('s') . ")\n";
@@ -77,6 +79,10 @@ PageServiceTest::run();
 HomepageServiceTest::run();
 SettingServiceTest::run();
 ContentManagementApiTest::run();
+
+// Phase 8 Services Catalog Management Tests
+ServiceServiceTest::run();
+ServicesManagementApiTest::run();
 
 $exitCode = TestFramework::summarize();
 exit($exitCode);
