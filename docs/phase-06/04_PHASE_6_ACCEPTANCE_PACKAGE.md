@@ -8,8 +8,8 @@
 **Target Canonical Branch:** `main`  
 **Date:** October 22, 2026  
 **Auditor / Presenter:** Lead Security Architect, Staff PHP Backend Engineer & Application Security Specialist  
-**Verified Remote HEAD Commit:** `0da5f4a869253dfa57171fd804a17195cf7c5405`  
-**Latest CI Run Reference:** [Run #39569185448](https://github.com/surya7989/voakhealthcare/actions/runs/39569185448) — **SUCCESS (100% Green across PHP 8.2, 8.3 & MySQL 8.0)**  
+**Verified Remote HEAD Commit:** `5f3ffd827299a4c042cf389658f895c1a798ee3e` (preceding security hardening: `0da5f4a`)  
+**Latest CI Run Reference:** [Run #39701561815](https://github.com/surya7989/voakhealthcare/actions/runs/39701561815) — **SUCCESS (100% Green across PHP 8.2, 8.3 & MySQL 8.0)**  
 **Overall Package Status:** **CODE-LEVEL VERIFICATION COMPLETE (Live Hostinger Staging Validation Outstanding; Formal Signatory Identity Pending)**  
 
 ---
