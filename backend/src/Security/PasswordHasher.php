@@ -24,14 +24,18 @@ class PasswordHasher
         $this->enforceEntropy($password);
 
         if (defined('PASSWORD_ARGON2ID')) {
-            $options = [
-                'memory_cost' => 65536,
-                'time_cost'   => 4,
-                'threads'     => 1,
-            ];
-            $hash = password_hash($password, PASSWORD_ARGON2ID, $options);
-            if ($hash !== false) {
-                return $hash;
+            try {
+                $options = [
+                    'memory_cost' => 65536,
+                    'time_cost'   => 4,
+                    'threads'     => 1,
+                ];
+                $hash = password_hash($password, PASSWORD_ARGON2ID, $options);
+                if ($hash !== false) {
+                    return $hash;
+                }
+            } catch (\ValueError $e) {
+                // If system memory allocation fails for Argon2id, fall back to Bcrypt
             }
         }
 

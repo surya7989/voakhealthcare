@@ -94,7 +94,7 @@ class Config
         foreach ($_SERVER as $k => $v) {
             if (is_string($v) && !str_starts_with($k, 'HTTP_')) {
                 // Only consider non-HTTP header server vars
-                if ($config->has($k) || in_array($k, ['APP_ENV', 'APP_DEBUG', 'APP_KEY', 'DB_HOST', 'DB_PORT', 'DB_DATABASE', 'DB_USERNAME', 'DB_PASSWORD'], true)) {
+                if ($config->has($k) || in_array($k, ['APP_ENV', 'APP_DEBUG', 'APP_KEY', 'AUTH_SIGNING_KEY', 'CSRF_SIGNING_KEY', 'MFA_ENCRYPTION_KEY', 'DB_HOST', 'DB_PORT', 'DB_DATABASE', 'DB_USERNAME', 'DB_PASSWORD'], true)) {
                     $config->set($k, $v);
                 }
             }
@@ -104,7 +104,8 @@ class Config
         $wellKnownEnv = [
             'APP_NAME', 'APP_ENV', 'APP_DEBUG', 'APP_KEY', 'APP_URL',
             'DB_HOST', 'DB_PORT', 'DB_DATABASE', 'DB_USERNAME', 'DB_PASSWORD', 'DB_CHARSET',
-            'SESSION_SECRET', 'MFA_ENCRYPTION_KEY', 'JWT_SECRET', 'CORS_ALLOWED_ORIGINS'
+            'SESSION_SECRET', 'MFA_ENCRYPTION_KEY', 'AUTH_SIGNING_KEY', 'CSRF_SIGNING_KEY',
+            'JWT_SECRET', 'CORS_ALLOWED_ORIGINS'
         ];
         foreach ($wellKnownEnv as $key) {
             $val = getenv($key);
@@ -168,6 +169,17 @@ class Config
     }
 
     /**
+     * Checks if a configuration secret contains known placeholder or default patterns (case-insensitive).
+     */
+    public static function isPlaceholder(string $value): bool
+    {
+        $normalized = strtoupper($value);
+        return str_contains($normalized, 'PLACEHOLDER')
+            || str_contains($normalized, 'CHANGE_ME')
+            || str_contains($normalized, 'YOUR_');
+    }
+
+    /**
      * Fail-fast security validation (FR-SEC-005).
      *
      * @throws ConfigurationException
@@ -215,7 +227,7 @@ class Config
                     );
                 }
 
-                if (str_contains($val, 'PLACEHOLDER') || str_contains($val, 'CHANGE_ME') || str_contains($val, 'YOUR_')) {
+                if (self::isPlaceholder($val)) {
                     if ($keyName === 'APP_KEY') {
                         throw new ConfigurationException(
                             "SECURITY VIOLATION: Secure APP_KEY of at least 32 characters is required (cannot use placeholder) in {$env} (FR-SEC-005)."

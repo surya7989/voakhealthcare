@@ -71,7 +71,7 @@ class CliSuperAdminTest
                 putenv('VOAK_ADMIN_PASSWORD=SuperAdmin#2026!Secure');
                 exec("php \"{$cliScript}\" --sqlite=\"{$tempSqlite}\" --email=\"superadmin@voak.test\" --name=\"Lead Admin\" 2>&1", $out, $code);
                 putenv('VOAK_ADMIN_PASSWORD');
-                T::assertEquals(0, $code);
+                T::assertEquals(0, $code, "CLI provisioner failed with output: " . implode("\n", $out));
                 T::assertContains('SUCCESS: Super Administrator provisioned successfully', implode("\n", $out));
 
                 // Verify user created in sqlite database

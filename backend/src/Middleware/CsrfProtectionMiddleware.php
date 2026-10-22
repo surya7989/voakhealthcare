@@ -65,7 +65,7 @@ class CsrfProtectionMiddleware implements MiddlewareInterface
         }
 
         if ($isProdOrStaging) {
-            if (str_contains($key, 'PLACEHOLDER') || str_contains($key, 'CHANGE_ME') || str_contains($key, 'YOUR_')) {
+            if (Config::isPlaceholder($key)) {
                 throw new SecurityException("CSRF signing key cannot use known placeholder values in {$env}.");
             }
             $authKey = $this->config ? (string)$this->config->get('AUTH_SIGNING_KEY', '') : '';

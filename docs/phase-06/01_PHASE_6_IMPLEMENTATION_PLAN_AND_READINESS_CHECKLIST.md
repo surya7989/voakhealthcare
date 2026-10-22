@@ -116,6 +116,7 @@ Before Phase 6 administrative authentication can be deployed or verified on a st
 - [x] **CSRF Token Lifecycle (`CsrfProtectionMiddleware`):**
   - Unauthenticated CSRF bootstrap endpoint: `GET /api/v1/admin/auth/csrf`.
   - Verifies `X-CSRF-Token` header on all mutation methods (`POST`, `PUT`, `PATCH`, `DELETE`).
+  - Enforces case-insensitive placeholder rejection (`Config::isPlaceholder()`).
 - [x] **Immutable Audit Logging (`AuditLogger`):**
   - Records audit entries for all authentication events:
     - `AUTH_LOGIN_SUCCESS`, `AUTH_LOGIN_FAILURE`, `AUTH_ACCOUNT_LOCKED`
@@ -123,6 +124,9 @@ Before Phase 6 administrative authentication can be deployed or verified on a st
     - `AUTH_SESSION_EXPIRED`, `AUTH_LOGOUT`, `AUTH_PASSWORD_RESET_REQUEST`, `AUTH_PASSWORD_RESET_COMPLETE`
   - Record fields: `user_id`, `domain`, `action`, `ip_address`, `user_agent`, `entity_type`, `entity_id`, `diff_json`, `created_at`.
   - Computes running SHA-256 hash chain (`prev_row_hash` -> `row_hash`) starting from genesis hash anchor.
+  - **Deterministic Canonical Serialization (`voak-audit-v2`):** Replaced delimiter-based formatting with deterministic canonical JSON serialization using `canonicalizeData()` with recursive associative key sorting, list order preservation, Unicode handling (`JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES`), type preservation (`null` vs `""` vs empty array), and field normalization prior to hashing and insertion.
+  - **Hash Format Compatibility Implication:** Changing to canonical JSON means previously generated development/test ledgers require re-seeding under the `voak-audit-v2` canonical schema. No production data migrations performed.
+  - **Fail-Closed Concurrency Control:** Enforces MySQL named locking (`voak_audit_log_chain_lock`) with commit-before-release behavior and configurable timeout (`new AuditLogger(int $mysqlLockTimeoutSeconds = 10)`), tested for contention failure in `mysql_security_concurrency_test.php`.
   - Implements `AuditLogger::verifyChain()` mathematical tamper verification.
 
 ### 3.6 Automated Security Test Suite
@@ -130,16 +134,24 @@ Before Phase 6 administrative authentication can be deployed or verified on a st
   - `PasswordHasherTest`: Hash creation, verification, Bcrypt fallback, rehash detection, entropy validation.
   - `CryptoTest`: AES-256-GCM authenticated encryption/decryption, tampered payload rejection, constant-time comparison.
   - `TotpEngineTest`: Base32 encoding/decoding, RFC 6238 dynamic code generation, clock drift window, invalid code rejection.
-  - `AuditLoggerTest`: Chained SHA-256 hash generation, genesis hash link, `verifyChain()` tamper detection.
+  - `AuditLoggerTest`: Chained SHA-256 hash generation, genesis hash link, canonical JSON serialization regression tests (key order independence, nested recursive sorting, list order significance, delimiter safety, Unicode safety, null vs empty distinctions, DB round-trip), and `verifyChain()` tamper detection.
   - `RbacManagerTest`: 5 canonical roles, full permission matrix, Super Admin authority, least privilege enforcement.
   - `SessionManagerTest`: Token generation, 15m idle timeout, 8h max duration, concurrency limits, cookie headers.
   - `PasswordResetServiceTest`: Token generation, 1h expiration, single-use invalidation, user session revocation.
-  - `TotpServiceTest`: MFA enrollment, AES-256-GCM secret encryption, code verification, single-use backup code consumption.
-  - `AuthenticationServiceTest`: Active/inactive login, failed attempt tracking, 5-attempt lockout, MFA challenge handoff.
+  - `TotpServiceTest`: MFA enrollment, AES-256-GCM secret encryption, code verification, single-use backup code consumption, case-insensitive placeholder defense.
+  - `AuthenticationServiceTest`: Active/inactive login, failed attempt tracking, 5-attempt lockout, MFA challenge handoff, case-insensitive placeholder defense.
 - [x] **Integration Tests:**
   - `AdminAuthApiTest`: End-to-end API testing through `App::handle()` for login, logout, me, CSRF, and rate limiting.
   - `CliSuperAdminTest`: CLI Super Admin provisioner with entropy check, argument security prohibition, and audit trail.
-  - `SecurityHardeningTest`: Comprehensive security hardening & abuse defense tests (pre-auth challenge HMAC signing, replay defense, missing production key fail-safe, persistent advisory-locked rate limiting, forwarded IP spoofing defense without trusted proxies, full-row audit chain tamper detection, atomic token & recovery code consumption under concurrency, lockout bypass defense, route-level RBAC middleware enforcement, and test-only reset token concealment).
+  - `SecurityHardeningTest`: Comprehensive security hardening & abuse defense tests:
+    - Pre-auth challenge HMAC signing, forged token rejection, expired challenge rejection, and single-use replay defense.
+    - Missing production key fail-safe, weak key rejection (< 32 chars), duplicate key rejection, case-insensitive placeholder rejection across `Config`, `CsrfProtectionMiddleware`, `AuthenticationService`, and `TotpService`.
+    - Real `Config::load()` process-environment overlay test for independent `AUTH_SIGNING_KEY` and `CSRF_SIGNING_KEY` loading.
+    - Persistent advisory-locked rate limiting, forwarded IP spoofing defense without trusted proxies.
+    - Audit ledger overlength field normalization and individual field tampering detection across all protected fields.
+    - Real multi-process concurrent consumption of reset tokens and MFA recovery codes.
+    - Lockout bypass defense, route-level RBAC middleware enforcement, and test-only reset token concealment.
+  - `mysql_security_concurrency_test.php`: Real `AuditLogger::log()` lock contention test exercising `voak_audit_log_chain_lock` on independent MySQL connections with 1-second timeout, asserting fail-closed `SecurityException`, row count invariance, and clean connection cleanup.
 
 ### 3.7 Formal Phase 6 Acceptance Criteria (Gate E Preview)
 | # | Acceptance Criterion | Verification Method | Standard / Threshold | Status |
@@ -152,13 +164,13 @@ Before Phase 6 administrative authentication can be deployed or verified on a st
 | **6** | MFA Emergency Recovery | Integration Test | Single-use backup codes hashed, consumed upon verification | **VERIFIED** |
 | **7** | Brute-Force Lockout | Security Test | 5 failed attempts in 15m trigger 15m lockout with generic error | **VERIFIED** |
 | **8** | Auth Rate Limiting & Fail-Closed | Rate Limit Test | Persistent advisory locks, fails closed on storage errors, trusted-proxy strictness | **VERIFIED** |
-| **9** | Tamper-Evident Audit Logs| Cryptographic Test | Full-row cryptographically chained SHA-256 records, GET_LOCK() serialization, input normalization | **VERIFIED** |
-| **10** | Automated Test Pass | CI Workflow | 100% test pass on PHP 8.2 and PHP 8.3 with zero secrets | **VERIFIED (119/119 ROOT SUITE PASS, 64/64 PHASE 6 SUITE PASS, MYSQL 8.0 CI CONCURRENCY)** |
+| **9** | Tamper-Evident Audit Logs| Cryptographic Test | Full-row cryptographically chained SHA-256 records, `voak-audit-v2` canonical JSON, GET_LOCK() serialization, input normalization | **VERIFIED** |
+| **10** | Automated Test Pass | CI Workflow | 100% test pass on PHP 8.2 and PHP 8.3 with zero secrets | **VERIFIED (126/126 ROOT SUITE PASS, 71/71 PHASE 6 SUITE PASS, MYSQL 8.0 CI CONCURRENCY)** |
 | **11** | Pre-Auth HMAC Signing & Anti-Replay | Security Hardening Test | Dynamic challenge ID stored & atomically consumed; signature verified | **VERIFIED** |
 | **12** | Secret Exposure Defense | Security & CLI Test | CLI prohibits `--password` argument; dev tokens concealed unless explicit | **VERIFIED** |
 | **13** | CSRF Bootstrap Token Flow | Integration & E2E Test | `GET /api/v1/admin/auth/csrf` issues signed bootstrap token; enforced on all unauthenticated & authenticated mutation routes | **VERIFIED** |
-| **14** | Cryptographic Key Management & Isolation | Unit & Config Test | `AUTH_SIGNING_KEY`, `CSRF_SIGNING_KEY`, and `MFA_ENCRYPTION_KEY` strictly independent production secrets; fails closed on missing/weak/placeholder/duplicated keys with no fallback | **VERIFIED** |
-| **15** | Real Multi-Process Concurrency & MySQL 8.0 | Concurrency Worker & MySQL Test | Simultaneous multi-process consumption of reset tokens, recovery codes, and chained audit writes verified on SQLite & MySQL 8.0 | **VERIFIED** |
+| **14** | Cryptographic Key Management & Isolation | Unit & Config Test | `AUTH_SIGNING_KEY`, `CSRF_SIGNING_KEY`, and `MFA_ENCRYPTION_KEY` strictly independent production secrets; case-insensitive placeholder rejection; process-env `Config::load()` verified; no fallback | **VERIFIED** |
+| **15** | Real Multi-Process Concurrency & MySQL 8.0 | Concurrency Worker & MySQL Test | Simultaneous multi-process consumption of reset tokens, recovery codes, and real `AuditLogger::log()` lock-contention verified on SQLite & MySQL 8.0 | **VERIFIED** |
 | **16** | Live Hostinger Staging Verification | Staging Environment | Validation on live Hostinger staging domain and MySQL database | **PENDING (Hostinger Infrastructure Provisioning Outstanding)** |
 | **17** | Formal Gate E Signatory Acceptance | Physical Sign-Off | Formal governance sign-off package with physical signatory identity | **PENDING (Awaiting Live Staging & Stakeholder Review)** |
 

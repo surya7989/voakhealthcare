@@ -114,6 +114,120 @@ class AuditLoggerTest
 
                 T::assertTrue($exceptionThrown, 'Must throw SecurityException when invoked within active uncommitted transaction');
             });
+
+            // TASK 2: Deterministic Canonical JSON Serialization Tests
+            T::test('nested associative payloads with different key insertion order canonicalize deterministically', function () {
+                $diff1 = [
+                    'zeta'  => 100,
+                    'alpha' => ['nested_z' => 'valueZ', 'nested_a' => 'valueA'],
+                    'beta'  => 'test',
+                ];
+                $diff2 = [
+                    'alpha' => ['nested_a' => 'valueA', 'nested_z' => 'valueZ'],
+                    'beta'  => 'test',
+                    'zeta'  => 100,
+                ];
+
+                $p1 = AuditLogger::buildCanonicalPayload('prevHash123', 'admin', 'MUTATION', 1, '127.0.0.1', 'UA', 'user', 1, $diff1, '2026-10-22 00:00:00');
+                $p2 = AuditLogger::buildCanonicalPayload('prevHash123', 'admin', 'MUTATION', 1, '127.0.0.1', 'UA', 'user', 1, $diff2, '2026-10-22 00:00:00');
+
+                T::assertEquals($p1, $p2, 'Payloads with differently ordered keys must produce identical canonical JSON');
+                T::assertEquals(hash('sha256', $p1), hash('sha256', $p2), 'Hashes must be identical');
+            });
+
+            T::test('nested keys are recursively canonicalized across multiple depth levels', function () {
+                $nestedUnsorted = [
+                    'level1' => [
+                        'd' => 4,
+                        'b' => [
+                            'z' => 26,
+                            'a' => ['y' => 25, 'x' => 24]
+                        ],
+                        'c' => 3
+                    ]
+                ];
+                $canonical = AuditLogger::canonicalizeData($nestedUnsorted);
+
+                // Keys at level 1 must be sorted: b, c, d
+                $l1Keys = array_keys($canonical['level1']);
+                T::assertEquals(['b', 'c', 'd'], $l1Keys);
+
+                // Keys at level 2 must be sorted: a, z
+                $l2Keys = array_keys($canonical['level1']['b']);
+                T::assertEquals(['a', 'z'], $l2Keys);
+
+                // Keys at level 3 must be sorted: x, y
+                $l3Keys = array_keys($canonical['level1']['b']['a']);
+                T::assertEquals(['x', 'y'], $l3Keys);
+            });
+
+            T::test('list order remains significant in canonical array serialization', function () {
+                $list1 = ['tags' => ['emergency', 'pediatric', 'icu']];
+                $list2 = ['tags' => ['icu', 'pediatric', 'emergency']];
+
+                $p1 = AuditLogger::buildCanonicalPayload('prev', 'domain', 'act', null, '127.0.0.1', 'UA', null, null, $list1, '2026-10-22 00:00:00');
+                $p2 = AuditLogger::buildCanonicalPayload('prev', 'domain', 'act', null, '127.0.0.1', 'UA', null, null, $list2, '2026-10-22 00:00:00');
+
+                T::assertTrue($p1 !== $p2, 'Different list order must produce different canonical output');
+                T::assertTrue(hash('sha256', $p1) !== hash('sha256', $p2), 'Different list order must produce different hashes');
+            });
+
+            T::test('strings containing pipe delimiters do not cause serialization ambiguity', function () {
+                $pdo = self::createDatabase();
+                $logger = new AuditLogger();
+
+                // Write rows where domain, action, and diff contain pipe characters
+                $r1 = $logger->log($pdo, 'domain|with|pipe', 'action|with|pipe', 1, '127.0.0.1', 'Browser|UA|1.0', 'entity|type', 1, ['key|pipe' => 'value|pipe']);
+                $r2 = $logger->log($pdo, 'normal_domain', 'normal_action', 1, '10.0.0.1', 'NormalUA', 'entity', 2, ['notes' => 'a|b|c|d']);
+
+                T::assertTrue($logger->verifyChain($pdo), 'Ledger with pipe characters in values must verify successfully');
+            });
+
+            T::test('unicode and non-ASCII values verify correctly in ledger', function () {
+                $pdo = self::createDatabase();
+                $logger = new AuditLogger();
+
+                $unicodeDiff = [
+                    'facility' => '🏥 Voak Corporate Hospital',
+                    'city'     => '東京 (Tokyo)',
+                    'message'  => 'Atención médica de calidad — αβγδε',
+                ];
+
+                $logger->log($pdo, 'corporate', 'ACCION_REGISTRO', 1, '127.0.0.1', 'EmojiBrowser/1.0 🌟', 'hospital', 42, $unicodeDiff);
+                T::assertTrue($logger->verifyChain($pdo), 'Unicode and emoji characters must verify cleanly');
+            });
+
+            T::test('null, empty string, empty list, and empty object remain distinguishable', function () {
+                $pNull = AuditLogger::buildCanonicalPayload('prev', 'dom', 'act', null, '127.0.0.1', 'UA', null, null, null, '2026-10-22 00:00:00');
+                $pEmptyStr = AuditLogger::buildCanonicalPayload('prev', 'dom', 'act', null, '127.0.0.1', 'UA', '', null, null, '2026-10-22 00:00:00');
+                $pEmptyList = AuditLogger::buildCanonicalPayload('prev', 'dom', 'act', null, '127.0.0.1', 'UA', null, null, [], '2026-10-22 00:00:00');
+                $pZeroId = AuditLogger::buildCanonicalPayload('prev', 'dom', 'act', 0, '127.0.0.1', 'UA', null, 0, null, '2026-10-22 00:00:00');
+
+                T::assertTrue($pNull !== $pEmptyStr, 'Null entity_type must differ from empty string entity_type');
+                T::assertTrue($pNull !== $pEmptyList, 'Null diff must differ from empty list diff');
+                T::assertTrue($pNull !== $pZeroId, 'Null user_id must differ from zero user_id');
+
+                $hNull = hash('sha256', $pNull);
+                $hEmptyStr = hash('sha256', $pEmptyStr);
+                $hEmptyList = hash('sha256', $pEmptyList);
+                $hZeroId = hash('sha256', $pZeroId);
+
+                T::assertTrue($hNull !== $hEmptyStr);
+                T::assertTrue($hNull !== $hEmptyList);
+                T::assertTrue($hNull !== $hZeroId);
+            });
+
+            T::test('stored and read-back records verify successfully across database round-trip', function () {
+                $pdo = self::createDatabase();
+                $logger = new AuditLogger();
+
+                // Round-trip test with various data types
+                $logger->log($pdo, 'sec', 'LOGIN', 1, '127.0.0.1', 'CLI', 'user', 1, ['status' => 'ok', 'roles' => ['admin', 'super']]);
+                $logger->log($pdo, 'billing', 'INVOICE_GENERATED', 2, '10.0.0.5', 'Browser/1', 'invoice', 99, ['amount' => 1250.50, 'tax' => null, 'meta' => []]);
+                $logger->log($pdo, 'system', 'EMPTY_TEST', null, '127.0.0.1', 'System', null, null, null);
+
+                T::assertTrue($logger->verifyChain($pdo), 'Database round-trip with varied types must verify cleanly');
+            });
         });
     }
 }

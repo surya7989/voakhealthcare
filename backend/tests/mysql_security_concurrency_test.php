@@ -149,35 +149,78 @@ try {
         }
     });
 
-    // TEST 2: Audit Logger Fail-Closed on Mutex Lock Failure
-    $runTest('AuditLogger fails closed if MySQL GET_LOCK fails', function () use ($host, $port, $database, $username, $password) {
-        // Open Connection 1 and hold the chain lock exclusively
-        $conn1 = createPdo($host, $port, $database, $username, $password);
-        $lockStmt = $conn1->query("SELECT GET_LOCK('voak_audit_log_chain_lock', 0)");
-        $locked = $lockStmt && (int)$lockStmt->fetchColumn() === 1;
-        if ($lockStmt) {
-            $lockStmt->closeCursor();
-        }
-        if (!$locked) {
-            throw new RuntimeException("Conn1 failed to acquire initial lock for test.");
-        }
+    // TEST 2: Audit Logger Fail-Closed on Mutex Lock Contention (exercises real AuditLogger::log())
+    $runTest('AuditLogger fails closed if MySQL GET_LOCK fails', function () use ($host, $port, $database, $username, $password, $pdo) {
+        $conn1 = null;
+        $conn2 = null;
+        $locked = false;
 
-        // Connection 2 attempts to acquire lock with timeout 0 and should receive 0 (contention)
-        $conn2 = createPdo($host, $port, $database, $username, $password);
-        $lockStmt2 = $conn2->query("SELECT GET_LOCK('voak_audit_log_chain_lock', 0)");
-        $result2 = (int)$lockStmt2->fetchColumn();
-        $lockStmt2->closeCursor();
+        try {
+            // Connection A acquires the audit serialization lock directly and holds it
+            $conn1 = createPdo($host, $port, $database, $username, $password);
+            $lockStmt = $conn1->query("SELECT GET_LOCK('voak_audit_log_chain_lock', 0)");
+            $locked = $lockStmt && (int)$lockStmt->fetchColumn() === 1;
+            if ($lockStmt) {
+                $lockStmt->closeCursor();
+            }
+            if (!$locked) {
+                throw new RuntimeException("Connection A failed to acquire initial lock for test.");
+            }
 
-        if ($result2 !== 0) {
-            throw new RuntimeException("Expected GET_LOCK to return 0 when lock is already held by another connection, got {$result2}.");
-        }
+            // Record audit row count before the attempted write
+            $countStmtBefore = $pdo->query("SELECT COUNT(*) FROM `audit_logs`");
+            $countBefore = (int)$countStmtBefore->fetchColumn();
+            $countStmtBefore->closeCursor();
 
-        // Release lock on Conn1
-        $unlock = $conn1->query("SELECT RELEASE_LOCK('voak_audit_log_chain_lock')");
-        if ($unlock) {
-            $unlock->closeCursor();
+            // Open independent Connection B and call real AuditLogger::log() with explicit 1-second timeout
+            $conn2 = createPdo($host, $port, $database, $username, $password);
+            $logger = new AuditLogger(1); // 1-second timeout for fast integration testing
+
+            $caught = false;
+            try {
+                $logger->log(
+                    $conn2,
+                    'security',
+                    'CONTENTION_TEST_EVENT',
+                    9999,
+                    '127.0.0.1',
+                    'TestBrowser/Contention',
+                    'user',
+                    9999,
+                    ['test' => 'should_fail']
+                );
+            } catch (SecurityException $e) {
+                $caught = true;
+                if (!str_contains($e->getMessage(), 'Failed to acquire audit ledger serialization lock')) {
+                    throw new RuntimeException("Unexpected exception message: " . $e->getMessage());
+                }
+            }
+
+            if (!$caught) {
+                throw new RuntimeException("AuditLogger must fail closed by throwing SecurityException when serialization lock acquisition fails.");
+            }
+
+            // Verify the row count remains unchanged after the rejected write
+            $countStmtAfter = $pdo->query("SELECT COUNT(*) FROM `audit_logs`");
+            $countAfter = (int)$countStmtAfter->fetchColumn();
+            $countStmtAfter->closeCursor();
+
+            if ($countAfter !== $countBefore) {
+                throw new RuntimeException("Audit row count changed after rejected write: expected {$countBefore}, got {$countAfter}.");
+            }
+        } finally {
+            if ($conn1 && $locked) {
+                try {
+                    $unlock = $conn1->query("SELECT RELEASE_LOCK('voak_audit_log_chain_lock')");
+                    if ($unlock) {
+                        $unlock->closeCursor();
+                    }
+                } catch (\Throwable) {
+                    // Safe cleanup
+                }
+            }
+            unset($conn1, $conn2);
         }
-        unset($conn1, $conn2);
     });
 
     // TEST 3: Concurrent Audit Writes over Independent MySQL Connections & Unbroken Hash Chain

@@ -15,5 +15,5 @@ if (!file_exists($runner)) {
     exit(1);
 }
 
-passthru("php \"{$runner}\"", $exitCode);
+passthru("php -d memory_limit=512M \"{$runner}\"", $exitCode);
 exit($exitCode);

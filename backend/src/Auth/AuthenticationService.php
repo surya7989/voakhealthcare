@@ -81,7 +81,7 @@ class AuthenticationService
         }
 
         if ($isProdOrStaging) {
-            if (str_contains($key, 'PLACEHOLDER') || str_contains($key, 'CHANGE_ME') || str_contains($key, 'YOUR_')) {
+            if (\Voak\Health\Core\Config::isPlaceholder($key)) {
                 throw new SecurityException("AUTH_SIGNING_KEY cannot use known placeholder values in {$env}.");
             }
             $csrfKey = $this->config ? (string)$this->config->get('CSRF_SIGNING_KEY', '') : '';

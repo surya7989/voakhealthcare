@@ -35,6 +35,8 @@ if (!$loaded) {
     exit(1);
 }
 
+ini_set('memory_limit', '512M');
+
 if (PHP_SAPI !== 'cli') {
     http_response_code(403);
     echo "CLI execution only.\n";

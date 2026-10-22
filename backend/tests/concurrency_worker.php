@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Voak\Health\Tests;
 
 require_once __DIR__ . '/../vendor/autoload.php';
+ini_set('memory_limit', '512M');
 
 use Voak\Health\Auth\AuthenticationService;
 use Voak\Health\Auth\PasswordResetService;

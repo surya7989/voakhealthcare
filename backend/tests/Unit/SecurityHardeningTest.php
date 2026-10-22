@@ -41,8 +41,12 @@ class SecurityHardeningTest
         $manager = new MigrationManager($migrationsDir, 'migrations');
         $manager->migrateUp($pdo);
 
-        $hasher = new PasswordHasher();
-        $hash = $hasher->hash('VoakAdmin#2026!Secure');
+        static $cachedHash = null;
+        if ($cachedHash === null) {
+            $hasher = new PasswordHasher();
+            $cachedHash = $hasher->hash('VoakAdmin#2026!Secure');
+        }
+        $hash = $cachedHash;
 
         // Admin 1: Super Admin
         $pdo->exec("INSERT INTO users (id, name, email, password_hash, is_active, failed_login_attempts, created_at, updated_at) VALUES (1, 'Super Admin', 'super@voak.test', '{$hash}', 1, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)");
@@ -65,31 +69,75 @@ class SecurityHardeningTest
             // 1. Missing, placeholder, weak, and duplicated production/staging cryptographic keys fail safely
             T::test('missing, placeholder, weak, and duplicated keys fail safely in production/staging', function () {
                 $pdo = self::createDatabase();
-                $engine = new TotpEngine();
 
                 // 1A: In production/staging, Config::validate() rejects missing keys
-                $missingConfig = new Config([
+                $missingAuth = new Config([
                     'APP_ENV' => 'production',
                     'APP_KEY' => 'valid-app-key-32-chars-long-prod!',
                     // AUTH_SIGNING_KEY missing
                 ]);
-                T::expectException(\Voak\Health\Core\Exceptions\ConfigurationException::class, function () use ($missingConfig) {
-                    $missingConfig->validate();
+                T::expectException(\Voak\Health\Core\Exceptions\ConfigurationException::class, function () use ($missingAuth) {
+                    $missingAuth->validate();
                 }, 'Required key [AUTH_SIGNING_KEY]');
 
-                // 1B: In production/staging, Config::validate() rejects placeholder keys
-                $placeholderConfig = new Config([
+                $missingCsrf = new Config([
+                    'APP_ENV'          => 'production',
+                    'APP_KEY'          => 'valid-app-key-32-chars-long-prod!',
+                    'AUTH_SIGNING_KEY' => 'valid-auth-key-32-chars-long-prod!',
+                    // CSRF_SIGNING_KEY missing
+                ]);
+                T::expectException(\Voak\Health\Core\Exceptions\ConfigurationException::class, function () use ($missingCsrf) {
+                    $missingCsrf->validate();
+                }, 'Required key [CSRF_SIGNING_KEY]');
+
+                // 1B: In production/staging, Config::validate() rejects UPPERCASE placeholder keys
+                $upperPlaceholderConfig = new Config([
                     'APP_ENV'            => 'production',
                     'APP_KEY'            => 'valid-app-key-32-chars-long-prod!',
                     'AUTH_SIGNING_KEY'   => 'base64:PLACEHOLDER_AUTH_KEY_32_BYTES_MIN==',
                     'CSRF_SIGNING_KEY'   => 'valid-csrf-key-32-chars-long-prod!',
                     'MFA_ENCRYPTION_KEY' => 'valid-mfa-key-32-chars-long-prod!!',
                 ]);
-                T::expectException(\Voak\Health\Core\Exceptions\ConfigurationException::class, function () use ($placeholderConfig) {
-                    $placeholderConfig->validate();
+                T::expectException(\Voak\Health\Core\Exceptions\ConfigurationException::class, function () use ($upperPlaceholderConfig) {
+                    $upperPlaceholderConfig->validate();
                 }, 'cannot use known placeholder values');
 
-                // 1C: In production/staging, Config::validate() rejects identical/duplicated keys (Key Isolation Failure)
+                // 1C: In production/staging, Config::validate() rejects LOWERCASE placeholder keys (case-insensitive)
+                $lowerPlaceholderConfig = new Config([
+                    'APP_ENV'            => 'production',
+                    'APP_KEY'            => 'valid-app-key-32-chars-long-prod!',
+                    'AUTH_SIGNING_KEY'   => 'base64:placeholder_auth_key_32_bytes_min==',
+                    'CSRF_SIGNING_KEY'   => 'valid-csrf-key-32-chars-long-prod!',
+                    'MFA_ENCRYPTION_KEY' => 'valid-mfa-key-32-chars-long-prod!!',
+                ]);
+                T::expectException(\Voak\Health\Core\Exceptions\ConfigurationException::class, function () use ($lowerPlaceholderConfig) {
+                    $lowerPlaceholderConfig->validate();
+                }, 'cannot use known placeholder values');
+
+                // 1D: In production/staging, Config::validate() rejects MIXED-CASE change_me / your_ placeholder keys
+                $mixedPlaceholder1 = new Config([
+                    'APP_ENV'            => 'staging',
+                    'APP_KEY'            => 'valid-app-key-32-chars-long-prod!',
+                    'AUTH_SIGNING_KEY'   => 'valid-auth-key-32-chars-long-prod!',
+                    'CSRF_SIGNING_KEY'   => 'secret_Change_Me_key_32_chars_long!!',
+                    'MFA_ENCRYPTION_KEY' => 'valid-mfa-key-32-chars-long-prod!!',
+                ]);
+                T::expectException(\Voak\Health\Core\Exceptions\ConfigurationException::class, function () use ($mixedPlaceholder1) {
+                    $mixedPlaceholder1->validate();
+                }, 'cannot use known placeholder values');
+
+                $mixedPlaceholder2 = new Config([
+                    'APP_ENV'            => 'production',
+                    'APP_KEY'            => 'valid-app-key-32-chars-long-prod!',
+                    'AUTH_SIGNING_KEY'   => 'valid-auth-key-32-chars-long-prod!',
+                    'CSRF_SIGNING_KEY'   => 'valid-csrf-key-32-chars-long-prod!',
+                    'MFA_ENCRYPTION_KEY' => 'custom_Your_Key_32_chars_long_prod!!',
+                ]);
+                T::expectException(\Voak\Health\Core\Exceptions\ConfigurationException::class, function () use ($mixedPlaceholder2) {
+                    $mixedPlaceholder2->validate();
+                }, 'cannot use known placeholder values');
+
+                // 1E: In production/staging, Config::validate() rejects identical/duplicated keys (Key Isolation Failure)
                 $duplicateConfig = new Config([
                     'APP_ENV'            => 'production',
                     'APP_KEY'            => 'shared-key-32-chars-used-everywhere!',
@@ -101,7 +149,7 @@ class SecurityHardeningTest
                     $duplicateConfig->validate();
                 }, 'Key isolation failure');
 
-                // 1D: CsrfProtectionMiddleware strictly requires CSRF_SIGNING_KEY and does NOT fall back to AUTH_SIGNING_KEY
+                // 1F: CsrfProtectionMiddleware strictly requires CSRF_SIGNING_KEY and does NOT fall back to AUTH_SIGNING_KEY
                 $noCsrfConfig = new Config([
                     'APP_ENV'          => 'production',
                     'AUTH_SIGNING_KEY' => 'independent-auth-key-32-chars-prod!',
@@ -112,7 +160,7 @@ class SecurityHardeningTest
                     $csrfMiddleware->getSigningKey();
                 }, 'CSRF signing key is not configured');
 
-                // 1E: In production/staging, weak keys (< 32 chars) are rejected by services
+                // 1G: In production/staging, weak keys (< 32 chars) are rejected by services
                 $weakProdConfig = new Config([
                     'APP_ENV'            => 'staging',
                     'AUTH_SIGNING_KEY'   => 'too-short-16ch!', // 16 chars is rejected in prod/staging (requires >= 32)
@@ -124,7 +172,7 @@ class SecurityHardeningTest
                     $authServiceWeak->createPreAuthToken($pdo, 1);
                 }, 'insecure (min 32 chars)');
 
-                // 1F: In production/staging, service rejects duplicated keys across components
+                // 1H: In production/staging, service rejects duplicated keys across components
                 $serviceDuplicateConfig = new Config([
                     'APP_ENV'            => 'staging',
                     'AUTH_SIGNING_KEY'   => 'reused-identical-key-32-chars-min!!',
@@ -136,7 +184,97 @@ class SecurityHardeningTest
                     $authServiceDup->createPreAuthToken($pdo, 1);
                 }, 'must be distinct and independent');
 
-                // 1G: Valid independent production keys pass validation
+                // 1I: AuthenticationService mixed-case placeholder rejection
+                $authMixedPlaceholder = new Config([
+                    'APP_ENV'          => 'production',
+                    'AUTH_SIGNING_KEY' => 'secret_PlaceHolder_key_32_chars_long!',
+                ]);
+                $authServiceMixed = new AuthenticationService(null, null, null, null, null, $authMixedPlaceholder);
+                T::expectException(SecurityException::class, function () use ($authServiceMixed, $pdo) {
+                    $authServiceMixed->createPreAuthToken($pdo, 1);
+                }, 'cannot use known placeholder values');
+
+                // 1J: CsrfProtectionMiddleware mixed-case placeholder rejection
+                $csrfMixedPlaceholder = new Config([
+                    'APP_ENV'          => 'production',
+                    'CSRF_SIGNING_KEY' => 'secret_change_me_key_32_chars_long!!',
+                ]);
+                $csrfServiceMixed = new CsrfProtectionMiddleware(null, $csrfMixedPlaceholder);
+                T::expectException(SecurityException::class, function () use ($csrfServiceMixed) {
+                    $csrfServiceMixed->getSigningKey();
+                }, 'cannot use known placeholder values');
+
+                // 1K: TotpService mixed-case placeholder rejection
+                $totpMixedPlaceholder = new Config([
+                    'APP_ENV'            => 'production',
+                    'MFA_ENCRYPTION_KEY' => 'secret_Your_key_32_chars_long_prod!',
+                ]);
+                $totpServiceMixed = new TotpService($totpMixedPlaceholder);
+                T::expectException(SecurityException::class, function () use ($totpServiceMixed, $pdo) {
+                    $totpServiceMixed->initiateSetup($pdo, 1, 'admin@voak.test');
+                }, 'cannot use known placeholder values');
+
+                // 1L: Real Config::load() process-environment overlay test
+                $prevEnv = [];
+                $keysToManage = [
+                    'APP_ENV', 'APP_DEBUG', 'APP_KEY', 'AUTH_SIGNING_KEY', 'CSRF_SIGNING_KEY', 'MFA_ENCRYPTION_KEY',
+                    'DB_HOST', 'DB_PORT', 'DB_DATABASE', 'DB_USERNAME', 'DB_PASSWORD'
+                ];
+                foreach ($keysToManage as $k) {
+                    $prevEnv[$k] = [
+                        'getenv' => getenv($k),
+                        'env'    => $_ENV[$k] ?? null,
+                        'server' => $_SERVER[$k] ?? null,
+                    ];
+                    unset($_ENV[$k], $_SERVER[$k]);
+                    putenv($k);
+                }
+                $prevInstance = Config::getInstance();
+
+                try {
+                    putenv('APP_ENV=production');
+                    putenv('APP_DEBUG=false');
+                    putenv('APP_KEY=production-master-app-key-32-chars!!');
+                    putenv('AUTH_SIGNING_KEY=proc-env-auth-signing-key-32-chars!');
+                    putenv('CSRF_SIGNING_KEY=proc-env-csrf-signing-key-32-chars!');
+                    putenv('MFA_ENCRYPTION_KEY=proc-env-mfa-encrypt-key-32-chars!');
+
+                    $loaded = Config::load(sys_get_temp_dir() . '/non_existent_env_' . bin2hex(random_bytes(6)));
+
+                    $authKey = (string)$loaded->get('AUTH_SIGNING_KEY');
+                    $csrfKey = (string)$loaded->get('CSRF_SIGNING_KEY');
+
+                    T::assertTrue($authKey !== '', 'AUTH_SIGNING_KEY must be loaded from process environment');
+                    T::assertTrue($csrfKey !== '', 'CSRF_SIGNING_KEY must be loaded from process environment');
+                    T::assertTrue(strlen($authKey) >= 32, 'AUTH_SIGNING_KEY must meet minimum 32 chars');
+                    T::assertTrue(strlen($csrfKey) >= 32, 'CSRF_SIGNING_KEY must meet minimum 32 chars');
+                    T::assertFalse(hash_equals($authKey, $csrfKey), 'AUTH and CSRF keys must be distinct');
+                    T::assertTrue(hash_equals('proc-env-auth-signing-key-32-chars!', $authKey));
+                    T::assertTrue(hash_equals('proc-env-csrf-signing-key-32-chars!', $csrfKey));
+                } finally {
+                    foreach ($keysToManage as $k) {
+                        $saved = $prevEnv[$k];
+                        if ($saved['getenv'] !== false) {
+                            putenv("{$k}={$saved['getenv']}");
+                        } else {
+                            putenv("{$k}=");
+                            putenv($k);
+                        }
+                        if ($saved['env'] !== null) {
+                            $_ENV[$k] = $saved['env'];
+                        } else {
+                            unset($_ENV[$k]);
+                        }
+                        if ($saved['server'] !== null) {
+                            $_SERVER[$k] = $saved['server'];
+                        } else {
+                            unset($_SERVER[$k]);
+                        }
+                    }
+                    Config::setInstance($prevInstance);
+                }
+
+                // 1M: Valid independent production keys pass validation
                 $validProdConfig = new Config([
                     'APP_ENV'            => 'production',
                     'APP_DEBUG'          => false,
@@ -253,36 +391,84 @@ class SecurityHardeningTest
                 $longDomain = str_repeat('a', 80); // max 50
                 $longAction = str_repeat('b', 150); // max 100
                 $longUa = str_repeat('BrowserX/', 40); // > 255 chars
+                $longEntityType = str_repeat('e', 70); // max 50
 
-                $r1 = $logger->log($pdo, $longDomain, $longAction, 1, '10.0.0.1', $longUa, 'user', 1, ['key' => 'val']);
+                $r1 = $logger->log($pdo, $longDomain, $longAction, 1, '10.0.0.1', $longUa, $longEntityType, 1, ['key' => 'val']);
                 $r2 = $logger->log($pdo, 'security', 'EVENT_TWO', 1, '10.0.0.2', 'OriginalBrowser/2.0', 'user', 1);
 
                 // Hash must match normalized values exactly
                 T::assertTrue($logger->verifyChain($pdo), 'Fresh chain with normalized overlength values must verify');
 
+                // Verify normalized column lengths in DB
+                $checkStmt = $pdo->prepare("SELECT domain, action, user_agent, entity_type FROM audit_logs WHERE id = ?");
+                $checkStmt->execute([$r1['id']]);
+                $stored = $checkStmt->fetch(\PDO::FETCH_ASSOC);
+                T::assertEquals(50, strlen($stored['domain']));
+                T::assertEquals(100, strlen($stored['action']));
+                T::assertEquals(255, strlen($stored['user_agent']));
+                T::assertEquals(50, strlen($stored['entity_type']));
+
                 // 4B: Modify user_agent directly in database
                 $pdo->exec("UPDATE audit_logs SET user_agent = 'TamperedBrowser/9.9' WHERE id = {$r2['id']}");
                 T::assertFalse($logger->verifyChain($pdo), 'Tampered user_agent must break chain');
-
-                // Revert
                 $pdo->exec("UPDATE audit_logs SET user_agent = 'OriginalBrowser/2.0' WHERE id = {$r2['id']}");
                 T::assertTrue($logger->verifyChain($pdo));
 
-                // 4C: Modify created_at
+                // 4C: Modify domain
+                $pdo->exec("UPDATE audit_logs SET domain = 'tampered_domain' WHERE id = {$r2['id']}");
+                T::assertFalse($logger->verifyChain($pdo), 'Tampered domain must break chain');
+                $pdo->exec("UPDATE audit_logs SET domain = 'security' WHERE id = {$r2['id']}");
+                T::assertTrue($logger->verifyChain($pdo));
+
+                // 4D: Modify action
+                $pdo->exec("UPDATE audit_logs SET action = 'TAMPERED_ACTION' WHERE id = {$r2['id']}");
+                T::assertFalse($logger->verifyChain($pdo), 'Tampered action must break chain');
+                $pdo->exec("UPDATE audit_logs SET action = 'EVENT_TWO' WHERE id = {$r2['id']}");
+                T::assertTrue($logger->verifyChain($pdo));
+
+                // 4E: Modify user_id
+                $pdo->exec("UPDATE audit_logs SET user_id = 999 WHERE id = {$r2['id']}");
+                T::assertFalse($logger->verifyChain($pdo), 'Tampered user_id must break chain');
+                $pdo->exec("UPDATE audit_logs SET user_id = 1 WHERE id = {$r2['id']}");
+                T::assertTrue($logger->verifyChain($pdo));
+
+                // 4F: Modify ip_address
+                $pdo->exec("UPDATE audit_logs SET ip_address = '192.168.1.99' WHERE id = {$r2['id']}");
+                T::assertFalse($logger->verifyChain($pdo), 'Tampered ip_address must break chain');
+                $pdo->exec("UPDATE audit_logs SET ip_address = '10.0.0.2' WHERE id = {$r2['id']}");
+                T::assertTrue($logger->verifyChain($pdo));
+
+                // 4G: Modify entity_type
+                $pdo->exec("UPDATE audit_logs SET entity_type = 'tampered_entity' WHERE id = {$r2['id']}");
+                T::assertFalse($logger->verifyChain($pdo), 'Tampered entity_type must break chain');
+                $pdo->exec("UPDATE audit_logs SET entity_type = 'user' WHERE id = {$r2['id']}");
+                T::assertTrue($logger->verifyChain($pdo));
+
+                // 4H: Modify entity_id
+                $pdo->exec("UPDATE audit_logs SET entity_id = 888 WHERE id = {$r2['id']}");
+                T::assertFalse($logger->verifyChain($pdo), 'Tampered entity_id must break chain');
+                $pdo->exec("UPDATE audit_logs SET entity_id = 1 WHERE id = {$r2['id']}");
+                T::assertTrue($logger->verifyChain($pdo));
+
+                // 4I: Modify prev_row_hash
+                $pdo->exec("UPDATE audit_logs SET prev_row_hash = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff' WHERE id = {$r2['id']}");
+                T::assertFalse($logger->verifyChain($pdo), 'Tampered prev_row_hash must break chain');
+                $pdo->exec("UPDATE audit_logs SET prev_row_hash = '{$r1['row_hash']}' WHERE id = {$r2['id']}");
+                T::assertTrue($logger->verifyChain($pdo));
+
+                // 4J: Modify created_at
                 $pdo->exec("UPDATE audit_logs SET created_at = '2020-01-01 00:00:00' WHERE id = {$r2['id']}");
                 T::assertFalse($logger->verifyChain($pdo), 'Tampered created_at must break chain');
-
-                // Revert
                 $stmt = $pdo->prepare("SELECT created_at FROM audit_logs WHERE id = {$r1['id']}");
                 $stmt->execute();
                 $t1 = $stmt->fetchColumn();
                 $pdo->exec("UPDATE audit_logs SET created_at = '{$t1}' WHERE id = {$r2['id']}");
 
-                // 4D: Modify diff_json
+                // 4K: Modify diff_json
                 $pdo->exec("UPDATE audit_logs SET diff_json = '{\"tampered\":true}' WHERE id = {$r1['id']}");
                 T::assertFalse($logger->verifyChain($pdo), 'Tampered diff_json must break chain');
 
-                // 4E: Delete record
+                // 4L: Delete record
                 $pdo->exec("DELETE FROM audit_logs WHERE id = {$r1['id']}");
                 T::assertFalse($logger->verifyChain($pdo), 'Deleted record must break chain');
             });
