@@ -23,6 +23,7 @@ use Voak\Health\Middleware\RateLimitMiddleware;
 use Voak\Health\Middleware\RequirePermissionMiddleware;
 use Voak\Health\Middleware\SecurityHeadersMiddleware;
 use Voak\Health\Modules\Admin\AdminAuthController;
+use Voak\Health\Modules\Admin\AdminContactController;
 use Voak\Health\Modules\Admin\AdminDocumentStreamController;
 use Voak\Health\Modules\Admin\AdminHomepageController;
 use Voak\Health\Modules\Admin\AdminIndustryController;
@@ -39,6 +40,7 @@ use Voak\Health\Security\AuditLogger;
 use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
+use Voak\Health\Services\ContactService;
 use Voak\Health\Services\HomepageService;
 use Voak\Health\Services\IndustryService;
 use Voak\Health\Services\MediaStorageService;
@@ -199,7 +201,7 @@ class App
         ));
         $this->container->set(AdminUsersController::class, new AdminUsersController($connection));
 
-        // Phase 7, 8, 9 & 10 Services
+        // Phase 7, 8, 9, 10 & 11 Services
         $sanitizer = new HtmlSanitizer();
         $pageService = new PageService($connection, $auditLogger, $sanitizer);
         $homepageService = new HomepageService($connection, $auditLogger, $sanitizer);
@@ -209,6 +211,7 @@ class App
         $mediaService = $this->container->has(MediaStorageService::class)
             ? $this->container->get(MediaStorageService::class)
             : new MediaStorageService($connection, $auditLogger);
+        $contactService = new ContactService($connection, $auditLogger, $sanitizer, null, $rbacManager);
 
         $this->container->set(HtmlSanitizer::class, $sanitizer);
         $this->container->set(PageService::class, $pageService);
@@ -217,8 +220,9 @@ class App
         $this->container->set(ServiceService::class, $serviceService);
         $this->container->set(IndustryService::class, $industryService);
         $this->container->set(MediaStorageService::class, $mediaService);
+        $this->container->set(ContactService::class, $contactService);
 
-        // Phase 7, 8, 9 & 10 Controllers
+        // Phase 7, 8, 9, 10 & 11 Controllers
         $this->container->set(AdminPageController::class, new AdminPageController($pageService));
         $this->container->set(AdminHomepageController::class, new AdminHomepageController($homepageService));
         $this->container->set(AdminSettingController::class, new AdminSettingController($settingService));
@@ -226,13 +230,15 @@ class App
         $this->container->set(AdminIndustryController::class, new AdminIndustryController($industryService));
         $this->container->set(AdminMediaController::class, new AdminMediaController($mediaService));
         $this->container->set(AdminDocumentStreamController::class, new AdminDocumentStreamController($connection, $mediaService, $this->container));
+        $this->container->set(AdminContactController::class, new AdminContactController($contactService));
         $this->container->set(PublicContentController::class, new PublicContentController(
             $pageService,
             $homepageService,
             $settingService,
             $serviceService,
             $industryService,
-            $mediaService
+            $mediaService,
+            $contactService
         ));
     }
 
@@ -313,6 +319,10 @@ class App
         $this->router->get('/api/industries/:slug', [PublicContentController::class, 'getIndustry']);
         $this->router->get('/api/v1/public/media/:id', [PublicContentController::class, 'getMedia']);
         $this->router->get('/api/media/:id', [PublicContentController::class, 'getMedia']);
+
+        // Phase 11 Public Healthcare Contact Submission Routes (Rate-limited, Honeypot filtered)
+        $this->router->post('/api/v1/public/contact', [PublicContentController::class, 'submitContact']);
+        $this->router->post('/api/enquiries/contact', [PublicContentController::class, 'submitContact']);
 
         // Phase 7 Administrative CMS Routes (Authenticated, CSRF-protected, RBAC-enforced)
         // 1. Pages CRUD, Workflow & Revisions
@@ -522,6 +532,63 @@ class App
             '/api/admin/careers/applications/:id/resume',
             [AdminDocumentStreamController::class, 'streamResume'],
             [RequirePermissionMiddleware::with('applications.view', $rbacManager, $connection)]
+        );
+
+        // 8. Contact Enquiries CRM Management (ADM-010 / FR-ADM-010)
+        $this->router->get(
+            '/api/v1/admin/inquiries/contact',
+            [AdminContactController::class, 'index'],
+            [RequirePermissionMiddleware::with('contact:list', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/enquiries/contact',
+            [AdminContactController::class, 'index'],
+            [RequirePermissionMiddleware::with('contact:list', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/inquiries/contact/export',
+            [AdminContactController::class, 'export'],
+            [RequirePermissionMiddleware::with('contact:export_csv', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/enquiries/contact/export',
+            [AdminContactController::class, 'export'],
+            [RequirePermissionMiddleware::with('contact:export_csv', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/inquiries/contact/:id',
+            [AdminContactController::class, 'show'],
+            [RequirePermissionMiddleware::with('contact:list', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/enquiries/contact/:id',
+            [AdminContactController::class, 'show'],
+            [RequirePermissionMiddleware::with('contact:list', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/inquiries/contact/:id/status',
+            [AdminContactController::class, 'updateStatus'],
+            [RequirePermissionMiddleware::with('contact:update_status', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/admin/enquiries/contact/:id',
+            [AdminContactController::class, 'updateStatus'],
+            [RequirePermissionMiddleware::with('contact:update_status', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/inquiries/contact/:id/notes',
+            [AdminContactController::class, 'addNote'],
+            [RequirePermissionMiddleware::with('contact:add_note', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/inquiries/contact/:id/assign',
+            [AdminContactController::class, 'assign'],
+            [RequirePermissionMiddleware::with('contact:update_status', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/v1/admin/inquiries/contact/:id',
+            [AdminContactController::class, 'delete'],
+            [RequirePermissionMiddleware::with('contact:delete', $rbacManager, $connection)]
         );
     }
 }

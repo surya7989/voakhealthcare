@@ -7,6 +7,7 @@ namespace Voak\Health\Modules\PublicContent;
 use Voak\Health\Core\Exceptions\NotFoundException;
 use Voak\Health\Core\Http\Request;
 use Voak\Health\Core\Http\Response;
+use Voak\Health\Services\ContactService;
 use Voak\Health\Services\HomepageService;
 use Voak\Health\Services\IndustryService;
 use Voak\Health\Services\MediaStorageService;
@@ -27,6 +28,7 @@ class PublicContentController
     private ?ServiceService $serviceService;
     private ?IndustryService $industryService;
     private ?MediaStorageService $mediaService;
+    private ?ContactService $contactService;
 
     public function __construct(
         PageService $pageService,
@@ -34,7 +36,8 @@ class PublicContentController
         SettingService $settingService,
         ?ServiceService $serviceService = null,
         ?IndustryService $industryService = null,
-        ?MediaStorageService $mediaService = null
+        ?MediaStorageService $mediaService = null,
+        ?ContactService $contactService = null
     ) {
         $this->pageService = $pageService;
         $this->homepageService = $homepageService;
@@ -42,6 +45,7 @@ class PublicContentController
         $this->serviceService = $serviceService;
         $this->industryService = $industryService;
         $this->mediaService = $mediaService;
+        $this->contactService = $contactService;
     }
 
     /**
@@ -307,6 +311,30 @@ class PublicContentController
         ];
 
         return Response::success(['media' => $publicData], 200, $request->getCorrelationId());
+    }
+
+    /**
+     * POST /api/v1/public/contact
+     * POST /api/enquiries/contact
+     * Submits a public healthcare contact inquiry with multi-layer abuse defense.
+     */
+    public function submitContact(Request $request): Response
+    {
+        if ($this->contactService === null) {
+            throw new \RuntimeException("Contact service is not configured.");
+        }
+
+        $payload = $request->getParsedBody() ?? [];
+        if (empty($payload)) {
+            $payload = $request->getJson();
+        }
+
+        $ipAddress = $request->getClientIp();
+        $userAgent = (string)($request->getHeader('user-agent') ?? 'Public/Web');
+
+        $result = $this->contactService->submitInquiry($payload, $ipAddress, $userAgent);
+
+        return Response::success($result, 201, $request->getCorrelationId());
     }
 
     private function isEtagMatch(string $headerValue, string $etag): bool

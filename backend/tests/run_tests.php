@@ -44,9 +44,11 @@ use Voak\Health\Tests\Unit\IndustryServiceTest;
 use Voak\Health\Tests\Integration\IndustriesManagementApiTest;
 use Voak\Health\Tests\Unit\MediaStorageServiceTest;
 use Voak\Health\Tests\Integration\MediaAndDocumentApiTest;
+use Voak\Health\Tests\Unit\ContactServiceTest;
+use Voak\Health\Tests\Integration\ContactInquiryApiTest;
 
 echo "======================================================================\n";
-echo "VOAK HEALTH CARE — BACKEND AUTOMATED TEST SUITE (PHASES 4, 6, 7, 8, 9 & 10)\n";
+echo "VOAK HEALTH CARE — BACKEND AUTOMATED TEST SUITE (PHASES 4, 6, 7, 8, 9, 10 & 11)\n";
 echo "======================================================================\n";
 echo "PHP Version: " . PHP_VERSION . "\n";
 echo "Runtime:     " . PHP_OS . " (" . php_uname('s') . ")\n";
@@ -95,6 +97,10 @@ IndustriesManagementApiTest::run();
 // Phase 10 Media Library & Secure Document Quarantine Tests
 MediaStorageServiceTest::run();
 MediaAndDocumentApiTest::run();
+
+// Phase 11 Contact Enquiry CRM & Lifecycle State Machine Tests
+ContactServiceTest::run();
+ContactInquiryApiTest::run();
 
 $exitCode = TestFramework::summarize();
 exit($exitCode);

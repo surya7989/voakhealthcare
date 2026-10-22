@@ -531,6 +531,13 @@ class RbacManager
         'media.delete'       => ['media:delete', 'media.delete'],
         'proposals.manage'   => ['proposal:download_tender', 'proposal:list', 'proposals.manage'],
         'applications.view'  => ['candidate:download_cv', 'candidate:list', 'applications.view'],
+        'enquiries.view'     => ['contact:list', 'enquiries.view'],
+        'enquiries.manage'   => ['contact:update_status', 'contact:add_note', 'enquiries.manage'],
+        'contact.view'       => ['contact:list', 'contact.view'],
+        'contact.manage'     => ['contact:update_status', 'contact:add_note', 'contact.manage'],
+        'contact.export'     => ['contact:export_csv', 'contact.export'],
+        'contact.delete'     => ['user:suspend', 'contact:delete'],
+        'contact:delete'     => ['user:suspend', 'contact:delete'],
     ];
 
     /**

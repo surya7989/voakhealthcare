@@ -56,6 +56,9 @@ jobs:
       - name: Run Phase 10 Media & Document Management Test Suite
         run: php -d memory_limit=512M tests/test_phase10_media_and_document_management.php
 
+      - name: Run Phase 11 Contact Enquiries Management Test Suite
+        run: php -d memory_limit=512M tests/test_phase11_contact_enquiries_management.php
+
       - name: Run Comprehensive Backend Test Suite
         run: php -d memory_limit=512M backend/tests/run_tests.php
 

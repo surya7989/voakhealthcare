@@ -31,6 +31,7 @@ use Voak\Health\Security\AuditLogger;
 use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
+use Voak\Health\Services\ContactService;
 use Voak\Health\Services\IndustryService;
 use Voak\Health\Services\MediaStorageService;
 use Voak\Health\Services\PageService;
@@ -843,6 +844,122 @@ try {
         $rDel($tempQuarantine);
     });
 
+    // =========================================================================
+    // TEST 10: Phase 11 — Contact Enquiry CRM, Lifecycle FSM & Row Locking on MySQL 8.0
+    // =========================================================================
+    $runTest("Test 10: Contact Enquiry CRM, Lifecycle FSM & Row Locking on MySQL 8.0", function () use ($pdo, $testUserId) {
+        $connection = new Connection();
+        $connection->setMockPdo($pdo);
+        $auditLogger = new AuditLogger();
+        $sanitizer = new HtmlSanitizer();
+        $rbacManager = new RbacManager();
+        $contactService = new ContactService($connection, $auditLogger, $sanitizer, null, $rbacManager);
+
+        // 1. Verify contact_inquiries table and composite indexes exist on MySQL 8.0
+        $cols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'contact_inquiries'")->fetchAll(\PDO::FETCH_COLUMN);
+        if (!in_array('reference_code', $cols, true) || !in_array('status', $cols, true) || !in_array('internal_notes', $cols, true)) {
+            throw new RuntimeException("contact_inquiries table missing expected canonical columns on MySQL 8.0.");
+        }
+
+        // Verify index existence
+        $indexes = $pdo->query("SHOW INDEX FROM contact_inquiries")->fetchAll(\PDO::FETCH_ASSOC);
+        $indexNames = array_column($indexes, 'Key_name');
+        if (!in_array('idx_inquiries_status', $indexNames, true) || !in_array('idx_inquiries_ref', $indexNames, true)) {
+            throw new RuntimeException("contact_inquiries table missing idx_inquiries_status or idx_inquiries_ref on MySQL 8.0.");
+        }
+
+        // 2. Submit Inquiry & verify transactional email queueing on MySQL 8.0
+        $submitted = $contactService->submitInquiry([
+            'full_name'         => 'MySQL Test Clinical Director',
+            'organization_name' => 'MySQL 8.0 Health Service',
+            'corporate_email'   => 'mysql-director@voak.test',
+            'contact_phone'     => '+61 2 9555 9999',
+            'inquiry_details'   => 'Testing real MySQL 8.0 transactional insertion and email queueing.',
+        ], '127.0.0.1', 'CI/MySQL-8.0');
+
+        $inquiryId = (int)$submitted['id'];
+        $refCode = $submitted['reference_code'];
+
+        // Verify row exists and status is 'NEW'
+        $inquiryRow = $pdo->query("SELECT * FROM contact_inquiries WHERE id = {$inquiryId}")->fetch(\PDO::FETCH_ASSOC);
+        if (!$inquiryRow || $inquiryRow['status'] !== 'NEW' || $inquiryRow['reference_code'] !== $refCode) {
+            throw new RuntimeException("contact_inquiries record was not correctly persisted on MySQL 8.0.");
+        }
+
+        // Verify email_queue row on MySQL 8.0
+        $queueRow = $pdo->query("SELECT * FROM email_queue WHERE recipient_email = 'mysql-director@voak.test'")->fetch(\PDO::FETCH_ASSOC);
+        if (!$queueRow || $queueRow['status'] !== 'QUEUED') {
+            throw new RuntimeException("Email queue record was not created for contact enquiry on MySQL 8.0.");
+        }
+
+        // 3. Test DAG Lifecycle state machine transitions with FOR UPDATE row locking
+        // NEW -> TRIAGED
+        $s1 = $contactService->updateStatus($inquiryId, 'TRIAGED', 'Initial triage on MySQL 8.0', $testUserId);
+        if ($s1['status'] !== 'TRIAGED') {
+            throw new RuntimeException("Failed transition to TRIAGED on MySQL 8.0.");
+        }
+
+        // TRIAGED -> IN_REVIEW
+        $s2 = $contactService->updateStatus($inquiryId, 'IN_REVIEW', null, $testUserId);
+        if ($s2['status'] !== 'IN_REVIEW') {
+            throw new RuntimeException("Failed transition to IN_REVIEW on MySQL 8.0.");
+        }
+
+        // IN_REVIEW -> CONTACTED
+        $s3 = $contactService->updateStatus($inquiryId, 'CONTACTED', 'Contacted lead via phone on MySQL 8.0', $testUserId);
+        if ($s3['status'] !== 'CONTACTED') {
+            throw new RuntimeException("Failed transition to CONTACTED on MySQL 8.0.");
+        }
+
+        // CONTACTED -> RESOLVED
+        $s4 = $contactService->updateStatus($inquiryId, 'RESOLVED', 'Proposal requirements accepted on MySQL 8.0', $testUserId);
+        if ($s4['status'] !== 'RESOLVED') {
+            throw new RuntimeException("Failed transition to RESOLVED on MySQL 8.0.");
+        }
+
+        // RESOLVED -> CLOSED (with resolution note)
+        $s5 = $contactService->updateStatus($inquiryId, 'CLOSED', 'Contract signed and archived on MySQL 8.0', $testUserId);
+        if ($s5['status'] !== 'CLOSED') {
+            throw new RuntimeException("Failed transition to CLOSED on MySQL 8.0.");
+        }
+
+        // 4. Test Illegal Transition Rejection (CLOSED -> RESOLVED)
+        $illegalCaught = false;
+        try {
+            $contactService->updateStatus($inquiryId, 'RESOLVED', null, $testUserId);
+        } catch (\Voak\Health\Core\Exceptions\ValidationException $e) {
+            if ($e->getErrorCode() === 'ERR_INVALID_TRANSITION') {
+                $illegalCaught = true;
+            }
+        }
+        if (!$illegalCaught) {
+            throw new RuntimeException("Illegal DAG state jump (CLOSED -> RESOLVED) was not rejected on MySQL 8.0.");
+        }
+
+        // 5. Test Note Appending & Assignee Update
+        $contactService->addNote($inquiryId, 'Additional audit note on MySQL 8.0', $testUserId);
+        $assigned = $contactService->assignInquiry($inquiryId, $testUserId, $testUserId);
+        if ((int)$assigned['assigned_user_id'] !== $testUserId) {
+            throw new RuntimeException("Assignee update failed on MySQL 8.0.");
+        }
+
+        // 6. Test CSV Export on MySQL 8.0
+        $csv = $contactService->exportCsv(['status' => 'CLOSED'], $testUserId);
+        if (!str_contains($csv, 'Reference Code') || !str_contains($csv, $refCode)) {
+            throw new RuntimeException("CSV export did not contain expected enquiry reference on MySQL 8.0.");
+        }
+
+        // 7. Test Deletion & Cleanup
+        $contactService->deleteInquiry($inquiryId, $testUserId);
+        $checkDel = (int)$pdo->query("SELECT COUNT(*) FROM contact_inquiries WHERE id = {$inquiryId}")->fetchColumn();
+        if ($checkDel !== 0) {
+            throw new RuntimeException("contact_inquiries record not purged on MySQL 8.0 delete.");
+        }
+
+        // Clean up email queue
+        $pdo->exec("DELETE FROM email_queue WHERE recipient_email = 'mysql-director@voak.test'");
+    });
+
     // Clean up isolated test data
     $pdo->exec("DELETE FROM user_roles WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM admin_sessions WHERE user_id = {$testUserId}");
@@ -854,6 +971,8 @@ try {
     $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/services/mysql-service-%'");
     $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/industries/mysql-industry-%'");
     $pdo->exec("DELETE FROM media_assets WHERE uploaded_by_user_id = {$testUserId}");
+    $pdo->exec("DELETE FROM contact_inquiries WHERE corporate_email LIKE 'mysql-%'");
+    $pdo->exec("DELETE FROM email_queue WHERE recipient_email LIKE 'mysql-%'");
     $pdo->exec("DELETE FROM pages WHERE slug LIKE 'mysql-page-%'");
     $pdo->exec("DELETE FROM users WHERE id = {$testUserId} OR email = '{$testUserEmail}'");
 
