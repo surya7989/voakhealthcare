@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Voak\Health\Modules\Admin;
 
+use Voak\Health\Core\Exceptions\AuthenticationException;
 use Voak\Health\Core\Exceptions\BadRequestException;
 use Voak\Health\Core\Exceptions\NotFoundException;
 use Voak\Health\Core\Http\Request;
@@ -20,6 +21,18 @@ class AdminPageController
     public function __construct(PageService $pageService)
     {
         $this->pageService = $pageService;
+    }
+
+    /**
+     * Extracts authenticated admin user ID, strictly failing closed if identity is missing or invalid.
+     */
+    private function requireAdminUserId(Request $request): int
+    {
+        $userId = $request->getAttribute('admin_user_id');
+        if ($userId === null || (int)$userId <= 0) {
+            throw new AuthenticationException("Authentication required. No authenticated administrative user identity present.");
+        }
+        return (int)$userId;
     }
 
     /**
@@ -46,7 +59,7 @@ class AdminPageController
      */
     public function create(Request $request): Response
     {
-        $userId = (int)($request->getAttribute('admin_user_id') ?? 1);
+        $userId = $this->requireAdminUserId($request);
         $data = $request->getJson();
 
         $page = $this->pageService->createPage($data, $userId);
@@ -87,7 +100,7 @@ class AdminPageController
             throw new BadRequestException("Invalid page ID.");
         }
 
-        $userId = (int)($request->getAttribute('admin_user_id') ?? 1);
+        $userId = $this->requireAdminUserId($request);
         $data = $request->getJson();
 
         $page = $this->pageService->updatePage($id, $data, $userId);
@@ -105,7 +118,7 @@ class AdminPageController
             throw new BadRequestException("Invalid page ID.");
         }
 
-        $userId = (int)($request->getAttribute('admin_user_id') ?? 1);
+        $userId = $this->requireAdminUserId($request);
         $data = $request->getJson();
         $status = (string)($data['status'] ?? '');
 
@@ -130,7 +143,7 @@ class AdminPageController
             throw new BadRequestException("Invalid page ID or revision number.");
         }
 
-        $userId = (int)($request->getAttribute('admin_user_id') ?? 1);
+        $userId = $this->requireAdminUserId($request);
 
         $page = $this->pageService->rollbackRevision($id, $rev, $userId);
 
@@ -150,7 +163,7 @@ class AdminPageController
             throw new BadRequestException("Invalid page ID.");
         }
 
-        $userId = (int)($request->getAttribute('admin_user_id') ?? 1);
+        $userId = $this->requireAdminUserId($request);
 
         $this->pageService->softDeletePage($id, $userId);
 

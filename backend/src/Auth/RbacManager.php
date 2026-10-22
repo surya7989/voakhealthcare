@@ -511,7 +511,7 @@ class RbacManager
         'pages.create'   => ['page:update', 'pages.create'],
         'pages.edit'     => ['page:update', 'pages.edit'],
         'pages.publish'  => ['page:rollback', 'pages.publish'],
-        'pages.delete'   => ['page:update', 'pages.delete'],
+        'pages.delete'   => ['page:rollback', 'pages.delete'],
         'settings.view'  => ['settings:read', 'settings.view'],
         'settings.edit'  => ['settings:update', 'settings.edit'],
     ];

@@ -6,6 +6,7 @@ namespace Voak\Health\Services;
 
 use Voak\Health\Core\Exceptions\BadRequestException;
 use Voak\Health\Core\Exceptions\NotFoundException;
+use Voak\Health\Core\Exceptions\SecurityException;
 use Voak\Health\Core\Exceptions\ValidationException;
 use Voak\Health\Database\Connection;
 use Voak\Health\Security\AuditLogger;
@@ -227,9 +228,10 @@ class HomepageService
         $pdo = $this->connection->getPdo();
 
         $pdo->beginTransaction();
+        $wasCreated = false;
         try {
             // Check if active config exists
-            $stmt = $pdo->query("SELECT `id` FROM `homepage_configs` WHERE `is_active` = 1 ORDER BY `id` DESC LIMIT 1");
+            $stmt = $pdo->query("SELECT * FROM `homepage_configs` WHERE `is_active` = 1 ORDER BY `id` DESC LIMIT 1");
             $existing = $stmt ? $stmt->fetch(\PDO::FETCH_ASSOC) : false;
             if ($stmt) {
                 $stmt->closeCursor();
@@ -263,6 +265,7 @@ class HomepageService
                 ]);
                 $updateStmt->closeCursor();
             } else {
+                $wasCreated = true;
                 $insertStmt = $pdo->prepare("INSERT INTO `homepage_configs` (
                     `hero_headline`, `hero_subheadline`,
                     `hero_primary_cta_text`, `hero_primary_cta_url`,
@@ -299,22 +302,65 @@ class HomepageService
             throw $e;
         }
 
-        // Post-commit audit logging
-        $this->auditLogger->log(
-            $pdo,
-            'cms',
-            'homepage_updated',
-            $userId,
-            '127.0.0.1',
-            'CMS/HomepageService',
-            'homepage_configs',
-            $id,
-            [
-                'hero_headline' => $cleanHeadline,
-                'primary_cta'   => $validatedPrimaryUrl,
-                'secondary_cta' => $validatedSecondaryUrl,
-            ]
-        );
+        // Post-commit audit logging with compensating rollback defense
+        try {
+            $this->auditLogger->log(
+                $pdo,
+                'cms',
+                'homepage_updated',
+                $userId,
+                '127.0.0.1',
+                'CMS/HomepageService',
+                'homepage_configs',
+                $id,
+                [
+                    'hero_headline' => $cleanHeadline,
+                    'primary_cta'   => $validatedPrimaryUrl,
+                    'secondary_cta' => $validatedSecondaryUrl,
+                ]
+            );
+        } catch (\Throwable $auditEx) {
+            // Compensating rollback: revert homepage config to previous state or delete if newly created
+            try {
+                $pdo->beginTransaction();
+                if ($wasCreated) {
+                    $delStmt = $pdo->prepare("DELETE FROM `homepage_configs` WHERE `id` = :id");
+                    $delStmt->execute(['id' => $id]);
+                    $delStmt->closeCursor();
+                } elseif ($existing) {
+                    $revertStmt = $pdo->prepare("UPDATE `homepage_configs` SET
+                        `hero_headline` = :headline,
+                        `hero_subheadline` = :subheadline,
+                        `hero_primary_cta_text` = :p_text,
+                        `hero_primary_cta_url` = :p_url,
+                        `hero_secondary_cta_text` = :s_text,
+                        `hero_secondary_cta_url` = :s_url,
+                        `bento_order_json` = :bento,
+                        `proof_metrics_json` = :metrics,
+                        `updated_by_user_id` = :uid
+                        WHERE `id` = :id");
+                    $revertStmt->execute([
+                        'headline'    => $existing['hero_headline'],
+                        'subheadline' => $existing['hero_subheadline'],
+                        'p_text'      => $existing['hero_primary_cta_text'],
+                        'p_url'       => $existing['hero_primary_cta_url'],
+                        's_text'      => $existing['hero_secondary_cta_text'],
+                        's_url'       => $existing['hero_secondary_cta_url'],
+                        'bento'       => $existing['bento_order_json'],
+                        'metrics'     => $existing['proof_metrics_json'],
+                        'uid'         => $existing['updated_by_user_id'],
+                        'id'          => $id,
+                    ]);
+                    $revertStmt->closeCursor();
+                }
+                $pdo->commit();
+            } catch (\Throwable) {
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+            }
+            throw new SecurityException("Failed to append immutable audit ledger event: " . $auditEx->getMessage(), 'ERR_AUDIT_LOG_FAILED');
+        }
 
         return $this->getActiveConfig();
     }

@@ -106,6 +106,26 @@ class HtmlSanitizerTest
                 TestFramework::assertEquals(null, $sanitizer->clean(null));
                 TestFramework::assertEquals('', $sanitizer->clean(''));
             });
+
+            TestFramework::test('neutralizes HTML entity encoded javascript schemes and obfuscated pseudoprotocols', function () use ($sanitizer) {
+                $vectors = [
+                    '<a href="java&#x73;cript:alert(1)">Entity XSS 1</a>',
+                    '<a href="jav&#97;script:alert(2)">Entity XSS 2</a>',
+                    '<a href="&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;alert(3)">Entity XSS 3</a>',
+                    '<a href="data:text/html,<script>alert(4)</script>">Data URI</a>',
+                    '<a href="vbscript:msgbox(5)">VBScript</a>',
+                    '<a href="//attacker.com/exploit">Protocol Relative</a>',
+                    '<math href="javascript:alert(6)">Math</math>',
+                ];
+
+                foreach ($vectors as $v) {
+                    $cleaned = $sanitizer->clean($v);
+                    TestFramework::assertFalse(str_contains(strtolower($cleaned), 'javascript:'), "Failed for: {$v}");
+                    TestFramework::assertFalse(str_contains(strtolower($cleaned), 'alert('), "Failed for: {$v}");
+                    TestFramework::assertFalse(str_contains(strtolower($cleaned), 'attacker.com'), "Failed for: {$v}");
+                    TestFramework::assertFalse(str_contains(strtolower($cleaned), 'msgbox'), "Failed for: {$v}");
+                }
+            });
         });
     }
 }

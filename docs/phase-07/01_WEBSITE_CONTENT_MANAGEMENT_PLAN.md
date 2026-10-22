@@ -85,9 +85,9 @@ erDiagram
         varchar setting_group
         varchar setting_key UK
         text setting_value
-        varchar value_type
-        tinyint is_public
-        bigint updated_by FK
+        tinyint is_secret
+        varchar description
+        bigint updated_by_user_id FK
         timestamp updated_at
     }
 ```
@@ -102,7 +102,7 @@ erDiagram
 |---|---|---|---|
 | `GET` | `/api/v1/public/pages/:slug` | Retrieves published page content with metadata | Public, rate-limited, ETag caching |
 | `GET` | `/api/v1/public/homepage` | Retrieves active homepage hero, statistics & value props | Public, rate-limited, ETag caching |
-| `GET` | `/api/v1/public/settings` | Retrieves public branding, contact info, and business hours | Public, rate-limited (`is_public = 1` only) |
+| `GET` | `/api/v1/public/settings` | Retrieves public branding, contact info, and business hours | Public, rate-limited (`is_secret = 0` only) |
 
 ### 3.2 Administrative CMS Routes (`Admin/`)
 

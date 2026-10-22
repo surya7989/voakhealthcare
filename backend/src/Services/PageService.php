@@ -6,6 +6,7 @@ namespace Voak\Health\Services;
 
 use Voak\Health\Core\Exceptions\BadRequestException;
 use Voak\Health\Core\Exceptions\NotFoundException;
+use Voak\Health\Core\Exceptions\SecurityException;
 use Voak\Health\Core\Exceptions\ValidationException;
 use Voak\Health\Database\Connection;
 use Voak\Health\Security\AuditLogger;
@@ -285,18 +286,38 @@ class PageService
             throw $e;
         }
 
-        // 4. Cryptographic audit log outside transaction
-        $this->auditLogger->log(
-            $pdo,
-            'cms',
-            'page_created',
-            $userId,
-            '127.0.0.1',
-            'CMS/PageService',
-            'pages',
-            $pageId,
-            ['slug' => $slug, 'title' => $title, 'status' => $status]
-        );
+        // 4. Cryptographic audit log outside transaction with compensating rollback defense
+        try {
+            $this->auditLogger->log(
+                $pdo,
+                'cms',
+                'page_created',
+                $userId,
+                '127.0.0.1',
+                'CMS/PageService',
+                'pages',
+                $pageId,
+                ['slug' => $slug, 'title' => $title, 'status' => $status]
+            );
+        } catch (\Throwable $auditEx) {
+            // Compensating rollback: purge un-audited created page and initial revision
+            try {
+                $pdo->beginTransaction();
+                $delRev = $pdo->prepare("DELETE FROM `content_revisions` WHERE `entity_type` = 'pages' AND `entity_id` = :id");
+                $delRev->execute(['id' => $pageId]);
+                $delRev->closeCursor();
+
+                $delPage = $pdo->prepare("DELETE FROM `pages` WHERE `id` = :id");
+                $delPage->execute(['id' => $pageId]);
+                $delPage->closeCursor();
+                $pdo->commit();
+            } catch (\Throwable) {
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+            }
+            throw new SecurityException("Failed to append immutable audit ledger event: " . $auditEx->getMessage(), 'ERR_AUDIT_LOG_FAILED');
+        }
 
         return $this->getPageById($pageId) ?? [];
     }
@@ -377,6 +398,13 @@ class PageService
 
         $pdo->beginTransaction();
         try {
+            // Row-level lock on the target page row to prevent concurrent race conditions
+            $driver = (string)$pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+            $lockSql = "SELECT `id` FROM `pages` WHERE `id` = :id" . ($driver === 'mysql' ? " FOR UPDATE" : "");
+            $lockStmt = $pdo->prepare($lockSql);
+            $lockStmt->execute(['id' => $id]);
+            $lockStmt->closeCursor();
+
             $updateStmt = $pdo->prepare(
                 "UPDATE `pages` SET 
                  `slug` = :slug,
@@ -409,7 +437,7 @@ class PageService
             $nextRev = (int)$revCountStmt->fetchColumn() + 1;
             $revCountStmt->closeCursor();
 
-            $this->insertRevisionInternal($pdo, $id, $nextRev, $title, $metaTitle, $metaDescription, $contentStructure, $changeSummary, $userId);
+            $insertedRevId = $this->insertRevisionInternal($pdo, $id, $nextRev, $title, $metaTitle, $metaDescription, $contentStructure, $changeSummary, $userId);
 
             $pdo->commit();
         } catch (\Throwable $e) {
@@ -419,18 +447,59 @@ class PageService
             throw $e;
         }
 
-        // Audit log
-        $this->auditLogger->log(
-            $pdo,
-            'cms',
-            'page_updated',
-            $userId,
-            '127.0.0.1',
-            'CMS/PageService',
-            'pages',
-            $id,
-            ['slug' => $slug, 'title' => $title, 'revision' => $nextRev]
-        );
+        // Post-commit audit logging with compensating rollback defense
+        try {
+            $this->auditLogger->log(
+                $pdo,
+                'cms',
+                'page_updated',
+                $userId,
+                '127.0.0.1',
+                'CMS/PageService',
+                'pages',
+                $id,
+                ['slug' => $slug, 'title' => $title, 'revision' => $nextRev]
+            );
+        } catch (\Throwable $auditEx) {
+            // Compensating rollback: restore previous page state and purge un-audited revision
+            try {
+                $pdo->beginTransaction();
+                $revertStmt = $pdo->prepare(
+                    "UPDATE `pages` SET 
+                     `slug` = :slug,
+                     `title` = :title,
+                     `meta_title` = :meta_title,
+                     `meta_description` = :meta_desc,
+                     `content_json` = :content,
+                     `is_published` = :is_pub,
+                     `published_at` = :pub_at
+                     WHERE `id` = :id"
+                );
+                $revertStmt->execute([
+                    'slug'       => $existing['slug'],
+                    'title'      => $existing['title'],
+                    'meta_title' => $existing['meta_title'],
+                    'meta_desc'  => $existing['meta_description'],
+                    'content'    => is_array($existing['content_json']) ? json_encode($existing['content_json']) : $existing['content_json'],
+                    'is_pub'     => $existing['is_published'] ? 1 : 0,
+                    'pub_at'     => $existing['published_at'],
+                    'id'         => $id,
+                ]);
+                $revertStmt->closeCursor();
+
+                if ($insertedRevId > 0) {
+                    $delRev = $pdo->prepare("DELETE FROM `content_revisions` WHERE `id` = :rev_id");
+                    $delRev->execute(['rev_id' => $insertedRevId]);
+                    $delRev->closeCursor();
+                }
+                $pdo->commit();
+            } catch (\Throwable) {
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+            }
+            throw new SecurityException("Failed to append immutable audit ledger event: " . $auditEx->getMessage(), 'ERR_AUDIT_LOG_FAILED');
+        }
 
         return $this->getPageById($id) ?? [];
     }
@@ -476,6 +545,13 @@ class PageService
 
         $pdo->beginTransaction();
         try {
+            // Row-level lock on target page
+            $driver = (string)$pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+            $lockSql = "SELECT `id` FROM `pages` WHERE `id` = :id" . ($driver === 'mysql' ? " FOR UPDATE" : "");
+            $lockStmt = $pdo->prepare($lockSql);
+            $lockStmt->execute(['id' => $id]);
+            $lockStmt->closeCursor();
+
             $stmt = $pdo->prepare(
                 "UPDATE `pages` SET `is_published` = 0, `content_json` = :content, `updated_at` = CURRENT_TIMESTAMP WHERE `id` = :id"
             );
@@ -487,7 +563,7 @@ class PageService
             $nextRev = (int)$revCountStmt->fetchColumn() + 1;
             $revCountStmt->closeCursor();
 
-            $this->insertRevisionInternal($pdo, $id, $nextRev, $existing['title'], $existing['meta_title'], $existing['meta_description'], $contentStructure, "Page soft-deleted", $userId);
+            $insertedRevId = $this->insertRevisionInternal($pdo, $id, $nextRev, $existing['title'], $existing['meta_title'], $existing['meta_description'], $contentStructure, "Page soft-deleted", $userId);
 
             $pdo->commit();
         } catch (\Throwable $e) {
@@ -497,17 +573,46 @@ class PageService
             throw $e;
         }
 
-        $this->auditLogger->log(
-            $pdo,
-            'cms',
-            'page_deleted',
-            $userId,
-            '127.0.0.1',
-            'CMS/PageService',
-            'pages',
-            $id,
-            ['deleted_at' => $now]
-        );
+        // Post-commit audit logging with compensating rollback defense
+        try {
+            $this->auditLogger->log(
+                $pdo,
+                'cms',
+                'page_deleted',
+                $userId,
+                '127.0.0.1',
+                'CMS/PageService',
+                'pages',
+                $id,
+                ['deleted_at' => $now]
+            );
+        } catch (\Throwable $auditEx) {
+            // Compensating rollback: restore previous page state and purge un-audited revision
+            try {
+                $pdo->beginTransaction();
+                $revertStmt = $pdo->prepare(
+                    "UPDATE `pages` SET `is_published` = :is_pub, `content_json` = :content WHERE `id` = :id"
+                );
+                $revertStmt->execute([
+                    'is_pub'  => $existing['is_published'] ? 1 : 0,
+                    'content' => is_array($existing['content_json']) ? json_encode($existing['content_json']) : $existing['content_json'],
+                    'id'      => $id,
+                ]);
+                $revertStmt->closeCursor();
+
+                if ($insertedRevId > 0) {
+                    $delRev = $pdo->prepare("DELETE FROM `content_revisions` WHERE `id` = :rev_id");
+                    $delRev->execute(['rev_id' => $insertedRevId]);
+                    $delRev->closeCursor();
+                }
+                $pdo->commit();
+            } catch (\Throwable) {
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+            }
+            throw new SecurityException("Failed to append immutable audit ledger event: " . $auditEx->getMessage(), 'ERR_AUDIT_LOG_FAILED');
+        }
     }
 
     /**
@@ -598,7 +703,7 @@ class PageService
         array $contentStructure,
         string $note,
         int $userId
-    ): void {
+    ): int {
         $snapshot = [
             'revision_number'   => $revisionNumber,
             'page_id'           => $pageId,
@@ -624,6 +729,8 @@ class PageService
             'note'     => substr($note, 0, 255),
         ]);
         $stmt->closeCursor();
+
+        return (int)$pdo->lastInsertId();
     }
 
     private function formatPageRecord(array $row): array

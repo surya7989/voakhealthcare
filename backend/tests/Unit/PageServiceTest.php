@@ -304,6 +304,54 @@ class PageServiceTest
                 $etag3 = $service->calculateEtag($page2);
                 T::assertFalse($etag1 === $etag3);
             });
+
+            T::test('compensating rollback reverts page and revisions when audit logger fails', function () {
+                $pdo = self::createDatabase();
+                $connection = new Connection();
+                $connection->setMockPdo($pdo);
+
+                // AuditLogger mock that always throws SecurityException
+                $failingAudit = new class extends AuditLogger {
+                    public function log(
+                        \PDO $pdo,
+                        string $domain,
+                        string $action,
+                        ?int $userId = null,
+                        string $ipAddress = '127.0.0.1',
+                        string $userAgent = 'CLI/Internal',
+                        ?string $entityType = null,
+                        ?int $entityId = null,
+                        ?array $diff = null
+                    ): array {
+                        throw new \Voak\Health\Core\Exceptions\SecurityException("Simulated audit lock failure");
+                    }
+                };
+
+                $service = new PageService($connection, $failingAudit, new HtmlSanitizer());
+
+                // 1. Test createPage compensating rollback
+                $failed = false;
+                try {
+                    $service->createPage([
+                        'slug' => 'failing-audit-page',
+                        'title' => 'Will Roll Back',
+                        'content' => 'Content',
+                    ], 1);
+                } catch (\Voak\Health\Core\Exceptions\SecurityException $e) {
+                    $failed = true;
+                    T::assertContains('Simulated audit lock failure', $e->getMessage());
+                }
+                T::assertTrue($failed, "createPage must throw SecurityException when audit fails");
+
+                // Verify page and revisions were completely rolled back
+                $stmt = $pdo->query("SELECT COUNT(*) FROM `pages` WHERE `slug` = 'failing-audit-page'");
+                T::assertEquals(0, (int)$stmt->fetchColumn(), "Page row must be purged by compensating rollback");
+                $stmt->closeCursor();
+
+                $stmt = $pdo->query("SELECT COUNT(*) FROM `content_revisions`");
+                T::assertEquals(0, (int)$stmt->fetchColumn(), "Revision row must be purged by compensating rollback");
+                $stmt->closeCursor();
+            });
         });
     }
 }

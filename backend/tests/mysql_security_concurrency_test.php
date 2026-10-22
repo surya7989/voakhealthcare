@@ -25,9 +25,13 @@ use Voak\Health\Auth\SessionManager;
 use Voak\Health\Auth\TotpService;
 use Voak\Health\Core\Config;
 use Voak\Health\Core\Exceptions\SecurityException;
+use Voak\Health\Database\Connection;
 use Voak\Health\Security\AuditLogger;
+use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
+use Voak\Health\Services\PageService;
+use Voak\Health\Services\SettingService;
 
 echo "======================================================================\n";
 echo "VOAK HEALTH CARE — MYSQL 8.0 SECURITY CONCURRENCY & INTEGRITY SUITE\n";
@@ -393,6 +397,174 @@ try {
         if ($thirdAttempt) {
             throw new RuntimeException("Burned recovery code was accepted on a subsequent attempt.");
         }
+    });
+
+    // TEST 6: Phase 7 CMS Schema Contracts, JSON Integrity, FKs, and Revision Locking on MySQL 8.0
+    $runTest('MySQL 8.0 Phase 7 CMS schema contracts: JSON integrity, foreign keys, unique slug, and revision locking', function () use ($pdo, $testUserId) {
+        $conn = new Connection();
+        $conn->setMockPdo($pdo);
+        $auditLogger = new AuditLogger();
+        $sanitizer = new HtmlSanitizer();
+        $pageService = new PageService($conn, $auditLogger, $sanitizer);
+        $settingService = new SettingService($conn, $auditLogger);
+
+        // 1. Verify foreign key constraints on content_revisions and system_settings in MySQL 8.0
+        $nonExistentUserId = 888888;
+        $fkCaught = false;
+        try {
+            $stmt = $pdo->prepare(
+                "INSERT INTO content_revisions (entity_type, entity_id, editor_user_id, payload_snapshot, revision_note) 
+                 VALUES ('pages', 1, :uid, '{\"title\":\"FK Test\"}', 'FK test failure expected')"
+            );
+            $stmt->execute(['uid' => $nonExistentUserId]);
+        } catch (\PDOException $e) {
+            $fkCaught = true;
+            if (!str_contains($e->getMessage(), 'fk_revisions_editor') && $e->getCode() !== '23000') {
+                throw new RuntimeException("Expected foreign key constraint violation on content_revisions: " . $e->getMessage());
+            }
+        }
+        if (!$fkCaught) {
+            throw new RuntimeException("MySQL 8.0 failed to enforce fk_revisions_editor foreign key on content_revisions.");
+        }
+
+        $fkSettingsCaught = false;
+        try {
+            $stmt = $pdo->prepare(
+                "INSERT INTO system_settings (setting_group, setting_key, setting_value, is_secret, description, updated_by_user_id)
+                 VALUES ('test_group', 'test_fk_setting', 'val', 0, 'desc', :uid)"
+            );
+            $stmt->execute(['uid' => $nonExistentUserId]);
+        } catch (\PDOException $e) {
+            $fkSettingsCaught = true;
+            if (!str_contains($e->getMessage(), 'fk_settings_user') && $e->getCode() !== '23000') {
+                throw new RuntimeException("Expected foreign key constraint violation on system_settings: " . $e->getMessage());
+            }
+        }
+        if (!$fkSettingsCaught) {
+            throw new RuntimeException("MySQL 8.0 failed to enforce fk_settings_user foreign key on system_settings.");
+        }
+
+        // 2. Verify Page creation with native MySQL 8.0 JSON column storage & retrieval
+        $testSlug = 'mysql-phase7-test-page';
+        $pdo->exec("DELETE FROM content_revisions WHERE entity_type = 'pages' AND entity_id IN (SELECT id FROM pages WHERE slug = '{$testSlug}')");
+        $pdo->exec("DELETE FROM pages WHERE slug = '{$testSlug}'");
+
+        $richContent = [
+            'hero' => [
+                'headline' => 'Next-Generation Healthcare Australia',
+                'subheading' => 'B2B Workforce Governance & Clinical Compliance',
+                'badge' => 'ISO-27001 Certified',
+                'metrics' => [
+                    ['label' => 'Clinicians', 'value' => 2500],
+                    ['label' => 'SLA', 'value' => '99.9%'],
+                ],
+            ],
+            'sections' => [
+                [
+                    'id' => 'compliance',
+                    'title' => 'Clinical Governance',
+                    'body_html' => '<p>Enterprise healthcare delivery compliant with Australian safety standards.</p>',
+                ]
+            ],
+            'metadata' => [
+                'tags' => ['clinical', 'enterprise', 'compliance'],
+                'enabled' => true,
+                'priority' => 1,
+            ]
+        ];
+
+        $page = $pageService->createPage([
+            'slug' => $testSlug,
+            'title' => 'MySQL 8.0 Test Page',
+            'meta_title' => 'MySQL Test Title',
+            'meta_description' => 'Testing native MySQL 8.0 JSON and revision integrity',
+            'content_json' => $richContent,
+            'status' => 'draft',
+        ], $testUserId);
+
+        $pageId = (int)$page['id'];
+        if ($pageId <= 0) {
+            throw new RuntimeException("Failed to insert page into MySQL 8.0.");
+        }
+
+        // Query raw JSON directly from MySQL 8.0 to verify native JSON data type support
+        $jsonStmt = $pdo->prepare("SELECT JSON_TYPE(content_json) as jtype, JSON_EXTRACT(content_json, '$.sections') as sections FROM pages WHERE id = :id");
+        $jsonStmt->execute(['id' => $pageId]);
+        $jsonRow = $jsonStmt->fetch();
+        $jsonStmt->closeCursor();
+
+        if (strtoupper((string)($jsonRow['jtype'] ?? '')) !== 'OBJECT') {
+            throw new RuntimeException("MySQL 8.0 JSON_TYPE did not report OBJECT for content_json: " . json_encode($jsonRow));
+        }
+
+        // 3. Verify Unique Slug Constraint on MySQL 8.0
+        $dupCaught = false;
+        try {
+            $pageService->createPage([
+                'slug' => $testSlug,
+                'title' => 'Duplicate Slug Test',
+                'meta_title' => 'Dup',
+                'meta_description' => 'Dup',
+                'content_json' => ['test' => true],
+                'status' => 'draft',
+            ], $testUserId);
+        } catch (\Throwable $e) {
+            $dupCaught = true;
+        }
+        if (!$dupCaught) {
+            throw new RuntimeException("MySQL 8.0 failed to enforce UNIQUE constraint on pages.slug.");
+        }
+
+        // 4. Verify Revision Monotonicity, Snapshot Creation, and Row-Level Locking under Update
+        $updatePayload = $richContent;
+        $updatePayload['hero']['headline'] = 'Updated Headline Under MySQL 8.0';
+
+        $updatedPage = $pageService->updatePage($pageId, [
+            'title' => 'MySQL 8.0 Test Page (Updated)',
+            'content_json' => $updatePayload,
+            'change_summary' => 'First revision on MySQL 8.0',
+        ], $testUserId);
+
+        if ($updatedPage['title'] !== 'MySQL 8.0 Test Page (Updated)') {
+            throw new RuntimeException("Page update title mismatch in MySQL 8.0.");
+        }
+
+        // Verify revision was created in content_revisions with JSON payload
+        $revStmt = $pdo->prepare("SELECT * FROM content_revisions WHERE entity_type = 'pages' AND entity_id = :pid ORDER BY id ASC");
+        $revStmt->execute(['pid' => $pageId]);
+        $revisions = $revStmt->fetchAll();
+        $revStmt->closeCursor();
+
+        if (count($revisions) < 2) {
+            throw new RuntimeException("MySQL 8.0 content_revisions table expected at least 2 revisions, found " . count($revisions));
+        }
+
+        $rev1 = $revisions[0];
+        if ((int)$rev1['editor_user_id'] !== $testUserId) {
+            throw new RuntimeException("Revision editor_user_id mismatch: expected {$testUserId}, got " . $rev1['editor_user_id']);
+        }
+        $snapshot = json_decode((string)$rev1['payload_snapshot'], true);
+        if (!is_array($snapshot) || ($snapshot['title'] ?? '') !== 'MySQL 8.0 Test Page') {
+            throw new RuntimeException("Revision payload snapshot did not record initial state: " . $rev1['payload_snapshot']);
+        }
+
+        // 5. Verify Rollback restoring previous state on MySQL 8.0
+        $rolledBack = $pageService->rollbackRevision($pageId, 1, $testUserId);
+        if ($rolledBack['title'] !== 'MySQL 8.0 Test Page') {
+            throw new RuntimeException("Rollback failed to restore pre-update title on MySQL 8.0: " . $rolledBack['title']);
+        }
+
+        // 6. Verify System Settings table contracts on MySQL 8.0
+        $settingService->ensureDefaultSettings($testUserId);
+        $settingRows = $pdo->query("SELECT setting_key, is_secret FROM system_settings WHERE is_secret = 0")->fetchAll();
+        if (empty($settingRows)) {
+            throw new RuntimeException("Default system settings were not populated on MySQL 8.0.");
+        }
+
+        // Clean up Phase 7 test artifacts
+        $pdo->exec("DELETE FROM content_revisions WHERE entity_type = 'pages' AND entity_id = {$pageId}");
+        $pdo->exec("DELETE FROM pages WHERE id = {$pageId}");
+        $pdo->exec("DELETE FROM system_settings WHERE setting_key = 'test_fk_setting'");
     });
 
     // Clean up isolated test data

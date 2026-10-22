@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Voak\Health\Modules\Admin;
 
+use Voak\Health\Core\Exceptions\AuthenticationException;
 use Voak\Health\Core\Http\Request;
 use Voak\Health\Core\Http\Response;
 use Voak\Health\Services\HomepageService;
@@ -21,6 +22,18 @@ class AdminHomepageController
     }
 
     /**
+     * Extracts authenticated admin user ID, strictly failing closed if identity is missing or invalid.
+     */
+    private function requireAdminUserId(Request $request): int
+    {
+        $userId = $request->getAttribute('admin_user_id');
+        if ($userId === null || (int)$userId <= 0) {
+            throw new AuthenticationException("Authentication required. No authenticated administrative user identity present.");
+        }
+        return (int)$userId;
+    }
+
+    /**
      * GET /api/v1/admin/homepage
      */
     public function show(Request $request): Response
@@ -35,7 +48,7 @@ class AdminHomepageController
      */
     public function update(Request $request): Response
     {
-        $userId = (int)($request->getAttribute('admin_user_id') ?? 1);
+        $userId = $this->requireAdminUserId($request);
         $data = $request->getJson();
 
         $config = $this->homepageService->updateConfig($data, $userId);

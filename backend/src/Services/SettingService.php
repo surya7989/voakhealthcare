@@ -6,6 +6,7 @@ namespace Voak\Health\Services;
 
 use Voak\Health\Core\Exceptions\BadRequestException;
 use Voak\Health\Core\Exceptions\NotFoundException;
+use Voak\Health\Core\Exceptions\SecurityException;
 use Voak\Health\Core\Exceptions\ValidationException;
 use Voak\Health\Database\Connection;
 use Voak\Health\Security\AuditLogger;
@@ -217,11 +218,11 @@ class SettingService
 
         $pdo = $this->connection->getPdo();
 
-        // Validate that keys exist and reject injecting secrets into public settings
+        // Validate that keys exist and retain original values for compensating rollback defense
         $keys = array_keys($normalized);
         $placeholders = implode(',', array_fill(0, count($keys), '?'));
 
-        $stmt = $pdo->prepare("SELECT `id`, `setting_key`, `is_secret` FROM `system_settings` WHERE `setting_key` IN ({$placeholders})");
+        $stmt = $pdo->prepare("SELECT `id`, `setting_key`, `setting_value`, `is_secret`, `updated_by_user_id` FROM `system_settings` WHERE `setting_key` IN ({$placeholders})");
         $stmt->execute($keys);
         $found = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         $stmt->closeCursor();
@@ -270,21 +271,49 @@ class SettingService
             throw $e;
         }
 
-        // Post-commit audit logging
-        $this->auditLogger->log(
-            $pdo,
-            'cms',
-            'settings_updated',
-            $userId,
-            '127.0.0.1',
-            'CMS/SettingService',
-            'system_settings',
-            null,
-            [
-                'updated_keys' => $updatedKeys,
-                'count'        => count($updatedKeys),
-            ]
-        );
+        // Post-commit audit logging with compensating rollback defense
+        try {
+            $this->auditLogger->log(
+                $pdo,
+                'cms',
+                'settings_updated',
+                $userId,
+                '127.0.0.1',
+                'CMS/SettingService',
+                'system_settings',
+                null,
+                [
+                    'updated_keys' => $updatedKeys,
+                    'count'        => count($updatedKeys),
+                ]
+            );
+        } catch (\Throwable $auditEx) {
+            // Compensating rollback: restore settings to their previous values
+            try {
+                $pdo->beginTransaction();
+                $revertStmt = $pdo->prepare("UPDATE `system_settings`
+                    SET `setting_value` = :val,
+                        `updated_by_user_id` = :uid
+                    WHERE `setting_key` = :key");
+
+                foreach ($updatedKeys as $key) {
+                    if (isset($foundMap[$key])) {
+                        $revertStmt->execute([
+                            'val' => $foundMap[$key]['setting_value'],
+                            'uid' => $foundMap[$key]['updated_by_user_id'],
+                            'key' => $key,
+                        ]);
+                    }
+                }
+                $revertStmt->closeCursor();
+                $pdo->commit();
+            } catch (\Throwable) {
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+            }
+            throw new SecurityException("Failed to append immutable audit ledger event: " . $auditEx->getMessage(), 'ERR_AUDIT_LOG_FAILED');
+        }
 
         return [
             'updated_count' => count($updatedKeys),

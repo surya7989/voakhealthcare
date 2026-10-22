@@ -86,9 +86,9 @@ class Route
 
         if (preg_match($this->regex, $path, $matches)) {
             $params = [];
-            foreach ($this->parameterNames as $name) {
-                if (isset($matches[$name])) {
-                    $params[$name] = $matches[$name];
+            foreach ($this->parameterNames as $name => $group) {
+                if (isset($matches[$group])) {
+                    $params[$name] = (string)$matches[$group];
                 }
             }
             return $params;
@@ -100,12 +100,15 @@ class Route
     private function compileRegex(): void
     {
         $pattern = $this->pattern;
+        $this->parameterNames = [];
 
-        // Convert {param} and :param placeholders to regex named capture groups
+        // Convert {param} and :param placeholders to regex named capture groups.
+        // PCRE capture group names cannot contain hyphens, so map hyphens to underscores for the internal group.
         $regex = preg_replace_callback('/(?:\{([a-zA-Z_][a-zA-Z0-9_-]*)\}|:([a-zA-Z_][a-zA-Z0-9_-]*))/', function ($matches) {
             $name = !empty($matches[1]) ? $matches[1] : $matches[2];
-            $this->parameterNames[] = $name;
-            return '(?P<' . $name . '>[^/]+)';
+            $group = str_replace('-', '_', $name);
+            $this->parameterNames[$name] = $group;
+            return '(?P<' . $group . '>[^/]+)';
         }, $pattern);
 
         $this->regex = '#^' . $regex . '$#u';

@@ -541,6 +541,115 @@ class ContentManagementApiTest
                 $pubData = json_decode($pubRes->getBody(), true);
                 T::assertEquals('Voak Health Care Australia', $pubData['data']['settings']['site_name']['value']);
             });
+
+            T::test('Admin controllers fail closed (HTTP 401) when admin_user_id is missing or invalid', function () {
+                $app = self::createAppWithMigratedDatabase();
+                $pageService = $app->getContainer()->get(\Voak\Health\Services\PageService::class);
+                $homepageService = $app->getContainer()->get(\Voak\Health\Services\HomepageService::class);
+                $settingService = $app->getContainer()->get(\Voak\Health\Services\SettingService::class);
+
+                $pageCtrl = new \Voak\Health\Modules\Admin\AdminPageController($pageService);
+                $homeCtrl = new \Voak\Health\Modules\Admin\AdminHomepageController($homepageService);
+                $setCtrl = new \Voak\Health\Modules\Admin\AdminSettingController($settingService);
+
+                // Request with no admin_user_id attribute
+                $reqWithoutUser = new Request('POST', '/api/v1/admin/pages', [], [], json_encode(['slug' => 'test-anon', 'title' => 'Anon']));
+
+                $pageFailed = false;
+                try {
+                    $pageCtrl->create($reqWithoutUser);
+                } catch (\Voak\Health\Core\Exceptions\AuthenticationException $e) {
+                    $pageFailed = true;
+                    T::assertContains('Authentication required', $e->getMessage());
+                }
+                T::assertTrue($pageFailed, "AdminPageController::create must fail closed when admin_user_id is missing");
+
+                $homeFailed = false;
+                try {
+                    $homeCtrl->update($reqWithoutUser);
+                } catch (\Voak\Health\Core\Exceptions\AuthenticationException $e) {
+                    $homeFailed = true;
+                    T::assertContains('Authentication required', $e->getMessage());
+                }
+                T::assertTrue($homeFailed, "AdminHomepageController::update must fail closed when admin_user_id is missing");
+
+                $setFailed = false;
+                try {
+                    $setCtrl->update($reqWithoutUser);
+                } catch (\Voak\Health\Core\Exceptions\AuthenticationException $e) {
+                    $setFailed = true;
+                    T::assertContains('Authentication required', $e->getMessage());
+                }
+                T::assertTrue($setFailed, "AdminSettingController::update must fail closed when admin_user_id is missing");
+            });
+
+            T::test('Content Editor cannot delete pages (HTTP 403) under least-privilege RBAC', function () {
+                $app = self::createAppWithMigratedDatabase();
+                $superAuth = self::loginUser($app, 'admin@voak.test', 'VoakAdmin#2026!Secure');
+                $editorAuth = self::loginUser($app, 'editor@voak.test', 'VoakEditor#2026!Secure');
+
+                // 1. Super Admin creates page #1
+                $createReq = new Request(
+                    'POST',
+                    '/api/v1/admin/pages',
+                    [],
+                    [
+                        'Content-Type' => 'application/json',
+                        'X-CSRF-Token' => $superAuth['csrf_token'],
+                        'Cookie'       => "voak_admin_session={$superAuth['session_cookie']}",
+                    ],
+                    json_encode([
+                        'slug'    => 'protected-corp-page',
+                        'title'   => 'Protected Corporate Page',
+                        'content' => 'Important policy',
+                    ])
+                );
+                $createRes = $app->handle($createReq);
+                T::assertEquals(201, $createRes->getStatusCode());
+                $createdData = json_decode($createRes->getBody(), true);
+                $pageId = (int)$createdData['data']['page']['id'];
+
+                // 2. Content Editor attempts to DELETE page -> MUST return 403
+                $delReq = new Request(
+                    'DELETE',
+                    "/api/v1/admin/pages/{$pageId}",
+                    [],
+                    [
+                        'X-CSRF-Token' => $editorAuth['csrf_token'],
+                        'Cookie'       => "voak_admin_session={$editorAuth['session_cookie']}",
+                    ]
+                );
+                $delRes = $app->handle($delReq);
+                T::assertEquals(403, $delRes->getStatusCode(), "Content Editor must be forbidden from deleting pages");
+                $delData = json_decode($delRes->getBody(), true);
+                T::assertEquals('ERR_FORBIDDEN', $delData['error']['code']);
+
+                // 3. Super Admin CAN delete the page -> 200
+                $superDelReq = new Request(
+                    'DELETE',
+                    "/api/v1/admin/pages/{$pageId}",
+                    [],
+                    [
+                        'X-CSRF-Token' => $superAuth['csrf_token'],
+                        'Cookie'       => "voak_admin_session={$superAuth['session_cookie']}",
+                    ]
+                );
+                $superDelRes = $app->handle($superDelReq);
+                T::assertEquals(200, $superDelRes->getStatusCode(), "Super Admin must be authorized to delete page");
+            });
+
+            T::test('Route regex supports hyphenated route parameter names without PCRE syntax errors', function () {
+                $route1 = new \Voak\Health\Core\Router\Route('GET', '/pages/{page-id}/sections/{section-name}', function () {});
+                T::assertTrue($route1->matchesPath('/pages/42/sections/intro'));
+                $params1 = $route1->extractParameters('/pages/42/sections/intro');
+                T::assertEquals('42', $params1['page-id']);
+                T::assertEquals('intro', $params1['section-name']);
+
+                $route2 = new \Voak\Health\Core\Router\Route('GET', '/items/:item-slug', function () {});
+                T::assertTrue($route2->matchesPath('/items/clinical-governance'));
+                $params2 = $route2->extractParameters('/items/clinical-governance');
+                T::assertEquals('clinical-governance', $params2['item-slug']);
+            });
         });
     }
 }

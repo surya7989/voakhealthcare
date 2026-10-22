@@ -135,19 +135,39 @@ class HtmlSanitizer
 
     public function isSafeUrl(string $url): bool
     {
-        $trimmed = trim($url);
+        // Recursively decode HTML entities to neutralize entity-encoded bypasses (e.g. java&#x73;cript:)
+        $decoded = html_entity_decode($url, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        while (($prev = html_entity_decode($decoded, ENT_QUOTES | ENT_HTML5, 'UTF-8')) !== $decoded) {
+            $decoded = $prev;
+        }
+
+        // Strip control characters, tabs, and null bytes
+        $stripped = preg_replace('/[\x00-\x1F\x7F]/', '', $decoded);
+        if ($stripped === null) {
+            return false;
+        }
+        $trimmed = trim($stripped);
+
         if ($trimmed === '' || $trimmed === '#') {
             return true;
         }
 
-        // Allow relative URLs starting with / or #
-        if (str_starts_with($trimmed, '/') || str_starts_with($trimmed, '#')) {
-            return true;
+        // Explicitly reject dangerous pseudoprotocols regardless of obfuscation or spacing
+        $normalizedPrefix = strtolower((string)preg_replace('/[^a-zA-Z0-9]/', '', substr($trimmed, 0, 25)));
+        if (str_starts_with($normalizedPrefix, 'javascript') ||
+            str_starts_with($normalizedPrefix, 'vbscript') ||
+            str_starts_with($normalizedPrefix, 'data')) {
+            return false;
         }
 
-        // Prevent control characters and null bytes
-        if (preg_match('/[\x00-\x1F\x7F]/', $trimmed)) {
+        // Reject protocol-relative external URLs (//evil.com)
+        if (str_starts_with($trimmed, '//')) {
             return false;
+        }
+
+        // Allow safe relative URLs starting with / or #
+        if (str_starts_with($trimmed, '/') || str_starts_with($trimmed, '#')) {
+            return true;
         }
 
         // Extract scheme
@@ -158,8 +178,7 @@ class HtmlSanitizer
         }
 
         $scheme = strtolower(substr($trimmed, 0, $colonPos));
-        // Remove whitespace inside scheme
-        $scheme = (string)preg_replace('/\s+/', '', $scheme);
+        $scheme = (string)preg_replace('/[^a-z0-9]/', '', $scheme);
 
         return in_array($scheme, self::ALLOWED_URI_SCHEMES, true);
     }
