@@ -233,15 +233,11 @@ class IndustryService
                  (:title, :slug, :summary, :reg, :pain, 1, :order, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)"
             );
 
-            $insertMapping = $pdo->prepare(
-                "INSERT OR IGNORE INTO `service_industry_mappings` (`service_id`, `industry_id`, `created_at`) VALUES (:sid, :iid, CURRENT_TIMESTAMP)"
-            );
             $driver = (string)$pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
-            if ($driver === 'mysql') {
-                $insertMapping = $pdo->prepare(
-                    "INSERT IGNORE INTO `service_industry_mappings` (`service_id`, `industry_id`, `created_at`) VALUES (:sid, :iid, CURRENT_TIMESTAMP)"
-                );
-            }
+            $mappingSql = $driver === 'mysql'
+                ? "INSERT IGNORE INTO `service_industry_mappings` (`service_id`, `industry_id`, `created_at`) VALUES (:sid, :iid, CURRENT_TIMESTAMP)"
+                : "INSERT OR IGNORE INTO `service_industry_mappings` (`service_id`, `industry_id`, `created_at`) VALUES (:sid, :iid, CURRENT_TIMESTAMP)";
+            $insertMapping = $pdo->prepare($mappingSql);
 
             foreach ($defaults as $ind) {
                 $insert->execute([
