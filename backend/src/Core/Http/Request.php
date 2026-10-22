@@ -20,6 +20,8 @@ class Request
     private string $correlationId;
     private string $clientIp;
     private array $attributes = [];
+    private array $uploadedFiles = [];
+    private ?array $parsedBody = null;
 
     public function __construct(
         string $method,
@@ -28,7 +30,9 @@ class Request
         array $headers = [],
         string $rawBody = '',
         ?string $correlationId = null,
-        ?string $clientIp = null
+        ?string $clientIp = null,
+        array $uploadedFiles = [],
+        ?array $parsedBody = null
     ) {
         $this->method = strtoupper($method);
         $this->path = $this->normalizePath($path);
@@ -37,6 +41,8 @@ class Request
         $this->rawBody = $rawBody;
         $this->correlationId = $correlationId ?? $this->resolveCorrelationId();
         $this->clientIp = $clientIp ?? '127.0.0.1';
+        $this->uploadedFiles = $uploadedFiles;
+        $this->parsedBody = $parsedBody;
     }
 
     public static function fromGlobals(): self
@@ -63,8 +69,39 @@ class Request
         $rawBody = (string)file_get_contents('php://input');
 
         $clientIp = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+        $uploadedFiles = $_FILES ?? [];
+        $parsedBody = !empty($_POST) ? $_POST : null;
 
-        return new self($method, $path, $_GET, $headers, $rawBody, null, $clientIp);
+        return new self($method, $path, $_GET, $headers, $rawBody, null, $clientIp, $uploadedFiles, $parsedBody);
+    }
+
+    public function getUploadedFiles(): array
+    {
+        return $this->uploadedFiles;
+    }
+
+    public function getUploadedFile(string $key): ?array
+    {
+        return $this->uploadedFiles[$key] ?? null;
+    }
+
+    public function withUploadedFiles(array $files): self
+    {
+        $clone = clone $this;
+        $clone->uploadedFiles = $files;
+        return $clone;
+    }
+
+    public function getParsedBody(): ?array
+    {
+        return $this->parsedBody;
+    }
+
+    public function withParsedBody(?array $body): self
+    {
+        $clone = clone $this;
+        $clone->parsedBody = $body;
+        return $clone;
     }
 
     public function getMethod(): string

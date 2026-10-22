@@ -524,6 +524,13 @@ class RbacManager
         'industries.edit'    => ['industry:update', 'industries.edit'],
         'industries.publish' => ['industry:delete', 'industries.publish'],
         'industries.delete'  => ['industry:delete', 'industries.delete'],
+        'media.view'         => ['media:upload', 'media:update_alt', 'media:delete', 'media.view'],
+        'media.upload'       => ['media:upload', 'media.upload'],
+        'media.manage'       => ['media:upload', 'media:update_alt', 'media:delete', 'media.manage'],
+        'media.edit'         => ['media:update_alt', 'media.edit'],
+        'media.delete'       => ['media:delete', 'media.delete'],
+        'proposals.manage'   => ['proposal:download_tender', 'proposal:list', 'proposals.manage'],
+        'applications.view'  => ['candidate:download_cv', 'candidate:list', 'applications.view'],
     ];
 
     /**

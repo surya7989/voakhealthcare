@@ -23,8 +23,10 @@ use Voak\Health\Middleware\RateLimitMiddleware;
 use Voak\Health\Middleware\RequirePermissionMiddleware;
 use Voak\Health\Middleware\SecurityHeadersMiddleware;
 use Voak\Health\Modules\Admin\AdminAuthController;
+use Voak\Health\Modules\Admin\AdminDocumentStreamController;
 use Voak\Health\Modules\Admin\AdminHomepageController;
 use Voak\Health\Modules\Admin\AdminIndustryController;
+use Voak\Health\Modules\Admin\AdminMediaController;
 use Voak\Health\Modules\Admin\AdminPageController;
 use Voak\Health\Modules\Admin\AdminServiceController;
 use Voak\Health\Modules\Admin\AdminSettingController;
@@ -39,6 +41,7 @@ use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
 use Voak\Health\Services\HomepageService;
 use Voak\Health\Services\IndustryService;
+use Voak\Health\Services\MediaStorageService;
 use Voak\Health\Services\PageService;
 use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SettingService;
@@ -196,13 +199,16 @@ class App
         ));
         $this->container->set(AdminUsersController::class, new AdminUsersController($connection));
 
-        // Phase 7, 8 & 9 Services
+        // Phase 7, 8, 9 & 10 Services
         $sanitizer = new HtmlSanitizer();
         $pageService = new PageService($connection, $auditLogger, $sanitizer);
         $homepageService = new HomepageService($connection, $auditLogger, $sanitizer);
         $settingService = new SettingService($connection, $auditLogger);
         $serviceService = new ServiceService($connection, $auditLogger, $sanitizer);
         $industryService = new IndustryService($connection, $auditLogger, $sanitizer);
+        $mediaService = $this->container->has(MediaStorageService::class)
+            ? $this->container->get(MediaStorageService::class)
+            : new MediaStorageService($connection, $auditLogger);
 
         $this->container->set(HtmlSanitizer::class, $sanitizer);
         $this->container->set(PageService::class, $pageService);
@@ -210,19 +216,23 @@ class App
         $this->container->set(SettingService::class, $settingService);
         $this->container->set(ServiceService::class, $serviceService);
         $this->container->set(IndustryService::class, $industryService);
+        $this->container->set(MediaStorageService::class, $mediaService);
 
-        // Phase 7, 8 & 9 Controllers
+        // Phase 7, 8, 9 & 10 Controllers
         $this->container->set(AdminPageController::class, new AdminPageController($pageService));
         $this->container->set(AdminHomepageController::class, new AdminHomepageController($homepageService));
         $this->container->set(AdminSettingController::class, new AdminSettingController($settingService));
         $this->container->set(AdminServiceController::class, new AdminServiceController($serviceService));
         $this->container->set(AdminIndustryController::class, new AdminIndustryController($industryService));
+        $this->container->set(AdminMediaController::class, new AdminMediaController($mediaService));
+        $this->container->set(AdminDocumentStreamController::class, new AdminDocumentStreamController($connection, $mediaService, $this->container));
         $this->container->set(PublicContentController::class, new PublicContentController(
             $pageService,
             $homepageService,
             $settingService,
             $serviceService,
-            $industryService
+            $industryService,
+            $mediaService
         ));
     }
 
@@ -301,6 +311,8 @@ class App
         $this->router->get('/api/v1/public/industries/:slug', [PublicContentController::class, 'getIndustry']);
         $this->router->get('/api/industries', [PublicContentController::class, 'getIndustries']);
         $this->router->get('/api/industries/:slug', [PublicContentController::class, 'getIndustry']);
+        $this->router->get('/api/v1/public/media/:id', [PublicContentController::class, 'getMedia']);
+        $this->router->get('/api/media/:id', [PublicContentController::class, 'getMedia']);
 
         // Phase 7 Administrative CMS Routes (Authenticated, CSRF-protected, RBAC-enforced)
         // 1. Pages CRUD, Workflow & Revisions
@@ -441,6 +453,75 @@ class App
             '/api/v1/admin/industries/:id',
             [AdminIndustryController::class, 'delete'],
             [RequirePermissionMiddleware::with('industry:delete', $rbacManager, $connection)]
+        );
+
+        // 6. Media Library Console (ADM-009 / FR-ADM-009)
+        $this->router->get(
+            '/api/v1/admin/media',
+            [AdminMediaController::class, 'index'],
+            [RequirePermissionMiddleware::with('media.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/media/:id',
+            [AdminMediaController::class, 'show'],
+            [RequirePermissionMiddleware::with('media.view', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/media/upload',
+            [AdminMediaController::class, 'upload'],
+            [RequirePermissionMiddleware::with('media.upload', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/media/upload',
+            [AdminMediaController::class, 'upload'],
+            [RequirePermissionMiddleware::with('media.upload', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/media/:id',
+            [AdminMediaController::class, 'update'],
+            [RequirePermissionMiddleware::with('media.edit', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/v1/admin/media/:id',
+            [AdminMediaController::class, 'update'],
+            [RequirePermissionMiddleware::with('media.edit', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/v1/admin/media/:id',
+            [AdminMediaController::class, 'delete'],
+            [RequirePermissionMiddleware::with('media.delete', $rbacManager, $connection)]
+        );
+
+        // 7. Authenticated Document Streaming Proxy (FR-SEC-004)
+        $this->router->get(
+            '/api/v1/admin/documents/:id/stream',
+            [AdminDocumentStreamController::class, 'streamDocument'],
+            [RequirePermissionMiddleware::with('proposals.manage', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/documents/:id/stream',
+            [AdminDocumentStreamController::class, 'streamDocument'],
+            [RequirePermissionMiddleware::with('proposals.manage', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/proposals/:id/document',
+            [AdminDocumentStreamController::class, 'streamProposal'],
+            [RequirePermissionMiddleware::with('proposals.manage', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/enquiries/proposals/:id/document',
+            [AdminDocumentStreamController::class, 'streamProposal'],
+            [RequirePermissionMiddleware::with('proposals.manage', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/careers/applications/:id/resume',
+            [AdminDocumentStreamController::class, 'streamResume'],
+            [RequirePermissionMiddleware::with('applications.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/careers/applications/:id/resume',
+            [AdminDocumentStreamController::class, 'streamResume'],
+            [RequirePermissionMiddleware::with('applications.view', $rbacManager, $connection)]
         );
     }
 }

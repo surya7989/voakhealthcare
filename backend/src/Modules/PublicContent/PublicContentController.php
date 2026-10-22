@@ -9,6 +9,7 @@ use Voak\Health\Core\Http\Request;
 use Voak\Health\Core\Http\Response;
 use Voak\Health\Services\HomepageService;
 use Voak\Health\Services\IndustryService;
+use Voak\Health\Services\MediaStorageService;
 use Voak\Health\Services\PageService;
 use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SettingService;
@@ -16,7 +17,7 @@ use Voak\Health\Services\SettingService;
 /**
  * Public Content Delivery Controller.
  * Provides high-performance, cached, read-only endpoints for corporate pages,
- * homepage hero configuration, public settings, services catalog, and industries catalog with HTTP ETag / 304 validation.
+ * homepage hero configuration, public settings, services catalog, industries catalog, and public media with HTTP ETag / 304 validation.
  */
 class PublicContentController
 {
@@ -25,19 +26,22 @@ class PublicContentController
     private SettingService $settingService;
     private ?ServiceService $serviceService;
     private ?IndustryService $industryService;
+    private ?MediaStorageService $mediaService;
 
     public function __construct(
         PageService $pageService,
         HomepageService $homepageService,
         SettingService $settingService,
         ?ServiceService $serviceService = null,
-        ?IndustryService $industryService = null
+        ?IndustryService $industryService = null,
+        ?MediaStorageService $mediaService = null
     ) {
         $this->pageService = $pageService;
         $this->homepageService = $homepageService;
         $this->settingService = $settingService;
         $this->serviceService = $serviceService;
         $this->industryService = $industryService;
+        $this->mediaService = $mediaService;
     }
 
     /**
@@ -271,6 +275,38 @@ class PublicContentController
         }
 
         throw new NotFoundException("Industry [{$slug}] not found.");
+    }
+
+    /**
+     * GET /api/v1/public/media/:id
+     * Returns sanitized public metadata for a media asset.
+     */
+    public function getMedia(Request $request): Response
+    {
+        $id = (int)($request->getAttribute('id') ?? 0);
+        if ($id <= 0 || $this->mediaService === null) {
+            throw new NotFoundException("Media asset not found.");
+        }
+
+        $media = $this->mediaService->getMediaById($id);
+        if (!$media) {
+            throw new NotFoundException("Media asset [{$id}] not found.");
+        }
+
+        // Return only safe public fields
+        $publicData = [
+            'id'              => $media['id'],
+            'original_name'   => $media['original_name'],
+            'url'             => $media['url'],
+            'thumb_url'       => $media['thumb_url'],
+            'dimensions'      => $media['dimensions'],
+            'alt_text'        => $media['alt_text'],
+            'mime_type'       => $media['mime_type'],
+            'file_size_bytes' => $media['file_size_bytes'],
+            'created_at'      => $media['created_at'],
+        ];
+
+        return Response::success(['media' => $publicData], 200, $request->getCorrelationId());
     }
 
     private function isEtagMatch(string $headerValue, string $etag): bool

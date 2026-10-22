@@ -1,0 +1,6 @@
+# Voak Health Care Document Quarantine Protection
+# Direct web access and script execution strictly prohibited (FR-SEC-003 / SYS-004)
+Require all denied
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>

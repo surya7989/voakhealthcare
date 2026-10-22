@@ -24,6 +24,7 @@ use Voak\Health\Auth\RbacManager;
 use Voak\Health\Auth\SessionManager;
 use Voak\Health\Auth\TotpService;
 use Voak\Health\Core\Config;
+use Voak\Health\Core\Exceptions\ConflictException;
 use Voak\Health\Core\Exceptions\SecurityException;
 use Voak\Health\Database\Connection;
 use Voak\Health\Security\AuditLogger;
@@ -31,6 +32,7 @@ use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
 use Voak\Health\Services\IndustryService;
+use Voak\Health\Services\MediaStorageService;
 use Voak\Health\Services\PageService;
 use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SettingService;
@@ -720,6 +722,127 @@ try {
         $pdo->exec("DELETE FROM `url_redirects` WHERE `source_path` = '/industries/{$testSlug}'");
     });
 
+    // =========================================================================
+    // TEST 9: Phase 10 — Media Assets, WebP Metadata, Referential Deletion Guard & Quarantined Document Streaming
+    // =========================================================================
+    $runTest("Test 9: Media Library & Quarantined Document Enclave on MySQL 8.0", function () use ($pdo, $testUserId) {
+        $tempPublic = sys_get_temp_dir() . '/voak_mysql_pub_' . bin2hex(random_bytes(4));
+        $tempQuarantine = sys_get_temp_dir() . '/voak_mysql_quar_' . bin2hex(random_bytes(4));
+
+        $connection = new Connection();
+        $connection->setMockPdo($pdo);
+        $auditLogger = new AuditLogger();
+        $mediaService = new MediaStorageService($connection, $auditLogger, $tempPublic, $tempQuarantine);
+
+        // 1. Verify media_assets table exists on MySQL 8.0
+        $colCheck = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'media_assets'")->fetchAll(\PDO::FETCH_COLUMN);
+        if (!in_array('stored_name', $colCheck, true) || !in_array('alt_text', $colCheck, true)) {
+            throw new RuntimeException("media_assets table missing expected canonical columns on MySQL 8.0.");
+        }
+
+        // 2. Upload and convert image to WebP format
+        $img = imagecreatetruecolor(400, 300);
+        $bg = imagecolorallocate($img, 30, 120, 200);
+        imagefilledrectangle($img, 0, 0, 400, 300, $bg);
+        $tmpImg = tempnam(sys_get_temp_dir(), 'mysql_img_') . '.jpg';
+        imagejpeg($img, $tmpImg, 90);
+        imagedestroy($img);
+
+        $uploaded = $mediaService->uploadMedia([
+            'tmp_name' => $tmpImg,
+            'name'     => 'mysql-hero.jpg',
+            'size'     => filesize($tmpImg),
+        ], 'MySQL 8.0 Hero Asset', $testUserId);
+        @unlink($tmpImg);
+
+        $mediaId = (int)$uploaded['id'];
+
+        // Verify row in MySQL 8.0
+        $row = $pdo->query("SELECT * FROM media_assets WHERE id = {$mediaId}")->fetch(\PDO::FETCH_ASSOC);
+        if (!$row || $row['mime_type'] !== 'image/webp' || $row['dimensions'] !== '400x300') {
+            throw new RuntimeException("Uploaded media asset row not persisted correctly in MySQL 8.0.");
+        }
+
+        // 3. Referential integrity deletion guard: associate with Page
+        $testSlug = 'mysql-page-' . bin2hex(random_bytes(4));
+        $pdo->exec(
+            "INSERT INTO pages (slug, title, meta_title, meta_description, content_json, is_published)
+             VALUES ('{$testSlug}', 'MySQL Guard Page', 'Meta Title', 'Meta Desc', '{\"hero_image_id\": {$mediaId}}', 1)"
+        );
+
+        $conflictCaught = false;
+        try {
+            $mediaService->deleteMedia($mediaId, $testUserId);
+        } catch (ConflictException $e) {
+            $conflictCaught = true;
+        }
+        if (!$conflictCaught) {
+            throw new RuntimeException("Referential integrity deletion guard failed to prevent deletion of in-use media asset on MySQL 8.0.");
+        }
+
+        // Remove page reference and delete media asset
+        $pdo->exec("DELETE FROM pages WHERE slug = '{$testSlug}'");
+        $deleted = $mediaService->deleteMedia($mediaId, $testUserId);
+        if (!$deleted) {
+            throw new RuntimeException("deleteMedia failed to return true on MySQL 8.0.");
+        }
+
+        $checkDeleted = (int)$pdo->query("SELECT COUNT(*) FROM media_assets WHERE id = {$mediaId}")->fetchColumn();
+        if ($checkDeleted !== 0) {
+            throw new RuntimeException("Media asset record still present after delete on MySQL 8.0.");
+        }
+
+        // 4. Test Quarantined Document Ingestion & Streaming Proxy
+        $tmpPdf = tempnam(sys_get_temp_dir(), 'mysql_pdf_') . '.pdf';
+        file_put_contents($tmpPdf, "%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>%%EOF\n");
+
+        $quarantined = $mediaService->quarantineDocument([
+            'tmp_name' => $tmpPdf,
+            'name'     => 'Enterprise_Hospital_Tender.pdf',
+            'size'     => filesize($tmpPdf),
+        ], 'tender');
+        @unlink($tmpPdf);
+
+        if (!file_exists($quarantined['quarantined_file_path'])) {
+            throw new RuntimeException("Quarantined document file not written to disk on MySQL 8.0.");
+        }
+
+        $response = $mediaService->streamQuarantinedFile(
+            $quarantined['quarantined_file_path'],
+            $quarantined['original_file_name'],
+            'application/pdf',
+            $testUserId,
+            'TENDER_STREAMED',
+            'PROPOSALS',
+            999,
+            '127.0.0.1'
+        );
+
+        if ($response->getStatusCode() !== 200 || $response->getHeader('content-type') !== 'application/pdf') {
+            throw new RuntimeException("streamQuarantinedFile failed to stream document safely on MySQL 8.0.");
+        }
+
+        // Verify audit log entry in MySQL 8.0
+        $auditEntry = $pdo->query("SELECT * FROM audit_logs WHERE action = 'TENDER_STREAMED' AND entity_id = 999")->fetch();
+        if (!$auditEntry) {
+            throw new RuntimeException("Streaming audit event not persisted in MySQL 8.0 audit_logs.");
+        }
+
+        // Clean up temporary directories
+        @unlink($quarantined['quarantined_file_path']);
+        $rDel = function ($dir) use (&$rDel) {
+            if (!is_dir($dir)) return;
+            foreach (scandir($dir) ?: [] as $i) {
+                if ($i === '.' || $i === '..') continue;
+                $p = $dir . '/' . $i;
+                is_dir($p) ? $rDel($p) : @unlink($p);
+            }
+            @rmdir($dir);
+        };
+        $rDel($tempPublic);
+        $rDel($tempQuarantine);
+    });
+
     // Clean up isolated test data
     $pdo->exec("DELETE FROM user_roles WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM admin_sessions WHERE user_id = {$testUserId}");
@@ -730,6 +853,8 @@ try {
     $pdo->exec("DELETE FROM system_settings WHERE updated_by_user_id = {$testUserId}");
     $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/services/mysql-service-%'");
     $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/industries/mysql-industry-%'");
+    $pdo->exec("DELETE FROM media_assets WHERE uploaded_by_user_id = {$testUserId}");
+    $pdo->exec("DELETE FROM pages WHERE slug LIKE 'mysql-page-%'");
     $pdo->exec("DELETE FROM users WHERE id = {$testUserId} OR email = '{$testUserEmail}'");
 
     echo "\n======================================================================\n";

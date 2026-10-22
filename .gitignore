@@ -31,6 +31,14 @@ backend/.env
 *.log
 !**/.gitkeep
 
+# Media uploads and quarantined documents
+backend/public/assets/uploads/*
+!backend/public/assets/uploads/.gitkeep
+backend/storage/private/quarantine/*
+!backend/storage/private/quarantine/.htaccess
+!backend/storage/private/quarantine/index.html
+!backend/storage/private/quarantine/.gitkeep
+
 # Temporary scratch directory
 scratch/
 

@@ -155,6 +155,30 @@ class Response
     }
 
     /**
+     * File attachment / streaming download response factory.
+     */
+    public static function download(
+        string $filePath,
+        string $downloadFilename,
+        string $contentType = 'application/octet-stream'
+    ): self {
+        $filesize = file_exists($filePath) ? filesize($filePath) : 0;
+        $headers = [
+            'Content-Type' => $contentType,
+            'Content-Disposition' => 'attachment; filename="' . $downloadFilename . '"',
+            'Content-Length' => (string)$filesize,
+            'Content-Transfer-Encoding' => 'Binary',
+            'X-Content-Type-Options' => 'nosniff',
+            'Cache-Control' => 'private, no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+        ];
+
+        $content = file_exists($filePath) ? (string)file_get_contents($filePath) : '';
+        return new self(200, $headers, $content);
+    }
+
+    /**
      * Emit response to client.
      */
     public function send(): void
