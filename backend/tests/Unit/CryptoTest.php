@@ -28,8 +28,9 @@ class CryptoTest
             T::test('rejects tampered ciphertext payload returning null or throwing exception', function () use ($masterKey) {
                 $encrypted = Crypto::encrypt('Confidential Data', $masterKey);
 
-                // Tamper with payload
-                $tampered = substr_replace($encrypted, 'X', 10, 1);
+                // Guaranteed tamper with payload: ensure replacement character differs
+                $replacement = ($encrypted[10] === 'X') ? 'Y' : 'X';
+                $tampered = substr_replace($encrypted, $replacement, 10, 1);
                 $decrypted = Crypto::decrypt($tampered, $masterKey);
                 T::assertEquals(null, $decrypted);
             });
