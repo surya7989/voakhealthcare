@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 
 $backendRoot = dirname(__DIR__) . '/backend';
+ini_set('memory_limit', '512M');
 require_once $backendRoot . '/vendor/autoload.php';
 
 use Voak\Health\Tests\TestFramework;
