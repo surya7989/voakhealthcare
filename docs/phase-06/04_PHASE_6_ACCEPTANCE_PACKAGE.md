@@ -8,8 +8,8 @@
 **Target Canonical Branch:** `main`  
 **Date:** October 22, 2026  
 **Auditor / Presenter:** Lead Security Architect, Staff PHP Backend Engineer & Application Security Specialist  
-**Verified Remote HEAD Commit:** `bef2011fd972e017bc75b394efcc45c954f43cb5` (security corrections & hardening verified)  
-**Latest CI Run Reference:** [Run #39704701084](https://github.com/surya7989/voakhealthcare/actions/runs/39704701084) — **SUCCESS (100% Green across PHP 8.2, 8.3 & MySQL 8.0)**  
+**Verified Remote HEAD Commit:** `c34e86f1e80e159ea43422ff2940263630f576b5` (security corrections, fail-fast Argon2id & CryptoTest hardening verified)  
+**Latest CI Run Reference:** [Run #39707149649](https://github.com/surya7989/voakhealthcare/actions/runs/39707149649) — **SUCCESS (100% Green across PHP 8.2, 8.3 & MySQL 8.0)**  
 **Overall Package Status:** **CODE-LEVEL VERIFICATION COMPLETE (Live Hostinger Staging Validation Outstanding; Formal Signatory Identity Pending)**  
 
 ---
@@ -109,8 +109,8 @@ TECHNICAL REVIEW & AUDIT VERIFICATION:
 Role: Lead Security Architect & Application Security Engineer
 Verdict: CODE-LEVEL VERIFICATION COMPLETE & APPROVED
 Date: October 22, 2026
-Verified Commit: bef2011fd972e017bc75b394efcc45c954f43cb5
-CI Workflow Status: Run 39704701084 — SUCCESS (100% Passed)
+Verified Commit: c34e86f1e80e159ea43422ff2940263630f576b5
+CI Workflow Status: Run 39707149649 — SUCCESS (100% Passed)
 Staging Status: Live Hostinger Staging Validation strictly marked PENDING
 ================================================================================
 ```
