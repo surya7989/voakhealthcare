@@ -519,6 +519,11 @@ class RbacManager
         'services.edit'    => ['service:update', 'services.edit'],
         'services.publish' => ['service:publish', 'services.publish'],
         'services.delete'  => ['service:delete', 'services.delete'],
+        'industries.view'    => ['industry:update', 'industry:create', 'industries.view'],
+        'industries.create'  => ['industry:create', 'industries.create'],
+        'industries.edit'    => ['industry:update', 'industries.edit'],
+        'industries.publish' => ['industry:delete', 'industries.publish'],
+        'industries.delete'  => ['industry:delete', 'industries.delete'],
     ];
 
     /**

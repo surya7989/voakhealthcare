@@ -50,6 +50,9 @@ jobs:
       - name: Run Phase 8 Services Catalog Management Test Suite
         run: php tests/test_phase8_services_management.php
 
+      - name: Run Phase 9 Industries Management Test Suite
+        run: php tests/test_phase9_industries_management.php
+
       - name: Verify Secret Scanning Baseline
         run: php tests/scan_secrets.php
 

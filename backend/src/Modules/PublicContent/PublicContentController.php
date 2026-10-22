@@ -8,6 +8,7 @@ use Voak\Health\Core\Exceptions\NotFoundException;
 use Voak\Health\Core\Http\Request;
 use Voak\Health\Core\Http\Response;
 use Voak\Health\Services\HomepageService;
+use Voak\Health\Services\IndustryService;
 use Voak\Health\Services\PageService;
 use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SettingService;
@@ -15,7 +16,7 @@ use Voak\Health\Services\SettingService;
 /**
  * Public Content Delivery Controller.
  * Provides high-performance, cached, read-only endpoints for corporate pages,
- * homepage hero configuration, public settings, and services catalog with HTTP ETag / 304 validation.
+ * homepage hero configuration, public settings, services catalog, and industries catalog with HTTP ETag / 304 validation.
  */
 class PublicContentController
 {
@@ -23,17 +24,20 @@ class PublicContentController
     private HomepageService $homepageService;
     private SettingService $settingService;
     private ?ServiceService $serviceService;
+    private ?IndustryService $industryService;
 
     public function __construct(
         PageService $pageService,
         HomepageService $homepageService,
         SettingService $settingService,
-        ?ServiceService $serviceService = null
+        ?ServiceService $serviceService = null,
+        ?IndustryService $industryService = null
     ) {
         $this->pageService = $pageService;
         $this->homepageService = $homepageService;
         $this->settingService = $settingService;
         $this->serviceService = $serviceService;
+        $this->industryService = $industryService;
     }
 
     /**
@@ -193,6 +197,80 @@ class PublicContentController
         }
 
         throw new NotFoundException("Service [{$slug}] not found.");
+    }
+
+    /**
+     * GET /api/v1/public/industries
+     * Delivers published healthcare industry sectors ordered by display sequence.
+     */
+    public function getIndustries(Request $request): Response
+    {
+        if ($this->industryService === null) {
+            throw new NotFoundException("Industries catalog not available.");
+        }
+
+        $data = $this->industryService->getPublishedIndustries();
+        $etag = $data['etag'];
+
+        // Conditional GET check
+        $ifNoneMatch = $request->getHeader('if-none-match');
+        if ($ifNoneMatch !== null && $this->isEtagMatch($ifNoneMatch, $etag)) {
+            return (new Response(304, [
+                'ETag'             => $etag,
+                'Cache-Control'    => 'public, max-age=300, must-revalidate',
+                'X-Correlation-ID' => $request->getCorrelationId(),
+            ]));
+        }
+
+        $response = Response::success(['industries' => $data['industries']], 200, $request->getCorrelationId());
+        return $response
+            ->withHeader('ETag', $etag)
+            ->withHeader('Cache-Control', 'public, max-age=300, must-revalidate');
+    }
+
+    /**
+     * GET /api/v1/public/industries/:slug
+     * Delivers published industry vertical detail with mapped services.
+     * If industry is not found, inspects url_redirects for an active 301 redirect.
+     */
+    public function getIndustry(Request $request): Response
+    {
+        if ($this->industryService === null) {
+            throw new NotFoundException("Industries catalog not available.");
+        }
+
+        $slug = (string)($request->getAttribute('slug') ?? '');
+        if ($slug === '') {
+            throw new NotFoundException("Industry not found.");
+        }
+
+        $industry = $this->industryService->getPublishedIndustryBySlug($slug);
+        if ($industry !== null) {
+            $etag = $industry['etag'] ?? $this->industryService->calculateEtag($industry);
+
+            // Conditional GET check
+            $ifNoneMatch = $request->getHeader('if-none-match');
+            if ($ifNoneMatch !== null && $this->isEtagMatch($ifNoneMatch, $etag)) {
+                return (new Response(304, [
+                    'ETag'             => $etag,
+                    'Cache-Control'    => 'public, max-age=300, must-revalidate',
+                    'X-Correlation-ID' => $request->getCorrelationId(),
+                ]));
+            }
+
+            $response = Response::success(['industry' => $industry], 200, $request->getCorrelationId());
+            return $response
+                ->withHeader('ETag', $etag)
+                ->withHeader('Cache-Control', 'public, max-age=300, must-revalidate');
+        }
+
+        // Check if there is an active 301 redirect in url_redirects
+        $redirect = $this->industryService->findRedirect('/industries/' . $slug);
+        if ($redirect !== null && !empty($redirect['target_path'])) {
+            return Response::redirect($redirect['target_path'], (int)($redirect['http_status_code'] ?? 301));
+        }
+
+        throw new NotFoundException("Industry [{$slug}] not found.");
     }
 
     private function isEtagMatch(string $headerValue, string $etag): bool

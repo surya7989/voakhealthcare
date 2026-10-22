@@ -30,6 +30,7 @@ use Voak\Health\Security\AuditLogger;
 use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
+use Voak\Health\Services\IndustryService;
 use Voak\Health\Services\PageService;
 use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SettingService;
@@ -644,6 +645,81 @@ try {
         $pdo->exec("DELETE FROM `url_redirects` WHERE `source_path` = '/services/{$testSlug}'");
     });
 
+    // =========================================================================
+    // TEST 8: Phase 9 — Healthcare Industries, MySQL 8.0 JSON Storage & Relational Mappings
+    // =========================================================================
+    $runTest("Test 8: Healthcare Industries Management, MySQL 8.0 JSON Storage & Relational Mappings", function () use ($pdo, $testUserId) {
+        $connection = new Connection();
+        $connection->setMockPdo($pdo);
+        $auditLogger = new AuditLogger();
+        $sanitizer = new HtmlSanitizer();
+        $industryService = new IndustryService($connection, $auditLogger, $sanitizer);
+
+        // 1. Ensure Default Industries on MySQL 8.0
+        $industryService->ensureDefaultIndustries();
+        $count = (int)$pdo->query("SELECT COUNT(*) FROM `industries`")->fetchColumn();
+        if ($count < 6) {
+            throw new RuntimeException("MySQL 8.0 expected at least 6 canonical industries, found {$count}.");
+        }
+
+        // 2. Verify Native JSON Data Extraction on MySQL 8.0
+        $jsonCheck = $pdo->query("SELECT id, JSON_VALID(regulatory_burden_specs) as valid_reg, JSON_VALID(pain_points_json) as valid_pain FROM `industries` LIMIT 1")->fetch();
+        if ((int)$jsonCheck['valid_reg'] !== 1 || (int)$jsonCheck['valid_pain'] !== 1) {
+            throw new RuntimeException("MySQL 8.0 JSON columns regulatory_burden_specs or pain_points_json are invalid JSON.");
+        }
+
+        // 3. Create Custom Test Industry with rich JSON regulatory specs & pain points
+        $testSlug = 'mysql-industry-' . bin2hex(random_bytes(4));
+        $created = $industryService->createIndustry([
+            'title'                   => 'MySQL 8.0 Dedicated Industry',
+            'slug'                    => $testSlug,
+            'summary'                 => 'Testing MySQL 8.0 Enterprise Healthcare Sector capabilities.',
+            'regulatory_burden_specs' => ['governing_body' => 'Safety & Quality Commission', 'standards' => ['NSQHS Standard 1']],
+            'pain_points'             => ['Database concurrency under load', 'Multi-tenant isolation'],
+            'is_published'            => 1,
+            'display_order'           => 12,
+            'service_ids'             => [1, 2],
+        ], $testUserId);
+
+        $indId = (int)$created['id'];
+
+        // 4. Verify Unique Slug Constraint on MySQL 8.0
+        $dupCaught = false;
+        try {
+            $industryService->createIndustry([
+                'title' => 'Duplicate Slug Test',
+                'slug'  => $testSlug,
+            ], $testUserId);
+        } catch (\Throwable $e) {
+            $dupCaught = true;
+        }
+        if (!$dupCaught) {
+            throw new RuntimeException("MySQL 8.0 failed to enforce UNIQUE constraint on industries.slug.");
+        }
+
+        // 5. Update Slug & Verify 301 Redirect Recorded in url_redirects
+        $newSlug = $testSlug . '-v2';
+        $industryService->updateIndustry($indId, [
+            'slug'  => $newSlug,
+            'title' => 'MySQL 8.0 Dedicated Industry (Updated)',
+        ], $testUserId);
+
+        $redirect = $industryService->findRedirect('/industries/' . $testSlug);
+        if (!$redirect || $redirect['target_path'] !== '/industries/' . $newSlug || (int)$redirect['http_status_code'] !== 301) {
+            throw new RuntimeException("301 URL redirect was not correctly recorded in MySQL 8.0 url_redirects table.");
+        }
+
+        // 6. Verify Delete & Cleanup
+        $industryService->deleteIndustry($indId, $testUserId);
+        $deletedCheck = $pdo->query("SELECT COUNT(*) FROM `industries` WHERE id = {$indId}")->fetchColumn();
+        if ((int)$deletedCheck !== 0) {
+            throw new RuntimeException("Industry record was not purged during delete on MySQL 8.0.");
+        }
+
+        // Clean up test redirect
+        $pdo->exec("DELETE FROM `url_redirects` WHERE `source_path` = '/industries/{$testSlug}'");
+    });
+
     // Clean up isolated test data
     $pdo->exec("DELETE FROM user_roles WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM admin_sessions WHERE user_id = {$testUserId}");
@@ -653,6 +729,7 @@ try {
     $pdo->exec("DELETE FROM content_revisions WHERE editor_user_id = {$testUserId}");
     $pdo->exec("DELETE FROM system_settings WHERE updated_by_user_id = {$testUserId}");
     $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/services/mysql-service-%'");
+    $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/industries/mysql-industry-%'");
     $pdo->exec("DELETE FROM users WHERE id = {$testUserId} OR email = '{$testUserEmail}'");
 
     echo "\n======================================================================\n";
