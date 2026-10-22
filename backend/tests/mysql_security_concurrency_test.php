@@ -573,9 +573,11 @@ try {
     // =========================================================================
     // TEST 7: Phase 8 — Services Catalog, MySQL 8.0 JSON Storage, 301 Redirects & Integrity
     // =========================================================================
-    $runTest("Test 7: Services Catalog Management, MySQL 8.0 JSON Storage & 301 Redirect Engine", function () use ($pdo, $auditLogger, $sanitizer, $testUserId) {
+    $runTest("Test 7: Services Catalog Management, MySQL 8.0 JSON Storage & 301 Redirect Engine", function () use ($pdo, $testUserId) {
         $connection = new Connection();
         $connection->setMockPdo($pdo);
+        $auditLogger = new AuditLogger();
+        $sanitizer = new HtmlSanitizer();
         $serviceService = new ServiceService($connection, $auditLogger, $sanitizer);
 
         // 1. Ensure Default Services on MySQL 8.0
