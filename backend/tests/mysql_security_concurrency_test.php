@@ -112,6 +112,8 @@ try {
     $pdo->exec("DELETE FROM admin_mfa_secrets WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM password_resets WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM audit_logs WHERE user_id = {$testUserId}");
+    $pdo->exec("DELETE FROM content_revisions WHERE editor_user_id = {$testUserId}");
+    $pdo->exec("DELETE FROM system_settings WHERE updated_by_user_id = {$testUserId}");
     $pdo->exec("DELETE FROM users WHERE id = {$testUserId} OR email = '{$testUserEmail}'");
 
     $stmt = $pdo->prepare(
@@ -564,7 +566,7 @@ try {
         // Clean up Phase 7 test artifacts
         $pdo->exec("DELETE FROM content_revisions WHERE entity_type = 'pages' AND entity_id = {$pageId}");
         $pdo->exec("DELETE FROM pages WHERE id = {$pageId}");
-        $pdo->exec("DELETE FROM system_settings WHERE setting_key = 'test_fk_setting'");
+        $pdo->exec("DELETE FROM system_settings WHERE updated_by_user_id = {$testUserId}");
     });
 
     // Clean up isolated test data
@@ -573,6 +575,8 @@ try {
     $pdo->exec("DELETE FROM admin_mfa_secrets WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM password_resets WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM audit_logs WHERE user_id = {$testUserId}");
+    $pdo->exec("DELETE FROM content_revisions WHERE editor_user_id = {$testUserId}");
+    $pdo->exec("DELETE FROM system_settings WHERE updated_by_user_id = {$testUserId}");
     $pdo->exec("DELETE FROM users WHERE id = {$testUserId} OR email = '{$testUserEmail}'");
 
     echo "\n======================================================================\n";
