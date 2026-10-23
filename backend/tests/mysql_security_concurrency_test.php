@@ -1724,7 +1724,7 @@ try {
         if (!str_contains($xml, '<?xml version="1.0" encoding="UTF-8"?>') || !str_contains($xml, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')) {
             throw new RuntimeException("generateSitemapXml failed on MySQL 8.0.");
         }
-        if (!str_contains($xml, '<loc>https://voakhealth.com/</loc>')) {
+        if (!str_contains($xml, '<loc>https://voakhealthcare.com/</loc>')) {
             throw new RuntimeException("generateSitemapXml missing root homepage on MySQL 8.0.");
         }
 
@@ -1743,9 +1743,9 @@ try {
             throw new RuntimeException("updateRouteSeo failed on MySQL 8.0.");
         }
 
-        // 9. Clean up test redirects
+        // 9. Clean up test redirects and test settings
         $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/services/mysql-%' OR source_path = '/services/cardiology'");
-        $pdo->exec("DELETE FROM system_settings WHERE setting_key = 'seo.sitemap.xml'");
+        $pdo->exec("DELETE FROM system_settings WHERE setting_key = 'seo.sitemap.xml' OR setting_key LIKE 'seo.routes.%'");
     });
 
     // Clean up isolated test data
