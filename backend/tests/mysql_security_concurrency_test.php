@@ -1763,7 +1763,7 @@ try {
 
         // 1. Verify audit_logs schema on MySQL 8.0
         $auditCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'audit_logs'")->fetchAll(PDO::FETCH_COLUMN);
-        $requiredAuditCols = ['id', 'user_id', 'actor_role', 'action', 'entity_type', 'entity_id', 'diff_json', 'ip_address', 'user_agent', 'hash', 'previous_hash', 'created_at'];
+        $requiredAuditCols = ['id', 'prev_row_hash', 'row_hash', 'domain', 'action', 'user_id', 'ip_address', 'user_agent', 'entity_type', 'entity_id', 'diff_json', 'created_at'];
         foreach ($requiredAuditCols as $col) {
             if (!in_array($col, $auditCols, true)) {
                 throw new RuntimeException("audit_logs table missing required column '{$col}' on MySQL 8.0.");
@@ -1773,7 +1773,7 @@ try {
         // 2. Verify audit_logs indexes on MySQL 8.0
         $indexes = $pdo->query("SHOW INDEX FROM audit_logs")->fetchAll(PDO::FETCH_ASSOC);
         $indexNames = array_column($indexes, 'Key_name');
-        $requiredIndexes = ['idx_audit_logs_action', 'idx_audit_logs_user_id', 'idx_audit_logs_created_at', 'idx_audit_logs_hash'];
+        $requiredIndexes = ['idx_audit_domain_action', 'idx_audit_user', 'idx_audit_created_at'];
         foreach ($requiredIndexes as $idx) {
             if (!in_array($idx, $indexNames, true)) {
                 throw new RuntimeException("audit_logs table missing required index '{$idx}' on MySQL 8.0.");
