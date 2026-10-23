@@ -26,6 +26,7 @@ use Voak\Health\Auth\TotpService;
 use Voak\Health\Core\Config;
 use Voak\Health\Core\Exceptions\ConflictException;
 use Voak\Health\Core\Exceptions\SecurityException;
+use Voak\Health\Core\Exceptions\ValidationException;
 use Voak\Health\Database\Connection;
 use Voak\Health\Security\AuditLogger;
 use Voak\Health\Security\HtmlSanitizer;
@@ -33,7 +34,9 @@ use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
 use Voak\Health\Security\RateLimiter;
 use Voak\Health\Services\ContactService;
+use Voak\Health\Services\EmailService;
 use Voak\Health\Services\IndustryService;
+use Voak\Health\Services\Mail\ArrayTransport;
 use Voak\Health\Services\MediaStorageService;
 use Voak\Health\Services\PageService;
 use Voak\Health\Services\PartnershipService;
@@ -1145,6 +1148,145 @@ try {
         if ($svcId === 999) {
             $pdo->exec("DELETE FROM services WHERE id = 999");
         }
+    });
+
+    runTest("12. Phase 13 Transactional Email & Outbox Concurrency (FR-ADM-013, ADR-006, TEST-WF-001, TEST-SEC-005)", function() use ($pdo, $connection, $auditLogger, $sanitizer, $testUserId) {
+        $mailTransport = new ArrayTransport();
+        $emailService = new EmailService($connection, $auditLogger, $sanitizer, $mailTransport);
+
+        // 1. Verify email_queue schema on MySQL 8.0
+        $eqCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'email_queue'")->fetchAll(\PDO::FETCH_COLUMN);
+        $requiredCols = ['id', 'recipient_email', 'subject', 'template_key', 'payload_json', 'status', 'attempts', 'claimed_at', 'sent_at', 'error_message', 'created_at'];
+        foreach ($requiredCols as $rc) {
+            if (!in_array($rc, $eqCols, true)) {
+                throw new RuntimeException("email_queue missing required column '{$rc}' on MySQL 8.0.");
+            }
+        }
+
+        // 2. Mandatory placeholder guard on template updates (TEST-ADM-013)
+        $guardTriggered = false;
+        try {
+            $emailService->updateTemplate('EMAIL-01', [
+                'subject_template' => 'Subject without ref',
+                'body_html_template' => '<p>Missing ref placeholder entirely</p>',
+            ], $testUserId);
+        } catch (ValidationException $e) {
+            $guardTriggered = true;
+        }
+        if (!$guardTriggered) {
+            throw new RuntimeException("Mandatory placeholder guard failed to reject invalid template update on MySQL 8.0.");
+        }
+
+        // Valid template update
+        $updatedTpl = $emailService->updateTemplate('EMAIL-01', [
+            'subject_template' => 'Inquiry {{ref_no}} - Received',
+            'body_html_template' => '<p>Hello {{client_name}}, inquiry {{ref_no}} received by {{legal_entity_name}}.</p>',
+        ], $testUserId);
+        if ($updatedTpl['template_key'] !== 'EMAIL-01') {
+            throw new RuntimeException("Template update failed on MySQL 8.0.");
+        }
+
+        // Verify audit event EMAIL_TEMPLATE_UPDATED in audit_logs
+        $auditTpl = (int)$pdo->query("SELECT COUNT(*) FROM audit_logs WHERE event_name = 'EMAIL_TEMPLATE_UPDATED' AND user_id = {$testUserId}")->fetchColumn();
+        if ($auditTpl < 1) {
+            throw new RuntimeException("EMAIL_TEMPLATE_UPDATED audit event missing on MySQL 8.0.");
+        }
+
+        // 3. Outbox enqueuing & atomic batch claiming (TEST-WF-001)
+        $q1 = $emailService->enqueue('EMAIL-01', 'mysql-worker1@voak.test', 'Worker 1 Msg', ['ref_no' => 'ENQ-001', 'client_name' => 'Client 1'], $testUserId);
+        $q2 = $emailService->enqueue('EMAIL-01', 'mysql-worker2@voak.test', 'Worker 2 Msg', ['ref_no' => 'ENQ-002', 'client_name' => 'Client 2'], $testUserId);
+        $q3 = $emailService->enqueue('EMAIL-01', 'mysql-worker3@voak.test', 'Worker 3 Msg', ['ref_no' => 'ENQ-003', 'client_name' => 'Client 3'], $testUserId);
+
+        if ($q1['status'] !== 'QUEUED' || $q2['status'] !== 'QUEUED' || $q3['status'] !== 'QUEUED') {
+            throw new RuntimeException("Outbox enqueue failed to set QUEUED status on MySQL 8.0.");
+        }
+
+        // Worker 1 claims batch of 2
+        $batch1 = $emailService->claimBatch(2);
+        if (count($batch1) !== 2) {
+            throw new RuntimeException("claimBatch(2) expected 2 items, got " . count($batch1) . " on MySQL 8.0.");
+        }
+        $batch1Ids = array_column($batch1, 'id');
+
+        // Worker 2 claims next batch - must not claim already claimed items
+        $batch2 = $emailService->claimBatch(2);
+        $batch2Ids = array_column($batch2, 'id');
+        foreach ($batch2Ids as $b2Id) {
+            if (in_array($b2Id, $batch1Ids, true)) {
+                throw new RuntimeException("Duplicate claim detected! Worker 2 claimed item {$b2Id} already held by Worker 1 on MySQL 8.0.");
+            }
+        }
+
+        // Process batch 1 with ArrayTransport
+        $pRes1 = $emailService->processQueueBatch(10);
+        if ($pRes1['processed'] < 2) {
+            throw new RuntimeException("processQueueBatch failed to process claimed emails on MySQL 8.0.");
+        }
+
+        // Verify sent status in database
+        $sentCount = (int)$pdo->query("SELECT COUNT(*) FROM email_queue WHERE status = 'SENT' AND recipient_email LIKE 'mysql-worker%'")->fetchColumn();
+        if ($sentCount < 2) {
+            throw new RuntimeException("Expected at least 2 SENT records on MySQL 8.0, found {$sentCount}.");
+        }
+
+        // 4. Stale Claim Recovery (TEST-WF-001)
+        // Simulate crashed worker holding a lock > 5 minutes ago
+        $crashedId = $emailService->enqueue('EMAIL-01', 'mysql-crashed@voak.test', 'Crashed Msg', ['ref_no' => 'ENQ-CRASH', 'client_name' => 'Crashed'], $testUserId)['id'];
+        $pdo->exec("UPDATE email_queue SET status = 'PROCESSING', claimed_at = DATE_SUB(NOW(), INTERVAL 15 MINUTE) WHERE id = {$crashedId}");
+
+        $recoveredBatch = $emailService->claimBatch(5);
+        $recoveredIds = array_column($recoveredBatch, 'id');
+        if (!in_array($crashedId, $recoveredIds, true)) {
+            throw new RuntimeException("Stale claim recovery failed on MySQL 8.0 for crashed item {$crashedId}.");
+        }
+
+        // 5. Transient Failure, Exponential Backoff & Manual Retry (TEST-ADM-013)
+        $mailTransport->setShouldFail(true);
+        $emailService->processQueueBatch(5);
+        $mailTransport->setShouldFail(false);
+
+        // Item should now be in FAILED status
+        $failedRow = $pdo->query("SELECT status, attempts, error_message FROM email_queue WHERE id = {$crashedId}")->fetch(\PDO::FETCH_ASSOC);
+        if ($failedRow['status'] !== 'FAILED' || (int)$failedRow['attempts'] < 1) {
+            throw new RuntimeException("Expected FAILED status after transport error on MySQL 8.0.");
+        }
+
+        // Admin manual retry
+        $retryRes = $emailService->retryMessage($crashedId, $testUserId);
+        if ($retryRes['status'] !== 'QUEUED') {
+            throw new RuntimeException("Manual retry failed to reset status to QUEUED on MySQL 8.0.");
+        }
+        $auditRetry = (int)$pdo->query("SELECT COUNT(*) FROM audit_logs WHERE event_name = 'EMAIL_MANUAL_RETRY_TRIGGERED' AND user_id = {$testUserId}")->fetchColumn();
+        if ($auditRetry < 1) {
+            throw new RuntimeException("EMAIL_MANUAL_RETRY_TRIGGERED audit event missing on MySQL 8.0.");
+        }
+
+        // 6. Fast-path security dispatch & fallback (ADR-006)
+        $fastPathSent = $emailService->sendUrgentFastPath('EMAIL-04', 'mysql-fast@voak.test', 'Fast Path Urgent', ['staff_name' => 'Admin', 'action_name' => 'Security Audit', 'actor_name' => 'System', 'ref_no' => 'SEC-01'], $testUserId);
+        if ($fastPathSent['status'] !== 'SENT') {
+            throw new RuntimeException("Urgent fast path dispatch failed on MySQL 8.0.");
+        }
+
+        $mailTransport->setShouldFail(true);
+        $fastPathFallback = $emailService->sendUrgentFastPath('EMAIL-04', 'mysql-fast-fallback@voak.test', 'Fast Path Urgent Fallback', ['staff_name' => 'Admin', 'action_name' => 'Security Audit', 'actor_name' => 'System', 'ref_no' => 'SEC-02'], $testUserId);
+        $mailTransport->setShouldFail(false);
+        if ($fastPathFallback['status'] !== 'QUEUED') {
+            throw new RuntimeException("Urgent fast path fallback to QUEUED failed on MySQL 8.0.");
+        }
+
+        // 7. Diagnostic Test Email (TEST-SEC-005)
+        $diagRes = $emailService->sendTestEmail('EMAIL-01', 'mysql-diagnostic@voak.test', $testUserId);
+        if ($diagRes['success'] !== true) {
+            throw new RuntimeException("sendTestEmail failed on MySQL 8.0.");
+        }
+        $auditDiag = (int)$pdo->query("SELECT COUNT(*) FROM audit_logs WHERE event_name = 'EMAIL_TEST_SENT' AND user_id = {$testUserId}")->fetchColumn();
+        if ($auditDiag < 1) {
+            throw new RuntimeException("EMAIL_TEST_SENT audit event missing on MySQL 8.0.");
+        }
+
+        // 8. Clean up isolated test data for Test 12
+        $pdo->exec("DELETE FROM email_queue WHERE recipient_email LIKE 'mysql-%'");
+        $pdo->exec("DELETE FROM system_settings WHERE setting_group = 'email_templates' AND updated_by_user_id = {$testUserId}");
     });
 
     // Clean up isolated test data

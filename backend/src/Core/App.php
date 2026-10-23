@@ -25,6 +25,8 @@ use Voak\Health\Middleware\SecurityHeadersMiddleware;
 use Voak\Health\Modules\Admin\AdminAuthController;
 use Voak\Health\Modules\Admin\AdminContactController;
 use Voak\Health\Modules\Admin\AdminDocumentStreamController;
+use Voak\Health\Modules\Admin\AdminEmailQueueController;
+use Voak\Health\Modules\Admin\AdminEmailTemplateController;
 use Voak\Health\Modules\Admin\AdminHomepageController;
 use Voak\Health\Modules\Admin\AdminIndustryController;
 use Voak\Health\Modules\Admin\AdminMediaController;
@@ -43,8 +45,11 @@ use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
 use Voak\Health\Services\ContactService;
+use Voak\Health\Services\EmailService;
 use Voak\Health\Services\HomepageService;
 use Voak\Health\Services\IndustryService;
+use Voak\Health\Services\Mail\ArrayTransport;
+use Voak\Health\Services\Mail\SocketSmtpTransport;
 use Voak\Health\Services\MediaStorageService;
 use Voak\Health\Services\PageService;
 use Voak\Health\Services\PartnershipService;
@@ -241,6 +246,33 @@ class App
         $this->container->set(AdminContactController::class, new AdminContactController($contactService));
         $this->container->set(AdminPartnershipController::class, new AdminPartnershipController($partnershipService));
         $this->container->set(AdminProposalController::class, new AdminProposalController($proposalService));
+
+        // Phase 13 Email Notification Service & Controllers
+        $mailTransportType = (string)$this->config->get('MAIL_TRANSPORT', 'array');
+        if ($mailTransportType === 'smtp') {
+            $transport = new SocketSmtpTransport(
+                (string)$this->config->get('SMTP_HOST', '127.0.0.1'),
+                (int)$this->config->get('SMTP_PORT', 465),
+                (string)$this->config->get('SMTP_USER', ''),
+                (string)$this->config->get('SMTP_PASS', ''),
+                (string)$this->config->get('SMTP_ENCRYPTION', 'ssl'),
+                (string)$this->config->get('MAIL_FROM_ADDRESS', 'noreply@voak.com.au'),
+                (string)$this->config->get('MAIL_FROM_NAME', 'Voak Health Care')
+            );
+        } else {
+            $transport = new ArrayTransport();
+        }
+
+        $emailService = new EmailService(
+            $connection,
+            $auditLogger,
+            $sanitizer,
+            $transport
+        );
+        $this->container->set(EmailService::class, $emailService);
+        $this->container->set(AdminEmailTemplateController::class, new AdminEmailTemplateController($emailService));
+        $this->container->set(AdminEmailQueueController::class, new AdminEmailQueueController($emailService));
+
         $this->container->set(PublicContentController::class, new PublicContentController(
             $pageService,
             $homepageService,
@@ -731,6 +763,121 @@ class App
             '/api/v1/admin/proposals/:id',
             [AdminProposalController::class, 'delete'],
             [RequirePermissionMiddleware::with('proposal:delete', $rbacManager, $connection)]
+        );
+
+        // Phase 13 Administrative Email Templates & Outbox Telemetry Routes
+        // Templates
+        $this->router->get(
+            '/api/v1/admin/email-templates',
+            [AdminEmailTemplateController::class, 'index'],
+            [RequirePermissionMiddleware::with('email:read', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/email-templates',
+            [AdminEmailTemplateController::class, 'index'],
+            [RequirePermissionMiddleware::with('email:read', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/email-templates/:id',
+            [AdminEmailTemplateController::class, 'show'],
+            [RequirePermissionMiddleware::with('email:read', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/email-templates/:id',
+            [AdminEmailTemplateController::class, 'show'],
+            [RequirePermissionMiddleware::with('email:read', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/v1/admin/email-templates/:id',
+            [AdminEmailTemplateController::class, 'update'],
+            [RequirePermissionMiddleware::with('email:update', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/email-templates/:id',
+            [AdminEmailTemplateController::class, 'update'],
+            [RequirePermissionMiddleware::with('email:update', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/admin/email-templates/:id',
+            [AdminEmailTemplateController::class, 'update'],
+            [RequirePermissionMiddleware::with('email:update', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/admin/email-templates/:id',
+            [AdminEmailTemplateController::class, 'update'],
+            [RequirePermissionMiddleware::with('email:update', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/email-templates/:id/test-send',
+            [AdminEmailTemplateController::class, 'testSend'],
+            [RequirePermissionMiddleware::with('email:test_send', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/email-templates/:id/test-send',
+            [AdminEmailTemplateController::class, 'testSend'],
+            [RequirePermissionMiddleware::with('email:test_send', $rbacManager, $connection)]
+        );
+
+        // Outbox Telemetry & Retries
+        $this->router->get(
+            '/api/v1/admin/email-queue',
+            [AdminEmailQueueController::class, 'index'],
+            [RequirePermissionMiddleware::with('email:read', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/email-queue',
+            [AdminEmailQueueController::class, 'index'],
+            [RequirePermissionMiddleware::with('email:read', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/email-templates/outbox',
+            [AdminEmailQueueController::class, 'index'],
+            [RequirePermissionMiddleware::with('email:read', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/email-queue/:id',
+            [AdminEmailQueueController::class, 'show'],
+            [RequirePermissionMiddleware::with('email:read', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/email-queue/:id',
+            [AdminEmailQueueController::class, 'show'],
+            [RequirePermissionMiddleware::with('email:read', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/email-queue/:id/retry',
+            [AdminEmailQueueController::class, 'retry'],
+            [RequirePermissionMiddleware::with('email:update', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/email-queue/:id/retry',
+            [AdminEmailQueueController::class, 'retry'],
+            [RequirePermissionMiddleware::with('email:update', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/email-templates/outbox/:id/retry',
+            [AdminEmailQueueController::class, 'retry'],
+            [RequirePermissionMiddleware::with('email:update', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/email-queue/retry-all-failed',
+            [AdminEmailQueueController::class, 'retryAllFailed'],
+            [RequirePermissionMiddleware::with('email:update', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/email-queue/retry-all-failed',
+            [AdminEmailQueueController::class, 'retryAllFailed'],
+            [RequirePermissionMiddleware::with('email:update', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/email-queue/dispatch',
+            [AdminEmailQueueController::class, 'dispatch'],
+            [RequirePermissionMiddleware::with('email:update', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/email-queue/dispatch',
+            [AdminEmailQueueController::class, 'dispatch'],
+            [RequirePermissionMiddleware::with('email:update', $rbacManager, $connection)]
         );
     }
 }

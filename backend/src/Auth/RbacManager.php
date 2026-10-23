@@ -559,6 +559,16 @@ class RbacManager
         'contact.export'     => ['contact:export_csv', 'contact.export'],
         'contact.delete'     => ['user:suspend', 'contact:delete'],
         'contact:delete'     => ['user:suspend', 'contact:delete'],
+
+        'email_templates.view'   => ['email:read', 'email_templates.view'],
+        'email_templates.manage' => ['email:update', 'email_templates.manage'],
+        'email.view'             => ['email:read', 'email.view'],
+        'email.manage'           => ['email:update', 'email.manage'],
+        'email_queue.view'       => ['email:read', 'email_queue.view', 'telemetry.view'],
+        'email_queue.retry'      => ['email:update', 'email_queue.retry'],
+        'telemetry.view'         => ['email:read', 'telemetry.view'],
+        'email.retry'            => ['email:update', 'email.retry'],
+        'email.dispatch'         => ['email:update', 'email.dispatch'],
     ];
 
     /**

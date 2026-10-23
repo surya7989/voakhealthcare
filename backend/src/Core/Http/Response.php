@@ -80,6 +80,14 @@ class Response
     }
 
     /**
+     * Direct JSON response factory.
+     */
+    public static function json(mixed $data, int $statusCode = 200): self
+    {
+        return (new self())->withJson($data, $statusCode);
+    }
+
+    /**
      * Standard Phase 2 Success Envelope factory.
      */
     public static function success(mixed $data = null, int $statusCode = 200, string $correlationId = '', array $meta = []): self
