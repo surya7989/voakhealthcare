@@ -1150,7 +1150,11 @@ try {
         }
     });
 
-    runTest("12. Phase 13 Transactional Email & Outbox Concurrency (FR-ADM-013, ADR-006, TEST-WF-001, TEST-SEC-005)", function() use ($pdo, $connection, $auditLogger, $sanitizer, $testUserId) {
+    $runTest("Test 12: Phase 13 — Transactional Email & Outbox Concurrency on MySQL 8.0 (FR-ADM-013, ADR-006, TEST-WF-001, TEST-SEC-005)", function () use ($pdo, $testUserId) {
+        $connection = new Connection();
+        $connection->setMockPdo($pdo);
+        $auditLogger = new AuditLogger();
+        $sanitizer = new HtmlSanitizer();
         $mailTransport = new ArrayTransport();
         $emailService = new EmailService($connection, $auditLogger, $sanitizer, $mailTransport);
 
