@@ -1678,7 +1678,7 @@ try {
 
         // 1. Verify url_redirects table schema on MySQL 8.0
         $redirectCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'url_redirects'")->fetchAll(PDO::FETCH_COLUMN);
-        $requiredRedirectCols = ['id', 'source_path', 'target_path', 'status_code', 'is_active', 'hit_count', 'last_accessed_at', 'created_at', 'updated_at'];
+        $requiredRedirectCols = ['id', 'source_path', 'target_path', 'http_status_code', 'is_active', 'hit_count', 'last_accessed_at', 'created_at'];
         foreach ($requiredRedirectCols as $col) {
             if (!in_array($col, $redirectCols, true)) {
                 throw new RuntimeException("url_redirects table missing required column '{$col}' on MySQL 8.0.");
@@ -1693,7 +1693,7 @@ try {
 
         // 3. Resolve redirect and verify atomic hit_count increment
         $resolved = $seoService->resolveRedirect('/services/mysql-old-cardiology');
-        if ($resolved === null || $resolved['target_path'] !== '/services/cardiology' || (int)$resolved['status_code'] !== 301) {
+        if ($resolved === null || $resolved['target_path'] !== '/services/cardiology' || (int)$resolved['http_status_code'] !== 301) {
             throw new RuntimeException("resolveRedirect failed on MySQL 8.0.");
         }
         $hitCount = (int)$pdo->query("SELECT hit_count FROM url_redirects WHERE source_path = '/services/mysql-old-cardiology'")->fetchColumn();
