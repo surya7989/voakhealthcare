@@ -15,5 +15,6 @@ if (!file_exists($runner)) {
     exit(1);
 }
 
-passthru("php -d memory_limit=512M \"{$runner}\"", $exitCode);
+$phpBin = defined('PHP_BINARY') && PHP_BINARY ? escapeshellcmd(PHP_BINARY) : 'php';
+passthru("{$phpBin} -d memory_limit=512M \"{$runner}\"", $exitCode);
 exit($exitCode);

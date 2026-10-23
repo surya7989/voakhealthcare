@@ -65,6 +65,9 @@ jobs:
       - name: Run Phase 13 Email Notification & Outbox Telemetry Test Suite
         run: php -d memory_limit=512M tests/test_phase13_email_notification_system.php
 
+      - name: Run Phase 14 Careers & Recruitment Management Test Suite
+        run: php -d memory_limit=512M tests/test_phase14_careers_and_recruitment.php
+
       - name: Run Comprehensive Backend Test Suite
         run: php -d memory_limit=512M backend/tests/run_tests.php
 
