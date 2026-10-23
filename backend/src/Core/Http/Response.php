@@ -41,6 +41,11 @@ class Response
         return $default;
     }
 
+    public function hasHeader(string $name): bool
+    {
+        return $this->getHeader($name) !== null;
+    }
+
     public function getBody(): string
     {
         return $this->body;

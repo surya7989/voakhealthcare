@@ -1117,7 +1117,7 @@ try {
 
         // Test Quarantined Document Streaming
         $stream = $proposalService->streamTenderAttachment($propId, $testUserId);
-        if ($stream->getStatusCode() !== 200 || !$stream->hasHeader('Content-Disposition')) {
+        if ($stream->getStatusCode() !== 200 || $stream->getHeader('Content-Disposition') === null) {
             throw new RuntimeException("Quarantined tender streaming failed on MySQL 8.0.");
         }
 
