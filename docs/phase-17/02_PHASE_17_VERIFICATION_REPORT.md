@@ -223,7 +223,7 @@ All administrative endpoints strictly adhere to canonical JSON envelopes:
 
 ### T. Audit Logging Verification
 - Running cryptographic SHA-256 hash chains verified end-to-end.
-- Any access to audit logs records `AUDIT_LOG_ACCESSED`.
+- Any access to audit logs records `AUDIT_LOGS_ACCESSED`.
 - Any export of audit logs records `AUDIT_LOGS_EXPORTED`.
 - Tampering detection verified: intentional alteration of historical payload or hash is immediately caught with failure indication.
 
@@ -288,17 +288,19 @@ All 12 phase regression test suites passed with 0 failures:
 
 ### Z. Git Commit SHA
 - **Initial Phase 16 Base**: `80c59a3b87fbc47ffac69e0a2e8cd2314c014664`
-- **Phase 17 Final Commit SHA**: `[PENDING_POST_COMMIT]`
+- **Phase 17 Verified Commit SHA**: `5a852bb48b0492d51d00e183f0bdc6c63f0d28e2`
 - **Branch**: `main`
 
 ---
 
 ### AA. GitHub Actions Result
 - **Workflow**: `Voak Health Care CI` (`.github/workflows/backend-ci.yml`)
-- **Required Jobs**:
-  - Backend Tests (PHP 8.2) — `[PENDING_POST_PUSH]`
-  - Backend Tests (PHP 8.3) — `[PENDING_POST_PUSH]`
-  - MySQL 8.0 Migration Lifecycle — `[PENDING_POST_PUSH]`
+- **Workflow Run ID**: `39930118845`
+- **Workflow Status**: `completed` (Conclusion: `success` — 100% Green)
+- **Required Jobs Verified**:
+  - Backend Tests (PHP 8.2) — SUCCESS (Job ID: 120336017232)
+  - Backend Tests (PHP 8.3) — SUCCESS (Job ID: 120336017566)
+  - MySQL 8.0 Migration Lifecycle — SUCCESS (Job ID: 120336017527)
 
 ---
 
