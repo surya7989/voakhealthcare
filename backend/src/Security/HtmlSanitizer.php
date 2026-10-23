@@ -208,6 +208,14 @@ class HtmlSanitizer
     }
 
     /**
+     * Strips all HTML tags and trims whitespace to produce clean plain text.
+     */
+    public function sanitizePlainText(string $text): string
+    {
+        return trim(strip_tags($text));
+    }
+
+    /**
      * Clean HTML or structured data (alias to sanitize / sanitizePayload).
      */
     public function clean(mixed $input): mixed

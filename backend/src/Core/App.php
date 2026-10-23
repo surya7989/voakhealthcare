@@ -29,6 +29,8 @@ use Voak\Health\Modules\Admin\AdminHomepageController;
 use Voak\Health\Modules\Admin\AdminIndustryController;
 use Voak\Health\Modules\Admin\AdminMediaController;
 use Voak\Health\Modules\Admin\AdminPageController;
+use Voak\Health\Modules\Admin\AdminPartnershipController;
+use Voak\Health\Modules\Admin\AdminProposalController;
 use Voak\Health\Modules\Admin\AdminServiceController;
 use Voak\Health\Modules\Admin\AdminSettingController;
 use Voak\Health\Modules\Admin\AdminUsersController;
@@ -45,6 +47,8 @@ use Voak\Health\Services\HomepageService;
 use Voak\Health\Services\IndustryService;
 use Voak\Health\Services\MediaStorageService;
 use Voak\Health\Services\PageService;
+use Voak\Health\Services\PartnershipService;
+use Voak\Health\Services\ProposalService;
 use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SettingService;
 
@@ -201,7 +205,7 @@ class App
         ));
         $this->container->set(AdminUsersController::class, new AdminUsersController($connection));
 
-        // Phase 7, 8, 9, 10 & 11 Services
+        // Phase 7, 8, 9, 10, 11 & 12 Services
         $sanitizer = new HtmlSanitizer();
         $pageService = new PageService($connection, $auditLogger, $sanitizer);
         $homepageService = new HomepageService($connection, $auditLogger, $sanitizer);
@@ -212,6 +216,8 @@ class App
             ? $this->container->get(MediaStorageService::class)
             : new MediaStorageService($connection, $auditLogger);
         $contactService = new ContactService($connection, $auditLogger, $sanitizer, null, $rbacManager);
+        $partnershipService = new PartnershipService($connection, $auditLogger, $sanitizer, null, $rbacManager);
+        $proposalService = new ProposalService($connection, $mediaService, $auditLogger, $sanitizer, null, $rbacManager);
 
         $this->container->set(HtmlSanitizer::class, $sanitizer);
         $this->container->set(PageService::class, $pageService);
@@ -221,8 +227,10 @@ class App
         $this->container->set(IndustryService::class, $industryService);
         $this->container->set(MediaStorageService::class, $mediaService);
         $this->container->set(ContactService::class, $contactService);
+        $this->container->set(PartnershipService::class, $partnershipService);
+        $this->container->set(ProposalService::class, $proposalService);
 
-        // Phase 7, 8, 9, 10 & 11 Controllers
+        // Phase 7, 8, 9, 10, 11 & 12 Controllers
         $this->container->set(AdminPageController::class, new AdminPageController($pageService));
         $this->container->set(AdminHomepageController::class, new AdminHomepageController($homepageService));
         $this->container->set(AdminSettingController::class, new AdminSettingController($settingService));
@@ -231,6 +239,8 @@ class App
         $this->container->set(AdminMediaController::class, new AdminMediaController($mediaService));
         $this->container->set(AdminDocumentStreamController::class, new AdminDocumentStreamController($connection, $mediaService, $this->container));
         $this->container->set(AdminContactController::class, new AdminContactController($contactService));
+        $this->container->set(AdminPartnershipController::class, new AdminPartnershipController($partnershipService));
+        $this->container->set(AdminProposalController::class, new AdminProposalController($proposalService));
         $this->container->set(PublicContentController::class, new PublicContentController(
             $pageService,
             $homepageService,
@@ -238,7 +248,9 @@ class App
             $serviceService,
             $industryService,
             $mediaService,
-            $contactService
+            $contactService,
+            $partnershipService,
+            $proposalService
         ));
     }
 
@@ -323,6 +335,12 @@ class App
         // Phase 11 Public Healthcare Contact Submission Routes (Rate-limited, Honeypot filtered)
         $this->router->post('/api/v1/public/contact', [PublicContentController::class, 'submitContact']);
         $this->router->post('/api/enquiries/contact', [PublicContentController::class, 'submitContact']);
+
+        // Phase 12 Public Inbound Routes (Partnerships & Proposals)
+        $this->router->post('/api/v1/public/partnerships/inquire', [PublicContentController::class, 'submitPartnership']);
+        $this->router->post('/api/enquiries/partner', [PublicContentController::class, 'submitPartnership']);
+        $this->router->post('/api/v1/public/proposals/submit', [PublicContentController::class, 'submitProposal']);
+        $this->router->post('/api/enquiries/proposal', [PublicContentController::class, 'submitProposal']);
 
         // Phase 7 Administrative CMS Routes (Authenticated, CSRF-protected, RBAC-enforced)
         // 1. Pages CRUD, Workflow & Revisions
@@ -589,6 +607,130 @@ class App
             '/api/v1/admin/inquiries/contact/:id',
             [AdminContactController::class, 'delete'],
             [RequirePermissionMiddleware::with('contact:delete', $rbacManager, $connection)]
+        );
+
+        // 9. Institutional Partnership Pipeline Management (ADM-011 / FR-ADM-011 / FR-WF-002)
+        $this->router->get(
+            '/api/v1/admin/partnerships',
+            [AdminPartnershipController::class, 'index'],
+            [RequirePermissionMiddleware::with('partner:list', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/enquiries/partnerships',
+            [AdminPartnershipController::class, 'index'],
+            [RequirePermissionMiddleware::with('partner:list', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/partnerships/export',
+            [AdminPartnershipController::class, 'export'],
+            [RequirePermissionMiddleware::with('partner:export_csv', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/enquiries/partnerships/export',
+            [AdminPartnershipController::class, 'export'],
+            [RequirePermissionMiddleware::with('partner:export_csv', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/partnerships/:id',
+            [AdminPartnershipController::class, 'show'],
+            [RequirePermissionMiddleware::with('partner:list', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/enquiries/partnerships/:id',
+            [AdminPartnershipController::class, 'show'],
+            [RequirePermissionMiddleware::with('partner:list', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/partnerships/:id/status',
+            [AdminPartnershipController::class, 'updateStage'],
+            [RequirePermissionMiddleware::with('partner:update_stage', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/admin/enquiries/partnerships/:id',
+            [AdminPartnershipController::class, 'updateStage'],
+            [RequirePermissionMiddleware::with('partner:update_stage', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/partnerships/:id/notes',
+            [AdminPartnershipController::class, 'addNote'],
+            [RequirePermissionMiddleware::with('partner:add_note', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/partnerships/:id/assign',
+            [AdminPartnershipController::class, 'assign'],
+            [RequirePermissionMiddleware::with('partner:update_stage', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/partnerships/:id/assign',
+            [AdminPartnershipController::class, 'assign'],
+            [RequirePermissionMiddleware::with('partner:update_stage', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/v1/admin/partnerships/:id',
+            [AdminPartnershipController::class, 'delete'],
+            [RequirePermissionMiddleware::with('partner:delete', $rbacManager, $connection)]
+        );
+
+        // 10. Enterprise Proposal & RFP Desk Management (ADM-012 / FR-ADM-012 / FR-WF-003)
+        $this->router->get(
+            '/api/v1/admin/proposals',
+            [AdminProposalController::class, 'index'],
+            [RequirePermissionMiddleware::with('proposal:list', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/enquiries/proposals',
+            [AdminProposalController::class, 'index'],
+            [RequirePermissionMiddleware::with('proposal:list', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/proposals/export',
+            [AdminProposalController::class, 'export'],
+            [RequirePermissionMiddleware::with('proposal:export_csv', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/enquiries/proposals/export',
+            [AdminProposalController::class, 'export'],
+            [RequirePermissionMiddleware::with('proposal:export_csv', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/proposals/:id',
+            [AdminProposalController::class, 'show'],
+            [RequirePermissionMiddleware::with('proposal:list', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/enquiries/proposals/:id',
+            [AdminProposalController::class, 'show'],
+            [RequirePermissionMiddleware::with('proposal:list', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/proposals/:id/status',
+            [AdminProposalController::class, 'updateStatus'],
+            [RequirePermissionMiddleware::with('proposal:update_status', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/admin/enquiries/proposals/:id',
+            [AdminProposalController::class, 'updateStatus'],
+            [RequirePermissionMiddleware::with('proposal:update_status', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/proposals/:id/assign',
+            [AdminProposalController::class, 'assignLead'],
+            [RequirePermissionMiddleware::with('proposal:update_status', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/proposals/:id/assign',
+            [AdminProposalController::class, 'assignLead'],
+            [RequirePermissionMiddleware::with('proposal:update_status', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/proposals/:id/download',
+            [AdminProposalController::class, 'streamDocument'],
+            [RequirePermissionMiddleware::with('proposal:download_tender', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/v1/admin/proposals/:id',
+            [AdminProposalController::class, 'delete'],
+            [RequirePermissionMiddleware::with('proposal:delete', $rbacManager, $connection)]
         );
     }
 }

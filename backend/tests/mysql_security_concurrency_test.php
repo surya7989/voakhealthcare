@@ -31,10 +31,13 @@ use Voak\Health\Security\AuditLogger;
 use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
+use Voak\Health\Security\RateLimiter;
 use Voak\Health\Services\ContactService;
 use Voak\Health\Services\IndustryService;
 use Voak\Health\Services\MediaStorageService;
 use Voak\Health\Services\PageService;
+use Voak\Health\Services\PartnershipService;
+use Voak\Health\Services\ProposalService;
 use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SettingService;
 
@@ -960,6 +963,190 @@ try {
         $pdo->exec("DELETE FROM email_queue WHERE recipient_email = 'mysql-director@voak.test'");
     });
 
+    // =========================================================================
+    // TEST 11: Phase 12 — Partnership & Proposal CRM Management, Row-Level Locking, 4-Step Wizard, Junction Cascades & Tender Attachment Quarantine on MySQL 8.0
+    // =========================================================================
+    $runTest("Test 11: Partnership & Proposal CRM Management, Row-Level Locking, Junction Cascades & Tender Quarantine on MySQL 8.0", function () use ($pdo, $testUserId) {
+        $connection = new Connection();
+        $connection->setMockPdo($pdo);
+        $auditLogger = new AuditLogger();
+        $sanitizer = new HtmlSanitizer();
+        $rbacManager = new RbacManager();
+        $rateLimiter = new RateLimiter(sys_get_temp_dir() . '/voak_mysql_ptn_rl_' . bin2hex(random_bytes(4)));
+        $quarantineDir = sys_get_temp_dir() . '/voak_mysql_prop_q_' . bin2hex(random_bytes(4));
+        $mediaStorageService = new MediaStorageService(
+            $connection,
+            $auditLogger,
+            sys_get_temp_dir() . '/voak_mysql_pub_uploads_' . bin2hex(random_bytes(4)),
+            $quarantineDir
+        );
+
+        $partnershipService = new PartnershipService($connection, $auditLogger, $sanitizer, $rateLimiter, $rbacManager);
+        $proposalService = new ProposalService($connection, $auditLogger, $sanitizer, $rateLimiter, $rbacManager, $mediaStorageService);
+
+        // 1. Verify schema on MySQL 8.0
+        $ptnCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'partnership_inquiries'")->fetchAll(\PDO::FETCH_COLUMN);
+        if (!in_array('reference_code', $ptnCols, true) || !in_array('alliance_type', $ptnCols, true) || !in_array('status', $ptnCols, true)) {
+            throw new RuntimeException("partnership_inquiries missing canonical columns on MySQL 8.0.");
+        }
+
+        $propCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'proposals'")->fetchAll(\PDO::FETCH_COLUMN);
+        if (!in_array('reference_code', $propCols, true) || !in_array('quarantined_file_path', $propCols, true) || !in_array('status', $propCols, true)) {
+            throw new RuntimeException("proposals missing canonical columns on MySQL 8.0.");
+        }
+
+        $juncCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'proposal_services'")->fetchAll(\PDO::FETCH_COLUMN);
+        if (!in_array('proposal_id', $juncCols, true) || !in_array('service_id', $juncCols, true)) {
+            throw new RuntimeException("proposal_services missing canonical columns on MySQL 8.0.");
+        }
+
+        // 2. Ensure test service exists for proposal junction FK
+        $svcId = (int)$pdo->query("SELECT id FROM services ORDER BY id ASC LIMIT 1")->fetchColumn();
+        if ($svcId <= 0) {
+            $pdo->exec("INSERT INTO services (id, title, slug, tagline, description, sla_metrics_json, deliverables_json, is_published, display_order, created_at, updated_at)
+                        VALUES (999, 'MySQL Surge Service', 'mysql-surge-service', 'Tagline', 'Desc', '[]', '[]', 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)");
+            $svcId = 999;
+        }
+
+        // 3. Test Partnership Submission & FSM Transitions on MySQL 8.0
+        $ptnResult = $partnershipService->submitInquiry([
+            'organization_name' => 'MySQL Health Care Alliance',
+            'contact_name'      => 'Dr. MySQL Admin',
+            'corporate_email'   => 'mysql-ptn@voak.test',
+            'contact_phone'     => '+1 202 555 0199',
+            'alliance_type'     => 'Regional Health Authority',
+            'proposed_scope'    => 'Joint clinical workforce development across regional hospitals in MySQL 8.0 environment.',
+        ]);
+
+        $ptnId = $ptnResult['id'];
+        $ptnRef = $ptnResult['reference_code'];
+
+        if (!str_starts_with($ptnRef, 'PTN-')) {
+            throw new RuntimeException("Invalid reference code format for partnership on MySQL 8.0: {$ptnRef}");
+        }
+
+        // Verify status progression: NEW -> EVALUATION -> DISCUSSION -> LEGAL_REVIEW -> ACTIVE_ALLIANCE
+        $p1 = $partnershipService->updateStage($ptnId, 'EVALUATION', 'Initial evaluation', null, $testUserId);
+        if ($p1['status'] !== 'EVALUATION') {
+            throw new RuntimeException("Failed transition to EVALUATION on MySQL 8.0.");
+        }
+        $p2 = $partnershipService->updateStage($ptnId, 'DISCUSSION', 'Discussion scheduled', null, $testUserId);
+        if ($p2['status'] !== 'DISCUSSION') {
+            throw new RuntimeException("Failed transition to DISCUSSION on MySQL 8.0.");
+        }
+        $p3 = $partnershipService->updateStage($ptnId, 'LEGAL_REVIEW', 'Legal review under way', null, $testUserId);
+        if ($p3['status'] !== 'LEGAL_REVIEW') {
+            throw new RuntimeException("Failed transition to LEGAL_REVIEW on MySQL 8.0.");
+        }
+        $p4 = $partnershipService->updateStage($ptnId, 'ACTIVE_ALLIANCE', 'Alliance active and signed', null, $testUserId);
+        if ($p4['status'] !== 'ACTIVE_ALLIANCE') {
+            throw new RuntimeException("Failed transition to ACTIVE_ALLIANCE on MySQL 8.0.");
+        }
+
+        // Test notes and assign
+        $partnershipService->addNote($ptnId, 'MySQL note added', $testUserId);
+        $partnershipService->assign($ptnId, $testUserId, $testUserId);
+
+        // Test CSV Export
+        $ptnCsv = $partnershipService->exportCsv(['status' => 'ACTIVE_ALLIANCE'], $testUserId);
+        if (!str_contains($ptnCsv, $ptnRef)) {
+            throw new RuntimeException("Partnership CSV export missing reference code on MySQL 8.0.");
+        }
+
+        // Test Deletion
+        $partnershipService->deletePartnership($ptnId, $testUserId);
+        $checkPtn = (int)$pdo->query("SELECT COUNT(*) FROM partnership_inquiries WHERE id = {$ptnId}")->fetchColumn();
+        if ($checkPtn !== 0) {
+            throw new RuntimeException("partnership_inquiries row not deleted on MySQL 8.0.");
+        }
+
+        // 4. Test Proposal Submission with Tender Attachment on MySQL 8.0
+        $tenderFile = sys_get_temp_dir() . '/mysql_tender_' . bin2hex(random_bytes(4)) . '.pdf';
+        file_put_contents($tenderFile, "%PDF-1.4\n%MySQL Tender Specification Document Content\n%%EOF");
+
+        $fileUpload = [
+            'tmp_name' => $tenderFile,
+            'name'     => 'MySQL_Tender_Spec.pdf',
+            'size'     => filesize($tenderFile),
+            'error'    => 0,
+        ];
+
+        $propResult = $proposalService->submitProposal([
+            'organization_name' => 'MySQL Medical Center',
+            'contact_name'      => 'Chief Medical Officer',
+            'contact_email'     => 'mysql-rfp@voak.test',
+            'contact_phone'     => '+1 202 555 0188',
+            'facility_type'     => 'Specialist Health Facility',
+            'timeline'          => 'Within 90 Days',
+            'budget_band'       => '$500,000 - $1,000,000',
+            'service_ids'       => [$svcId],
+        ], $fileUpload);
+
+        @unlink($tenderFile);
+
+        $propId = $propResult['id'];
+        $propRef = $propResult['reference_code'];
+
+        if (!str_starts_with($propRef, 'RFP-')) {
+            throw new RuntimeException("Invalid reference code format for proposal on MySQL 8.0: {$propRef}");
+        }
+
+        // Verify junction row in proposal_services
+        $juncCount = (int)$pdo->query("SELECT COUNT(*) FROM proposal_services WHERE proposal_id = {$propId} AND service_id = {$svcId}")->fetchColumn();
+        if ($juncCount !== 1) {
+            throw new RuntimeException("proposal_services junction row missing on MySQL 8.0.");
+        }
+
+        // Verify proposal lifecycle transitions: SUBMITTED -> UNDER_REVIEW -> SCOPING -> PROPOSAL_SENT -> ACCEPTED
+        $pr1 = $proposalService->updateStatus($propId, 'UNDER_REVIEW', null, 'Under review', null, $testUserId);
+        if ($pr1['status'] !== 'UNDER_REVIEW') {
+            throw new RuntimeException("Proposal transition to UNDER_REVIEW failed on MySQL 8.0.");
+        }
+        $pr2 = $proposalService->updateStatus($propId, 'SCOPING', 750000.00, 'Scoping commenced', $testUserId, $testUserId);
+        if ($pr2['status'] !== 'SCOPING') {
+            throw new RuntimeException("Proposal transition to SCOPING failed on MySQL 8.0.");
+        }
+        $pr3 = $proposalService->updateStatus($propId, 'PROPOSAL_SENT', 750000.00, 'Proposal sent to client', $testUserId, $testUserId);
+        if ($pr3['status'] !== 'PROPOSAL_SENT') {
+            throw new RuntimeException("Proposal transition to PROPOSAL_SENT failed on MySQL 8.0.");
+        }
+        $pr4 = $proposalService->updateStatus($propId, 'ACCEPTED', 750000.00, 'Contract accepted and signed', $testUserId, $testUserId);
+        if ($pr4['status'] !== 'ACCEPTED') {
+            throw new RuntimeException("Proposal transition to ACCEPTED failed on MySQL 8.0.");
+        }
+
+        // Test Quarantined Document Streaming
+        $stream = $proposalService->streamTenderAttachment($propId, $testUserId);
+        if ($stream->getStatusCode() !== 200 || !$stream->hasHeader('Content-Disposition')) {
+            throw new RuntimeException("Quarantined tender streaming failed on MySQL 8.0.");
+        }
+
+        // Test Proposal CSV Export
+        $propCsv = $proposalService->exportCsv(['status' => 'ACCEPTED'], $testUserId);
+        if (!str_contains($propCsv, $propRef)) {
+            throw new RuntimeException("Proposal CSV export missing reference code on MySQL 8.0.");
+        }
+
+        // Test Deletion with Cascade on MySQL 8.0
+        $proposalService->deleteProposal($propId, $testUserId);
+
+        $checkProp = (int)$pdo->query("SELECT COUNT(*) FROM proposals WHERE id = {$propId}")->fetchColumn();
+        if ($checkProp !== 0) {
+            throw new RuntimeException("proposals row not deleted on MySQL 8.0.");
+        }
+
+        $checkJunc = (int)$pdo->query("SELECT COUNT(*) FROM proposal_services WHERE proposal_id = {$propId}")->fetchColumn();
+        if ($checkJunc !== 0) {
+            throw new RuntimeException("proposal_services cascade deletion failed on MySQL 8.0.");
+        }
+
+        // Clean up email queue records
+        $pdo->exec("DELETE FROM email_queue WHERE recipient_email IN ('mysql-ptn@voak.test', 'mysql-rfp@voak.test')");
+        if ($svcId === 999) {
+            $pdo->exec("DELETE FROM services WHERE id = 999");
+        }
+    });
+
     // Clean up isolated test data
     $pdo->exec("DELETE FROM user_roles WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM admin_sessions WHERE user_id = {$testUserId}");
@@ -972,6 +1159,8 @@ try {
     $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/industries/mysql-industry-%'");
     $pdo->exec("DELETE FROM media_assets WHERE uploaded_by_user_id = {$testUserId}");
     $pdo->exec("DELETE FROM contact_inquiries WHERE corporate_email LIKE 'mysql-%'");
+    $pdo->exec("DELETE FROM partnership_inquiries WHERE corporate_email LIKE 'mysql-%'");
+    $pdo->exec("DELETE FROM proposals WHERE contact_email LIKE 'mysql-%'");
     $pdo->exec("DELETE FROM email_queue WHERE recipient_email LIKE 'mysql-%'");
     $pdo->exec("DELETE FROM pages WHERE slug LIKE 'mysql-page-%'");
     $pdo->exec("DELETE FROM users WHERE id = {$testUserId} OR email = '{$testUserEmail}'");

@@ -12,6 +12,8 @@ use Voak\Health\Services\HomepageService;
 use Voak\Health\Services\IndustryService;
 use Voak\Health\Services\MediaStorageService;
 use Voak\Health\Services\PageService;
+use Voak\Health\Services\PartnershipService;
+use Voak\Health\Services\ProposalService;
 use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SettingService;
 
@@ -29,6 +31,8 @@ class PublicContentController
     private ?IndustryService $industryService;
     private ?MediaStorageService $mediaService;
     private ?ContactService $contactService;
+    private ?PartnershipService $partnershipService;
+    private ?ProposalService $proposalService;
 
     public function __construct(
         PageService $pageService,
@@ -37,7 +41,9 @@ class PublicContentController
         ?ServiceService $serviceService = null,
         ?IndustryService $industryService = null,
         ?MediaStorageService $mediaService = null,
-        ?ContactService $contactService = null
+        ?ContactService $contactService = null,
+        ?PartnershipService $partnershipService = null,
+        ?ProposalService $proposalService = null
     ) {
         $this->pageService = $pageService;
         $this->homepageService = $homepageService;
@@ -46,6 +52,8 @@ class PublicContentController
         $this->industryService = $industryService;
         $this->mediaService = $mediaService;
         $this->contactService = $contactService;
+        $this->partnershipService = $partnershipService;
+        $this->proposalService = $proposalService;
     }
 
     /**
@@ -333,6 +341,56 @@ class PublicContentController
         $userAgent = (string)($request->getHeader('user-agent') ?? 'Public/Web');
 
         $result = $this->contactService->submitInquiry($payload, $ipAddress, $userAgent);
+
+        return Response::success($result, 201, $request->getCorrelationId());
+    }
+
+    /**
+     * POST /api/v1/public/partnerships/inquire
+     * POST /api/enquiries/partner
+     * Submits a public strategic healthcare partnership proposal.
+     */
+    public function submitPartnership(Request $request): Response
+    {
+        if ($this->partnershipService === null) {
+            throw new \RuntimeException("Partnership service is not configured.");
+        }
+
+        $payload = $request->getParsedBody() ?? [];
+        if (empty($payload)) {
+            $payload = $request->getJson();
+        }
+
+        $ipAddress = $request->getClientIp();
+        $userAgent = (string)($request->getHeader('user-agent') ?? 'Public/Web');
+
+        $result = $this->partnershipService->submitPartnership($payload, $ipAddress, $userAgent);
+
+        return Response::success($result, 201, $request->getCorrelationId());
+    }
+
+    /**
+     * POST /api/v1/public/proposals/submit
+     * POST /api/enquiries/proposal
+     * Submits a public multi-step RFP wizard entry with tender document attachment.
+     */
+    public function submitProposal(Request $request): Response
+    {
+        if ($this->proposalService === null) {
+            throw new \RuntimeException("Proposal service is not configured.");
+        }
+
+        $payload = $request->getParsedBody() ?? [];
+        if (empty($payload)) {
+            $payload = $request->getJson();
+        }
+
+        $file = $_FILES['rfp_file'] ?? $_FILES['tender_file'] ?? $_FILES['file'] ?? null;
+
+        $ipAddress = $request->getClientIp();
+        $userAgent = (string)($request->getHeader('user-agent') ?? 'Public/Web');
+
+        $result = $this->proposalService->submitProposal($payload, $file, $ipAddress, $userAgent);
 
         return Response::success($result, 201, $request->getCorrelationId());
     }

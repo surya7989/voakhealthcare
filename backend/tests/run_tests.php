@@ -46,9 +46,12 @@ use Voak\Health\Tests\Unit\MediaStorageServiceTest;
 use Voak\Health\Tests\Integration\MediaAndDocumentApiTest;
 use Voak\Health\Tests\Unit\ContactServiceTest;
 use Voak\Health\Tests\Integration\ContactInquiryApiTest;
+use Voak\Health\Tests\Unit\PartnershipServiceTest;
+use Voak\Health\Tests\Unit\ProposalServiceTest;
+use Voak\Health\Tests\Integration\PartnershipAndProposalApiTest;
 
 echo "======================================================================\n";
-echo "VOAK HEALTH CARE — BACKEND AUTOMATED TEST SUITE (PHASES 4, 6, 7, 8, 9, 10 & 11)\n";
+echo "VOAK HEALTH CARE — BACKEND AUTOMATED TEST SUITE (PHASES 4, 6, 7, 8, 9, 10, 11 & 12)\n";
 echo "======================================================================\n";
 echo "PHP Version: " . PHP_VERSION . "\n";
 echo "Runtime:     " . PHP_OS . " (" . php_uname('s') . ")\n";
@@ -101,6 +104,11 @@ MediaAndDocumentApiTest::run();
 // Phase 11 Contact Enquiry CRM & Lifecycle State Machine Tests
 ContactServiceTest::run();
 ContactInquiryApiTest::run();
+
+// Phase 12 Proposals & Partnerships CRM Management Tests
+PartnershipServiceTest::run();
+ProposalServiceTest::run();
+PartnershipAndProposalApiTest::run();
 
 $exitCode = TestFramework::summarize();
 exit($exitCode);
