@@ -1250,9 +1250,9 @@ try {
         // 5. Transient Failure, Exponential Backoff & Manual Retry (TEST-ADM-013)
         // Reset crashed item back to QUEUED so processQueueBatch picks it up with failure injection
         $pdo->exec("UPDATE email_queue SET status = 'QUEUED', worker_id = NULL, claimed_at = NULL WHERE id = {$crashedId}");
-        $mailTransport->setShouldFail(true);
+        $mailTransport->setFailing(true);
         $pResFail = $emailService->processQueueBatch(5);
-        $mailTransport->setShouldFail(false);
+        $mailTransport->setFailing(false);
         if ($pResFail['failed'] < 1) {
             throw new RuntimeException("Expected at least 1 failed dispatch on MySQL 8.0.");
         }
@@ -1279,9 +1279,9 @@ try {
             throw new RuntimeException("Urgent fast path dispatch failed on MySQL 8.0.");
         }
 
-        $mailTransport->setShouldFail(true);
+        $mailTransport->setFailing(true);
         $fastPathFallback = $emailService->sendUrgentFastPath('tmpl_security_alert', 'mysql-fast-fallback@voak.test', 'Security Admin', ['incident_code' => 'SEC-02', 'event_type' => 'Security Audit', 'target_user' => 'Admin'], $testUserId);
-        $mailTransport->setShouldFail(false);
+        $mailTransport->setFailing(false);
         if ($fastPathFallback !== false) {
             throw new RuntimeException("Urgent fast path fallback failed to return false on transport failure on MySQL 8.0.");
         }

@@ -57,6 +57,11 @@ class ArrayTransport implements MailerTransportInterface
         $this->lastError = $shouldFail ? $errorMessage : null;
     }
 
+    public function setShouldFail(bool $shouldFail, ?string $errorMessage = 'Simulated SMTP connection error'): void
+    {
+        $this->setFailing($shouldFail, $errorMessage);
+    }
+
     public function setDelayMs(int $ms): void
     {
         $this->delayMs = $ms;
