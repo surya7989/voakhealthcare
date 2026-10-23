@@ -24,8 +24,11 @@ use Voak\Health\Middleware\RequirePermissionMiddleware;
 use Voak\Health\Middleware\SecurityHeadersMiddleware;
 use Voak\Health\Modules\Admin\AdminApplicationController;
 use Voak\Health\Modules\Admin\AdminArticleController;
+use Voak\Health\Modules\Admin\AdminAuditController;
 use Voak\Health\Modules\Admin\AdminAuthController;
 use Voak\Health\Modules\Admin\AdminCaseStudyController;
+use Voak\Health\Modules\Admin\AdminDashboardController;
+use Voak\Health\Modules\Admin\AdminDiagnosticsController;
 use Voak\Health\Modules\Admin\AdminContactController;
 use Voak\Health\Modules\Admin\AdminDocumentStreamController;
 use Voak\Health\Modules\Admin\AdminEmailQueueController;
@@ -51,6 +54,7 @@ use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
 use Voak\Health\Services\ArticleService;
+use Voak\Health\Services\AuditService;
 use Voak\Health\Services\CareerService;
 use Voak\Health\Services\CaseStudyService;
 use Voak\Health\Services\ContactService;
@@ -344,6 +348,13 @@ class App
 
         $this->container->set(SeoService::class, $seoService);
         $this->container->set(AdminSeoController::class, new AdminSeoController($seoService));
+
+        // Phase 17 Administration, Auditing & Operational Diagnostics
+        $auditService = new AuditService($connection, $auditLogger);
+        $this->container->set(AuditService::class, $auditService);
+        $this->container->set(AdminAuditController::class, new AdminAuditController($auditService));
+        $this->container->set(AdminDiagnosticsController::class, new AdminDiagnosticsController($connection));
+        $this->container->set(AdminDashboardController::class, new AdminDashboardController($connection));
 
         $this->container->set(PublicContentController::class, new PublicContentController(
             $pageService,
@@ -1411,6 +1422,83 @@ class App
             '/api/admin/seo/redirects/:id',
             [AdminSeoController::class, 'deleteRedirect'],
             [RequirePermissionMiddleware::with('seo:update_meta', $rbacManager, $connection)]
+        );
+
+        // Phase 17 Administration, Auditing & Telemetry Routes (Module 19 / ADM-019 / ADM-001 / ADM-018)
+        // Dashboard Stats (ADM-001 / FR-ADM-001)
+        $this->router->get(
+            '/api/v1/admin/dashboard/stats',
+            [AdminDashboardController::class, 'getStats'],
+            [RequirePermissionMiddleware::with('dashboard.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/dashboard/stats',
+            [AdminDashboardController::class, 'getStats'],
+            [RequirePermissionMiddleware::with('dashboard.view', $rbacManager, $connection)]
+        );
+
+        // System Diagnostics Telemetry (ADM-018 / SYS-004)
+        $this->router->get(
+            '/api/v1/admin/system/diagnostics',
+            [AdminDiagnosticsController::class, 'getDiagnostics'],
+            [RequirePermissionMiddleware::with('system.diagnostics', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/system/diagnostics',
+            [AdminDiagnosticsController::class, 'getDiagnostics'],
+            [RequirePermissionMiddleware::with('system.diagnostics', $rbacManager, $connection)]
+        );
+
+        // Audit Logs (ADM-019 / FR-ADM-019)
+        $this->router->get(
+            '/api/v1/admin/audit-logs',
+            [AdminAuditController::class, 'listLogs'],
+            [RequirePermissionMiddleware::with('audit:read', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/audit-logs',
+            [AdminAuditController::class, 'listLogs'],
+            [RequirePermissionMiddleware::with('audit:read', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/audit-logs/export',
+            [AdminAuditController::class, 'exportCsv'],
+            [RequirePermissionMiddleware::with('audit:export', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/audit-logs/export',
+            [AdminAuditController::class, 'exportCsv'],
+            [RequirePermissionMiddleware::with('audit:export', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/audit-logs/verify',
+            [AdminAuditController::class, 'verifyChain'],
+            [RequirePermissionMiddleware::with('audit:read', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/audit-logs/verify',
+            [AdminAuditController::class, 'verifyChain'],
+            [RequirePermissionMiddleware::with('audit:read', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/audit-logs/verify',
+            [AdminAuditController::class, 'verifyChain'],
+            [RequirePermissionMiddleware::with('audit:read', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/audit-logs/verify',
+            [AdminAuditController::class, 'verifyChain'],
+            [RequirePermissionMiddleware::with('audit:read', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/audit-logs/:id',
+            [AdminAuditController::class, 'getLog'],
+            [RequirePermissionMiddleware::with('audit:read', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/audit-logs/:id',
+            [AdminAuditController::class, 'getLog'],
+            [RequirePermissionMiddleware::with('audit:read', $rbacManager, $connection)]
         );
     }
 }

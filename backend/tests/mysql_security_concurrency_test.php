@@ -48,6 +48,7 @@ use Voak\Health\Services\ProposalService;
 use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SeoService;
 use Voak\Health\Services\SettingService;
+use Voak\Health\Services\AuditService;
 
 echo "======================================================================\n";
 echo "VOAK HEALTH CARE — MYSQL 8.0 SECURITY CONCURRENCY & INTEGRITY SUITE\n";
@@ -1751,6 +1752,105 @@ try {
         $pdo->exec("DELETE FROM pages WHERE id = {$testPageId} OR slug = 'mysql-test-careers'");
         $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/services/mysql-%' OR source_path = '/services/cardiology'");
         $pdo->exec("DELETE FROM system_settings WHERE setting_key = 'seo.sitemap.xml' OR setting_key LIKE 'seo.routes.%'");
+    });
+
+    // Test 17: Phase 17 — Administration, Auditing & Telemetry on MySQL 8.0 (ADM-019, ADM-018, ADM-001, FR-ADM-019, FR-ADM-001, SYS-004, TEST-ADM-019, FR-SEC-004, C-14)
+    $runTest("Test 17: Phase 17 — Administration, Auditing & Telemetry on MySQL 8.0 (ADM-019, ADM-018, ADM-001, FR-ADM-019, FR-ADM-001, SYS-004, TEST-ADM-019, FR-SEC-004, C-14)", function () use ($pdo, $testUserId) {
+        $connection = new Connection();
+        $connection->setMockPdo($pdo);
+        $auditLogger = new AuditLogger();
+        $auditService = new AuditService($connection, $auditLogger);
+
+        // 1. Verify audit_logs schema on MySQL 8.0
+        $auditCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'audit_logs'")->fetchAll(PDO::FETCH_COLUMN);
+        $requiredAuditCols = ['id', 'user_id', 'actor_role', 'action', 'entity_type', 'entity_id', 'diff_json', 'ip_address', 'user_agent', 'hash', 'previous_hash', 'created_at'];
+        foreach ($requiredAuditCols as $col) {
+            if (!in_array($col, $auditCols, true)) {
+                throw new RuntimeException("audit_logs table missing required column '{$col}' on MySQL 8.0.");
+            }
+        }
+
+        // 2. Verify audit_logs indexes on MySQL 8.0
+        $indexes = $pdo->query("SHOW INDEX FROM audit_logs")->fetchAll(PDO::FETCH_ASSOC);
+        $indexNames = array_column($indexes, 'Key_name');
+        $requiredIndexes = ['idx_audit_logs_action', 'idx_audit_logs_user_id', 'idx_audit_logs_created_at', 'idx_audit_logs_hash'];
+        foreach ($requiredIndexes as $idx) {
+            if (!in_array($idx, $indexNames, true)) {
+                throw new RuntimeException("audit_logs table missing required index '{$idx}' on MySQL 8.0.");
+            }
+        }
+
+        // 3. Test logAccess & queryLogs with pagination and filters
+        $auditService->logAccess($testUserId, 'AUDIT_LOG_ACCESSED', 'audit_logs', null, '127.0.0.1', 'MySQL 8.0 CI Runner');
+        $queryResult = $auditService->queryLogs([
+            'action' => 'AUDIT_LOG_ACCESSED',
+            'user_id' => $testUserId,
+            'page' => 1,
+            'per_page' => 10,
+        ]);
+        if ($queryResult['pagination']['total'] < 1 || empty($queryResult['data'])) {
+            throw new RuntimeException("queryLogs failed to return logged access entry on MySQL 8.0.");
+        }
+        $logEntry = $queryResult['data'][0];
+        if ($logEntry['action'] !== 'AUDIT_LOG_ACCESSED' || (int)$logEntry['user_id'] !== $testUserId) {
+            throw new RuntimeException("queryLogs returned invalid data attributes on MySQL 8.0.");
+        }
+
+        // 4. Test getLogById with diff decoding
+        $fetchedLog = $auditService->getLogById((int)$logEntry['id']);
+        if ($fetchedLog === null || (int)$fetchedLog['id'] !== (int)$logEntry['id']) {
+            throw new RuntimeException("getLogById failed on MySQL 8.0.");
+        }
+
+        // 5. Test Cryptographic Running SHA-256 Chain Verification on MySQL 8.0
+        $chainReport = $auditService->verifyChainIntegrity();
+        if ($chainReport['valid'] !== true) {
+            throw new RuntimeException("Audit chain integrity verification failed on MySQL 8.0: " . ($chainReport['broken_at_id'] ?? 'unknown error'));
+        }
+        if ($chainReport['verified_count'] < 1) {
+            throw new RuntimeException("Audit chain verification reported 0 verified records on MySQL 8.0.");
+        }
+
+        // 6. Test CSV Export with formula injection protection and UTF-8 BOM
+        $auditService->logExport($testUserId, 'CSV', 1, '127.0.0.1', 'MySQL 8.0 CI Runner');
+        $csvContent = $auditService->exportCsv([
+            'user_id' => $testUserId,
+        ]);
+        if (!str_starts_with($csvContent, "\xEF\xBB\xBF")) {
+            throw new RuntimeException("Audit logs CSV export missing UTF-8 BOM on MySQL 8.0.");
+        }
+        if (!str_contains($csvContent, 'AUDIT_LOG_ACCESSED')) {
+            throw new RuntimeException("Audit logs CSV export missing expected record on MySQL 8.0.");
+        }
+
+        // 7. Verify System Diagnostics and DB Latency Telemetry on MySQL 8.0
+        $startPing = microtime(true);
+        $ping = (int)$pdo->query("SELECT 1")->fetchColumn();
+        $dbLatencyMs = round((microtime(true) - $startPing) * 1000, 2);
+        if ($ping !== 1) {
+            throw new RuntimeException("DB ping failed on MySQL 8.0.");
+        }
+
+        $migrationCount = (int)$pdo->query("SELECT COUNT(*) FROM migrations")->fetchColumn();
+        if ($migrationCount !== 28) {
+            throw new RuntimeException("Migration count mismatch on MySQL 8.0: expected 28, got {$migrationCount}.");
+        }
+
+        // 8. Verify Dashboard KPI Telemetry Queries on MySQL 8.0
+        $inquiriesCount = (int)$pdo->query("SELECT COUNT(*) FROM contact_inquiries")->fetchColumn();
+        $publishedPages = (int)$pdo->query("SELECT COUNT(*) FROM pages WHERE is_published = 1")->fetchColumn();
+        $auditLogsCount = (int)$pdo->query("SELECT COUNT(*) FROM audit_logs")->fetchColumn();
+        if ($auditLogsCount < 1) {
+            throw new RuntimeException("Audit logs table empty during dashboard KPI verification on MySQL 8.0.");
+        }
+
+        // 9. Verify Immutability: No UPDATE or DELETE methods exist on AuditService
+        $refClass = new \ReflectionClass($auditService);
+        foreach (['update', 'delete', 'destroy', 'truncate', 'drop'] as $forbidden) {
+            if ($refClass->hasMethod($forbidden)) {
+                throw new RuntimeException("AuditService exposes forbidden mutating method: {$forbidden}");
+            }
+        }
     });
 
     // Clean up isolated test data

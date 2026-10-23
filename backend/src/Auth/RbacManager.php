@@ -618,6 +618,16 @@ class RbacManager
         'seo_routes.manage'      => ['seo:update_meta', 'seo_routes.manage'],
         'redirects.view'         => ['seo:update_meta', 'redirects.view'],
         'redirects.manage'       => ['seo:update_meta', 'redirects.manage'],
+
+        // Phase 17 Administration, Auditing & Operational Diagnostics (Module 19 / ADM-019 / ADM-001 / ADM-018)
+        'audit.view'             => ['audit:read', 'audit.view'],
+        'audit.read'             => ['audit:read', 'audit.read'],
+        'audit.export'           => ['audit:export', 'audit.export'],
+        'audit_logs.view'        => ['audit:read', 'audit_logs.view'],
+        'audit_logs.export'      => ['audit:export', 'audit_logs.export'],
+        'system.diagnostics'     => ['system.diagnostics', 'settings:read', 'audit:read'],
+        'diagnostics.view'       => ['system.diagnostics', 'settings:read', 'audit:read'],
+        'dashboard.view'         => ['auth:login', 'dashboard.view'],
     ];
 
     /**

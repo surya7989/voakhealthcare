@@ -74,6 +74,9 @@ jobs:
       - name: Run Phase 16 SEO Management Test Suite
         run: php -d memory_limit=512M tests/test_phase16_seo_management.php
 
+      - name: Run Phase 17 Administration & Auditing Test Suite
+        run: php -d memory_limit=512M tests/test_phase17_administration_and_auditing.php
+
       - name: Run Comprehensive Backend Test Suite
         run: php -d memory_limit=512M backend/tests/run_tests.php
 
