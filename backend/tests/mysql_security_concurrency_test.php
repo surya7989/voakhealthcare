@@ -1521,7 +1521,7 @@ try {
 
         // 1. Verify schema existence and columns on MySQL 8.0
         $artCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'articles'")->fetchAll(\PDO::FETCH_COLUMN);
-        $requiredArtCols = ['id', 'title', 'slug', 'summary', 'content_html', 'category', 'tags_json', 'reading_time_minutes', 'is_published', 'published_at', 'author_user_id', 'created_at', 'updated_at'];
+        $requiredArtCols = ['id', 'title', 'slug', 'summary', 'content_html', 'category', 'tags_json', 'reading_time_minutes', 'is_published', 'published_at', 'author_id', 'created_at', 'updated_at'];
         foreach ($requiredArtCols as $col) {
             if (!in_array($col, $artCols, true)) {
                 throw new RuntimeException("articles table missing required column '{$col}' on MySQL 8.0.");
@@ -1529,7 +1529,7 @@ try {
         }
 
         $csCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'case_studies'")->fetchAll(\PDO::FETCH_COLUMN);
-        $requiredCsCols = ['id', 'title', 'slug', 'client_sector', 'challenge_summary', 'intervention_summary', 'outcomes_json', 'consent_verified', 'is_published', 'published_at', 'created_at', 'updated_at'];
+        $requiredCsCols = ['id', 'title', 'slug', 'client_sector', 'challenge_summary', 'intervention_summary', 'outcome_metrics_json', 'consent_verified', 'is_published', 'published_at', 'created_at', 'updated_at'];
         foreach ($requiredCsCols as $col) {
             if (!in_array($col, $csCols, true)) {
                 throw new RuntimeException("case_studies table missing required column '{$col}' on MySQL 8.0.");
