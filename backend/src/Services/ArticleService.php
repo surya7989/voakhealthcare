@@ -734,6 +734,7 @@ class ArticleService
         $articles = $this->getArticles($filters, 1, 1000)['articles'];
 
         $fp = fopen('php://memory', 'r+');
+        fputs($fp, "\xEF\xBB\xBF");
         fputcsv($fp, ['ID', 'Title', 'Slug', 'Category', 'Author', 'Reading Time (Min)', 'Status', 'Published Date', 'Created Date']);
 
         foreach ($articles as $a) {

@@ -656,6 +656,7 @@ class CaseStudyService
         $cases = $this->getCaseStudies($filters, 1, 1000)['case_studies'];
 
         $fp = fopen('php://memory', 'r+');
+        fputs($fp, "\xEF\xBB\xBF");
         fputcsv($fp, ['ID', 'Title', 'Slug', 'Client Sector', 'Consent Verified', 'Publish Status', 'Published Date', 'Created Date']);
 
         foreach ($cases as $c) {
