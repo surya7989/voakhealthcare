@@ -86,6 +86,75 @@ class TestFramework
         }
     }
 
+    public static function assertIsArray(mixed $actual, string $message = ''): void
+    {
+        self::$assertions++;
+        if (!is_array($actual)) {
+            $desc = $message !== '' ? "{$message}. " : '';
+            throw new \AssertionError("{$desc}Expected array, got " . gettype($actual));
+        }
+    }
+
+    public static function assertNull(mixed $actual, string $message = ''): void
+    {
+        self::$assertions++;
+        if ($actual !== null) {
+            $desc = $message !== '' ? "{$message}. " : '';
+            throw new \AssertionError("{$desc}Expected null, got " . var_export($actual, true));
+        }
+    }
+
+    public static function assertNotEmpty(mixed $actual, string $message = ''): void
+    {
+        self::$assertions++;
+        if (empty($actual)) {
+            $desc = $message !== '' ? "{$message}. " : '';
+            throw new \AssertionError("{$desc}Expected non-empty value, got empty");
+        }
+    }
+
+    public static function assertGreaterThan(int|float $expected, int|float $actual, string $message = ''): void
+    {
+        self::$assertions++;
+        if ($actual <= $expected) {
+            $desc = $message !== '' ? "{$message}. " : '';
+            throw new \AssertionError("{$desc}Expected value greater than {$expected}, got {$actual}");
+        }
+    }
+
+    public static function assertGreaterThanOrEqual(int|float $expected, int|float $actual, string $message = ''): void
+    {
+        self::$assertions++;
+        if ($actual < $expected) {
+            $desc = $message !== '' ? "{$message}. " : '';
+            throw new \AssertionError("{$desc}Expected value greater than or equal to {$expected}, got {$actual}");
+        }
+    }
+
+    public static function assertStringStartsWith(string $prefix, string $string, string $message = ''): void
+    {
+        self::$assertions++;
+        if (!str_starts_with($string, $prefix)) {
+            $desc = $message !== '' ? "{$message}. " : '';
+            throw new \AssertionError("{$desc}String does not start with expected prefix [{$prefix}]");
+        }
+    }
+
+    public static function assertStringContainsString(string $needle, string $haystack, string $message = ''): void
+    {
+        self::assertContains($needle, $haystack, $message);
+    }
+
+    public static function assertCount(int $expectedCount, \Countable|array $countable, string $message = ''): void
+    {
+        self::$assertions++;
+        $actualCount = count($countable);
+        if ($actualCount !== $expectedCount) {
+            $desc = $message !== '' ? "{$message}. " : '';
+            throw new \AssertionError("{$desc}Expected count [{$expectedCount}], got [{$actualCount}]");
+        }
+    }
+
     public static function expectException(string $expectedClass, callable $callback, ?string $expectedMessageContains = null): void
     {
         self::$assertions++;

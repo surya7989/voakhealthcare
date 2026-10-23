@@ -7,6 +7,7 @@ namespace Voak\Health\Modules\PublicContent;
 use Voak\Health\Core\Exceptions\NotFoundException;
 use Voak\Health\Core\Http\Request;
 use Voak\Health\Core\Http\Response;
+use Voak\Health\Services\CareerService;
 use Voak\Health\Services\ContactService;
 use Voak\Health\Services\HomepageService;
 use Voak\Health\Services\IndustryService;
@@ -33,6 +34,7 @@ class PublicContentController
     private ?ContactService $contactService;
     private ?PartnershipService $partnershipService;
     private ?ProposalService $proposalService;
+    private ?CareerService $careerService;
 
     public function __construct(
         PageService $pageService,
@@ -43,7 +45,8 @@ class PublicContentController
         ?MediaStorageService $mediaService = null,
         ?ContactService $contactService = null,
         ?PartnershipService $partnershipService = null,
-        ?ProposalService $proposalService = null
+        ?ProposalService $proposalService = null,
+        ?CareerService $careerService = null
     ) {
         $this->pageService = $pageService;
         $this->homepageService = $homepageService;
@@ -54,6 +57,7 @@ class PublicContentController
         $this->contactService = $contactService;
         $this->partnershipService = $partnershipService;
         $this->proposalService = $proposalService;
+        $this->careerService = $careerService;
     }
 
     /**
@@ -391,6 +395,123 @@ class PublicContentController
         $userAgent = (string)($request->getHeader('user-agent') ?? 'Public/Web');
 
         $result = $this->proposalService->submitProposal($payload, $file, $ipAddress, $userAgent);
+
+        return Response::success($result, 201, $request->getCorrelationId());
+    }
+
+    /**
+     * GET /api/v1/public/jobs
+     * GET /api/v1/public/careers
+     * GET /api/careers
+     * Delivers active published careers openings.
+     */
+    public function getJobs(Request $request): Response
+    {
+        if ($this->careerService === null) {
+            throw new \RuntimeException("Career service is not configured.");
+        }
+
+        $filters = $request->getQueryParams();
+        $jobs = $this->careerService->listPublishedJobs($filters);
+
+        $etag = '"' . md5(json_encode($jobs)) . '"';
+        $ifNoneMatch = $request->getHeader('if-none-match');
+
+        if ($ifNoneMatch !== null && $this->isEtagMatch($ifNoneMatch, $etag)) {
+            return new Response(304, [
+                'ETag'          => $etag,
+                'Cache-Control' => 'public, max-age=300, must-revalidate',
+            ]);
+        }
+
+        return new Response(200, [
+            'Content-Type'  => 'application/json; charset=UTF-8',
+            'ETag'          => $etag,
+            'Cache-Control' => 'public, max-age=300, must-revalidate',
+        ], json_encode([
+            'success'   => true,
+            'data'      => $jobs,
+            'timestamp' => gmdate('Y-m-d\TH:i:s\Z'),
+        ]));
+    }
+
+    /**
+     * GET /api/v1/public/jobs/:slug
+     * GET /api/v1/public/careers/:slug
+     * GET /api/careers/:slug
+     * Delivers single published job detail.
+     */
+    public function getJob(Request $request): Response
+    {
+        if ($this->careerService === null) {
+            throw new \RuntimeException("Career service is not configured.");
+        }
+
+        $slug = (string)($request->getAttribute('slug') ?? '');
+        $job = $this->careerService->getPublishedJobBySlug($slug);
+
+        if ($job === null) {
+            throw new NotFoundException("Job opening [{$slug}] not found or is no longer active.");
+        }
+
+        $etag = '"' . md5(json_encode($job)) . '"';
+        $ifNoneMatch = $request->getHeader('if-none-match');
+
+        if ($ifNoneMatch !== null && $this->isEtagMatch($ifNoneMatch, $etag)) {
+            return new Response(304, [
+                'ETag'          => $etag,
+                'Cache-Control' => 'public, max-age=300, must-revalidate',
+            ]);
+        }
+
+        return new Response(200, [
+            'Content-Type'  => 'application/json; charset=UTF-8',
+            'ETag'          => $etag,
+            'Cache-Control' => 'public, max-age=300, must-revalidate',
+        ], json_encode([
+            'success'   => true,
+            'data'      => $job,
+            'timestamp' => gmdate('Y-m-d\TH:i:s\Z'),
+        ]));
+    }
+
+    /**
+     * POST /api/v1/public/careers/apply
+     * POST /api/v1/public/careers/:slug/apply
+     * POST /api/careers/:slug/apply
+     * Submits a candidate job application with resume attachment.
+     */
+    public function submitApplication(Request $request): Response
+    {
+        if ($this->careerService === null) {
+            throw new \RuntimeException("Career service is not configured.");
+        }
+
+        $payload = $request->getParsedBody() ?? [];
+        if (empty($payload)) {
+            $raw = trim($request->getRawBody());
+            if ($raw !== '') {
+                $contentType = (string)($request->getHeader('content-type') ?? '');
+                if (str_contains(strtolower($contentType), 'application/x-www-form-urlencoded')) {
+                    parse_str($raw, $payload);
+                } else {
+                    $payload = $request->getJson();
+                }
+            }
+        }
+
+        // Check if slug is in route parameter
+        $slugAttr = $request->getAttribute('slug');
+        if ($slugAttr !== null && empty($payload['job_slug']) && empty($payload['job_id'])) {
+            $payload['job_slug'] = (string)$slugAttr;
+        }
+
+        $file = $_FILES['resume_file'] ?? $_FILES['resume'] ?? $_FILES['file'] ?? null;
+
+        $ipAddress = $request->getClientIp();
+        $userAgent = (string)($request->getHeader('user-agent') ?? 'Public/Web');
+
+        $result = $this->careerService->submitApplication($payload, $file, $ipAddress, $userAgent);
 
         return Response::success($result, 201, $request->getCorrelationId());
     }

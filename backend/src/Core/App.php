@@ -22,6 +22,7 @@ use Voak\Health\Middleware\MiddlewarePipeline;
 use Voak\Health\Middleware\RateLimitMiddleware;
 use Voak\Health\Middleware\RequirePermissionMiddleware;
 use Voak\Health\Middleware\SecurityHeadersMiddleware;
+use Voak\Health\Modules\Admin\AdminApplicationController;
 use Voak\Health\Modules\Admin\AdminAuthController;
 use Voak\Health\Modules\Admin\AdminContactController;
 use Voak\Health\Modules\Admin\AdminDocumentStreamController;
@@ -29,6 +30,7 @@ use Voak\Health\Modules\Admin\AdminEmailQueueController;
 use Voak\Health\Modules\Admin\AdminEmailTemplateController;
 use Voak\Health\Modules\Admin\AdminHomepageController;
 use Voak\Health\Modules\Admin\AdminIndustryController;
+use Voak\Health\Modules\Admin\AdminJobController;
 use Voak\Health\Modules\Admin\AdminMediaController;
 use Voak\Health\Modules\Admin\AdminPageController;
 use Voak\Health\Modules\Admin\AdminPartnershipController;
@@ -44,6 +46,7 @@ use Voak\Health\Security\AuditLogger;
 use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
+use Voak\Health\Services\CareerService;
 use Voak\Health\Services\ContactService;
 use Voak\Health\Services\EmailService;
 use Voak\Health\Services\HomepageService;
@@ -273,6 +276,20 @@ class App
         $this->container->set(AdminEmailTemplateController::class, new AdminEmailTemplateController($emailService));
         $this->container->set(AdminEmailQueueController::class, new AdminEmailQueueController($emailService));
 
+        // Phase 14 Careers & Recruitment Service & Controllers
+        $careerService = new CareerService(
+            $connection,
+            $mediaService,
+            $auditLogger,
+            $sanitizer,
+            $emailService,
+            null,
+            $rbacManager
+        );
+        $this->container->set(CareerService::class, $careerService);
+        $this->container->set(AdminJobController::class, new AdminJobController($careerService));
+        $this->container->set(AdminApplicationController::class, new AdminApplicationController($careerService));
+
         $this->container->set(PublicContentController::class, new PublicContentController(
             $pageService,
             $homepageService,
@@ -282,7 +299,8 @@ class App
             $mediaService,
             $contactService,
             $partnershipService,
-            $proposalService
+            $proposalService,
+            $careerService
         ));
     }
 
@@ -373,6 +391,18 @@ class App
         $this->router->post('/api/enquiries/partner', [PublicContentController::class, 'submitPartnership']);
         $this->router->post('/api/v1/public/proposals/submit', [PublicContentController::class, 'submitProposal']);
         $this->router->post('/api/enquiries/proposal', [PublicContentController::class, 'submitProposal']);
+
+        // Phase 14 Public Careers & Application Intake Routes
+        $this->router->get('/api/v1/public/jobs', [PublicContentController::class, 'getJobs']);
+        $this->router->get('/api/v1/public/careers', [PublicContentController::class, 'getJobs']);
+        $this->router->get('/api/careers', [PublicContentController::class, 'getJobs']);
+        $this->router->get('/api/v1/public/jobs/:slug', [PublicContentController::class, 'getJob']);
+        $this->router->get('/api/v1/public/careers/:slug', [PublicContentController::class, 'getJob']);
+        $this->router->get('/api/careers/:slug', [PublicContentController::class, 'getJob']);
+        $this->router->post('/api/v1/public/careers/apply', [PublicContentController::class, 'submitApplication']);
+        $this->router->post('/api/v1/public/careers/:slug/apply', [PublicContentController::class, 'submitApplication']);
+        $this->router->post('/api/careers/:slug/apply', [PublicContentController::class, 'submitApplication']);
+        $this->router->post('/api/v1/public/jobs/:slug/apply', [PublicContentController::class, 'submitApplication']);
 
         // Phase 7 Administrative CMS Routes (Authenticated, CSRF-protected, RBAC-enforced)
         // 1. Pages CRUD, Workflow & Revisions
@@ -878,6 +908,120 @@ class App
             '/api/admin/email-queue/dispatch',
             [AdminEmailQueueController::class, 'dispatch'],
             [RequirePermissionMiddleware::with('email:update', $rbacManager, $connection)]
+        );
+
+        // Phase 14 Careers & Job Openings Management Routes (ADM-013 / FR-ADM-014)
+        $this->router->get(
+            '/api/v1/admin/jobs',
+            [AdminJobController::class, 'index'],
+            [RequirePermissionMiddleware::with('job:create', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/jobs',
+            [AdminJobController::class, 'index'],
+            [RequirePermissionMiddleware::with('job:create', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/jobs/:id',
+            [AdminJobController::class, 'show'],
+            [RequirePermissionMiddleware::with('job:create', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/jobs/:id',
+            [AdminJobController::class, 'show'],
+            [RequirePermissionMiddleware::with('job:create', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/jobs',
+            [AdminJobController::class, 'create'],
+            [RequirePermissionMiddleware::with('job:create', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/jobs',
+            [AdminJobController::class, 'create'],
+            [RequirePermissionMiddleware::with('job:create', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/v1/admin/jobs/:id',
+            [AdminJobController::class, 'update'],
+            [RequirePermissionMiddleware::with('job:update', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/jobs/:id',
+            [AdminJobController::class, 'update'],
+            [RequirePermissionMiddleware::with('job:update', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/admin/jobs/:id',
+            [AdminJobController::class, 'update'],
+            [RequirePermissionMiddleware::with('job:update', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/v1/admin/jobs/:id',
+            [AdminJobController::class, 'delete'],
+            [RequirePermissionMiddleware::with('job:close', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/admin/jobs/:id',
+            [AdminJobController::class, 'delete'],
+            [RequirePermissionMiddleware::with('job:close', $rbacManager, $connection)]
+        );
+
+        // Phase 14 Candidate Applications & Recruitment Review Desk Routes (ADM-014 / FR-ADM-015 / FR-WF-004)
+        $this->router->get(
+            '/api/v1/admin/applications',
+            [AdminApplicationController::class, 'index'],
+            [RequirePermissionMiddleware::with('candidate:list', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/careers/applications',
+            [AdminApplicationController::class, 'index'],
+            [RequirePermissionMiddleware::with('candidate:list', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/applications/export',
+            [AdminApplicationController::class, 'export'],
+            [RequirePermissionMiddleware::with('candidate:export_csv', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/careers/applications/export',
+            [AdminApplicationController::class, 'export'],
+            [RequirePermissionMiddleware::with('candidate:export_csv', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/applications/:id',
+            [AdminApplicationController::class, 'show'],
+            [RequirePermissionMiddleware::with('candidate:list', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/careers/applications/:id',
+            [AdminApplicationController::class, 'show'],
+            [RequirePermissionMiddleware::with('candidate:list', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/applications/:id/status',
+            [AdminApplicationController::class, 'updateStatus'],
+            [RequirePermissionMiddleware::with('candidate:update_stage', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/admin/careers/applications/:id/status',
+            [AdminApplicationController::class, 'updateStatus'],
+            [RequirePermissionMiddleware::with('candidate:update_stage', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/applications/:id/download',
+            [AdminApplicationController::class, 'streamResume'],
+            [RequirePermissionMiddleware::with('candidate:download_cv', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/applications/:id/resume',
+            [AdminApplicationController::class, 'streamResume'],
+            [RequirePermissionMiddleware::with('candidate:download_cv', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/careers/applications/:id/resume',
+            [AdminApplicationController::class, 'streamResume'],
+            [RequirePermissionMiddleware::with('candidate:download_cv', $rbacManager, $connection)]
         );
     }
 }

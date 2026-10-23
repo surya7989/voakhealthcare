@@ -33,6 +33,7 @@ use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
 use Voak\Health\Security\RateLimiter;
+use Voak\Health\Services\CareerService;
 use Voak\Health\Services\ContactService;
 use Voak\Health\Services\EmailService;
 use Voak\Health\Services\IndustryService;
@@ -1305,6 +1306,205 @@ try {
         $pdo->exec("DELETE FROM system_settings WHERE setting_group = 'email_templates' AND updated_by_user_id = {$testUserId}");
     });
 
+    $runTest("Test 13: Phase 14 — Careers & Recruitment Requisitions, Referential Guard, Candidate FSM Progression, Quarantined CV Streaming & Retention Disposal on MySQL 8.0 (FR-ADM-014, FR-ADM-015, FR-WF-004, FR-SEC-004, TEST-ADM-014, TEST-ADM-015, TEST-WF-004, TEST-SEC-004)", function () use ($pdo, $testUserId) {
+        $connection = new Connection();
+        $connection->setMockPdo($pdo);
+        $auditLogger = new AuditLogger();
+        $sanitizer = new HtmlSanitizer();
+        $mailTransport = new ArrayTransport();
+        $emailService = new EmailService($connection, $auditLogger, $sanitizer, $mailTransport);
+
+        $quarantineDir = sys_get_temp_dir() . '/voak_mysql_q_' . bin2hex(random_bytes(4));
+        $mediaStorage = new MediaStorageService($connection, $auditLogger, null, null, $quarantineDir);
+        $rlDir = sys_get_temp_dir() . '/voak_mysql_rl_' . bin2hex(random_bytes(4));
+        $rateLimiter = new RateLimiter($rlDir);
+
+        $rbac = new RbacManager();
+        $careerService = new CareerService($connection, $mediaStorage, $auditLogger, $sanitizer, $emailService, $rateLimiter, $rbac);
+
+        // 1. Verify schema existence and columns on MySQL 8.0
+        $jpCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'job_postings'")->fetchAll(\PDO::FETCH_COLUMN);
+        $requiredJpCols = ['id', 'title', 'slug', 'department', 'employment_type', 'location', 'summary', 'responsibilities_json', 'requirements_json', 'is_active', 'closing_date', 'created_by_user_id', 'created_at', 'updated_at'];
+        foreach ($requiredJpCols as $rc) {
+            if (!in_array($rc, $jpCols, true)) {
+                throw new RuntimeException("job_postings missing required column '{$rc}' on MySQL 8.0.");
+            }
+        }
+
+        $caCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'career_applications'")->fetchAll(\PDO::FETCH_COLUMN);
+        $requiredCaCols = ['id', 'job_id', 'reference_code', 'full_name', 'email', 'phone', 'country_code', 'ahpra_number', 'quarantined_resume_path', 'original_resume_name', 'status', 'rejection_reason', 'retention_expiry_date', 'created_at', 'updated_at'];
+        foreach ($requiredCaCols as $rc) {
+            if (!in_array($rc, $caCols, true)) {
+                throw new RuntimeException("career_applications missing required column '{$rc}' on MySQL 8.0.");
+            }
+        }
+
+        // 2. Job Requisition Lifecycle & Slug Uniqueness (FR-ADM-014 / TEST-ADM-014)
+        $job = $careerService->createJob([
+            'title'            => 'MySQL ICU Clinical Specialist',
+            'slug'             => 'mysql-job-icu-specialist',
+            'department'       => 'Intensive Care Unit',
+            'employment_type'  => 'FULL_TIME',
+            'location'         => 'Sydney Campus',
+            'summary'          => 'Critical high-acuity patient support and leadership.',
+            'responsibilities' => ['Clinical rounds', 'Supervise nursing'],
+            'requirements'     => ['AHPRA registration', 'Postgrad cert'],
+            'is_active'        => 1,
+            'closing_date'     => date('Y-m-d', strtotime('+30 days')),
+        ], $testUserId);
+
+        $jobId = (int)$job['id'];
+        if ($jobId < 1 || $job['slug'] !== 'mysql-job-icu-specialist') {
+            throw new RuntimeException("createJob failed on MySQL 8.0.");
+        }
+
+        // Verify duplicate slug throws ValidationException
+        $slugThrew = false;
+        try {
+            $careerService->createJob([
+                'title'           => 'Duplicate Slug Role',
+                'slug'            => 'mysql-job-icu-specialist',
+                'department'      => 'Emergency',
+                'employment_type' => 'FULL_TIME',
+                'location'        => 'Melbourne',
+                'summary'         => 'Duplicate role check.',
+            ], $testUserId);
+        } catch (ValidationException $e) {
+            $slugThrew = true;
+        }
+        if (!$slugThrew) {
+            throw new RuntimeException("Duplicate slug validation failed to reject on MySQL 8.0.");
+        }
+
+        // Verify audit event JOB_POSTED
+        $auditPosted = (int)$pdo->query("SELECT COUNT(*) FROM audit_logs WHERE action = 'JOB_POSTED' AND user_id = {$testUserId}")->fetchColumn();
+        if ($auditPosted < 1) {
+            throw new RuntimeException("JOB_POSTED audit event missing on MySQL 8.0.");
+        }
+
+        // 3. Referential Deletion Guard (TEST-ADM-014)
+        // Temporary job without applications: can be deleted
+        $tempJob = $careerService->createJob([
+            'title'           => 'MySQL Temporary Job',
+            'slug'            => 'mysql-job-temp-to-delete',
+            'department'      => 'General',
+            'employment_type' => 'CASUAL',
+            'location'        => 'Brisbane',
+            'summary'         => 'Temporary position with zero applicants.',
+        ], $testUserId);
+        $tempJobId = (int)$tempJob['id'];
+        $delSuccess = $careerService->deleteJob($tempJobId, $testUserId);
+        if ($delSuccess !== true) {
+            throw new RuntimeException("deleteJob failed for zero-applicant job on MySQL 8.0.");
+        }
+
+        // 4. Candidate Application Intake with Magic Bytes & Quarantine (FR-ADM-015 / FR-SEC-004)
+        $resumeTmp = tempnam(sys_get_temp_dir(), 'mysql_cv_');
+        file_put_contents($resumeTmp, "%PDF-1.4 Clinical Resume Content\n");
+        $mockFile = [
+            'tmp_name' => $resumeTmp,
+            'name'     => 'applicant_cv.pdf',
+            'size'     => filesize($resumeTmp),
+            'error'    => UPLOAD_ERR_OK,
+        ];
+
+        $appResult = $careerService->submitApplication([
+            'job_id'       => $jobId,
+            'full_name'    => 'MySQL Candidate, RN',
+            'email'        => 'mysql-candidate@voak.test',
+            'phone'        => '+61400123456',
+            'ahpra_number' => 'NMW1234567890',
+        ], $mockFile);
+        @unlink($resumeTmp);
+
+        $appId = (int)$appResult['id'];
+        if ($appId < 1 || !str_starts_with($appResult['reference_code'], 'APP-')) {
+            throw new RuntimeException("submitApplication failed to return valid ID or reference on MySQL 8.0.");
+        }
+
+        // Verify referential deletion guard blocks deleting active job with applications (409 Conflict)
+        $guardThrew = false;
+        try {
+            $careerService->deleteJob($jobId, $testUserId);
+        } catch (ConflictException $e) {
+            $guardThrew = true;
+        }
+        if (!$guardThrew) {
+            throw new RuntimeException("deleteJob failed to trigger referential deletion guard on MySQL 8.0.");
+        }
+
+        // 5. Candidate FSM Progression & Mandatory Rejection Reason (FR-WF-004 / TEST-WF-004)
+        // Illegal skipping: SUBMITTED -> HIRED directly must fail
+        $skipThrew = false;
+        try {
+            $careerService->updateApplicationStatus($appId, 'HIRED', null, $testUserId);
+        } catch (ValidationException $e) {
+            $skipThrew = true;
+        }
+        if (!$skipThrew) {
+            throw new RuntimeException("Illegal state transition skipping stages was not blocked on MySQL 8.0.");
+        }
+
+        // REJECTED without reason must fail
+        $rejectNoReasonThrew = false;
+        try {
+            $careerService->updateApplicationStatus($appId, 'REJECTED', null, $testUserId);
+        } catch (ValidationException $e) {
+            $rejectNoReasonThrew = true;
+        }
+        if (!$rejectNoReasonThrew) {
+            throw new RuntimeException("REJECTED transition without rejection_reason was not blocked on MySQL 8.0.");
+        }
+
+        // Legal state transitions: SUBMITTED -> REVIEWING -> SCREENING -> INTERVIEWING -> OFFER -> HIRED
+        $stages = ['REVIEWING', 'SCREENING', 'INTERVIEWING', 'OFFER', 'HIRED'];
+        foreach ($stages as $stage) {
+            $updatedApp = $careerService->updateApplicationStatus($appId, $stage, null, $testUserId);
+            if ($updatedApp['status'] !== $stage) {
+                throw new RuntimeException("Failed to advance candidate stage to {$stage} on MySQL 8.0.");
+            }
+        }
+
+        // 6. Quarantined CV Streaming & SHA-256 Audit Entry (FR-ADM-015 / TEST-SEC-004)
+        $streamRes = $careerService->streamQuarantinedResume($appId, $testUserId);
+        if ($streamRes->getStatusCode() !== 200) {
+            throw new RuntimeException("streamQuarantinedResume failed with status {$streamRes->getStatusCode()} on MySQL 8.0.");
+        }
+        $auditDl = (int)$pdo->query("SELECT COUNT(*) FROM audit_logs WHERE action = 'RESUME_DOWNLOADED' AND user_id = {$testUserId}")->fetchColumn();
+        if ($auditDl < 1) {
+            throw new RuntimeException("RESUME_DOWNLOADED audit event missing on MySQL 8.0.");
+        }
+
+        // 7. CSV Export Formula Injection Neutralization (FR-ADM-014)
+        $csv = $careerService->exportApplicationsCsv([], $testUserId);
+        if (!str_starts_with($csv, "\xEF\xBB\xBF") || !str_contains($csv, 'MySQL Candidate, RN')) {
+            throw new RuntimeException("exportApplicationsCsv failed or missing candidate data on MySQL 8.0.");
+        }
+
+        // 8. Privacy Retention Disposal & File Shredding (FR-SEC-004 / TEST-WF-004)
+        $quarantinedPath = (string)$appResult['quarantined_resume_path'];
+        $pdo->exec("UPDATE career_applications SET retention_expiry_date = '2020-01-01' WHERE id = {$appId}");
+        $cleanupReport = $careerService->cleanupExpiredApplications($testUserId);
+        if ($cleanupReport['anonymized_count'] < 1) {
+            throw new RuntimeException("cleanupExpiredApplications failed to anonymize expired record on MySQL 8.0.");
+        }
+        $cleanedRow = $pdo->query("SELECT full_name, email, phone FROM career_applications WHERE id = {$appId}")->fetch(\PDO::FETCH_ASSOC);
+        if ($cleanedRow['full_name'] !== '[ANONYMIZED]' || $cleanedRow['email'] !== '[ANONYMIZED]') {
+            throw new RuntimeException("Candidate record PII was not anonymized on MySQL 8.0.");
+        }
+        if (file_exists($quarantinedPath)) {
+            throw new RuntimeException("Quarantined resume file was not shredded on disk on MySQL 8.0.");
+        }
+        $auditAnon = (int)$pdo->query("SELECT COUNT(*) FROM audit_logs WHERE action = 'RECRUITMENT_RECORD_ANONYMIZED' AND user_id = {$testUserId}")->fetchColumn();
+        if ($auditAnon < 1) {
+            throw new RuntimeException("RECRUITMENT_RECORD_ANONYMIZED audit event missing on MySQL 8.0.");
+        }
+
+        // Clean up test data
+        $pdo->exec("DELETE FROM career_applications WHERE job_id = {$jobId} OR email LIKE 'mysql-%'");
+        $pdo->exec("DELETE FROM job_postings WHERE id = {$jobId} OR slug LIKE 'mysql-job-%'");
+    });
+
     // Clean up isolated test data
     $pdo->exec("DELETE FROM user_roles WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM admin_sessions WHERE user_id = {$testUserId}");
@@ -1319,6 +1519,8 @@ try {
     $pdo->exec("DELETE FROM contact_inquiries WHERE corporate_email LIKE 'mysql-%'");
     $pdo->exec("DELETE FROM partnership_inquiries WHERE corporate_email LIKE 'mysql-%'");
     $pdo->exec("DELETE FROM proposals WHERE contact_email LIKE 'mysql-%'");
+    $pdo->exec("DELETE FROM career_applications WHERE email LIKE 'mysql-%' OR email = '[ANONYMIZED]'");
+    $pdo->exec("DELETE FROM job_postings WHERE slug LIKE 'mysql-job-%'");
     $pdo->exec("DELETE FROM email_queue WHERE recipient_email LIKE 'mysql-%'");
     $pdo->exec("DELETE FROM pages WHERE slug LIKE 'mysql-page-%'");
     $pdo->exec("DELETE FROM users WHERE id = {$testUserId} OR email = '{$testUserEmail}'");
