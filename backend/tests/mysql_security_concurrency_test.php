@@ -1560,8 +1560,8 @@ try {
         if ($artId < 1 || $article['reading_time_minutes'] !== 3) {
             throw new RuntimeException("createArticle failed or reading_time_minutes calculation incorrect on MySQL 8.0.");
         }
-        if ($article['tags_json'] !== ['Governance', 'Nursing', 'Compliance']) {
-            throw new RuntimeException("Article tags_json native MySQL JSON serialization failed.");
+        if ($article['tags'] !== ['Governance', 'Nursing', 'Compliance']) {
+            throw new RuntimeException("Article tags native MySQL JSON serialization failed.");
         }
 
         // Verify duplicate slug resolution
