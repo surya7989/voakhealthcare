@@ -1574,7 +1574,7 @@ try {
             'tags'         => ['General'],
             'is_published' => 0,
         ], $testUserId);
-        if ($dupArticle['slug'] !== 'mysql-healthcare-staffing-article-1') {
+        if ($dupArticle['slug'] !== 'mysql-healthcare-staffing-article-2') {
             throw new RuntimeException("Article duplicate slug resolution failed on MySQL 8.0.");
         }
 
