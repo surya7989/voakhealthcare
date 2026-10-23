@@ -1735,7 +1735,11 @@ try {
         }
 
         // 8. Route SEO metadata update
-        $routeUpdate = $seoService->updateRouteSeo('/careers', [
+        $pdo->exec("INSERT INTO pages (slug, title, meta_title, meta_description, content_json, is_published, created_at, updated_at) 
+                    VALUES ('mysql-test-careers', 'Careers', 'Careers at VOAK', 'Explore healthcare careers.', '{}', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)");
+        $testPageId = (int)$pdo->lastInsertId();
+
+        $routeUpdate = $seoService->updateRouteSeo($testPageId, [
             'meta_title' => 'MySQL Medical Careers | VOAK Health Care',
             'meta_description' => 'Explore premier clinical and administrative career opportunities.',
         ], $testUserId);
@@ -1744,6 +1748,7 @@ try {
         }
 
         // 9. Clean up test redirects and test settings
+        $pdo->exec("DELETE FROM pages WHERE id = {$testPageId} OR slug = 'mysql-test-careers'");
         $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/services/mysql-%' OR source_path = '/services/cardiology'");
         $pdo->exec("DELETE FROM system_settings WHERE setting_key = 'seo.sitemap.xml' OR setting_key LIKE 'seo.routes.%'");
     });

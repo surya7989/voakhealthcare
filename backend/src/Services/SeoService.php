@@ -791,8 +791,10 @@ class SeoService
             $stmt = $pdo->prepare("SELECT * FROM `pages` WHERE `id` = :id LIMIT 1");
             $stmt->execute(['id' => (int)$pageIdOrSlug]);
         } else {
-            $stmt = $pdo->prepare("SELECT * FROM `pages` WHERE `slug` = :slug LIMIT 1");
-            $stmt->execute(['slug' => (string)$pageIdOrSlug]);
+            $rawSlug = (string)$pageIdOrSlug;
+            $cleanSlug = ltrim($rawSlug, '/');
+            $stmt = $pdo->prepare("SELECT * FROM `pages` WHERE `slug` = :raw OR `slug` = :clean LIMIT 1");
+            $stmt->execute(['raw' => $rawSlug, 'clean' => $cleanSlug]);
         }
         $existing = $stmt->fetch(\PDO::FETCH_ASSOC);
         $stmt->closeCursor();
