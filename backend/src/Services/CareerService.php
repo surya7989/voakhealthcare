@@ -896,6 +896,63 @@ class CareerService
     }
 
     /**
+     * Alias for advanceCandidateStage to support updateApplicationStatus signature.
+     *
+     * @param int $id
+     * @param string $targetStatus
+     * @param string|null $rejectionReason
+     * @param int $adminUserId
+     * @param string|null $clientIp
+     * @param string|null $userAgent
+     * @return array<string, mixed>
+     */
+    public function updateApplicationStatus(
+        int $id,
+        string $targetStatus,
+        ?string $rejectionReason = null,
+        int $adminUserId = 1,
+        ?string $clientIp = '127.0.0.1',
+        ?string $userAgent = 'Admin/Web'
+    ): array {
+        return $this->advanceCandidateStage($id, $targetStatus, null, $rejectionReason, $adminUserId, $clientIp, $userAgent);
+    }
+
+    /**
+     * Alias for advanceCandidateStage with feedback.
+     *
+     * @param int $id
+     * @param string $targetStatus
+     * @param string|null $feedback
+     * @param string|null $rejectionReason
+     * @param int $adminUserId
+     * @param string|null $clientIp
+     * @param string|null $userAgent
+     * @return array<string, mixed>
+     */
+    public function updateApplicationStage(
+        int $id,
+        string $targetStatus,
+        ?string $feedback = null,
+        ?string $rejectionReason = null,
+        int $adminUserId = 1,
+        ?string $clientIp = '127.0.0.1',
+        ?string $userAgent = 'Admin/Web'
+    ): array {
+        return $this->advanceCandidateStage($id, $targetStatus, $feedback, $rejectionReason, $adminUserId, $clientIp, $userAgent);
+    }
+
+    /**
+     * Alias for streamCandidateResume.
+     */
+    public function streamQuarantinedResume(
+        int $id,
+        int $adminUserId,
+        ?string $clientIp = '127.0.0.1'
+    ): Response {
+        return $this->streamCandidateResume($id, $adminUserId, $clientIp);
+    }
+
+    /**
      * Streams candidate resume from quarantined enclave with security headers (FR-ADM-015 / TEST-SEC-004).
      */
     public function streamCandidateResume(
