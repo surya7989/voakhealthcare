@@ -1221,10 +1221,13 @@ try {
             }
         }
 
+        // Reset worker items back to QUEUED for batch dispatch testing
+        $pdo->exec("UPDATE email_queue SET status = 'QUEUED', worker_id = NULL, claimed_at = NULL WHERE recipient_email LIKE 'mysql-worker%'");
+
         // Process batch 1 with ArrayTransport
         $pRes1 = $emailService->processQueueBatch(10);
-        if ($pRes1['processed'] < 2) {
-            throw new RuntimeException("processQueueBatch failed to process claimed emails on MySQL 8.0.");
+        if ($pRes1['processed'] < 3) {
+            throw new RuntimeException("processQueueBatch failed to process claimed emails on MySQL 8.0: processed {$pRes1['processed']} expected 3.");
         }
 
         // Verify sent status in database
@@ -1245,9 +1248,14 @@ try {
         }
 
         // 5. Transient Failure, Exponential Backoff & Manual Retry (TEST-ADM-013)
+        // Reset crashed item back to QUEUED so processQueueBatch picks it up with failure injection
+        $pdo->exec("UPDATE email_queue SET status = 'QUEUED', worker_id = NULL, claimed_at = NULL WHERE id = {$crashedId}");
         $mailTransport->setShouldFail(true);
-        $emailService->processQueueBatch(5);
+        $pResFail = $emailService->processQueueBatch(5);
         $mailTransport->setShouldFail(false);
+        if ($pResFail['failed'] < 1) {
+            throw new RuntimeException("Expected at least 1 failed dispatch on MySQL 8.0.");
+        }
 
         // Item should now be in FAILED status
         $failedRow = $pdo->query("SELECT status, attempts, error_message FROM email_queue WHERE id = {$crashedId}")->fetch(\PDO::FETCH_ASSOC);
