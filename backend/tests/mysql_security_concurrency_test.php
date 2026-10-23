@@ -982,7 +982,7 @@ try {
         );
 
         $partnershipService = new PartnershipService($connection, $auditLogger, $sanitizer, $rateLimiter, $rbacManager);
-        $proposalService = new ProposalService($connection, $auditLogger, $sanitizer, $rateLimiter, $rbacManager, $mediaStorageService);
+        $proposalService = new ProposalService($connection, $mediaStorageService, $auditLogger, $sanitizer, $rateLimiter, $rbacManager);
 
         // 1. Verify schema on MySQL 8.0
         $ptnCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'partnership_inquiries'")->fetchAll(\PDO::FETCH_COLUMN);
