@@ -46,6 +46,7 @@ use Voak\Health\Services\PageService;
 use Voak\Health\Services\PartnershipService;
 use Voak\Health\Services\ProposalService;
 use Voak\Health\Services\ServiceService;
+use Voak\Health\Services\SeoService;
 use Voak\Health\Services\SettingService;
 
 echo "======================================================================\n";
@@ -1668,6 +1669,85 @@ try {
         $pdo->exec("DELETE FROM faqs WHERE id IN ({$faq1['id']}, {$faq2['id']}) OR question LIKE 'mysql-%'");
     });
 
+    // Test 16: Phase 16 — SEO Management, 301 Redirect Loop Guard, Dynamic Sitemap & Schema.org JSON-LD Generation on MySQL 8.0 (ADM-017, FR-ADM-018, FR-WF-006, FR-SEO-001..004, TEST-ADM-018, TEST-WF-006, TEST-SEO-001..004)
+    $runTest("Phase 16 SEO Management, 301 Redirect Loop Guard, Dynamic Sitemap & Schema.org JSON-LD on MySQL 8.0", function () use ($pdo, $testUserId) {
+        $connection = new Connection();
+        $connection->setMockPdo($pdo);
+        $auditLogger = new AuditLogger();
+        $seoService = new SeoService($connection, $auditLogger);
+
+        // 1. Verify url_redirects table schema on MySQL 8.0
+        $redirectCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'url_redirects'")->fetchAll(PDO::FETCH_COLUMN);
+        $requiredRedirectCols = ['id', 'source_path', 'target_path', 'status_code', 'is_active', 'hit_count', 'last_accessed_at', 'created_at', 'updated_at'];
+        foreach ($requiredRedirectCols as $col) {
+            if (!in_array($col, $redirectCols, true)) {
+                throw new RuntimeException("url_redirects table missing required column '{$col}' on MySQL 8.0.");
+            }
+        }
+
+        // 2. Register a new 301 redirect rule
+        $redirect1 = $seoService->registerRedirect('/services/mysql-old-cardiology', '/services/cardiology', 301, $testUserId);
+        if ($redirect1['source_path'] !== '/services/mysql-old-cardiology' || $redirect1['target_path'] !== '/services/cardiology') {
+            throw new RuntimeException("registerRedirect failed on MySQL 8.0.");
+        }
+
+        // 3. Resolve redirect and verify atomic hit_count increment
+        $resolved = $seoService->resolveRedirect('/services/mysql-old-cardiology');
+        if ($resolved === null || $resolved['target_path'] !== '/services/cardiology' || (int)$resolved['status_code'] !== 301) {
+            throw new RuntimeException("resolveRedirect failed on MySQL 8.0.");
+        }
+        $hitCount = (int)$pdo->query("SELECT hit_count FROM url_redirects WHERE source_path = '/services/mysql-old-cardiology'")->fetchColumn();
+        if ($hitCount !== 1) {
+            throw new RuntimeException("Redirect atomic hit_count increment failed on MySQL 8.0. Expected 1, got {$hitCount}");
+        }
+
+        // 4. Circular loop defense on MySQL 8.0 (TEST-WF-006)
+        $loopBlocked = false;
+        try {
+            $seoService->registerRedirect('/services/cardiology', '/services/mysql-old-cardiology', 301, $testUserId);
+        } catch (ValidationException $e) {
+            $loopBlocked = true;
+        }
+        if (!$loopBlocked) {
+            throw new RuntimeException("SeoService failed to block direct redirect loop on MySQL 8.0.");
+        }
+
+        // 5. Chain flattening (1-hop rule)
+        $redirect2 = $seoService->registerRedirect('/services/cardiology', '/services/clinical-cardiology', 301, $testUserId);
+        $flattened = $seoService->resolveRedirect('/services/mysql-old-cardiology');
+        if ($flattened === null || $flattened['target_path'] !== '/services/clinical-cardiology') {
+            throw new RuntimeException("1-hop redirect chain flattening failed on MySQL 8.0.");
+        }
+
+        // 6. Dynamic Sitemap generation on MySQL 8.0
+        $xml = $seoService->generateSitemapXml();
+        if (!str_contains($xml, '<?xml version="1.0" encoding="UTF-8"?>') || !str_contains($xml, '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')) {
+            throw new RuntimeException("generateSitemapXml failed on MySQL 8.0.");
+        }
+        if (!str_contains($xml, '<loc>https://voakhealth.com/</loc>')) {
+            throw new RuntimeException("generateSitemapXml missing root homepage on MySQL 8.0.");
+        }
+
+        // 7. Schema.org JSON-LD generation
+        $orgLd = $seoService->getStructuredData('organization');
+        if (($orgLd['@type'] ?? '') !== 'MedicalBusiness' || ($orgLd['name'] ?? '') !== 'VOAK Health Care') {
+            throw new RuntimeException("getStructuredData('organization') failed on MySQL 8.0.");
+        }
+
+        // 8. Route SEO metadata update
+        $routeUpdate = $seoService->updateRouteSeo('/careers', [
+            'meta_title' => 'MySQL Medical Careers | VOAK Health Care',
+            'meta_description' => 'Explore premier clinical and administrative career opportunities.',
+        ], $testUserId);
+        if ($routeUpdate['meta_title'] !== 'MySQL Medical Careers | VOAK Health Care') {
+            throw new RuntimeException("updateRouteSeo failed on MySQL 8.0.");
+        }
+
+        // 9. Clean up test redirects
+        $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/services/mysql-%' OR source_path = '/services/cardiology'");
+        $pdo->exec("DELETE FROM system_settings WHERE setting_key = 'seo.sitemap.xml'");
+    });
+
     // Clean up isolated test data
     $pdo->exec("DELETE FROM user_roles WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM admin_sessions WHERE user_id = {$testUserId}");
@@ -1676,7 +1756,7 @@ try {
     $pdo->exec("DELETE FROM audit_logs WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM content_revisions WHERE editor_user_id = {$testUserId}");
     $pdo->exec("DELETE FROM system_settings WHERE updated_by_user_id = {$testUserId}");
-    $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/services/mysql-service-%'");
+    $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/services/mysql-service-%' OR source_path LIKE '%mysql%'");
     $pdo->exec("DELETE FROM url_redirects WHERE source_path LIKE '/industries/mysql-industry-%'");
     $pdo->exec("DELETE FROM media_assets WHERE uploaded_by_user_id = {$testUserId}");
     $pdo->exec("DELETE FROM contact_inquiries WHERE corporate_email LIKE 'mysql-%'");

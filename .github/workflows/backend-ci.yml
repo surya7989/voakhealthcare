@@ -71,6 +71,9 @@ jobs:
       - name: Run Phase 15 Case Studies & Resources Management Test Suite
         run: php -d memory_limit=512M tests/test_phase15_case_studies_and_resources.php
 
+      - name: Run Phase 16 SEO Management Test Suite
+        run: php -d memory_limit=512M tests/test_phase16_seo_management.php
+
       - name: Run Comprehensive Backend Test Suite
         run: php -d memory_limit=512M backend/tests/run_tests.php
 

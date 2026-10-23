@@ -608,6 +608,16 @@ class RbacManager
         'faqs.manage'            => ['page:update', 'faqs.manage'],
         'faq.view'               => ['page:read', 'faq.view'],
         'faq.manage'             => ['page:update', 'faq.manage'],
+
+        // Phase 16 SEO & Dynamic Sitemap Backend (Module 17 / ADM-017 / ADM-018)
+        'seo.view'               => ['seo:update_meta', 'seo:rebuild_sitemap', 'seo.view'],
+        'seo.manage'             => ['seo:update_meta', 'seo:rebuild_sitemap', 'seo.manage'],
+        'seo.update_meta'        => ['seo:update_meta', 'seo.update_meta'],
+        'seo.rebuild_sitemap'    => ['seo:rebuild_sitemap', 'seo.rebuild_sitemap'],
+        'seo_routes.view'        => ['seo:update_meta', 'seo_routes.view'],
+        'seo_routes.manage'      => ['seo:update_meta', 'seo_routes.manage'],
+        'redirects.view'         => ['seo:update_meta', 'redirects.view'],
+        'redirects.manage'       => ['seo:update_meta', 'redirects.manage'],
     ];
 
     /**

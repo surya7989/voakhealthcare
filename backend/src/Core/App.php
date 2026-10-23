@@ -38,6 +38,7 @@ use Voak\Health\Modules\Admin\AdminMediaController;
 use Voak\Health\Modules\Admin\AdminPageController;
 use Voak\Health\Modules\Admin\AdminPartnershipController;
 use Voak\Health\Modules\Admin\AdminProposalController;
+use Voak\Health\Modules\Admin\AdminSeoController;
 use Voak\Health\Modules\Admin\AdminServiceController;
 use Voak\Health\Modules\Admin\AdminSettingController;
 use Voak\Health\Modules\Admin\AdminUsersController;
@@ -63,6 +64,7 @@ use Voak\Health\Services\MediaStorageService;
 use Voak\Health\Services\PageService;
 use Voak\Health\Services\PartnershipService;
 use Voak\Health\Services\ProposalService;
+use Voak\Health\Services\SeoService;
 use Voak\Health\Services\ServiceService;
 use Voak\Health\Services\SettingService;
 
@@ -143,6 +145,31 @@ class App
     {
         try {
             return $this->pipeline->handle($request, function (Request $req): Response {
+                // Phase 16: Intercept registered 301/302 redirects prior to routing
+                $reqPath = $req->getPath();
+                if (in_array(strtoupper($req->getMethod()), ['GET', 'HEAD'], true)
+                    && !str_starts_with($reqPath, '/api')
+                    && $this->container->has(SeoService::class)
+                ) {
+                    try {
+                        /** @var SeoService $seoService */
+                        $seoService = $this->container->get(SeoService::class);
+                        $redirect = $seoService->resolveRedirect($reqPath);
+                        if ($redirect !== null) {
+                            return new Response(
+                                $redirect['http_status_code'] ?? 301,
+                                [
+                                    'Location'      => $redirect['target_path'],
+                                    'X-Redirect-By' => 'Voak-SEO-Engine',
+                                    'Cache-Control' => 'no-cache, must-revalidate',
+                                ],
+                                ''
+                            );
+                        }
+                    } catch (\Throwable $e) {
+                        // Fail open: continue routing normally if redirect lookup encounters an issue
+                    }
+                }
                 return $this->router->dispatch($req, $this->container);
             });
         } catch (\Throwable $e) {
@@ -309,6 +336,15 @@ class App
         $this->container->set(AdminCaseStudyController::class, new AdminCaseStudyController($caseStudyService));
         $this->container->set(AdminFaqController::class, new AdminFaqController($faqService));
 
+        // Phase 16 SEO Engine, Dynamic Sitemap & Redirect Services & Controllers
+        $storagePath = (string)$this->config->get('STORAGE_PATH', 'storage');
+        $seoCacheDir = rtrim($storagePath, '/\\') . '/cache/seo';
+        $appUrl = (string)$this->config->get('APP_URL', 'https://voakhealthcare.com');
+        $seoService = new SeoService($connection, $auditLogger, $rbacManager, $seoCacheDir, $appUrl);
+
+        $this->container->set(SeoService::class, $seoService);
+        $this->container->set(AdminSeoController::class, new AdminSeoController($seoService));
+
         $this->container->set(PublicContentController::class, new PublicContentController(
             $pageService,
             $homepageService,
@@ -439,6 +475,43 @@ class App
 
         $this->router->get('/api/v1/public/faqs', [PublicContentController::class, 'getFaqs']);
         $this->router->get('/api/faqs', [PublicContentController::class, 'getFaqs']);
+
+        // Phase 16 Public Dynamic XML Sitemap & Robots Routes (FR-SEO-003)
+        /** @var SeoService $seoService */
+        $seoService = $this->container->get(SeoService::class);
+        $appUrl = (string)$this->config->get('APP_URL', 'https://voakhealthcare.com');
+
+        $this->router->get('/sitemap.xml', function (Request $req) use ($seoService): Response {
+            $xml = $seoService->generateSitemapXml();
+            $etag = 'W/"' . md5($xml) . '"';
+
+            $ifNoneMatch = $req->getHeader('If-None-Match') ?? '';
+            if ($ifNoneMatch !== '' && trim($ifNoneMatch) === $etag) {
+                return new Response(304, [
+                    'ETag'          => $etag,
+                    'Cache-Control' => 'public, max-age=3600',
+                ], '');
+            }
+
+            return new Response(200, [
+                'Content-Type'  => 'application/xml; charset=utf-8',
+                'ETag'          => $etag,
+                'Cache-Control' => 'public, max-age=3600',
+            ], $xml);
+        });
+
+        $this->router->get('/robots.txt', function (Request $req) use ($appUrl): Response {
+            $robots = "User-agent: *\n";
+            $robots .= "Allow: /\n";
+            $robots .= "Disallow: /admin/\n";
+            $robots .= "Disallow: /api/\n";
+            $robots .= "Sitemap: {$appUrl}/sitemap.xml\n";
+
+            return new Response(200, [
+                'Content-Type'  => 'text/plain; charset=utf-8',
+                'Cache-Control' => 'public, max-age=86400',
+            ], $robots);
+        });
 
         // Phase 7 Administrative CMS Routes (Authenticated, CSRF-protected, RBAC-enforced)
         // 1. Pages CRUD, Workflow & Revisions
@@ -1274,6 +1347,70 @@ class App
             '/api/admin/faqs/reorder',
             [AdminFaqController::class, 'reorder'],
             [RequirePermissionMiddleware::with('faqs.manage', $rbacManager, $connection)]
+        );
+
+        // Phase 16 SEO & Metadata Administration Routes (ADM-017 / ADM-018 / FR-ADM-018)
+        $this->router->get(
+            '/api/v1/admin/seo/routes',
+            [AdminSeoController::class, 'listRoutes'],
+            [RequirePermissionMiddleware::with('seo:update_meta', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/seo/routes',
+            [AdminSeoController::class, 'listRoutes'],
+            [RequirePermissionMiddleware::with('seo:update_meta', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/v1/admin/seo/routes/:id',
+            [AdminSeoController::class, 'updateRoute'],
+            [RequirePermissionMiddleware::with('seo:update_meta', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/admin/seo/routes/:id',
+            [AdminSeoController::class, 'updateRoute'],
+            [RequirePermissionMiddleware::with('seo:update_meta', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/seo/rebuild-sitemap',
+            [AdminSeoController::class, 'rebuildSitemap'],
+            [RequirePermissionMiddleware::with('seo:rebuild_sitemap', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/seo/rebuild-sitemap',
+            [AdminSeoController::class, 'rebuildSitemap'],
+            [RequirePermissionMiddleware::with('seo:rebuild_sitemap', $rbacManager, $connection)]
+        );
+
+        // Phase 16 301 Redirect Management Routes (FR-WF-006)
+        $this->router->get(
+            '/api/v1/admin/seo/redirects',
+            [AdminSeoController::class, 'listRedirects'],
+            [RequirePermissionMiddleware::with('seo:update_meta', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/seo/redirects',
+            [AdminSeoController::class, 'listRedirects'],
+            [RequirePermissionMiddleware::with('seo:update_meta', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/seo/redirects',
+            [AdminSeoController::class, 'createRedirect'],
+            [RequirePermissionMiddleware::with('seo:update_meta', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/seo/redirects',
+            [AdminSeoController::class, 'createRedirect'],
+            [RequirePermissionMiddleware::with('seo:update_meta', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/v1/admin/seo/redirects/:id',
+            [AdminSeoController::class, 'deleteRedirect'],
+            [RequirePermissionMiddleware::with('seo:update_meta', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/admin/seo/redirects/:id',
+            [AdminSeoController::class, 'deleteRedirect'],
+            [RequirePermissionMiddleware::with('seo:update_meta', $rbacManager, $connection)]
         );
     }
 }

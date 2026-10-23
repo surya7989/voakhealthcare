@@ -57,9 +57,11 @@ use Voak\Health\Tests\Unit\ArticleServiceTest;
 use Voak\Health\Tests\Unit\CaseStudyServiceTest;
 use Voak\Health\Tests\Unit\FaqServiceTest;
 use Voak\Health\Tests\Integration\CaseStudiesAndResourcesApiTest;
+use Voak\Health\Tests\Unit\SeoServiceTest;
+use Voak\Health\Tests\Integration\SeoManagementApiTest;
 
 echo "======================================================================\n";
-echo "VOAK HEALTH CARE — BACKEND AUTOMATED TEST SUITE (PHASES 4, 6, 7, 8, 9, 10, 11, 12, 13, 14 & 15)\n";
+echo "VOAK HEALTH CARE — BACKEND AUTOMATED TEST SUITE (PHASES 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 & 16)\n";
 echo "======================================================================\n";
 echo "PHP Version: " . PHP_VERSION . "\n";
 echo "Runtime:     " . PHP_OS . " (" . php_uname('s') . ")\n";
@@ -131,6 +133,10 @@ ArticleServiceTest::run();
 CaseStudyServiceTest::run();
 FaqServiceTest::run();
 CaseStudiesAndResourcesApiTest::run();
+
+// Phase 16 SEO Management Backend Tests
+SeoServiceTest::run();
+SeoManagementApiTest::run();
 
 $exitCode = TestFramework::summarize();
 exit($exitCode);
