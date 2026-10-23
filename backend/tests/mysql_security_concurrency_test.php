@@ -1788,10 +1788,10 @@ try {
             'page' => 1,
             'per_page' => 10,
         ]);
-        if ($queryResult['pagination']['total'] < 1 || empty($queryResult['data'])) {
+        if ($queryResult['pagination']['total_records'] < 1 || empty($queryResult['records'])) {
             throw new RuntimeException("queryLogs failed to return logged access entry on MySQL 8.0.");
         }
-        $logEntry = $queryResult['data'][0];
+        $logEntry = $queryResult['records'][0];
         if ($logEntry['action'] !== 'AUDIT_LOG_ACCESSED' || (int)$logEntry['user_id'] !== $testUserId) {
             throw new RuntimeException("queryLogs returned invalid data attributes on MySQL 8.0.");
         }
@@ -1805,9 +1805,9 @@ try {
         // 5. Test Cryptographic Running SHA-256 Chain Verification on MySQL 8.0
         $chainReport = $auditService->verifyChainIntegrity();
         if ($chainReport['valid'] !== true) {
-            throw new RuntimeException("Audit chain integrity verification failed on MySQL 8.0: " . ($chainReport['broken_at_id'] ?? 'unknown error'));
+            throw new RuntimeException("Audit chain integrity verification failed on MySQL 8.0: " . ($chainReport['tampered_at_id'] ?? 'unknown error'));
         }
-        if ($chainReport['verified_count'] < 1) {
+        if ($chainReport['total_records'] < 1) {
             throw new RuntimeException("Audit chain verification reported 0 verified records on MySQL 8.0.");
         }
 
