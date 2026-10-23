@@ -1009,7 +1009,7 @@ try {
         }
 
         // 3. Test Partnership Submission & FSM Transitions on MySQL 8.0
-        $ptnResult = $partnershipService->submitInquiry([
+        $ptnResult = $partnershipService->submitPartnership([
             'organization_name' => 'MySQL Health Care Alliance',
             'contact_name'      => 'Dr. MySQL Admin',
             'corporate_email'   => 'mysql-ptn@voak.test',

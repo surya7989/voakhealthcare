@@ -260,6 +260,20 @@ class PartnershipService
     }
 
     /**
+     * Canonical alias for submitPartnership.
+     *
+     * @param array<string, mixed> $payload
+     * @return array{status: string, reference_code: string, message: string, id?: int}
+     */
+    public function submitInquiry(
+        array $payload,
+        string $ipAddress = '127.0.0.1',
+        string $userAgent = 'Public/Web'
+    ): array {
+        return $this->submitPartnership($payload, $ipAddress, $userAgent);
+    }
+
+    /**
      * Lists partnership inquiries with filtering and pagination.
      *
      * @param array<string, mixed> $filters
