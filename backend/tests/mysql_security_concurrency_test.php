@@ -1781,9 +1781,9 @@ try {
         }
 
         // 3. Test logAccess & queryLogs with pagination and filters
-        $auditService->logAccess($testUserId, 'AUDIT_LOG_ACCESSED', 'audit_logs', null, '127.0.0.1', 'MySQL 8.0 CI Runner');
+        $auditService->logAccess($testUserId, '127.0.0.1', 'MySQL 8.0 CI Runner');
         $queryResult = $auditService->queryLogs([
-            'action' => 'AUDIT_LOG_ACCESSED',
+            'action' => 'AUDIT_LOGS_ACCESSED',
             'user_id' => $testUserId,
             'page' => 1,
             'per_page' => 10,
@@ -1792,7 +1792,7 @@ try {
             throw new RuntimeException("queryLogs failed to return logged access entry on MySQL 8.0.");
         }
         $logEntry = $queryResult['records'][0];
-        if ($logEntry['action'] !== 'AUDIT_LOG_ACCESSED' || (int)$logEntry['user_id'] !== $testUserId) {
+        if ($logEntry['action'] !== 'AUDIT_LOGS_ACCESSED' || (int)$logEntry['user_id'] !== $testUserId) {
             throw new RuntimeException("queryLogs returned invalid data attributes on MySQL 8.0.");
         }
 
@@ -1812,14 +1812,14 @@ try {
         }
 
         // 6. Test CSV Export with formula injection protection and UTF-8 BOM
-        $auditService->logExport($testUserId, 'CSV', 1, '127.0.0.1', 'MySQL 8.0 CI Runner');
+        $auditService->logExport($testUserId, '127.0.0.1', 'MySQL 8.0 CI Runner', 1);
         $csvContent = $auditService->exportCsv([
             'user_id' => $testUserId,
         ]);
         if (!str_starts_with($csvContent, "\xEF\xBB\xBF")) {
             throw new RuntimeException("Audit logs CSV export missing UTF-8 BOM on MySQL 8.0.");
         }
-        if (!str_contains($csvContent, 'AUDIT_LOG_ACCESSED')) {
+        if (!str_contains($csvContent, 'AUDIT_LOGS_ACCESSED')) {
             throw new RuntimeException("Audit logs CSV export missing expected record on MySQL 8.0.");
         }
 
