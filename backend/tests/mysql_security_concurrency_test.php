@@ -1729,9 +1729,9 @@ try {
         }
 
         // 7. Schema.org JSON-LD generation
-        $orgLd = $seoService->getStructuredData('organization');
-        if (($orgLd['@type'] ?? '') !== 'MedicalBusiness' || ($orgLd['name'] ?? '') !== 'VOAK Health Care') {
-            throw new RuntimeException("getStructuredData('organization') failed on MySQL 8.0.");
+        $orgLd = $seoService->getStructuredData('/');
+        if (($orgLd['@type'] ?? '') !== 'MedicalOrganization' || ($orgLd['name'] ?? '') !== 'VOAK Health Care') {
+            throw new RuntimeException("getStructuredData('/') failed on MySQL 8.0.");
         }
 
         // 8. Route SEO metadata update
