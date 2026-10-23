@@ -23,11 +23,14 @@ use Voak\Health\Middleware\RateLimitMiddleware;
 use Voak\Health\Middleware\RequirePermissionMiddleware;
 use Voak\Health\Middleware\SecurityHeadersMiddleware;
 use Voak\Health\Modules\Admin\AdminApplicationController;
+use Voak\Health\Modules\Admin\AdminArticleController;
 use Voak\Health\Modules\Admin\AdminAuthController;
+use Voak\Health\Modules\Admin\AdminCaseStudyController;
 use Voak\Health\Modules\Admin\AdminContactController;
 use Voak\Health\Modules\Admin\AdminDocumentStreamController;
 use Voak\Health\Modules\Admin\AdminEmailQueueController;
 use Voak\Health\Modules\Admin\AdminEmailTemplateController;
+use Voak\Health\Modules\Admin\AdminFaqController;
 use Voak\Health\Modules\Admin\AdminHomepageController;
 use Voak\Health\Modules\Admin\AdminIndustryController;
 use Voak\Health\Modules\Admin\AdminJobController;
@@ -46,9 +49,12 @@ use Voak\Health\Security\AuditLogger;
 use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
+use Voak\Health\Services\ArticleService;
 use Voak\Health\Services\CareerService;
+use Voak\Health\Services\CaseStudyService;
 use Voak\Health\Services\ContactService;
 use Voak\Health\Services\EmailService;
+use Voak\Health\Services\FaqService;
 use Voak\Health\Services\HomepageService;
 use Voak\Health\Services\IndustryService;
 use Voak\Health\Services\Mail\ArrayTransport;
@@ -290,6 +296,19 @@ class App
         $this->container->set(AdminJobController::class, new AdminJobController($careerService));
         $this->container->set(AdminApplicationController::class, new AdminApplicationController($careerService));
 
+        // Phase 15 Case Studies, Insights Articles & FAQ Services & Controllers
+        $articleService = new ArticleService($connection, $auditLogger, $sanitizer, $rbacManager);
+        $caseStudyService = new CaseStudyService($connection, $auditLogger, $sanitizer, $rbacManager);
+        $faqService = new FaqService($connection, $auditLogger, $sanitizer, $rbacManager);
+
+        $this->container->set(ArticleService::class, $articleService);
+        $this->container->set(CaseStudyService::class, $caseStudyService);
+        $this->container->set(FaqService::class, $faqService);
+
+        $this->container->set(AdminArticleController::class, new AdminArticleController($articleService));
+        $this->container->set(AdminCaseStudyController::class, new AdminCaseStudyController($caseStudyService));
+        $this->container->set(AdminFaqController::class, new AdminFaqController($faqService));
+
         $this->container->set(PublicContentController::class, new PublicContentController(
             $pageService,
             $homepageService,
@@ -300,7 +319,10 @@ class App
             $contactService,
             $partnershipService,
             $proposalService,
-            $careerService
+            $careerService,
+            $articleService,
+            $caseStudyService,
+            $faqService
         ));
     }
 
@@ -403,6 +425,20 @@ class App
         $this->router->post('/api/v1/public/careers/:slug/apply', [PublicContentController::class, 'submitApplication']);
         $this->router->post('/api/careers/:slug/apply', [PublicContentController::class, 'submitApplication']);
         $this->router->post('/api/v1/public/jobs/:slug/apply', [PublicContentController::class, 'submitApplication']);
+
+        // Phase 15 Public Case Studies, Articles & FAQ Delivery Routes
+        $this->router->get('/api/v1/public/articles', [PublicContentController::class, 'getArticles']);
+        $this->router->get('/api/v1/public/articles/:slug', [PublicContentController::class, 'getArticle']);
+        $this->router->get('/api/articles', [PublicContentController::class, 'getArticles']);
+        $this->router->get('/api/articles/:slug', [PublicContentController::class, 'getArticle']);
+
+        $this->router->get('/api/v1/public/case-studies', [PublicContentController::class, 'getCaseStudies']);
+        $this->router->get('/api/v1/public/case-studies/:slug', [PublicContentController::class, 'getCaseStudy']);
+        $this->router->get('/api/case-studies', [PublicContentController::class, 'getCaseStudies']);
+        $this->router->get('/api/case-studies/:slug', [PublicContentController::class, 'getCaseStudy']);
+
+        $this->router->get('/api/v1/public/faqs', [PublicContentController::class, 'getFaqs']);
+        $this->router->get('/api/faqs', [PublicContentController::class, 'getFaqs']);
 
         // Phase 7 Administrative CMS Routes (Authenticated, CSRF-protected, RBAC-enforced)
         // 1. Pages CRUD, Workflow & Revisions
@@ -1022,6 +1058,222 @@ class App
             '/api/admin/careers/applications/:id/resume',
             [AdminApplicationController::class, 'streamResume'],
             [RequirePermissionMiddleware::with('candidate:download_cv', $rbacManager, $connection)]
+        );
+
+        // Phase 15 Insights & Articles Administration Routes (ADM-016 / FR-ADM-017)
+        $this->router->get(
+            '/api/v1/admin/articles',
+            [AdminArticleController::class, 'index'],
+            [RequirePermissionMiddleware::with('articles.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/articles',
+            [AdminArticleController::class, 'index'],
+            [RequirePermissionMiddleware::with('articles.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/articles/export',
+            [AdminArticleController::class, 'export'],
+            [RequirePermissionMiddleware::with('articles.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/articles/export',
+            [AdminArticleController::class, 'export'],
+            [RequirePermissionMiddleware::with('articles.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/articles/:id',
+            [AdminArticleController::class, 'show'],
+            [RequirePermissionMiddleware::with('articles.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/articles/:id',
+            [AdminArticleController::class, 'show'],
+            [RequirePermissionMiddleware::with('articles.view', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/articles',
+            [AdminArticleController::class, 'create'],
+            [RequirePermissionMiddleware::with('articles.manage', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/articles',
+            [AdminArticleController::class, 'create'],
+            [RequirePermissionMiddleware::with('articles.manage', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/v1/admin/articles/:id',
+            [AdminArticleController::class, 'update'],
+            [RequirePermissionMiddleware::with('articles.manage', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/articles/:id',
+            [AdminArticleController::class, 'update'],
+            [RequirePermissionMiddleware::with('articles.manage', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/admin/articles/:id',
+            [AdminArticleController::class, 'update'],
+            [RequirePermissionMiddleware::with('articles.manage', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/admin/articles/:id',
+            [AdminArticleController::class, 'update'],
+            [RequirePermissionMiddleware::with('articles.manage', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/v1/admin/articles/:id',
+            [AdminArticleController::class, 'delete'],
+            [RequirePermissionMiddleware::with('articles.manage', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/admin/articles/:id',
+            [AdminArticleController::class, 'delete'],
+            [RequirePermissionMiddleware::with('articles.manage', $rbacManager, $connection)]
+        );
+
+        // Phase 15 Case Studies & Social Proof Administration Routes (ADM-015 / FR-ADM-016)
+        $this->router->get(
+            '/api/v1/admin/case-studies',
+            [AdminCaseStudyController::class, 'index'],
+            [RequirePermissionMiddleware::with('case_studies.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/case-studies',
+            [AdminCaseStudyController::class, 'index'],
+            [RequirePermissionMiddleware::with('case_studies.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/case-studies/export',
+            [AdminCaseStudyController::class, 'export'],
+            [RequirePermissionMiddleware::with('case_studies.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/case-studies/export',
+            [AdminCaseStudyController::class, 'export'],
+            [RequirePermissionMiddleware::with('case_studies.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/case-studies/:id',
+            [AdminCaseStudyController::class, 'show'],
+            [RequirePermissionMiddleware::with('case_studies.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/case-studies/:id',
+            [AdminCaseStudyController::class, 'show'],
+            [RequirePermissionMiddleware::with('case_studies.view', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/case-studies',
+            [AdminCaseStudyController::class, 'create'],
+            [RequirePermissionMiddleware::with('case_studies.manage', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/case-studies',
+            [AdminCaseStudyController::class, 'create'],
+            [RequirePermissionMiddleware::with('case_studies.manage', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/v1/admin/case-studies/:id',
+            [AdminCaseStudyController::class, 'update'],
+            [RequirePermissionMiddleware::with('case_studies.manage', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/case-studies/:id',
+            [AdminCaseStudyController::class, 'update'],
+            [RequirePermissionMiddleware::with('case_studies.manage', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/admin/case-studies/:id',
+            [AdminCaseStudyController::class, 'update'],
+            [RequirePermissionMiddleware::with('case_studies.manage', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/admin/case-studies/:id',
+            [AdminCaseStudyController::class, 'update'],
+            [RequirePermissionMiddleware::with('case_studies.manage', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/v1/admin/case-studies/:id',
+            [AdminCaseStudyController::class, 'delete'],
+            [RequirePermissionMiddleware::with('case_studies.manage', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/admin/case-studies/:id',
+            [AdminCaseStudyController::class, 'delete'],
+            [RequirePermissionMiddleware::with('case_studies.manage', $rbacManager, $connection)]
+        );
+
+        // Phase 15 FAQ Administration Routes (Module 16 / FR-PUB-018)
+        $this->router->get(
+            '/api/v1/admin/faqs',
+            [AdminFaqController::class, 'index'],
+            [RequirePermissionMiddleware::with('faqs.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/faqs',
+            [AdminFaqController::class, 'index'],
+            [RequirePermissionMiddleware::with('faqs.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/v1/admin/faqs/:id',
+            [AdminFaqController::class, 'show'],
+            [RequirePermissionMiddleware::with('faqs.view', $rbacManager, $connection)]
+        );
+        $this->router->get(
+            '/api/admin/faqs/:id',
+            [AdminFaqController::class, 'show'],
+            [RequirePermissionMiddleware::with('faqs.view', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/faqs',
+            [AdminFaqController::class, 'create'],
+            [RequirePermissionMiddleware::with('faqs.manage', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/faqs',
+            [AdminFaqController::class, 'create'],
+            [RequirePermissionMiddleware::with('faqs.manage', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/v1/admin/faqs/:id',
+            [AdminFaqController::class, 'update'],
+            [RequirePermissionMiddleware::with('faqs.manage', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/v1/admin/faqs/:id',
+            [AdminFaqController::class, 'update'],
+            [RequirePermissionMiddleware::with('faqs.manage', $rbacManager, $connection)]
+        );
+        $this->router->put(
+            '/api/admin/faqs/:id',
+            [AdminFaqController::class, 'update'],
+            [RequirePermissionMiddleware::with('faqs.manage', $rbacManager, $connection)]
+        );
+        $this->router->patch(
+            '/api/admin/faqs/:id',
+            [AdminFaqController::class, 'update'],
+            [RequirePermissionMiddleware::with('faqs.manage', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/v1/admin/faqs/:id',
+            [AdminFaqController::class, 'delete'],
+            [RequirePermissionMiddleware::with('faqs.manage', $rbacManager, $connection)]
+        );
+        $this->router->delete(
+            '/api/admin/faqs/:id',
+            [AdminFaqController::class, 'delete'],
+            [RequirePermissionMiddleware::with('faqs.manage', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/v1/admin/faqs/reorder',
+            [AdminFaqController::class, 'reorder'],
+            [RequirePermissionMiddleware::with('faqs.manage', $rbacManager, $connection)]
+        );
+        $this->router->post(
+            '/api/admin/faqs/reorder',
+            [AdminFaqController::class, 'reorder'],
+            [RequirePermissionMiddleware::with('faqs.manage', $rbacManager, $connection)]
         );
     }
 }

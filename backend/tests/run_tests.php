@@ -53,9 +53,13 @@ use Voak\Health\Tests\Unit\EmailServiceTest;
 use Voak\Health\Tests\Integration\EmailTemplateAndQueueApiTest;
 use Voak\Health\Tests\Unit\CareerServiceTest;
 use Voak\Health\Tests\Integration\CareerAndRecruitmentApiTest;
+use Voak\Health\Tests\Unit\ArticleServiceTest;
+use Voak\Health\Tests\Unit\CaseStudyServiceTest;
+use Voak\Health\Tests\Unit\FaqServiceTest;
+use Voak\Health\Tests\Integration\CaseStudiesAndResourcesApiTest;
 
 echo "======================================================================\n";
-echo "VOAK HEALTH CARE — BACKEND AUTOMATED TEST SUITE (PHASES 4, 6, 7, 8, 9, 10, 11, 12, 13 & 14)\n";
+echo "VOAK HEALTH CARE — BACKEND AUTOMATED TEST SUITE (PHASES 4, 6, 7, 8, 9, 10, 11, 12, 13, 14 & 15)\n";
 echo "======================================================================\n";
 echo "PHP Version: " . PHP_VERSION . "\n";
 echo "Runtime:     " . PHP_OS . " (" . php_uname('s') . ")\n";
@@ -121,6 +125,12 @@ EmailTemplateAndQueueApiTest::run();
 // Phase 14 Careers & Recruitment Management Tests
 CareerServiceTest::run();
 CareerAndRecruitmentApiTest::run();
+
+// Phase 15 Case Studies & Resources Management Tests
+ArticleServiceTest::run();
+CaseStudyServiceTest::run();
+FaqServiceTest::run();
+CaseStudiesAndResourcesApiTest::run();
 
 $exitCode = TestFramework::summarize();
 exit($exitCode);

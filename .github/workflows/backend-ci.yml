@@ -68,6 +68,9 @@ jobs:
       - name: Run Phase 14 Careers & Recruitment Management Test Suite
         run: php -d memory_limit=512M tests/test_phase14_careers_and_recruitment.php
 
+      - name: Run Phase 15 Case Studies & Resources Management Test Suite
+        run: php -d memory_limit=512M tests/test_phase15_case_studies_and_resources.php
+
       - name: Run Comprehensive Backend Test Suite
         run: php -d memory_limit=512M backend/tests/run_tests.php
 

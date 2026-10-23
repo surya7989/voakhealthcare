@@ -32,4 +32,9 @@ class ValidationException extends HttpException
     {
         return $this->validationErrors;
     }
+
+    public function getErrors(): array
+    {
+        return $this->validationErrors;
+    }
 }

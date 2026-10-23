@@ -309,7 +309,7 @@ class RbacManager
         'casestudy:publish' => [
             'name' => 'Publish Case Study', 'module' => 'casestudies',
             'description' => 'Publish verified client case study to public site',
-            'roles' => [self::ROLE_SUPER_ADMIN, self::ROLE_WEBSITE_ADMIN],
+            'roles' => [self::ROLE_SUPER_ADMIN, self::ROLE_WEBSITE_ADMIN, self::ROLE_CONTENT_EDITOR],
         ],
 
         // Insights & Blog (3)
@@ -583,6 +583,31 @@ class RbacManager
         'telemetry.view'         => ['email:read', 'telemetry.view'],
         'email.retry'            => ['email:update', 'email.retry'],
         'email.dispatch'         => ['email:update', 'email.dispatch'],
+
+        // Phase 15 Case Studies & Social Proof (Module 15 / ADM-015)
+        'case_studies.view'      => ['casestudy:create', 'casestudy:publish', 'case_studies.view'],
+        'case_studies.manage'    => ['casestudy:create', 'casestudy:publish', 'case_studies.manage'],
+        'casestudies.view'       => ['casestudy:create', 'casestudy:publish', 'casestudies.view'],
+        'casestudies.manage'     => ['casestudy:create', 'casestudy:publish', 'casestudies.manage'],
+        'casestudy.view'         => ['casestudy:create', 'casestudy:publish', 'casestudy.view'],
+        'casestudy.manage'       => ['casestudy:create', 'casestudy:publish', 'casestudy.manage'],
+        'casestudy.create'       => ['casestudy:create', 'casestudy.create'],
+        'casestudy.publish'      => ['casestudy:publish', 'casestudy.publish'],
+
+        // Phase 15 Insights & Articles (Module 14 / ADM-016)
+        'articles.view'          => ['article:create', 'article:update', 'article:publish', 'articles.view'],
+        'articles.manage'        => ['article:create', 'article:update', 'article:publish', 'articles.manage'],
+        'articles.create'        => ['article:create', 'articles.create'],
+        'articles.publish'       => ['article:publish', 'articles.publish'],
+        'articles.delete'        => ['article:publish', 'articles.delete'],
+        'article.view'           => ['article:create', 'article:update', 'article:publish', 'article.view'],
+        'article.manage'         => ['article:create', 'article:update', 'article:publish', 'article.manage'],
+
+        // Phase 15 FAQs (Module 16)
+        'faqs.view'              => ['page:read', 'faqs.view'],
+        'faqs.manage'            => ['page:update', 'faqs.manage'],
+        'faq.view'               => ['page:read', 'faq.view'],
+        'faq.manage'             => ['page:update', 'faq.manage'],
     ];
 
     /**

@@ -7,8 +7,11 @@ namespace Voak\Health\Modules\PublicContent;
 use Voak\Health\Core\Exceptions\NotFoundException;
 use Voak\Health\Core\Http\Request;
 use Voak\Health\Core\Http\Response;
+use Voak\Health\Services\ArticleService;
 use Voak\Health\Services\CareerService;
+use Voak\Health\Services\CaseStudyService;
 use Voak\Health\Services\ContactService;
+use Voak\Health\Services\FaqService;
 use Voak\Health\Services\HomepageService;
 use Voak\Health\Services\IndustryService;
 use Voak\Health\Services\MediaStorageService;
@@ -21,7 +24,8 @@ use Voak\Health\Services\SettingService;
 /**
  * Public Content Delivery Controller.
  * Provides high-performance, cached, read-only endpoints for corporate pages,
- * homepage hero configuration, public settings, services catalog, industries catalog, and public media with HTTP ETag / 304 validation.
+ * homepage hero configuration, public settings, services catalog, industries catalog,
+ * public media, careers, articles, case studies, and FAQs with HTTP ETag / 304 validation.
  */
 class PublicContentController
 {
@@ -35,6 +39,9 @@ class PublicContentController
     private ?PartnershipService $partnershipService;
     private ?ProposalService $proposalService;
     private ?CareerService $careerService;
+    private ?ArticleService $articleService;
+    private ?CaseStudyService $caseStudyService;
+    private ?FaqService $faqService;
 
     public function __construct(
         PageService $pageService,
@@ -46,7 +53,10 @@ class PublicContentController
         ?ContactService $contactService = null,
         ?PartnershipService $partnershipService = null,
         ?ProposalService $proposalService = null,
-        ?CareerService $careerService = null
+        ?CareerService $careerService = null,
+        ?ArticleService $articleService = null,
+        ?CaseStudyService $caseStudyService = null,
+        ?FaqService $faqService = null
     ) {
         $this->pageService = $pageService;
         $this->homepageService = $homepageService;
@@ -58,6 +68,9 @@ class PublicContentController
         $this->partnershipService = $partnershipService;
         $this->proposalService = $proposalService;
         $this->careerService = $careerService;
+        $this->articleService = $articleService;
+        $this->caseStudyService = $caseStudyService;
+        $this->faqService = $faqService;
     }
 
     /**
@@ -514,6 +527,184 @@ class PublicContentController
         $result = $this->careerService->submitApplication($payload, $file, $ipAddress, $userAgent);
 
         return Response::success($result, 201, $request->getCorrelationId());
+    }
+
+    /**
+     * GET /api/v1/public/articles
+     * GET /api/articles
+     * Delivers published articles feed with optional category, tag, or search filtering.
+     */
+    public function getArticles(Request $request): Response
+    {
+        if ($this->articleService === null) {
+            throw new NotFoundException("Article service not available.");
+        }
+
+        $params = $request->getQueryParams();
+        $page = isset($params['page']) ? (int)$params['page'] : 1;
+        $perPage = isset($params['per_page']) ? (int)$params['per_page'] : 12;
+
+        $filters = [
+            'category' => $params['category'] ?? null,
+            'tag'      => $params['tag'] ?? null,
+            'search'   => $params['search'] ?? $params['q'] ?? null,
+        ];
+
+        $data = $this->articleService->getPublishedArticles($filters, $page, $perPage);
+        $etag = $data['etag'];
+
+        $ifNoneMatch = $request->getHeader('if-none-match');
+        if ($ifNoneMatch !== null && $this->isEtagMatch($ifNoneMatch, $etag)) {
+            return (new Response(304, [
+                'ETag'             => $etag,
+                'Cache-Control'    => 'public, max-age=300, must-revalidate',
+                'X-Correlation-ID' => $request->getCorrelationId(),
+            ]));
+        }
+
+        $response = Response::success($data, 200, $request->getCorrelationId());
+        return $response
+            ->withHeader('ETag', $etag)
+            ->withHeader('Cache-Control', 'public, max-age=300, must-revalidate');
+    }
+
+    /**
+     * GET /api/v1/public/articles/:slug
+     * GET /api/articles/:slug
+     * Delivers single published article and related articles.
+     */
+    public function getArticle(Request $request): Response
+    {
+        if ($this->articleService === null) {
+            throw new NotFoundException("Article service not available.");
+        }
+
+        $slug = (string)($request->getAttribute('slug') ?? '');
+        if ($slug === '') {
+            throw new NotFoundException("Article not found.");
+        }
+
+        $data = $this->articleService->getPublishedBySlug($slug);
+        $etag = $data['etag'];
+
+        $ifNoneMatch = $request->getHeader('if-none-match');
+        if ($ifNoneMatch !== null && $this->isEtagMatch($ifNoneMatch, $etag)) {
+            return (new Response(304, [
+                'ETag'             => $etag,
+                'Cache-Control'    => 'public, max-age=300, must-revalidate',
+                'X-Correlation-ID' => $request->getCorrelationId(),
+            ]));
+        }
+
+        $response = Response::success($data['article'], 200, $request->getCorrelationId());
+        return $response
+            ->withHeader('ETag', $etag)
+            ->withHeader('Cache-Control', 'public, max-age=300, must-revalidate');
+    }
+
+    /**
+     * GET /api/v1/public/case-studies
+     * GET /api/case-studies
+     * Delivers verified published case studies.
+     */
+    public function getCaseStudies(Request $request): Response
+    {
+        if ($this->caseStudyService === null) {
+            throw new NotFoundException("Case study service not available.");
+        }
+
+        $params = $request->getQueryParams();
+        $page = isset($params['page']) ? (int)$params['page'] : 1;
+        $perPage = isset($params['per_page']) ? (int)$params['per_page'] : 12;
+
+        $filters = [
+            'sector' => $params['sector'] ?? $params['client_sector'] ?? null,
+            'search' => $params['search'] ?? $params['q'] ?? null,
+        ];
+
+        $data = $this->caseStudyService->getVerifiedPublishedCaseStudies($filters, $page, $perPage);
+        $etag = $data['etag'];
+
+        $ifNoneMatch = $request->getHeader('if-none-match');
+        if ($ifNoneMatch !== null && $this->isEtagMatch($ifNoneMatch, $etag)) {
+            return (new Response(304, [
+                'ETag'             => $etag,
+                'Cache-Control'    => 'public, max-age=300, must-revalidate',
+                'X-Correlation-ID' => $request->getCorrelationId(),
+            ]));
+        }
+
+        $response = Response::success($data, 200, $request->getCorrelationId());
+        return $response
+            ->withHeader('ETag', $etag)
+            ->withHeader('Cache-Control', 'public, max-age=300, must-revalidate');
+    }
+
+    /**
+     * GET /api/v1/public/case-studies/:slug
+     * GET /api/case-studies/:slug
+     * Delivers single verified published case study.
+     */
+    public function getCaseStudy(Request $request): Response
+    {
+        if ($this->caseStudyService === null) {
+            throw new NotFoundException("Case study service not available.");
+        }
+
+        $slug = (string)($request->getAttribute('slug') ?? '');
+        if ($slug === '') {
+            throw new NotFoundException("Case study not found.");
+        }
+
+        $data = $this->caseStudyService->getVerifiedPublishedBySlug($slug);
+        $etag = $data['etag'];
+
+        $ifNoneMatch = $request->getHeader('if-none-match');
+        if ($ifNoneMatch !== null && $this->isEtagMatch($ifNoneMatch, $etag)) {
+            return (new Response(304, [
+                'ETag'             => $etag,
+                'Cache-Control'    => 'public, max-age=300, must-revalidate',
+                'X-Correlation-ID' => $request->getCorrelationId(),
+            ]));
+        }
+
+        $response = Response::success($data['case_study'], 200, $request->getCorrelationId());
+        return $response
+            ->withHeader('ETag', $etag)
+            ->withHeader('Cache-Control', 'public, max-age=300, must-revalidate');
+    }
+
+    /**
+     * GET /api/v1/public/faqs
+     * GET /api/faqs
+     * Delivers published FAQ accordions.
+     */
+    public function getFaqs(Request $request): Response
+    {
+        if ($this->faqService === null) {
+            throw new NotFoundException("FAQ service not available.");
+        }
+
+        $params = $request->getQueryParams();
+        $category = $params['category'] ?? null;
+        $search = $params['search'] ?? $params['q'] ?? null;
+
+        $data = $this->faqService->getPublishedFaqs($category, $search);
+        $etag = $data['etag'];
+
+        $ifNoneMatch = $request->getHeader('if-none-match');
+        if ($ifNoneMatch !== null && $this->isEtagMatch($ifNoneMatch, $etag)) {
+            return (new Response(304, [
+                'ETag'             => $etag,
+                'Cache-Control'    => 'public, max-age=300, must-revalidate',
+                'X-Correlation-ID' => $request->getCorrelationId(),
+            ]));
+        }
+
+        $response = Response::success($data, 200, $request->getCorrelationId());
+        return $response
+            ->withHeader('ETag', $etag)
+            ->withHeader('Cache-Control', 'public, max-age=300, must-revalidate');
     }
 
     private function isEtagMatch(string $headerValue, string $etag): bool

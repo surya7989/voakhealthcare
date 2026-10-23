@@ -33,9 +33,12 @@ use Voak\Health\Security\HtmlSanitizer;
 use Voak\Health\Security\PasswordHasher;
 use Voak\Health\Security\TotpEngine;
 use Voak\Health\Security\RateLimiter;
+use Voak\Health\Services\ArticleService;
 use Voak\Health\Services\CareerService;
+use Voak\Health\Services\CaseStudyService;
 use Voak\Health\Services\ContactService;
 use Voak\Health\Services\EmailService;
+use Voak\Health\Services\FaqService;
 use Voak\Health\Services\IndustryService;
 use Voak\Health\Services\Mail\ArrayTransport;
 use Voak\Health\Services\MediaStorageService;
@@ -1505,6 +1508,166 @@ try {
         $pdo->exec("DELETE FROM job_postings WHERE id = {$jobId} OR slug LIKE 'mysql-job-%'");
     });
 
+    // Test 15: Phase 15 Case Studies, Resources & FAQs Integrity on MySQL 8.0 (ADM-015, ADM-016, FR-PUB-018)
+    $runTest("Phase 15 Case Studies, Insights Articles & FAQ Lifecycle on MySQL 8.0", function () use ($pdo, $testUserId) {
+        $connection = new Connection();
+        $connection->setMockPdo($pdo);
+        $auditLogger = new AuditLogger();
+        $sanitizer = new HtmlSanitizer();
+
+        $articleService = new ArticleService($connection, $auditLogger, $sanitizer);
+        $caseStudyService = new CaseStudyService($connection, $auditLogger, $sanitizer);
+        $faqService = new FaqService($connection, $auditLogger, $sanitizer);
+
+        // 1. Verify schema existence and columns on MySQL 8.0
+        $artCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'articles'")->fetchAll(\PDO::FETCH_COLUMN);
+        $requiredArtCols = ['id', 'title', 'slug', 'summary', 'content_html', 'category', 'tags_json', 'reading_time_minutes', 'is_published', 'published_at', 'author_user_id', 'created_at', 'updated_at'];
+        foreach ($requiredArtCols as $col) {
+            if (!in_array($col, $artCols, true)) {
+                throw new RuntimeException("articles table missing required column '{$col}' on MySQL 8.0.");
+            }
+        }
+
+        $csCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'case_studies'")->fetchAll(\PDO::FETCH_COLUMN);
+        $requiredCsCols = ['id', 'title', 'slug', 'client_sector', 'challenge_summary', 'intervention_summary', 'outcomes_json', 'consent_verified', 'is_published', 'published_at', 'created_at', 'updated_at'];
+        foreach ($requiredCsCols as $col) {
+            if (!in_array($col, $csCols, true)) {
+                throw new RuntimeException("case_studies table missing required column '{$col}' on MySQL 8.0.");
+            }
+        }
+
+        $faqCols = $pdo->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'faqs'")->fetchAll(\PDO::FETCH_COLUMN);
+        $requiredFaqCols = ['id', 'category', 'question', 'answer_html', 'display_order', 'is_published', 'created_at', 'updated_at'];
+        foreach ($requiredFaqCols as $col) {
+            if (!in_array($col, $faqCols, true)) {
+                throw new RuntimeException("faqs table missing required column '{$col}' on MySQL 8.0.");
+            }
+        }
+
+        // 2. Article Lifecycle, Slug Uniqueness, and Reading Time Auto-Calc (TEST-ADM-017 / FR-ADM-017)
+        $words = implode(' ', array_fill(0, 450, 'clinical'));
+        $article = $articleService->createArticle([
+            'title'        => 'MySQL Healthcare Staffing Article',
+            'slug'         => 'mysql-healthcare-staffing-article',
+            'summary'      => 'A comprehensive review of modern clinical staffing requirements.',
+            'content_html' => "<p>{$words}</p>",
+            'category'     => 'Clinical Staffing',
+            'tags'         => ['Governance', 'Nursing', 'Compliance'],
+            'is_published' => 1,
+        ], $testUserId);
+
+        $artId = (int)$article['id'];
+        if ($artId < 1 || $article['reading_time_minutes'] !== 3) {
+            throw new RuntimeException("createArticle failed or reading_time_minutes calculation incorrect on MySQL 8.0.");
+        }
+        if ($article['tags_json'] !== ['Governance', 'Nursing', 'Compliance']) {
+            throw new RuntimeException("Article tags_json native MySQL JSON serialization failed.");
+        }
+
+        // Verify duplicate slug resolution
+        $dupArticle = $articleService->createArticle([
+            'title'        => 'MySQL Healthcare Staffing Article Duplicate',
+            'slug'         => 'mysql-healthcare-staffing-article',
+            'summary'      => 'Another article with colliding slug.',
+            'content_html' => '<p>Short content</p>',
+            'category'     => 'General',
+            'tags'         => ['General'],
+            'is_published' => 0,
+        ], $testUserId);
+        if ($dupArticle['slug'] !== 'mysql-healthcare-staffing-article-1') {
+            throw new RuntimeException("Article duplicate slug resolution failed on MySQL 8.0.");
+        }
+
+        // Verify audit event ARTICLE_CREATED
+        $artAudit = (int)$pdo->query("SELECT COUNT(*) FROM audit_logs WHERE action = 'ARTICLE_CREATED' AND entity_type = 'articles' AND entity_id = {$artId}")->fetchColumn();
+        if ($artAudit < 1) {
+            throw new RuntimeException("ARTICLE_CREATED audit event missing on MySQL 8.0.");
+        }
+
+        // 3. Case Study Mandatory Consent Release Guard (TEST-ADM-016 / FR-ADM-016)
+        $consentBlocked = false;
+        try {
+            $caseStudyService->createCaseStudy([
+                'title'                => 'MySQL Intensive Care Unit Case Study',
+                'slug'                 => 'mysql-icu-case-study',
+                'client_sector'        => 'Critical Care',
+                'challenge_summary'    => 'Acute nursing shortage during pandemic surge.',
+                'intervention_summary' => 'Rapid deployment of specialized ICU clinical teams.',
+                'outcomes'             => ['Fill Rate' => '99%', 'Response Time' => '2 Hours'],
+                'consent_verified'     => 0,
+                'is_published'         => 1, // MUST BE REJECTED
+            ], $testUserId);
+        } catch (ValidationException $e) {
+            $consentBlocked = true;
+        }
+        if (!$consentBlocked) {
+            throw new RuntimeException("CaseStudyService failed to enforce mandatory consent release gate before publishing on MySQL 8.0.");
+        }
+
+        // Save as draft with consent_verified = 0
+        $caseDraft = $caseStudyService->createCaseStudy([
+            'title'                => 'MySQL Intensive Care Unit Case Study',
+            'slug'                 => 'mysql-icu-case-study',
+            'client_sector'        => 'Critical Care',
+            'challenge_summary'    => 'Acute nursing shortage during pandemic surge.',
+            'intervention_summary' => 'Rapid deployment of specialized ICU clinical teams.',
+            'outcomes'             => ['Fill Rate' => '99%', 'Response Time' => '2 Hours'],
+            'consent_verified'     => 0,
+            'is_published'         => 0,
+        ], $testUserId);
+        $csId = (int)$caseDraft['id'];
+
+        // Update with consent verified and publish
+        $publishedCs = $caseStudyService->updateCaseStudy($csId, [
+            'consent_verified' => 1,
+            'is_published'     => 1,
+        ], $testUserId);
+        if ($publishedCs['consent_verified'] !== 1 || $publishedCs['is_published'] !== 1) {
+            throw new RuntimeException("CaseStudy publication after consent verification failed on MySQL 8.0.");
+        }
+
+        // Verify CASE_STUDY_PUBLISHED audit log
+        $csAudit = (int)$pdo->query("SELECT COUNT(*) FROM audit_logs WHERE action = 'CASE_STUDY_PUBLISHED' AND entity_type = 'case_studies' AND entity_id = {$csId}")->fetchColumn();
+        if ($csAudit < 1) {
+            throw new RuntimeException("CASE_STUDY_PUBLISHED audit event missing on MySQL 8.0.");
+        }
+
+        // 4. FAQ Sequential Reordering & Categorized Delivery (TEST-PUB-018 / FR-PUB-018)
+        $faq1 = $faqService->createFaq([
+            'category'     => 'MySQL Governance',
+            'question'     => 'mysql-faq-1 What clinical oversight processes are applied?',
+            'answer_html'  => '<p>All clinical personnel undergo strict primary source credentialing.</p>',
+            'is_published' => 1,
+        ], $testUserId);
+        $faq2 = $faqService->createFaq([
+            'category'     => 'MySQL Governance',
+            'question'     => 'mysql-faq-2 How are shift cancellations handled?',
+            'answer_html'  => '<p>Guaranteed replacement clinician dispatched within 60 minutes.</p>',
+            'is_published' => 1,
+        ], $testUserId);
+
+        $faqService->reorderFaqs([(int)$faq2['id'], (int)$faq1['id']], $testUserId);
+        $f2Updated = $faqService->getFaqById((int)$faq2['id']);
+        if ((int)$f2Updated['display_order'] !== 1) {
+            throw new RuntimeException("FAQ display_order resequencing failed on MySQL 8.0.");
+        }
+
+        // 5. CSV Exports with formula injection defense
+        $artCsv = $articleService->exportCsv();
+        if (!str_starts_with($artCsv, "\xEF\xBB\xBF") || !str_contains($artCsv, 'MySQL Healthcare Staffing Article')) {
+            throw new RuntimeException("Articles CSV export failed on MySQL 8.0.");
+        }
+        $csCsv = $caseStudyService->exportCsv();
+        if (!str_starts_with($csCsv, "\xEF\xBB\xBF") || !str_contains($csCsv, 'MySQL Intensive Care Unit Case Study')) {
+            throw new RuntimeException("Case Studies CSV export failed on MySQL 8.0.");
+        }
+
+        // Clean up test data
+        $pdo->exec("DELETE FROM articles WHERE id IN ({$artId}, {$dupArticle['id']}) OR slug LIKE 'mysql-%'");
+        $pdo->exec("DELETE FROM case_studies WHERE id = {$csId} OR slug LIKE 'mysql-%'");
+        $pdo->exec("DELETE FROM faqs WHERE id IN ({$faq1['id']}, {$faq2['id']}) OR question LIKE 'mysql-%'");
+    });
+
     // Clean up isolated test data
     $pdo->exec("DELETE FROM user_roles WHERE user_id = {$testUserId}");
     $pdo->exec("DELETE FROM admin_sessions WHERE user_id = {$testUserId}");
@@ -1521,6 +1684,9 @@ try {
     $pdo->exec("DELETE FROM proposals WHERE contact_email LIKE 'mysql-%'");
     $pdo->exec("DELETE FROM career_applications WHERE email LIKE 'mysql-%' OR email = '[ANONYMIZED]'");
     $pdo->exec("DELETE FROM job_postings WHERE slug LIKE 'mysql-job-%'");
+    $pdo->exec("DELETE FROM articles WHERE slug LIKE 'mysql-%'");
+    $pdo->exec("DELETE FROM case_studies WHERE slug LIKE 'mysql-%'");
+    $pdo->exec("DELETE FROM faqs WHERE question LIKE 'mysql-%'");
     $pdo->exec("DELETE FROM email_queue WHERE recipient_email LIKE 'mysql-%'");
     $pdo->exec("DELETE FROM pages WHERE slug LIKE 'mysql-page-%'");
     $pdo->exec("DELETE FROM users WHERE id = {$testUserId} OR email = '{$testUserEmail}'");
