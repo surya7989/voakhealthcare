@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand Core Colors */
+  --voak-canvas: #F2F0F8;
+  --voak-canvas-alt: #E8E4F2;
+  --voak-white: #FFFFFF;
+  --voak-pink: #EEAFD7;
+  --voak-pink-light: #FDF2F9;
+  --voak-yellow: #FBDC62;
+  --voak-yellow-light: #FEF9E6;
+  --voak-mint: #54CB96;
+  --voak-mint-light: #EBF9F2;
+  --voak-sky: #63A5E6;
+  --voak-sky-light: #EEF6FC;
+  --voak-purple-cta: #665CE9;
+  --voak-purple-hover: #5246D8;
+  --voak-purple-active: #4036BD;
+  --voak-purple-light: #F0EFFD;
+  --voak-navy: #252B5E;
+  --voak-navy-surface: #1E234D;
+  --voak-muted: #50567A;
+  --voak-border: #D8D4E5;
+  --voak-border-subtle: #E8E5F0;
+  --voak-focus-ring: #665CE9;
+
+  /* Admin Console Theme */
+  --admin-sidebar-bg: #0F172A;
+  --admin-sidebar-hover: #1E293B;
+  --admin-sidebar-active: #252B5E;
+  --admin-sidebar-text: #94A3B8;
+  --admin-sidebar-text-active: #FFFFFF;
+  --admin-content-bg: #F8FAFC;
+  --admin-card-bg: #FFFFFF;
+  --admin-table-head: #F1F5F9;
+  --admin-border: #E2E8F0;
+
+  /* Semantic UI State Tokens */
+  --state-success: #15803D;
+  --state-success-bg: #DCFCE7;
+  --state-warning: #B45309;
+  --state-warning-bg: #FEF3C7;
+  --state-error: #B91C1C;
+  --state-error-bg: #FEE2E2;
+  --state-info: #1D4ED8;
+  --state-info-bg: #DBEAFE;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl: 36px;
+  --radius-full: 9999px;
+
+  /* Elevation Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(37, 43, 94, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(37, 43, 94, 0.07), 0 2px 4px -2px rgba(37, 43, 94, 0.05);
+  --shadow-lg: 0 12px 24px -4px rgba(37, 43, 94, 0.08), 0 6px 12px -6px rgba(37, 43, 94, 0.04);
+  --shadow-xl: 0 24px 38px -6px rgba(37, 43, 94, 0.12), 0 12px 18px -8px rgba(37, 43, 94, 0.06);
+  --shadow-floating: 0 20px 40px -10px rgba(102, 92, 233, 0.18);
+
+  /* Fonts */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Plus Jakarta Sans', Georgia, serif;
+
+  /* Motion Specifications */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Custom Base Layer Enhancements */
+@layer base {
+  body {
+    background-color: var(--voak-canvas);
+    color: var(--voak-navy);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom visible focus rings for WCAG 2.2 AA */
+  :focus-visible {
+    outline: 2px solid var(--voak-focus-ring);
+    outline-offset: 2px;
+  }
+}

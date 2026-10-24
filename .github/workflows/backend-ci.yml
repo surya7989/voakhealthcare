@@ -149,3 +149,38 @@ jobs:
 
       - name: Execute MySQL 8.0 Security Concurrency & Audit Integrity Test
         run: php backend/tests/mysql_security_concurrency_test.php
+
+  frontend-ci:
+    name: Frontend Foundation (React 18 / Vite / TypeScript)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Lint source code
+        working-directory: ./frontend
+        run: npm run lint
+
+      - name: TypeScript typecheck
+        working-directory: ./frontend
+        run: npm run typecheck
+
+      - name: Run frontend unit & component tests
+        working-directory: ./frontend
+        run: npm test
+
+      - name: Build production bundle
+        working-directory: ./frontend
+        run: npm run build
+
