@@ -56,9 +56,9 @@ Phase 23 delivers the public-facing **Careers Portal & Candidate Application Eng
 | O | File Restrictions | PDF and DOCX only, maximum 10MB file size ceiling | Already Supported |
 | P | Honeypot | Hidden `website` field silently drops bot submissions without error | Already Supported |
 | Q | Rate Limiting | Server-side enforcement (5 submissions/hour/IP, HTTP 429) | Already Supported |
-| R | Consent / Privacy | Australian Privacy Principles 1988 (APPs) mandatory checkbox | Requires New Implementation (Implemented) |
+| R | Consent / Privacy | Mandatory privacy consent aligned with the Privacy Act 1988 and Australian Privacy Principles (APPs) | Requires New Implementation (Implemented) |
 | S | Acknowledgement Email | Handled automatically by backend transactional email queue | Already Supported |
-| T | Application Success State | Generated reference code (`APP-2026-XXXXXX`) and 6-month retention notice | Requires New Implementation (Implemented) |
+| T | Application Success State | Generated reference code (`APP-2026-XXXXXX`) and 6-month retention notice (VOAK policy FR-SEC-004) | Requires New Implementation (Implemented) |
 | U | Validation Errors | Inline `FieldError` and accessible `ValidationSummary` for 422 errors | Requires New Implementation (Implemented) |
 | V | Duplicate Submission | Backend handles unique reference codes and throttling | Already Supported |
 | W | Closed Vacancy Behavior | Displays "Applications Closed" banner; disables application form | Requires New Implementation (Implemented) |
@@ -105,11 +105,11 @@ Phase 23 delivers the public-facing **Careers Portal & Candidate Application Eng
 
 ## H. Application Flow (`FORM-PUB-04`)
 - Accessible form embedded directly on the job detail page (`#apply-form`).
-- Fields: Full Name (required, min 2 chars), Email (required, valid email), Phone (required, 8–25 digits), AHPRA Registration Number (optional/recommended for clinical), Resume attachment (required, PDF/DOCX, max 10MB), APPs Privacy Consent (required checkbox).
+- Fields: Full Name (required, min 2 chars), Email (required, valid email), Phone (required, 8–25 digits), AHPRA Registration Number (optional/recommended for clinical), Resume attachment (required, PDF/DOCX, max 10MB), Privacy Consent checkbox aligned with Privacy Act 1988 & APPs (required).
 - Honeypot Anti-Spam: Hidden `website` field traps automated bots without impacting genuine applicants.
 - Client-side validation: Blocks submission if required fields are missing or invalid; presents `ValidationSummary` and inline `FieldError`.
 - Server-side error handling: Maps 422 Unprocessable Entity responses to respective fields; displays clear alert on 429 Rate Limit (5 per hour).
-- Submission Success State: Clears sensitive inputs from memory; presents a confirmation banner with generated Reference Code (`APP-2026-XXXXXX`), next steps timeline (3–5 business days), and APPs 6-month statutory retention window notice.
+- Submission Success State: Clears sensitive inputs from memory; presents a confirmation banner with generated Reference Code (`APP-2026-XXXXXX`), next steps timeline (3–5 business days), and 6-month recruitment data retention notice defined by the VOAK retention policy (FR-SEC-004).
 
 ---
 
@@ -122,10 +122,10 @@ Phase 23 delivers the public-facing **Careers Portal & Candidate Application Eng
 
 ---
 
-## J. Privacy & Consent (APPs Compliance)
-- Australian Privacy Principles (Privacy Act 1988) compliance statement explicitly required before submission.
+## J. Privacy & Consent (Privacy Act 1988 & APPs Alignment)
+- Mandatory privacy consent aligned with the Privacy Act 1988 and Australian Privacy Principles (APPs) explicitly required before submission.
 - Consent checkbox is strictly opt-in (never pre-checked).
-- Discloses the 6-month statutory data retention window and primary-source credential verification purpose.
+- Discloses the 6-month recruitment data retention period defined by the VOAK retention policy (FR-SEC-004) and primary-source credential verification purpose.
 - Candidate PII is cleared from browser state immediately upon successful submission. Zero sensitive form data is stored in `localStorage`, `sessionStorage`, or telemetry.
 
 ---
@@ -219,14 +219,28 @@ Phase 23 delivers the public-facing **Careers Portal & Candidate Application Eng
 ## V. Sensitive PII Handling
 - Zero candidate personal data logged to console or stored in browser storage (`localStorage` / `sessionStorage`).
 - Form state purged from memory immediately upon successful submission.
-- Quarantined candidate records governed by strict 6-month statutory retention schedule.
+- Quarantined candidate records governed by 6-month configured candidate-data retention policy (FR-SEC-004).
 
 ---
 
-## W. Content Provenance
-- All corporate copy, EVP pillars, and healthcare career descriptions reflect Voak Health Care's verified Australian enterprise operational model.
-- Role descriptions align with NSQHS Standard 3 infection control, AHPRA National Law, and Aged Care Quality Standards.
-- Zero fabricated salary benchmarks or unverified guarantees.
+## W. Content Provenance & Regulatory Classification
+All corporate copy, EVP pillars, and healthcare career descriptions reflect Voak Health Care's verified Australian enterprise operational model. The canonical repository sources and classifications for regulatory, legal, and operational claims are:
+
+1. **Privacy Act 1988 & Australian Privacy Principles (APPs):**
+   - *Canonical Sources:* `docs/phase-00/10_SECURITY_AND_PRIVACY_BASELINE.md` (Section A), `docs/phase-01/14_SECURITY_PRIVACY_AND_AUDIT_REQUIREMENTS.md` (Line 71), `docs/phase-01/02_PUBLIC_PAGE_BY_PAGE_SPECIFICATIONS.md` (FR-PUB-022, line 878), `docs/phase-21/02_PHASE_21_VERIFICATION_REPORT.md` (Section N, line 333).
+   - *Classification:* **Statutory Privacy Legislation & Regulatory Principles**. The legislation is the *Privacy Act 1988 (Cth)*; the principles are the scheduled *Australian Privacy Principles (APPs)*. Zero individual patient identifiable health records are collected, stored, or processed by VOAK's public application intake.
+2. **Six-Month Candidate Retention Period:**
+   - *Canonical Sources:* `docs/phase-01/08_BUSINESS_WORKFLOWS_AND_STATE_MACHINES.md` (Lines 187–210), `docs/phase-14/01_CAREERS_AND_RECRUITMENT_PLAN.md` (Specification `FR-SEC-004`), `docs/phase-14/02_PHASE_14_VERIFICATION_REPORT.md` (Lines 140–145, `CareerService.php` sets `retention_expiry_date = +6 months`, `cli/cleanup_retention.php` anonymization).
+   - *Classification:* **Internal Business Policy & Configured Product Behavior** (`FR-SEC-004`). The 6-month retention period is established by VOAK's recruitment data retention policy and configured application lifecycle, not by an explicit legislative statutory mandate.
+3. **AHPRA Credential Verification:**
+   - *Canonical Sources:* `docs/phase-01/02_PUBLIC_PAGE_BY_PAGE_SPECIFICATIONS.md` (Line 957), `docs/phase-14/01_CAREERS_AND_RECRUITMENT_PLAN.md` (`ahpra_number` column in schema, clinical vetting rules), `docs/phase-21/02_PHASE_21_VERIFICATION_REPORT.md` (Section N).
+   - *Classification:* **Regulatory Framework & Primary Source Verification Requirement** under the Health Practitioner Regulation National Law, enforced by the Australian Health Practitioner Regulation Agency (AHPRA).
+4. **NSQHS Standard 3 & Aged Care Quality Standards Alignment:**
+   - *Canonical Sources:* `docs/phase-01/01_MASTER_FUNCTIONAL_REQUIREMENTS.md`, `docs/phase-21/01_CORPORATE_INFORMATION_PAGES_PLAN.md`, `docs/phase-21/02_PHASE_21_VERIFICATION_REPORT.md`, `frontend/src/apps/public/pages/QualityCompliancePage.tsx`.
+   - *Classification:* **Clinical Governance & Accreditation Standards Alignment**. Voluntary institutional alignment for healthcare workforce placements (Infection Prevention and Control under NSQHS Standard 3 and quality standards established by the Aged Care Quality and Safety Commission).
+5. **Non-Clinical Operational Boundary Notice:**
+   - *Canonical Sources:* `docs/phase-01/02_PUBLIC_PAGE_BY_PAGE_SPECIFICATIONS.md` (FR-PUB-022), `frontend/src/apps/public/pages/CareersPage.tsx`, `frontend/src/apps/public/pages/JobDetailPage.tsx`.
+   - *Classification:* **Operational Scope & B2B Boundary Notice**. Disclaims direct emergency medical triage, direct patient booking, or clinical consultations.
 
 ---
 
@@ -326,7 +340,7 @@ Phase 23 delivers the public-facing **Careers Portal & Candidate Application Eng
 ## AK. Risks & Mitigations
 - **Candidate Attachment Security:** Mitigated via server-side magic-byte inspection, strict MIME whitelist (PDF/DOCX), 10MB ceiling, and quarantine storage outside webroot.
 - **Form Abuse / Automated Spam:** Mitigated via invisible honeypot field, server-side IP rate limiting (5/hr), and strict CSRF protection.
-- **Privacy Compliance (APPs):** Mitigated via mandatory consent agreement, explicit 6-month statutory retention window notice, and automated PII state clearance upon submission.
+- **Privacy Governance (Privacy Act 1988 & APPs):** Mitigated via mandatory consent agreement, explicit 6-month candidate retention notice defined by VOAK retention policy (FR-SEC-004), and automated PII state clearance upon submission.
 
 ---
 

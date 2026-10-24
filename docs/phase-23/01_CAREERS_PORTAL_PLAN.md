@@ -55,7 +55,7 @@ Attract high-caliber Australian registered nurses, clinical leads, healthcare op
 - Single-page application submission that communicates directly with `POST /api/v1/public/careers/apply`.
 - Instant inline client-side validation for mandatory fields.
 - Accessible submission progress state with disabled controls during network transit.
-- High-visibility confirmation screen displaying the generated candidate reference code (e.g. `APP-2026-XXXXXX`), submission timestamp, 6-month statutory retention window disclosure, and guidance on interview timelines.
+- High-visibility confirmation screen displaying the generated candidate reference code (e.g. `APP-2026-XXXXXX`), submission timestamp, 6-month configured candidate-data retention policy disclosure (FR-SEC-004), and guidance on interview timelines.
 
 ---
 
@@ -96,7 +96,7 @@ Attract high-caliber Australian registered nurses, clinical leads, healthcare op
 5. `ahpra_number` (Text input, optional for corporate, prominent for clinical roles)
 6. `resume_file` (File input via `FileUploadDropzone`, mandatory, PDF or DOCX, max 10MB)
 7. `website` (Hidden honeypot input, must remain empty)
-8. `privacy_consent` (Checkbox, mandatory, non-pre-checked, complying with Australian Privacy Principles)
+8. `privacy_consent` (Checkbox, mandatory, non-pre-checked, aligned with the Privacy Act 1988 and Australian Privacy Principles (APPs))
 
 ---
 
@@ -117,8 +117,8 @@ Attract high-caliber Australian registered nurses, clinical leads, healthcare op
 ---
 
 ## M. Candidate Privacy & Data Retention (FR-SEC-004)
-- **Australian Privacy Principles (APPs):** Explicit consent notice informing candidate that application data is collected solely for employment qualification and recruitment vetting.
-- **Statutory Retention Ceiling:** In accordance with Australian employment regulations and FR-SEC-004, candidate PII is marked with a 6-month retention expiry date (`retention_expiry_date = CURRENT_DATE + 6 months`), after which it is eligible for automated disposal and physical file shredding.
+- **Privacy Act 1988 & Australian Privacy Principles (APPs):** Explicit consent notice informing candidate that application data is collected solely for employment qualification and recruitment vetting.
+- **Configured Candidate-Data Retention Policy:** In accordance with VOAK's recruitment data retention policy under FR-SEC-004, candidate PII is marked with a 6-month retention expiry date (`retention_expiry_date = CURRENT_DATE + 6 months`), after which it is eligible for automated disposal and physical file shredding.
 - Zero local browser storage (`localStorage` / `sessionStorage`) of candidate PII, phone numbers, or resume documents.
 
 ---
@@ -178,7 +178,7 @@ Attract high-caliber Australian registered nurses, clinical leads, healthcare op
 | O | File Restrictions | PDF/DOCX, <=10MB, binary magic bytes | Already Supported (Backend) / UX Enforced |
 | P | Honeypot Protection | Hidden `website` trap (SYS-005) | Already Supported (Backend) / Form Integrated |
 | Q | Rate Limiting | 5 submissions per hour per IP (SYS-005) | Already Supported (Backend) / UI Error Handling |
-| R | Consent / Privacy | Explicit APPs checkbox, 6-month retention | Requires New Implementation |
+| R | Consent / Privacy | Explicit Privacy Act 1988 & APPs consent checkbox, 6-month VOAK retention policy | Requires New Implementation |
 | S | Acknowledgement Email | Tier-2 outbox queue (`tmpl_careers_ack`) | Already Supported (Backend) |
 | T | Success State | Reference code (`APP-2026-XXXXXX`) display | Requires New Implementation |
 | U | Validation Errors | 422 mapping to `FieldError` and `ValidationSummary` | Requires New Implementation |
@@ -198,7 +198,7 @@ Attract high-caliber Australian registered nurses, clinical leads, healthcare op
 
 ---
 
-## R. Non-Clinical Care Legal Notice & Statutory Boundaries
+## R. Non-Clinical Care Legal Notice & Operational Scope Boundaries
 Public careers pages strictly include the mandatory B2B boundary disclaimer:
 *"Voak Health Care is an Australian healthcare operational solutions and workforce infrastructure provider. Voak does not provide direct emergency medical triage, direct patient care booking, or public clinical consultations."*
 All candidate placement opportunities strictly represent employment opportunities with Voak or deployed institutional healthcare client facilities.

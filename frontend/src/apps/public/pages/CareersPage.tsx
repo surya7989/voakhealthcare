@@ -157,7 +157,7 @@ export const CANONICAL_JOBS: JobItem[] = [
     summary: 'Direct health administration workflows, clinical record privacy assurance (APPs), and hospital admission telemetry systems.',
     responsibilities: [
       'Manage high-volume patient admission processing and electronic health record (EHR) integrity.',
-      'Enforce strict patient privacy protocols under the Australian Privacy Act 1988 (APPs).',
+      'Enforce strict patient privacy protocols under the Privacy Act 1988 and Australian Privacy Principles (APPs).',
       'Coordinate specialist booking schedules, billing documentation, and health fund claims.',
       'Streamline administrative triage and digital timesheet verification for deployed staff.',
     ],

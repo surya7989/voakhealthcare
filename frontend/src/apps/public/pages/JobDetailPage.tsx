@@ -173,7 +173,7 @@ export const JobDetailPage: React.FC<JobDetailPageProps> = ({ slug: propSlug }) 
     }
 
     if (!consent) {
-      errors.consent = 'You must acknowledge the Australian Privacy Principles consent agreement.';
+      errors.consent = 'You must acknowledge the Privacy Act 1988 and Australian Privacy Principles (APPs) consent agreement.';
     }
 
     if (Object.keys(errors).length > 0) {
@@ -526,7 +526,7 @@ export const JobDetailPage: React.FC<JobDetailPageProps> = ({ slug: propSlug }) 
                         <div className="font-semibold text-voak-navy">Next Steps:</div>
                         <p>1. A confirmation receipt has been dispatched to your email address.</p>
                         <p>2. Our clinical recruitment committee reviews candidate files within 3–5 business days.</p>
-                        <p>3. In compliance with Australian Privacy Principles, your file will be securely retained for 6 months.</p>
+                        <p>3. Your application will be retained for six months in accordance with VOAK's recruitment data retention policy.</p>
                       </div>
 
                       <div className="pt-2">
@@ -683,7 +683,7 @@ export const JobDetailPage: React.FC<JobDetailPageProps> = ({ slug: propSlug }) 
                         />
                       </div>
 
-                      {/* Australian Privacy Principles Consent Checkbox */}
+                      {/* Privacy Consent Checkbox (Privacy Act 1988 & APPs) */}
                       <div>
                         <Checkbox
                           id="app-privacy-consent"
@@ -691,7 +691,7 @@ export const JobDetailPage: React.FC<JobDetailPageProps> = ({ slug: propSlug }) 
                           onChange={(e) => setConsent(e.target.checked)}
                           hasError={!!fieldErrors.consent}
                           disabled={submitting}
-                          label="I consent to Voak Health Care collecting and processing my application data under the Australian Privacy Act 1988 (APPs) for employment vetting purposes. I understand candidate records are securely quarantined and retained for a maximum of 6 months."
+                          label="I consent to Voak Health Care collecting and processing my application data in accordance with the Privacy Act 1988 and Australian Privacy Principles (APPs) for employment vetting purposes. I understand candidate records are securely quarantined and retained for 6 months under VOAK's recruitment data retention policy."
                         />
                         <FieldError error={fieldErrors.consent} />
                       </div>

@@ -298,7 +298,7 @@ describe('Phase 23 — Careers Portal Suite', () => {
       expect(screen.getAllByText(/A valid email address is required/i).length).toBeGreaterThanOrEqual(1);
       expect(screen.getAllByText(/A valid contact phone number is required/i).length).toBeGreaterThanOrEqual(1);
       expect(screen.getAllByText(/resume document attachment/i).length).toBeGreaterThanOrEqual(1);
-      expect(screen.getAllByText(/Australian Privacy Principles consent agreement/i).length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText(/Australian Privacy Principles \(APPs\) consent agreement/i).length).toBeGreaterThanOrEqual(1);
     });
 
     it('validates email and phone formats', async () => {
