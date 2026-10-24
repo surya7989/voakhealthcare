@@ -50,7 +50,7 @@ Implement the canonical, responsive, accessible, API-integrated, and SEO-optimiz
 | **G** | **Hero Content Source** | Dynamic API integration with `GET /api/v1/public/homepage` with robust canonical fallback | Requires Implementation |
 | **H** | **Primary CTA** | "Explore Our Services" / "Partner With Us" | Already Supported / Ext |
 | **I** | **Secondary CTA** | "Watch Video" or "Schedule Consultation" | Already Supported / Ext |
-| **J** | **Trust Indicators** | Verified operational metric band (Hospital Networks Supported, Credentialed Specialists, Clinical Hours Delivered, SLA Fulfillment Rate) | Requires Implementation |
+| **J** | **Trust Indicators** | Validated operational metric band derived from Phase 7 canonical CMS contract in `backend/src/Services/HomepageService.php` (120+ Hospital Networks, 450+ Credentialed Specialists, 1.2M+ Clinical Hours Delivered, 99.8% SLA Fulfillment Rate) | Requires Implementation |
 | **K** | **Service Presentation** | 3-Card Pastel Feature Band (Services, Industries, Partner) + 8-tile asymmetric Services Grid (Clinical Support, Allied Health, Staffing, Operations, Practice Management, Health Tech, Consulting, Training) | Requires Implementation |
 | **L** | **Industry Presentation** | 4-card bento grid for key healthcare verticals (Hospitals, Aged Care, Community Care, Corporate Health) | Requires Implementation |
 | **M** | **Statistics / KPI Section** | Horizontal KPI band displaying validated operational metrics | Requires Implementation |
@@ -76,7 +76,7 @@ Implement the canonical, responsive, accessible, API-integrated, and SEO-optimiz
 | **AG**| **Accessibility (WCAG 2.2 AA)**| Single logical H1, landmark elements (`header`, `nav`, `main`, `footer`), 44px touch targets, visible focus rings, skip link | Requires Implementation |
 | **AH**| **Responsive Behavior** | 0px horizontal blowout across Mobile (< 768px), Tablet (768–1024px), Desktop (>= 1024px) | Requires Implementation |
 | **AI**| **Image / Media Behavior** | Real clinical imagery in `frontend/public/images/`, meaningful alt tags, fixed aspect ratios to prevent layout shift | Requires Implementation |
-| **AJ**| **Performance** | Zero heavy third-party carousel or animation libraries; optimized assets; FCP < 1.2s | Requires Implementation |
+| **AJ**| **Performance** | Performance-oriented implementation verified through bundle-size/build checks; runtime FCP benchmark deferred until designated browser performance verification phase | Requires Implementation |
 | **AK**| **Animation / Motion** | Smooth CSS transitions on hover; respect `prefers-reduced-motion` | Requires Implementation |
 | **AL**| **Testing Requirements** | Comprehensive Vitest suite testing component rendering, API integration, loading states, error fallbacks, and accessibility | Requires Implementation |
 | **AM**| **Acceptance Criteria** | 100% green tests, 0 lint errors, 0 typecheck errors, successful production build, 100% green backend regression | Target Phase |
