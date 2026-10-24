@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { cn } from '../utils/cn';
 
 export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
   hasError?: boolean;
+  indeterminate?: boolean;
 }
 
 export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ className, label, id, hasError = false, disabled, ...props }, ref) => {
+  ({ className, label, id, hasError = false, disabled, indeterminate = false, ...props }, forwardedRef) => {
     const inputId = id || (label ? `cb-${label.toLowerCase().replace(/\s+/g, '-')}` : undefined);
+    const innerRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+      if (innerRef.current) {
+        innerRef.current.indeterminate = indeterminate;
+      }
+    }, [indeterminate]);
+
+    const setRef = (node: HTMLInputElement | null) => {
+      (innerRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
+      if (typeof forwardedRef === 'function') {
+        forwardedRef(node);
+      } else if (forwardedRef) {
+        (forwardedRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
+      }
+    };
 
     return (
       <label
@@ -20,7 +37,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         )}
       >
         <input
-          ref={ref}
+          ref={setRef}
           type="checkbox"
           id={inputId}
           disabled={disabled}
@@ -39,3 +56,4 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 );
 
 Checkbox.displayName = 'Checkbox';
+
