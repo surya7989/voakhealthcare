@@ -25,8 +25,8 @@ export const PublicHeader: React.FC = () => {
         { label: 'Why Choose Us', href: '/why-choose-voak', isRoute: true },
         { label: 'How We Work', href: '/how-we-work', isRoute: true },
         { label: 'Compliance', href: '/quality-compliance', isRoute: true },
-        { label: 'Services', href: '/#services', isRoute: false },
-        { label: 'Industries', href: '/#industries', isRoute: false },
+        { label: 'Services', href: '/services', isRoute: true },
+        { label: 'Industries', href: '/industries', isRoute: true },
       ];
 
 
