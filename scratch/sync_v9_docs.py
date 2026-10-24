@@ -152,7 +152,7 @@ doc = sec6_pattern.sub(metrics_table_str + "\n\n", doc)
 sec7_v9 = """## 7. Reproducible Responsive Overflow Verification
 
 ### A. Comprehensive 264-Verification Test Matrix (`tests/results/phase-03-responsive-results.json`)
-The automated suite [`tests/test_expanded_responsive.js`](file:///c:/Users/voakh/Downloads/voak%20health/tests/test_expanded_responsive.js) was executed across the entire application surface using Microsoft Edge (Version `155.0.4283.62`):
+The automated suite [`tests/test_expanded_responsive.js`](tests/test_expanded_responsive.js) was executed across the entire application surface using Microsoft Edge (Version `155.0.4283.62`):
 - **Master Homepage (Live Root) × 9 Breakpoints** = 9 automated checks (320px, 360px, 390px, 428px, 768px, 1024px, 1280px, 1440px, 1920px)
 - **22 Public Page Mockups × 9 Breakpoints** = 198 automated checks (320px, 360px, 390px, 428px, 768px, 1024px, 1280px, 1440px, 1920px)
 - **19 Admin Module Workspaces × 3 Breakpoints** = 57 automated checks (390px, 768px, 1440px)

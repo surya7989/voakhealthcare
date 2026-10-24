@@ -110,7 +110,7 @@ content = sec6_pattern.sub(new_table_str + "\n\n", content)
 sec7_expanded = """## 7. Reproducible Responsive Overflow Verification
 
 ### A. Comprehensive 255-Verification Test Matrix (`tests/results/phase-03-responsive-results.json`)
-The automated suite [`tests/test_expanded_responsive.js`](file:///c:/Users/voakh/Downloads/voak%20health/tests/test_expanded_responsive.js) was executed across the entire application surface:
+The automated suite [`tests/test_expanded_responsive.js`](tests/test_expanded_responsive.js) was executed across the entire application surface:
 - **22 Public Pages × 9 Breakpoints** = 198 automated viewport tests (320px, 360px, 390px, 428px, 768px, 1024px, 1280px, 1440px, 1920px)
 - **19 Admin Modules × 3 Breakpoints** = 57 automated viewport tests (390px, 768px, 1440px)
 - **Total Tests:** 255
