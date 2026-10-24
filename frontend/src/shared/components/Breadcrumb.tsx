@@ -12,12 +12,16 @@ export interface BreadcrumbProps {
   items: BreadcrumbItem[];
   className?: string;
   showHomeIcon?: boolean;
+  homeHref?: string;
+  homeLabel?: string;
 }
 
 export const Breadcrumb: React.FC<BreadcrumbProps> = ({
   items,
   className,
   showHomeIcon = true,
+  homeHref = '/admin',
+  homeLabel = 'Admin Home',
 }) => {
   return (
     <nav aria-label="Breadcrumb" className={cn('flex items-center text-sm', className)}>
@@ -25,9 +29,9 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
         {showHomeIcon && (
           <li className="inline-flex items-center">
             <Link
-              to="/admin"
+              to={homeHref}
               className="text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 flex items-center transition-colors"
-              aria-label="Admin Home"
+              aria-label={homeLabel}
             >
               <Home className="h-4 w-4" />
             </Link>
