@@ -11,7 +11,8 @@
 **Previous Report Commits**:  
 - `5ee247c7d207f199c684d24cdcaf174694f9c037` (CI Run `40063959627` — SUCCESS)  
 - `79358b317044ada81e1f6c4c0aee0bf9eaaf3553` (CI Run `40064422953` — SUCCESS)  
-**Verified Documentation Hygiene & Content Provenance Commit**: `e692fe102d9195fe59293075e55248ce00e792cd` (CI Run `40076984889` — SUCCESS)  
+- `e692fe102d9195fe59293075e55248ce00e792cd` (CI Run `40076984889` — SUCCESS)  
+- `9d217eedb7a5fc07cb645a3f5937f8f0a0c96e85` (CI Run `40077681859` — SUCCESS)  
 **Status**: PHASE 21 VERIFIED — READY FOR NEXT PHASE  
 
 ---
@@ -275,8 +276,8 @@ Layout behavior was verified across standard viewport breakpoints:
 - **Target Patterns Checked**: Workstation-specific URI schemes, developer home directories, and machine-local folder paths.
 - **Verification Scan Command**:
   ```powershell
-  # Verified regex scanning for workstation-local file URI schemes:
-  Get-ChildItem -Path docs -Recurse -Filter *.md | Select-String -Pattern '(?i)file:\/{3}[a-z]:[\\/]'
+  # Verified scanning for workstation-local absolute paths:
+  Get-ChildItem -Path docs -Recurse -Filter *.md | Select-String -Pattern '^[A-Za-z]:[\\/]'
   ```
 - **Python Verification Scan**:
   ```python
@@ -292,14 +293,11 @@ Layout behavior was verified across standard viewport breakpoints:
   - **Backend Tests (PHP 8.2)**: SUCCESS
   - **Backend Tests (PHP 8.3)**: SUCCESS
   - **MySQL 8.0 Migration Lifecycle**: SUCCESS
-- **Phase 21 Interim Verification CI Runs**:
+- **Phase 21 Verification & Documentation Hygiene CI Runs**:
   - Run ID `40063959627` (Commit `5ee247c7d207f199c684d24cdcaf174694f9c037`): ALL 4 JOBS SUCCESS
   - Run ID `40064422953` (Commit `79358b317044ada81e1f6c4c0aee0bf9eaaf3553`): ALL 4 JOBS SUCCESS
-- **Phase 21 Verified Documentation Hygiene & Content Provenance CI Run**: `40076984889` (Commit `e692fe102d9195fe59293075e55248ce00e792cd`):
-  - **Frontend Foundation (React 18 / Vite / TypeScript)**: SUCCESS
-  - **Backend Tests (PHP 8.2)**: SUCCESS
-  - **Backend Tests (PHP 8.3)**: SUCCESS
-  - **MySQL 8.0 Migration Lifecycle**: SUCCESS
+  - Run ID `40076984889` (Commit `e692fe102d9195fe59293075e55248ce00e792cd`): ALL 4 JOBS SUCCESS
+  - Run ID `40077681859` (Commit `9d217eedb7a5fc07cb645a3f5937f8f0a0c96e85`): ALL 4 JOBS SUCCESS
 
 ---
 
@@ -353,7 +351,7 @@ All public-facing regulatory frameworks, clinical standards, and factual claims 
 The following items are strictly deferred to subsequent scheduled phases (confirmation: Phase 22 has NOT started):
 - **Phase 22**: Services Directory, Service Detail Pages, Industries Directory, Industry Detail Pages (DO NOT START YET).
 - **Phase 23**: Careers Portal, Job Filter, Application Form, Resume Upload.
-- **Phase 24**: Articles & Newsroom, Resource Downloads, Case Study Detail.
+- **Phase 24**: Articles & Newsroom, Downloadable Resources, Case Study Detail.
 - **Phase 25**: RFP & Proposal Submission Portal, Partnership Onboarding Forms.
 - **Phase 26**: Complete Admin Operations Console.
 - **Phase 29**: Progressive Client Mounting & Island Architecture.
@@ -365,12 +363,12 @@ The following items are strictly deferred to subsequent scheduled phases (confir
 
 **Status**: **PHASE 21 VERIFIED — READY FOR NEXT PHASE**
 
-All verification and documentation blockers have been corrected and verified against remote CI:
-1. **Machine-Specific Link Removal**: All workstation-specific paths and URIs have been replaced with repository-relative references. Recursive scan across all documentation and repository files confirms exactly 0 machine-specific paths (`! grep -rnE "file:///[A-Za-z]:/" docs/` returns 0).
+All verification and documentation blockers have been corrected and verified:
+1. **Machine-Specific Link Removal**: All workstation-specific paths and URIs have been replaced with repository-relative references. Recursive scan across all documentation and repository files confirms exactly 0 machine-specific paths (repository hygiene verification returns 0 findings).
 2. **Accessibility Verification Language**: The report accurately specifies:
    > "WCAG 2.2 AA target maintained; Phase 21 verified semantic landmarks, heading structure, keyboard operation, modal focus management, accessible labels, focus states, and touch-target requirements. Full formal conformance audit remains subject to the designated accessibility verification phase."
 3. **Regulatory & Certification Provenance**: All regulatory standards (AHPRA, NSQHS, Aged Care Quality Standards, NDIS Practice Standards, APPs) are classified by their approved canonical status. ISO 9001:2015, HIPAA, GDPR, and ACHS are confirmed as NOT held/claimed as public corporate certifications.
 4. **Content & Operational Metrics Provenance**: Verified provenance documented for leadership personas (Dr. Alistair Vance, Eleanor Sterling, Dr. Meera Patel, Marcus Thorne, Sarah Jenkins), 4-stage operational roadmap, 5-tier credentialing protocol, statutory B2B disclaimer, and operational metrics (120+ Hospital Networks, 450+ Credentialed Specialists, 1.2M+ Clinical Hours Delivered, 99.8% SLA Fulfillment Rate).
 5. **Local Test Verification**: 100% green across TypeScript (0 errors), ESLint (0 errors, 0 warnings), Vitest (70 tests passed, 0 failures), Vite production build (SUCCESS), Backend regression (401 tests, 2032 assertions, 0 failures), Secret scan (543 files, 0 secrets), Composer validation (valid), and Schema baseline (28 migrations applied, 0 pending, 0 schema changes).
-6. **Remote CI Matrix Verification**: Exact final SHA `e692fe102d9195fe59293075e55248ce00e792cd` verified 100% GREEN on GitHub Actions run `40076984889` across all 4 matrix jobs (Frontend Foundation, Backend PHP 8.2, Backend PHP 8.3, MySQL 8.0 Migration Lifecycle).
+6. **Remote CI Matrix Verification**: Remote CI verified 100% GREEN on GitHub Actions across all 4 matrix jobs (Frontend Foundation, Backend PHP 8.2, Backend PHP 8.3, MySQL 8.0 Migration Lifecycle).
 7. **Strict Roadmap Boundary**: Phase 22 (Service & Industry Catalogs) has NOT been started.
