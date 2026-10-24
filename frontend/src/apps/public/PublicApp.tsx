@@ -9,6 +9,8 @@ import { ServicesPage } from './pages/ServicesPage';
 import { ServiceDetailPage } from './pages/ServiceDetailPage';
 import { IndustriesPage } from './pages/IndustriesPage';
 import { IndustryDetailPage } from './pages/IndustryDetailPage';
+import { CareersPage } from './pages/CareersPage';
+import { JobDetailPage } from './pages/JobDetailPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 export const PublicApp: React.FC = () => {
@@ -47,6 +49,15 @@ export const PublicApp: React.FC = () => {
   if (pathname.startsWith('/industries/')) {
     const slug = pathname.replace('/industries/', '');
     return <IndustryDetailPage slug={slug} />;
+  }
+
+  if (pathname === '/careers') {
+    return <CareersPage />;
+  }
+
+  if (pathname.startsWith('/careers/')) {
+    const slug = pathname.replace('/careers/', '').replace(/\/apply$/, '');
+    return <JobDetailPage slug={slug} />;
   }
 
   if (pathname === '/' || pathname === '') {

@@ -27,6 +27,7 @@ export const PublicHeader: React.FC = () => {
         { label: 'Compliance', href: '/quality-compliance', isRoute: true },
         { label: 'Services', href: '/services', isRoute: true },
         { label: 'Industries', href: '/industries', isRoute: true },
+        { label: 'Careers', href: '/careers', isRoute: true },
       ];
 
 

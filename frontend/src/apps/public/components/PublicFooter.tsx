@@ -152,9 +152,9 @@ export const PublicFooter: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <a href="#contact" className="hover:text-voak-purple transition-colors">
+                <Link to="/careers" className="hover:text-voak-purple transition-colors">
                   Careers & Placements
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#contact" className="hover:text-voak-purple transition-colors">

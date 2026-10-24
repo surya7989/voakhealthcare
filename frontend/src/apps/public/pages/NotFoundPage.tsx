@@ -9,7 +9,7 @@ import { AlertCircle, Briefcase, Building2, Home } from 'lucide-react';
 export interface NotFoundPageProps {
   title?: string;
   message?: string;
-  resourceType?: 'service' | 'industry' | 'page';
+  resourceType?: 'service' | 'industry' | 'page' | 'job';
 }
 
 export const NotFoundPage: React.FC<NotFoundPageProps> = ({
@@ -62,6 +62,12 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
               <Link to="/industries">
                 <Button variant="outline" size="md" leftIcon={<Building2 className="h-4 w-4" />}>
                   Explore All Sectors
+                </Button>
+              </Link>
+            ) : resourceType === 'job' ? (
+              <Link to="/careers">
+                <Button variant="outline" size="md" leftIcon={<Briefcase className="h-4 w-4" />}>
+                  Explore All Vacancies
                 </Button>
               </Link>
             ) : (
